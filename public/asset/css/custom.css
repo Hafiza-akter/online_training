@@ -1,0 +1,91 @@
+.menu-back{
+    background-color: aliceblue;
+}
+.sec-menu{
+    background-color: aliceblue;
+    border-color: aliceblue;
+}
+.sec-menu:hover{
+    background-color: aliceblue;
+    border-color: aliceblue;
+}
+.btn-one{
+    text-align: center;
+}
+.middle{
+    text-align: center;
+}
+.black-background{
+    background-color: black;
+}
+.heading-btn{
+    border-top: .002rem solid #f0f8ff;
+    border-bottom: .002rem solid #f0f8ff;
+    border-radius: 4px;
+}
+.light-ash{
+    background-color: #CCCCCC;
+}
+.review-box{
+    border: 2px solid #808080ad;
+    border-radius: 5px;
+    height: 4rem;
+}
+.rate-plan{
+    height: 18rem;
+    border: 2px solid #808080ad;
+    border-radius: 5px;
+
+}
+.service-feature{
+    height: 30rem;
+    border: 2px solid #808080ad;
+    border-radius: 5px; 
+}
+.no-border{
+    border: none;
+    font-size: 20px;
+}
+.rside{
+    text-align: right;
+}
+.more-btn{
+    font-style: normal;
+    text-decoration: none;
+    color: #a59e9e;
+    font-size: 1.25rem;
+}
+.more-btn-text a{
+    text-decoration: none;
+    color: #a59e9e;
+    font-size: 1.25rem;
+}
+.sec-menu{
+    color: #a59e9e;
+}
+.more a{
+    text-decoration: none;
+}
+.more a:hover{
+    color: #a59e9e;
+}
+.pic-1{
+    width: 100%;
+    height: auto;
+    background-image: url('../images/mini-banner-1.png');
+}
+.pic-2{
+    width: 100%;
+    height: auto;
+    background-image: url('../images/mini-banner-2.png');
+}
+.border-round{
+    border: 1px solid grey;
+    text-align: center;
+}
+.h-menu a{
+ text-decoration: none;
+}
+
+
+
