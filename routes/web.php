@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'LoginController@index');
 Route::get('/login/trainee', 'LoginController@loginTrainee')->name('traineeLogin');
 Route::get('/login/trainer', 'LoginController@loginTrainer')->name('trainerLogin');
+Route::post('/login/trainer', 'LoginController@loginTrainerSubmit')->name('trainerLogin.submit');
+Route::get('/signup/trainer', 'LoginController@signupTrainer')->name('trainerSignup');
+Route::post('/signup/trainer', 'LoginController@signupTrainerSubmit')->name('trainerSignup.submit');

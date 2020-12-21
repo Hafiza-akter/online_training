@@ -24,7 +24,7 @@
             <a href="{{route('traineeLogin')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block"> ログインする </br> (研修生) </button></a>
           </div>
           <div class="col-sm">
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">サインアップ </br> (トレーナー) </button>
+          <a href="{{route('trainerSignup')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block">サインアップ </br> (トレーナー) </button></a>
           </div>
           <div class="col-sm">
            <a href="{{route('trainerLogin')}}"> <button type="button" class="btn btn-outline-secondary btn-lg btn-block">ログインする </br> (トレーナー) </button></a>
