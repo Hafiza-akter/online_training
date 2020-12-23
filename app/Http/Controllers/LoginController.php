@@ -6,6 +6,9 @@ use Hash;
 use Session;
 use Carbon\Carbon;
 use App\Model\Trainer;
+use DateTime;
+use DateInterval;
+
 
 
 class LoginController extends Controller
@@ -51,16 +54,22 @@ class LoginController extends Controller
 
         $validateData = $request->validate([
             'email' => 'required',
-            'password' => 'required',
+            // 'password' => 'required',
         ]);
-
+        $randomNumber = rand(4444,99999);
+        $date= new DateTime();
+        // dd($date);
+        // $expire_date = $date->add(new DateInterval('PT24H10S'));
+        // dd( $date->format('Y-m-d H:i:s'));
         $trainer = new Trainer();
         $trainer->name = $request->input('name');
         $trainer->phonetic = $request->input('phonetic');
         $trainer->email = $request->input('email');
-        $password = $request->input('password');
-        $trainer->password = Hash::make($password);
+        // $password = $request->input('password');
+        // $trainer->password = Hash::make($password);
         $trainer->address = $request->input('address');
+        $trainer->token = $randomNumber;
+        $trainer->expired_at = $date;
         $trainer->phone = $request->input('phone');
         $trainer->intro = $request->input('intro');
         $trainer->photo_path = $request->input('photo_path');
@@ -73,6 +82,30 @@ class LoginController extends Controller
             dd('not save');
         }
 
+
+
+    }
+    public function tokenVerify(){
+        dd('hello world');
+    }
+    public function tokenReset(){
+        return view('auth.token_reset');
+    }
+    public function tokenResetSubmit(Request $request){
+        $validateData = $request->validate([
+            'email' => 'required',
+            // 'password' => 'required',
+        ]);
+        $email = $request->input('email');
+        $trainer = Trainer::where('email',$email)->first();
+        $current_time = $trainer->expired_at; 
+        // echo $current_time;
+        $date = new DateTime($current_time);
+        $new_time =  $date->add(new DateInterval('PT24H00S'));
+        // dd($new_time);
+        $trainer->expired_at = $new_time;
+        $trainer->save();
+        return redirect()->back()->with('message','Password reset!');
 
 
     }
