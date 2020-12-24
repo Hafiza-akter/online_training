@@ -18,7 +18,7 @@
 
         <div class="row pt-3 h-menu">
           <div class="col-sm">
-            <button type="button" class="btn btn-outline-secondary btn-lg btn-block">サインアップ </br> (研修生) </button>
+          <a href="{{route('traineeSignup')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block">サインアップ </br> (研修生) </button></a>
           </div>
           <div class="col-sm">
             <a href="{{route('traineeLogin')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block"> ログインする </br> (研修生) </button></a>
