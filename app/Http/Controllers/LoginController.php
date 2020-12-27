@@ -178,4 +178,8 @@ class LoginController extends Controller
         return redirect()->back()->with('message','Token expired time reset!');
     }
 
+    public function inquery(){
+        return view('pages.inquery');
+    }
+
 }

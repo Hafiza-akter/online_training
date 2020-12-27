@@ -32,5 +32,7 @@ Route::post("/reset/token/trainer", "LoginController@tokenResetSubmit")->name(('
 
 Route::get("/trainer/schedule", "ScheduleController@scheduleView")->name(('trainerSchedule'));
 Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
+Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
+Route::get("/user/inquery", "LoginController@inquery")->name(('userInquery'));
 
 

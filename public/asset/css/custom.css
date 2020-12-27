@@ -104,7 +104,7 @@
     outline: 0;
     background: none;
     width: 50%
-    caret-color:transparent;
+    /* caret-color:transparent; */
     /* line-height: 20px; */
     /* font-size: 14px; */
     /* transition: width 0.4s linear; */
