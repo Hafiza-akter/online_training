@@ -89,3 +89,63 @@
 
 
 
+    .searchbar{
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: #353b48;
+    border-radius: 30px;
+    padding: 10px;
+    }
+
+    .search_input{
+    color: rgb(58, 39, 39);
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 50%
+    caret-color:transparent;
+    /* line-height: 20px; */
+    /* font-size: 14px; */
+    /* transition: width 0.4s linear; */
+    }
+
+    .searchbar:hover > .search_icon{
+        background: white;
+        color: #312c2c;
+        }
+    .searchbar > .search_icon{
+    background: white;
+    color: #312c2c;
+    }
+
+    .search_icon{
+    height: 17px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color:white;
+    text-decoration:none;
+    }
+
+    .searchbar {
+        margin-bottom: auto;
+        margin-top: auto;
+        height: 40px;
+        background-color: #ffffff;
+        border-radius: 30px;
+        padding: 10px;
+        border: 1px solid grey;
+    }
+
+    .trainer_details {
+        height: 13rem;
+        border: 2px solid #808080ad;
+        border-radius: 5px;
+    }
+
+
+
