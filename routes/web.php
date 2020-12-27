@@ -22,8 +22,6 @@ Route::get("/reset/token/trainee", "LoginController@tokenResetTrainee")->name(('
 Route::post("/reset/token/trainee", "LoginController@tokenResetSubmitTrainee")->name(('token.reset.submit.trainee'));
 
 
-
-
 Route::get('/login/trainer', 'LoginController@loginTrainer')->name('trainerLogin');
 Route::post('/login/trainer', 'LoginController@loginTrainerSubmit')->name('trainerLogin.submit');
 Route::get('/signup/trainer', 'LoginController@signupTrainer')->name('trainerSignup');
@@ -31,4 +29,7 @@ Route::post('/signup/trainer', 'LoginController@signupTrainerSubmit')->name('tra
 Route::get("token-verify/{id}", "LoginController@tokenVerify");
 Route::get("/reset/token/trainer", "LoginController@tokenReset")->name(('tokenReset'));
 Route::post("/reset/token/trainer", "LoginController@tokenResetSubmit")->name(('token.reset.submit'));
+
+Route::get("/trainer/schedule", "ScheduleController@scheduleView")->name(('trainerSchedule'));
+
 
