@@ -1,4 +1,5 @@
-@extends('auth/master')
+{{-- @extends('master_page') --}}
+@extends('auth.master')
 @section('title','token reset')
 @section('content')
     <div class="row pb-5 pt-5">

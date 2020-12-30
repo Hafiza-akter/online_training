@@ -22,7 +22,6 @@
   </div>
 
 
-  </div> <!-- container end-->
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -34,6 +33,7 @@
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
     crossorigin="anonymous"></script>
   <script src="{{asset('asset/bootstrap/js/bootstrap.min.js')}}"></script>
+  @yield('footer_css_js')
 </body>
 
 </html>

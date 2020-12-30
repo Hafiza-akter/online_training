@@ -41,7 +41,8 @@ class LoginController extends Controller
             return redirect()->back()->with('message','Incorrect username or password!');
         }
         else{
-            return redirect()->back()->with('message','login success!');
+            session(['user' => $trainer,'user_type'=>'trainer','message'=>'Login Success']);
+            return redirect()->route('trainerCalendar.view')->with('message','login success!');
 
         }
 
@@ -60,10 +61,14 @@ class LoginController extends Controller
                         ->first();
                         // dd($trainee);
         if(!$trainee){
+
             return redirect()->back()->with('message','Incorrect username or password!');
+        
         }
         else{
-            return redirect()->back()->with('message','login success!');
+
+            session(['user' => $trainee,'user_type'=>'trainee','message'=>'Login Success']);
+            return redirect()->route('traineeCalendar.view')->with('message','login success!');
 
         }
     }
@@ -74,72 +79,72 @@ class LoginController extends Controller
     public function signupTrainer(){
         return view('auth.signup_trainer');
     }
-    public function signupTraineeSubmit(Request $request){
-        $validateData = $request->validate([
-            'email' => 'required',
-            // 'password' => 'required',
-        ]);
-        $randomNumber = rand(4444,99999);
-        $date= new DateTime();
-        // dd($date);
-        $expire_date = $date->add(new DateInterval('PT24H00S'));
-        // dd( $date->format('Y-m-d H:i:s'));
-        $trainee = new Trainee();
-        $trainee->name = $request->input('name');
-        $trainee->phonetic = $request->input('phonetic');
-        $trainee->email = $request->input('email');
-        // $password = $request->input('password');
-        // $trainee->password = Hash::make($password);
-        $trainee->address = $request->input('address');
-        $trainee->token = $randomNumber;
-        $trainee->expired_at = $expire_date;
-        $trainee->phone = $request->input('phone');
-        $trainee->weight = $request->input('weight');
-        // $trainee->photo_path = $request->input('photo_path');
-        // $trainee->unit_price = $request->input('unit_price');
-        $ab = $trainee->save();
-        if($ab){
-            dd('save');
-        }
-        else{
-            dd('not save');
-        }
-    }
-    public function signupTrainerSubmit(Request $request){
+    // public function signupTraineeSubmit(Request $request){
+    //     $validateData = $request->validate([
+    //         'email' => 'required',
+    //         // 'password' => 'required',
+    //     ]);
+    //     $randomNumber = rand(4444,99999);
+    //     $date= new DateTime();
+    //     // dd($date);
+    //     $expire_date = $date->add(new DateInterval('PT24H00S'));
+    //     // dd( $date->format('Y-m-d H:i:s'));
+    //     $trainee = new Trainee();
+    //     $trainee->name = $request->input('name');
+    //     $trainee->phonetic = $request->input('phonetic');
+    //     $trainee->email = $request->input('email');
+    //     // $password = $request->input('password');
+    //     // $trainee->password = Hash::make($password);
+    //     $trainee->address = $request->input('address');
+    //     $trainee->token = $randomNumber;
+    //     $trainee->expired_at = $expire_date;
+    //     $trainee->phone = $request->input('phone');
+    //     $trainee->weight = $request->input('weight');
+    //     // $trainee->photo_path = $request->input('photo_path');
+    //     // $trainee->unit_price = $request->input('unit_price');
+    //     $ab = $trainee->save();
+    //     if($ab){
+    //         dd('save');
+    //     }
+    //     else{
+    //         dd('not save');
+    //     }
+    // }
+    // public function signupTrainerSubmit(Request $request){
 
-        $validateData = $request->validate([
-            'email' => 'required',
-            // 'password' => 'required',
-        ]);
-        $randomNumber = rand(4444,99999);
-        $date= new DateTime();
-        // dd($date);
-        $expire_date = $date->add(new DateInterval('PT24H00S'));
-        // dd( $date->format('Y-m-d H:i:s'));
-        $trainer = new Trainer();
-        $trainer->name = $request->input('name');
-        $trainer->phonetic = $request->input('phonetic');
-        $trainer->email = $request->input('email');
-        // $password = $request->input('password');
-        // $trainer->password = Hash::make($password);
-        $trainer->address = $request->input('address');
-        $trainer->token = $randomNumber;
-        $trainer->expired_at = $expire_date;
-        $trainer->phone = $request->input('phone');
-        $trainer->intro = $request->input('intro');
-        $trainer->photo_path = $request->input('photo_path');
-        $trainer->unit_price = $request->input('unit_price');
-        $ab = $trainer->save();
-        if($ab){
-            dd('save');
-        }
-        else{
-            dd('not save');
-        }
+    //     $validateData = $request->validate([
+    //         'email' => 'required',
+    //         // 'password' => 'required',
+    //     ]);
+    //     $randomNumber = rand(4444,99999);
+    //     $date= new DateTime();
+    //     // dd($date);
+    //     $expire_date = $date->add(new DateInterval('PT24H00S'));
+    //     // dd( $date->format('Y-m-d H:i:s'));
+    //     $trainer = new Trainer();
+    //     $trainer->name = $request->input('name');
+    //     $trainer->phonetic = $request->input('phonetic');
+    //     $trainer->email = $request->input('email');
+    //     // $password = $request->input('password');
+    //     // $trainer->password = Hash::make($password);
+    //     $trainer->address = $request->input('address');
+    //     $trainer->token = $randomNumber;
+    //     $trainer->expired_at = $expire_date;
+    //     $trainer->phone = $request->input('phone');
+    //     $trainer->intro = $request->input('intro');
+    //     $trainer->photo_path = $request->input('photo_path');
+    //     $trainer->unit_price = $request->input('unit_price');
+    //     $ab = $trainer->save();
+    //     if($ab){
+    //         dd('save');
+    //     }
+    //     else{
+    //         dd('not save');
+    //     }
 
 
 
-    }
+    // }
     public function tokenVerify(){
         dd('hello world');
     }
@@ -180,6 +185,10 @@ class LoginController extends Controller
 
     public function inquery(){
         return view('pages.inquery');
+    }
+    public function logout(){
+        session()->flush();
+        return redirect()->route('toppage');
     }
 
 }

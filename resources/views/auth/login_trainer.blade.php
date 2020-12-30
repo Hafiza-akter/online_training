@@ -1,4 +1,5 @@
-@extends('auth/master')
+{{-- @extends('master_page') --}}
+@extends('auth.master')
 @section('title','trainer login')
 @section('content')
     <div class="row pb-5 pt-5">
@@ -11,7 +12,8 @@
     <div class="offset-sm-3 col-sm-6 mb-4">
       <div class="row mb-3">
         <div class="col-4">
-          <label class="col-form-label">ニングマ</label>
+          <label class="col-form-label">
+電子メールアドレス</label>
         </div>
         <div class="col-8">
           <input type="text" class="form-control" name="username"> 
@@ -19,7 +21,7 @@
       </div>
       <div class="row mb-3">
         <div class="col-4">
-          <label class="col-form-label">ニングマ</label>
+          <label class="col-form-label">パスワード</label>
         </div>
         <div class="col-8">
           <input type="password" class="form-control" name="password">
@@ -27,11 +29,11 @@
       </div>
       
       <div class="row pt-3 pb-3">
-        <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg">オンラグマ</button>
+        <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg">次へ</button>
       </div>
      
       <div class="row pt-3 pb-3">
-      <a href="{{route('tokenReset')}}" class="mx-auto">Reset Password</a>
+      {{-- <a href="{{route('tokenReset')}}" class="mx-auto">Reset Password</a> --}}
       </div>
     </div>
 
