@@ -42,6 +42,13 @@ Route::group(['middleware'=>'checkLogout'],function(){
 		Route::post('/login/trainee', 'LoginController@loginTraineeSubmit')->name('traineeLogin.submit');
 		Route::get('/login/trainer', 'LoginController@loginTrainer')->name('trainerLogin');
 		Route::post('/login/trainer', 'LoginController@loginTrainerSubmit')->name('trainerLogin.submit');
+
+		Route::get('/login/redirect/{provider}', 'LoginController@googleRedirect');
+ 		Route::get('/login/callback/{provider}', 'LoginController@googleCallback');
+
+
+
+ 		
 });
 
 
@@ -53,12 +60,16 @@ Route::group(['middleware'=>'checkLogout'],function(){
 | For trainer and trainee
 |
 */
+Route::group(['middleware'=>'checkLogout'],function(){
 
 Route::get('/signup/trainee', 'SignupController@signupTrainee')->name('traineeSignup');
 Route::post('/signup/trainee', 'SignupController@signupTraineeSubmit')->name('traineeSignup.submit');
+Route::post('/trainee/info', 'SignupController@signupTraineeUpdate')->name('traineeSignupUpdate.submit');
+
 
 Route::get('/signup/trainer', 'SignupController@signupTrainer')->name('trainerSignup');
 Route::post('/signup/trainer', 'SignupController@signupTrainerSubmit')->name('trainerSignup.submit');
+Route::post('/trainer/info', 'SignupController@signupTrainerUpdate')->name('trainerSignupUpdate.submit');
 
 Route::get('/verification/{token}/{type}', 'SignupController@verification')->name('signup.verification');
 Route::get('/verification', 'SignupController@verificationview')->name('signup.verificationview');
@@ -69,10 +80,15 @@ Route::get("/reset/token/trainee", "SignupController@tokenResetTrainee")->name((
 Route::post("/reset/token/trainee", "SignupController@tokenResetSubmitTrainee")->name(('token.reset.submit.trainee'));
 
 
-Route::get("token-verify/{id}", "SignupController@tokenVerify");
-Route::get("/reset/token/trainer", "SignupController@tokenReset")->name(('tokenReset'));
-Route::post("/reset/token/trainer", "SignupController@tokenResetSubmit")->name(('token.reset.submit'));
+Route::get("token-verify/{token}/{type}", "SignupController@tokenVerify")->name('passwordVerifyToken');
+Route::post("token-verify", "SignupController@tokenVerifySubmit")->name('passwordVerifyTokenSubmit');
+
+Route::get("/forgetpassword/{type}", "SignupController@tokenReset")->name('forgetPassword');
+Route::post("/forgetpassword/submit", "SignupController@tokenResetSubmit")->name(('forgetPasswordEmail.submit'));
+
 Route::get("/user/inquery", "SignupController@inquery")->name(('userInquery'));
+
+});
 
 Route::group(['middleware'=>'checkLogin'],function(){
 

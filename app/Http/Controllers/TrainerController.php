@@ -25,7 +25,7 @@ class TrainerController extends Controller
     }
     public function scheduleCalendar(Request $request){
 
-    	$schedule =TrainerSchedule::select('date as start_date','is_occupied','trainer_id','user_id')->get();
+    	$schedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->select('date as start_date','is_occupied','trainer_id','user_id')->groupBy('date')->get();
     	$parsedArray = array();
     	if($schedule){
     		foreach ($schedule as $key => $value) {
@@ -52,7 +52,7 @@ class TrainerController extends Controller
     }
     public function scheduleCalendarSubmit(Request $request){
     	// time 
-    	$time =TrainerSchedule::where('date',$request->selected_date)->get();
+    	$time =TrainerSchedule::where('date',$request->selected_date)->where('trainer_id',Session::get('user')->id)->get();
 
     	return view('pages.trainer.time')
     	->with('selected_date',$request->selected_date)
@@ -76,7 +76,7 @@ class TrainerController extends Controller
     	$schedule = new TrainerSchedule();
     	$schedule->date =$request->date;
     	$schedule->trainer_id =$request->trainer_id;
-    	$schedule->time =$request->start_time.':00:00';
+    	$schedule->time =$request->start_time.':00';
     	$schedule->save();
 
     	return redirect()->route('trainerTime.view',$request->date)

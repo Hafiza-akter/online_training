@@ -7,7 +7,7 @@
 
 <div style="padding: 30px;background:#cce5ff;border-color: #b8daff">
 	@if($type === 'trainer')
-		<p>Dear {{$details->first_name }},</p>
+		<p>Hello Dear,</p>
 	@endif 
 	@if($type === 'trainee')
 		<p>Dear {{$details->name }},</p>

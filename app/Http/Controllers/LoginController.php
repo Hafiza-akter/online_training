@@ -7,9 +7,12 @@ use Session;
 use Carbon\Carbon;
 use App\Model\Trainer;
 use App\Model\Trainee;
+use App\Model\Equipment;
+
 use DateTime;
 use DateInterval;
-
+use Redirect,Response,File;
+use Socialite;
 
 
 class LoginController extends Controller
@@ -50,7 +53,6 @@ class LoginController extends Controller
     }
 
     public function loginTraineeSubmit(Request $request){
-        // dd('hjhvghv');
         $validateData = $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -60,7 +62,7 @@ class LoginController extends Controller
         $trainee = Trainee::where('email',$email)
                         ->first();
                         // dd($trainee);
-        if(!$trainee){
+        if(!$trainee || (!Hash::check($input_password,$trainee->password))){
 
             return redirect()->back()->with('message','Incorrect username or password!');
         
@@ -71,6 +73,8 @@ class LoginController extends Controller
             return redirect()->route('traineeCalendar.view')->with('message','login success!');
 
         }
+
+
     }
 
     public function signupTrainee(){
@@ -190,5 +194,60 @@ class LoginController extends Controller
         session()->flush();
         return redirect()->route('toppage');
     }
+    public function googleRedirect($provider)
+    {
+        
+        return Socialite::driver($provider)->redirect();
+    }
+     
+    public function googleCallback($provider)
+    {
+
+        $getInfo = Socialite::driver($provider)->stateless()->user();
+         
+        $user = $this->createUser($getInfo,$provider);
+        
+        if(Session::get('tp') == 'trainee'){
+
+            return view('auth.update_trainee')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type',Session::get('tp'));
+
+        }
+        if(Session::get('tp') == 'trainer'){
+            return view('auth.update_trainer')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type',Session::get('tp'));
+        }
+
+    }
+    function createUser($getInfo,$provider){
+     
+     if(Session::get('tp') == 'trainer'){
+        $user = Trainer::where('email', $getInfo->email)->first();
+
+     }
+    if(Session::get('tp') == 'trainee'){
+        $user = Trainee::where('email', $getInfo->email)->first();
+     }
+     
+     if (!$user) {
+          if(Session::get('tp') == 'trainer'){
+            $user = new Trainer();
+            $user->first_name =  $getInfo->name;
+    
+         }
+        if(Session::get('tp') == 'trainee'){
+            $user = new Trainee();
+            $user->name =  $getInfo->name;
+
+         }
+        $user->email =  $getInfo->email;
+        $user->is_verified =  1;
+        $user->is_google =  1;
+        $user->save();
+        
+      }
+     
+        
+      return $user;
+    }
+    
 
 }
