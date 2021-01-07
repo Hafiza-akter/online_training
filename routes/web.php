@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'LoginController@index');
+Route::get('/', 'LoginController@index')->name('home');
 Route::get('/login/trainee', 'LoginController@loginTrainee')->name('traineeLogin');
 Route::post('/login/trainee', 'LoginController@loginTraineeSubmit')->name('traineeLogin.submit');
 Route::get('/signup/trainee', 'LoginController@signupTrainee')->name('traineeSignup');
@@ -34,5 +34,13 @@ Route::get("/trainer/schedule", "ScheduleController@scheduleView")->name(('train
 Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
 Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
 Route::get("/user/inquery", "LoginController@inquery")->name(('userInquery'));
+Route::get("/user/plan/purchase", "TraineeController@planPurchase")->name(('user.plan.purchase'));
 
 
+Route::prefix('admin')->group(function(){
+    Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
+    Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
+    Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
+    Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
+    
+});

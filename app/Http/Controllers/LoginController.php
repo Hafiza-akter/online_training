@@ -15,7 +15,7 @@ use DateInterval;
 class LoginController extends Controller
 {
     public function index(){
-        return view('home');
+        return view('pages.index');
     }
     public function login(){
         return view('auth.login');
