@@ -13,6 +13,8 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^7.0",
+        "laravel/helpers": "^1.4",
+        "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.0"
     },
     "require-dev": {
@@ -39,6 +41,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+        "app/helpers.php" 
         ]
     },
     "autoload-dev": {
