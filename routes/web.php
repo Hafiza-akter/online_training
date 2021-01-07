@@ -13,6 +13,8 @@ Route::get("/reset/token/trainee", "LoginController@tokenResetTrainee")->name(('
 Route::post("/reset/token/trainee", "LoginController@tokenResetSubmitTrainee")->name(('token.reset.submit.trainee'));
 
 
+Route::get('/login/test', 'LoginController@loginTest')->name('login.test');
+
 Route::get('/login/trainer', 'LoginController@loginTrainer')->name('trainerLogin');
 Route::post('/login/trainer', 'LoginController@loginTrainerSubmit')->name('trainerLogin.submit');
 Route::get('/signup/trainer', 'LoginController@signupTrainer')->name('trainerSignup');
