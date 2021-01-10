@@ -14,7 +14,7 @@ use DateInterval;
 class TopPageController extends Controller
 {
     public function index(){
-        return view('pages.toppage.index');
+        return view('pages.toppage.index_v2');
     }
 
 }

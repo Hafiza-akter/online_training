@@ -1,7 +1,22 @@
 {{-- @extends('master_page') --}}
-@extends('auth.master')
+@extends('../master')
 @section('title','trainee login')
 @section('content')
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner text-center">
+                    <div class="breadcrumb_iner_item">
+                        <!-- <p></p> -->
+                        <h2>Trainer Login</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="row pt-5">
     {{-- Trainee login --}}
     <h4 class="mx-auto">トレーナーログイン
@@ -33,9 +48,9 @@
 
 <div class="offset-sm-2 col-sm-8 mb-4">
     <div class="card card-info">
-        <div class="card-header">
+        <div class="card-header purple-back">
             {{-- email registration --}}
-            <h4 class="card-title">ログインする</h4>
+            <h4 class="card-title text-center">ログインする</h4>
         </div>
 
          <form class="form-horizontal" action="{{route('trainerLogin.submit')}}" method="post">
@@ -64,7 +79,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
             {{-- Registration --}}
-            <button type="submit" class="btn  btn-block btn-secondary">  次へ</button>
+            <button type="submit" class="btn  btn-block btn-secondary btn_2 d-none d-sm-block">  次へ</button>
 
         </div>
         <!-- /.card-footer -->
