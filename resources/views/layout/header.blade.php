@@ -1,15 +1,15 @@
         <div class="row pt-3 h-menu">
           <div class="col-sm">
-          <a href="{{route('traineeSignup')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block">サインアップ </br> (研修生) </button></a>
+          <a href="{{route('traineeSignup')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block">新規登録 </br> (ユーザー) </button></a>
           </div>
           <div class="col-sm">
-            <a href="{{route('traineeLogin')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block"> ログインする </br> (研修生) </button></a>
+            <a href="{{route('traineeLogin')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block"> ログイン </br> (ユーザー) </button></a>
           </div>
           <div class="col-sm">
-          <a href="{{route('trainerSignup')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block">サインアップ </br> (トレーナー) </button></a>
+          <a href="{{route('trainerSignup')}}"><button type="button" class="btn btn-outline-secondary btn-lg btn-block">新規登録 </br> (トレーナー) </button></a>
           </div>
           <div class="col-sm">
-           <a href="{{route('trainerLogin')}}"> <button type="button" class="btn btn-outline-secondary btn-lg btn-block">ログインする </br> (トレーナー) </button></a>
+           <a href="{{route('trainerLogin')}}"> <button type="button" class="btn btn-outline-secondary btn-lg btn-block">ログイン </br> (トレーナー) </button></a>
           </div>
         </div>
         <div class="row mt-1 menu-back">
@@ -17,13 +17,13 @@
                   <button type="button" class="btn btn-light btn-lg btn-block sec-menu">トレーナー </button>
                 </div>
                 <div class="col-sm">
-                  <button type="button" class="btn btn-light btn-lg btn-block sec-menu"> 顧客の反応 </button>
+                  <button type="button" class="btn btn-light btn-lg btn-block sec-menu"> お客様の声 </button>
                 </div>
                 <div class="col-sm">
-                  <button type="button" class="btn btn-light btn-lg btn-block sec-menu">費用 </button>
+                  <button type="button" class="btn btn-light btn-lg btn-block sec-menu">料金 </button>
                 </div>
                 <div class="col-sm">
-                  <button type="button" class="btn btn-light btn-lg btn-block sec-menu">サービス機能 </button>
+                  <button type="button" class="btn btn-light btn-lg btn-block sec-menu">サービスについて </button>
                 </div>
                 <div class="col-sm ">
                         <!-- <a href="#" class="more-btn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="mx-auto d-block" src="asset/images/doticon2.png">More</a>

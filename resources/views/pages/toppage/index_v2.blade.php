@@ -12,7 +12,7 @@
                         <h2><span> オンライン</span>トレーニング<span>マッチング</span> </h2>
                         <p class="pb-3">
                             <a href="{{route('trainerSignup')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">トレーナー  登録</a> <!-- Trainer registraion-->
-                            <a href="{{route('traineeSignup')}}" class="btn_2" style="border-radius: 1px !important;background: none;border:2px solid #c604c6;font-size: 18px;">研修生 登録</a> <!-- Trainee registraion-->
+                            <a href="{{route('traineeSignup')}}" class="btn_2" style="border-radius: 1px !important;background: none;border:2px solid #c604c6;font-size: 18px;">ユーザー 登録</a> <!-- Trainee registraion-->
                         </p>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                        <h2>Why you Join with us</h2>
+                        <h2>サービスの特徴</h2>
                     </div>
                 </div>
             </div>
@@ -40,17 +40,15 @@
                                     <div class="feature_item_icon">
                                         <span class="flaticon-footwear"></span>
                                     </div>
-                                    <h3><a href="#">Qualified Instructor</a></h3>
-                                    <p>Stars fowl deep she greater bearing to seed dont is let you're appear first thing
-                                        saying it years abundantly fowl tree you shall</p>
+                                    <h3><a href="#">医師監修!科学的根拠に基づいた効果的トレーニング</a></h3>
+                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                 </div>
                                 <div class="single_feature_item">
                                     <div class="feature_item_icon">
                                         <span> <img src="{{asset('asset_v2/img/icon/icon.svg')}}" alt="icon"> </span>
                                     </div>
-                                    <h3><a href="#">fTons of Equipment</a></h3>
-                                    <p>Stars fowl deep she greater bearing to seed dont is let you're appear first thing
-                                        saying it years abundantly fowl tree you shall</p>
+                                    <h3><a href="#">厳選されたトレーナー陣</a></h3>
+                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                 </div>
                             </div>
                         </div>
@@ -69,17 +67,15 @@
                                     <div class="feature_item_icon">
                                         <span class="flaticon-gym-1"></span>
                                     </div>
-                                    <h3> <a href="#"> Ralaxation & Meditation</a></h3>
-                                    <p>Stars fowl deep she greater bearing to seed dont is let you're appear first thing
-                                        saying it years abundantly fowl tree you shall</p>
+                                    <h3> <a href="#">自宅からいつでもアクセス可能！</a></h3>
+                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                 </div>
                                 <div class="single_feature_item">
                                     <div class="feature_item_icon">
                                         <span class="flaticon-strong"></span>
                                     </div>
-                                    <h3><a href="#">Happy Member</a></h3>
-                                    <p>Stars fowl deep she greater bearing to seed dont is let you're appear first thing
-                                        saying it years abundantly fowl tree you shall</p>
+                                    <h3><a href="#">追加料金一切なし!</a></h3>
+                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                 </div>
                             </div>
                         </div>
@@ -116,17 +112,17 @@
                 </div>
                 <div class="col-lg-4 offset-lg-2">
                     <div class="extends_member_text">
-                        <h2>Our services <br>
+                        <h2>サービスについて <br>
                             </h2>
 
               
                         <ul>
-                            <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
-                            <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
-                             <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
-                              <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
+                            <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
+                            <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
+                             <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
+                              <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
                         </ul>
-                        <a href="#" class="btn_2">Read More</a>
+                        <a href="#" class="btn_2">続きを読む</a>
                     </div>
                 </div>
             </div>
@@ -197,7 +193,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                        <h2>Meet with trainers</h2>
+                        <h2>トレーナー紹介</h2>
                     </div>
                 </div>
             </div>
@@ -216,8 +212,8 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">Anderew Eletch</a></h3>
-                            <p>Personal trainer</p>
+                            <h3><a href="blog.html">田中直樹</a></h3>
+                            <p>パーソナルトレーナー</p>
                         </div>
                     </div>
                 </div>
@@ -235,8 +231,8 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">Mathew Edene</a></h3>
-                            <p>Personal trainer</p>
+                            <h3><a href="blog.html">丸山健二</a></h3>
+                            <p>パーソナルトレーナー</p>
                         </div>
                     </div>
                 </div>
@@ -254,8 +250,8 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">Anderew Eletch</a></h3>
-                            <p>Personal trainer</p>
+                            <h3><a href="blog.html">林隆二</a></h3>
+                            <p>パーソナルトレーナー</p>
                         </div>
                     </div>
                 </div>
@@ -268,7 +264,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                        <h2>顧客の反応</h2>
+                        <h2>お客様の声</h2>
                     </div>
                 </div>
             </div>
@@ -284,7 +280,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="client_review_text media-body">
-                                        <h4>Mosan Cameron <span>Executive of fedex</span></h4>
+                                        <h4>東京都在住 A.Yさん <span>20代　女性</span></h4>
                                         <div class="star_icon">
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
@@ -292,10 +288,8 @@
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_2.svg')}}" alt=""> </a>
                                         </div>
-                                        <p>Bring and. She'd upon evening good land under subdue sixth subdue god
-                                            over spirit fishe the live on above may fish divided itself living
-                                            very lesser herb his can't shall his fowl bring. And She'd upon evening
-                                            good land under subdue sixth very</p>
+                                        <p>(ここにお客様の声が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト
+                                        テストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                     </div>
                                 </div>
                             </div>
@@ -309,7 +303,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="client_review_text media-body">
-                                        <h4>Mosan Cameron <span>Executive of fedex</span></h4>
+                                        <h4>鳥取県在住 T.Nさん <span>30代　女性</span></h4>
                                         <div class="star_icon">
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
@@ -317,12 +311,8 @@
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_2.svg')}}" alt=""> </a>
                                         </div>
-                                        <p>Bring and. She'd upon evening good land under subdue sixth subdue god over
-                                            spirit
-                                            fishe the live on above may fish divided itself living very lesser herb his
-                                            can't
-                                            shall his fowl bring. And She'd upon evening good land under subdue sixth
-                                            very</p>
+                                        <p>(ここにお客様の声が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト
+                                        テストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                     </div>
                                 </div>
                             </div>
@@ -336,7 +326,7 @@
                                 </div>
                                 <div class="col-lg-7">
                                     <div class="client_review_text media-body">
-                                        <h4>Mosan Cameron <span>Executive of fedex</span></h4>
+                                        <h4>北海道在住 M.Kさん <span>20代　男性</span></h4>
                                         <div class="star_icon">
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
@@ -344,11 +334,8 @@
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_1.svg')}}" alt=""> </a>
                                             <a href="#"> <img src="{{asset('asset_v2/img/icon/star_2.svg')}}" alt=""> </a>
                                         </div>
-                                        <p>Bring and. She'd upon evening good land under subdue sixth subdue god over
-                                            spirit fishe
-                                            the live on above may fish divided itself living very lesser herb his can't
-                                            shall his
-                                            fowl bring. And She'd upon evening good land under subdue sixth very</p>
+                                        <p>(ここにお客様の声が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト
+                                        テストテストテストテストテストテストテストテストテストテストテストテスト</p>
                                     </div>
                                 </div>
                             </div>
@@ -441,18 +428,18 @@
                     <form action="#">
 
                         <div class="mt-10">
-                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="名前" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
+                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="お名前" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
                         </div>
                         <div class="mt-10">
-                        <input style="border:1px solid #a509a436;" type="email" name="EMAIL" placeholder="  メールアドレス" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required="" class="single-input">
+                        <input style="border:1px solid #a509a436;" type="email" name="EMAIL" placeholder="メールアドレス" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required="" class="single-input">
                         </div>
                         <div class="mt-10">
-                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="メッセージタイトル" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
+                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="お問い合わせタイトル" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
                         </div>
 
 
                         <div class="mt-10">
-                        <textarea style="border:1px solid #a509a436;" class="single-textarea" placeholder=" メッセージ本文" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required=""></textarea>
+                        <textarea style="border:1px solid #a509a436;" class="single-textarea" placeholder="こちらにお問い合わせ内容を記載ください。" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required=""></textarea>
                         </div>
 
                         <a class="btn_2 sibscribe-btm mt-10" style="color:white;">送信</a>
