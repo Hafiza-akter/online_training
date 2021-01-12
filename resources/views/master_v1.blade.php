@@ -37,7 +37,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo mr-auto"><a href="{{route('home')}}">Online Training</a></h1>
+      <h1 class="logo mr-auto"><a href="#">Online Training</a></h1>
 
 
       <nav class="nav-menu d-none d-lg-block ">
@@ -67,7 +67,7 @@
       <div class="container">
 
         <ol>
-          <li><a href="{{route('home')}}">Home</a></li>
+          <li><a href="#">Home</a></li>
           <li> Page name</li>
         </ol>
 

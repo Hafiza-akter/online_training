@@ -27,6 +27,7 @@ Route::group(['middleware'=>'checkLogout'],function(){
 
 
 Route::get('/', 'TopPageController@index')->name('toppage');
+Route::get('/test/dashboard', 'LoginController@dashboard')->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------

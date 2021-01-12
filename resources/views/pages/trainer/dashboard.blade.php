@@ -1,3 +1,20 @@
+@extends('../master')
+@section('title','trainer dashboard')
+@section('content')
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner text-center">
+                    <div class="breadcrumb_iner_item">
+                        <!-- <p></p> -->
+                        <h2>Schedule</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
  <div class="row pb-5">
  	{{-- schedule --}}
   <h2 class="mx-auto">トレーナーページ </h2> 
@@ -23,3 +40,4 @@
     </a>
   </div>
 </div>
+@endsection

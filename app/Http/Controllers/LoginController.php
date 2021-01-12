@@ -33,6 +33,9 @@ class LoginController extends Controller
     public function loginTrainer(){
         return view('auth.login_trainer');
     }
+    public function dashboard(){
+        return view('pages.trainer.dashboard');
+    }
     public function loginTrainerSubmit(Request $request){
         $validateData = $request->validate([
             'username' => 'required',
@@ -61,10 +64,11 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         $email = $request->input('username');
+        // dd($email);
         $input_password = $request->input('password');
         $trainee = Trainee::where('email',$email)
                         ->first();
-                        // dd($trainee);
+        // dd($trainee);
         if(!$trainee || (!Hash::check($input_password,$trainee->password))){
 
             return redirect()->back()->with('message','Incorrect username or password!');
