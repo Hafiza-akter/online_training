@@ -19,5 +19,11 @@ class TopPageController extends Controller
     public function trainerList(){
     	return view('pages.toppage.trainer_list');
     }
+    public function details(){
+    	  return view('pages.toppage.customer_details');
+    }
+    public function review(){
+    	  return view('pages.toppage.customer_review');
+    }
 
 }

@@ -11,8 +11,8 @@
                             {{-- <p>get in shape today</p> --}}
                         <h2><span> オンライン</span>トレーニング<span>マッチング</span> </h2>
                         <p class="pb-3">
-                            <a href="#" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">トレーナー  登録</a> <!-- Trainer registraion-->
-                            <a href="#" class="btn_2" style="border-radius: 1px !important;background: none;border:2px solid #c604c6;font-size: 18px;">研修生 登録</a> <!-- Trainee registraion-->
+                            <a href="{{route('trainerSignup')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">トレーナー  登録</a> <!-- Trainer registraion-->
+                            <a href="{{route('traineeSignup')}}" class="btn_2" style="border-radius: 1px !important;background: none;border:2px solid #c604c6;font-size: 18px;">研修生 登録</a> <!-- Trainee registraion-->
                         </p>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
     </section>
 
 
-    <section class="extends_part section_padding">
+    <section class="extends_part section_padding" id="service">
         <div class="container-fluid">
             <div class="row ">
                 <div class="col-lg-5">
@@ -118,7 +118,7 @@
                     <div class="extends_member_text">
                         <h2>Our services <br>
                             </h2>
-                 
+
               
                         <ul>
                             <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>

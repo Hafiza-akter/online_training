@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">Anderew Eletch</a></h3>
+                            <h3><a href="{{ route('trainerdetails')  }}">Anderew Eletch</a></h3>
                             <p>Personal trainer</p>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">Mathew Edene</a></h3>
+                            <h3><a href="{{ route('trainerdetails')  }}">Mathew Edene</a></h3>
                             <p>Personal trainer</p>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                 <div class="col-sm-6 col-lg-4">
                     <div class="single_blog_item">
                         <div class="single_blog_img">
-                            <img src="{{asset('asset_v2/img/team/team_3.png')}}" alt="">
+                                <img src="{{asset('asset_v2/img/team/team_3.png')}}" alt="">
                             <div class="social_icon">
                                 <ul>
                                     <li><a href="#"><i class="ti-facebook"></i></a></li>
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">Anderew Eletch</a></h3>
+                            <h3><a href="{{ route('trainerdetails')  }}">Anderew Eletch</a></h3>
                             <p>Personal trainer</p>
                         </div>
                     </div>
