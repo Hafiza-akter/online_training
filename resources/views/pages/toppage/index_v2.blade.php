@@ -8,7 +8,12 @@
                     <div class="banner_text text-center">
                         <div class="banner_text_iner">
                             <!-- <h2>Join <span>now</span> </h2> -->
-                            <p>get in shape today</p>
+                            {{-- <p>get in shape today</p> --}}
+                        <h2><span> オンライン</span>トレーニング<span>マッチング</span> </h2>
+                        <p class="pb-3">
+                            <a href="#" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">トレーナー  登録</a> <!-- Trainer registraion-->
+                            <a href="#" class="btn_2" style="border-radius: 1px !important;background: none;border:2px solid #c604c6;font-size: 18px;">研修生 登録</a> <!-- Trainee registraion-->
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -22,10 +27,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                        <p>Awesome feature</p>
                         <h2>Why you Join with us</h2>
-                        <span>Stars fowl deep she greater bearing to seed dont is let you're appear first thing saying
-                            it years abundantly fowl tree you shall also</span>
                     </div>
                 </div>
             </div>
@@ -114,16 +116,15 @@
                 </div>
                 <div class="col-lg-4 offset-lg-2">
                     <div class="extends_member_text">
-                        <h2>Make yourself <br>
-                            stronger than your excuses</h2>
-                        <p>Creature moveth behold darkness that fill very and don't. Together one Living rule.
-                            Saying you're light called years i be beast bring tree don herb evening the called tree
-                            green of</p>
+                        <h2>Our services <br>
+                            </h2>
+                 
+              
                         <ul>
-                            <li><span class="ti-pencil-alt"></span>Earth his there multiply she'd one open made years
-                                called fill</li>
-                            <li><span class="ti-ruler-pencil"></span>Earth his there multiply she'd one open made years
-                                called</li>
+                            <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
+                            <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
+                             <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
+                              <li><span class="ti-pencil-alt"></span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy</li>
                         </ul>
                         <a href="#" class="btn_2">Read More</a>
                     </div>
@@ -133,7 +134,7 @@
     </section>
 
 
-    <section class="our_offer">
+    {{-- <section class="our_offer">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-5">
@@ -190,18 +191,84 @@
                 </div>
             </div>
         </div>
+    </section> --}}
+     <section class="team_member_section section_padding" style="padding: 260px 0 130px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-xl-6">
+                    <div class="section_tittle">
+                        <h2>Meet with trainers</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex align-items-center">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="single_blog_item">
+                        <div class="single_blog_img">
+                            <img src="{{asset('asset_v2/img/team/team_1.png')}}" alt="">
+                            <div class="social_icon">
+                                <ul>
+                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
+                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ti-skype"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="single_blog_text">
+                            <h3><a href="blog.html">Anderew Eletch</a></h3>
+                            <p>Personal trainer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="single_blog_item">
+                        <div class="single_blog_img">
+                            <img src="{{asset('asset_v2/img/team/team_2.png')}}" alt="">
+                            <div class="social_icon">
+                                <ul>
+                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
+                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ti-skype"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="single_blog_text">
+                            <h3><a href="blog.html">Mathew Edene</a></h3>
+                            <p>Personal trainer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="single_blog_item">
+                        <div class="single_blog_img">
+                            <img src="{{asset('asset_v2/img/team/team_3.png')}}" alt="">
+                            <div class="social_icon">
+                                <ul>
+                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
+                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ti-skype"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="single_blog_text">
+                            <h3><a href="blog.html">Anderew Eletch</a></h3>
+                            <p>Personal trainer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-
 
     <section class="review_part gray_bg section_padding">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                        <p>Testimonials</p>
-                        <h2>happy customer says</h2>
-                        <span>Stars fowl deep she greater bearing to seed dont is let you're appear first thing saying
-                            it years abundantly fowl tree you shall also</span>
+                        <h2>顧客の反応</h2>
                     </div>
                 </div>
             </div>
@@ -296,7 +363,7 @@
     </section>
 
 
-    <section class="calculate_part section_padding">
+    {{-- <section class="calculate_part section_padding">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-xl-5">
@@ -348,98 +415,47 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     
-    <section class="team_member_section section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-xl-6">
-                    <div class="section_tittle">
-                        <p>our team</p>
-                        <h2>Meet with trainers</h2>
-                        <span>Stars fowl deep she greater bearing to seed dont is let you're appear first thing saying
-                            it years abundantly fowl tree you shall also</span>
-                    </div>
-                </div>
-            </div>
-            <div class="row d-flex align-items-center">
-                <div class="col-sm-6 col-lg-4">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{asset('asset_v2/img/team/team_1.png')}}" alt="">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
-                                    <li><a href="#"><i class="ti-skype"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_blog_text">
-                            <h3><a href="blog.html">Anderew Eletch</a></h3>
-                            <p>Personal trainer</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{asset('asset_v2/img/team/team_2.png')}}" alt="">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
-                                    <li><a href="#"><i class="ti-skype"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_blog_text">
-                            <h3><a href="blog.html">Mathew Edene</a></h3>
-                            <p>Personal trainer</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                    <div class="single_blog_item">
-                        <div class="single_blog_img">
-                            <img src="{{asset('asset_v2/img/team/team_3.png')}}" alt="">
-                            <div class="social_icon">
-                                <ul>
-                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
-                                    <li><a href="#"><i class="ti-skype"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single_blog_text">
-                            <h3><a href="blog.html">Anderew Eletch</a></h3>
-                            <p>Personal trainer</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+   
 
 
     <section class="sibscribe-area section_padding">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
-                    <div class="sibscribe-text text-center">
-                        <h1>Start 15 days free trial</h1>
-                        <p>Deep saw bearing seasons in two itself days hath</p>
+                    
+                     <div class="section_tittle">
+                        <h2>お問い合わせ</h2>
                     </div>
                 </div>
             </div>
+
             <div class="row justify-content-center">
                 <div class="col-lg-7">
-                    <form class="sibscribe-form">
+                    {{-- <form class="sibscribe-form">
                         <input type="email" class="form-control" id="exampleInputEmail11" placeholder='Enter Email Address' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email Address'">
                         <a class="btn_2 sibscribe-btm">Subscribe</a>
+                    </form> --}}
+
+                    <form action="#">
+
+                        <div class="mt-10">
+                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="名前" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
+                        </div>
+                        <div class="mt-10">
+                        <input style="border:1px solid #a509a436;" type="email" name="EMAIL" placeholder="  メールアドレス" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required="" class="single-input">
+                        </div>
+                        <div class="mt-10">
+                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="メッセージタイトル" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
+                        </div>
+
+
+                        <div class="mt-10">
+                        <textarea style="border:1px solid #a509a436;" class="single-textarea" placeholder=" メッセージ本文" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required=""></textarea>
+                        </div>
+
+                        <a class="btn_2 sibscribe-btm mt-10" style="color:white;">送信</a>
                     </form>
                 </div>
             </div>

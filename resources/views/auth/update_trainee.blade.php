@@ -1,18 +1,71 @@
 {{-- @extends('master_page') --}}
-@extends('auth.master')
-@section('title','trainer signup')
+@extends('../master')
+@section('title','trainee login')
 @section('content')
-<div class="row pt-5">
-    {{-- Trainee information --}}
-    <h4 class="mx-auto">研修生情報
-    </h4>
+<style>
+     .login_button{
+        border-radius: 1px !important;
+        font-size: 18px;
+        width:400px;
+        color: #a506a4;
+        border: 2px solid #bb07bb;
+        }
+.gradient{
+    background-image:linear-gradient(to left, purple 0%, #c300c3 50%, #7e007e 100%);color: #fff !important;
+}
+</style>
+
+
+<section class="about_us section_padding">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class=" col-sm-8 mb-4">
+                <div class="alert alert-success">
+                {{-- thank you for the confirmation --}}
+                  <h5 style="text-align:center">確認ありがとう</h5>
+                </div> 
+            </div>
+                <div class="col-md-8 col-xl-6">
+                    <div class="section_tittle">
+                       <h2>研修生情報</h2>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <div class="overlay_icon">
+            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_1.png" class="amitated_icon_1" alt="animate_icon">
+            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_2.png" class="amitated_icon_2" alt="animate_icon">
+            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_3.png" class="amitated_icon_3" alt="animate_icon">
+            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_4.png" class="amitated_icon_4" alt="animate_icon">
+            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_5.png" class="amitated_icon_5" alt="animate_icon">
+        </div>
+
+        <div class="offset-sm-2 col-sm-8 mb-4">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+
+    <!-- /.card-header -->
+    <!-- form start -->
+    @if(Session::has('message'))
+    <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+    @endif
+
+
+
 </div>
-<div class="offset-sm-2 col-sm-8 mb-4">
-    <div class="alert alert-success">
-    {{-- thank you for the confirmation --}}
-      <h5 style="text-align:center">確認ありがとう</h5>
-    </div> 
-</div>
+
+
+
 <div class="offset-sm-2 col-sm-8 mb-4">
     <div class="card card-info">
        <div class="card-header">
@@ -179,17 +232,17 @@
         </div>
         <div class="card-footer">
             <div class="row pt-3 pb-3">
-                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg ">次へ</button>
+                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg gradient ">次へ</button>
             </div>
         </div>
       
     </form>
   </div>
 </div>
+</section>
 
 
-    <div class="row"></div>
-  </div>
+
 
 @endsection
 @section('footer_css_js')

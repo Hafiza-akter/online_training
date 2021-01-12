@@ -4,15 +4,14 @@
     background-size: 200% auto;
 }
 .btn_2, .extends_part .extends_video .video-play-button, .extends_part .extends_video .video-play-button:before {
-    background-image: linear-gradient(to left, #861657 0%, #A4508B  100%);
-    /* background-color #861657;
-    background-image linear-gradient(326deg, #861657 0%, #ffa69e 74%); */
+    background-image: linear-gradient(to left, #c604c6 0%, #df04df 50%, #7e007e 100%)
+
 
 }
 .about_us .single_feature_item .feature_item_icon span {
-    background-image: -moz-linear-gradient(45deg, #861657 1%, #861657 99%);
-    background-image: -webkit-linear-gradient(45deg, #861657 1%, #861657 99%);
-    background-image: -ms-linear-gradient(45deg, #861657 1%, #861657 99%);
+    background-image: -moz-linear-gradient(45deg, #c604c6 1%, #8f048f 99%);
+    background-image: -webkit-linear-gradient(45deg, #c604c6 1%, #8f048f 99%);
+    background-image: -ms-linear-gradient(45deg, #c604c6 1%, #8f048f 99%);
 }
 .our_offer .single_offer_part .single_offer .hover_text .offer_btn:after {
     background-image: -moz-linear-gradient(0deg, #861657 1%, #861657 99%);
@@ -111,7 +110,8 @@ a:hover {
     transition: .5s;
 }
 h1, h2, h3, h4, h5, h6 {
-    color: #2c3033;
+    /*color: #2c3033;*/
+    color: #a506a4;
     font-family: teko, sans-serif;
 }
 p {
@@ -124,7 +124,9 @@ p {
 h2 {
     font-size: 44px;
     line-height: 28px;
-    color: #2c3033;
+    /*color: #2c3033;*/
+    color: #a506a4;
+
     font-weight: 600;
     line-height: 1.222;
 }
@@ -188,7 +190,8 @@ a:focus, .button:focus, button:focus, .btn:focus {
 }
 }.section_tittle h2 {
     font-size: 40px;
-    color: #2c3033;
+    /*color: #2c3033;*/
+    color: #a506a4;
     line-height: 1.25;
     font-weight: 700;
     position: relative;
@@ -1734,7 +1737,9 @@ ul {
     transform: scale(1);
     display: block;
 }
-}.banner_part {
+}
+
+/*.banner_part {
     height: 890px;
     position: relative;
     background-image: url(../img/banner_bg.jpg);
@@ -1855,7 +1860,175 @@ ul {
     color: #fff;
     line-height: 22px;
     margin-top: -10px;
+}*/
+
+/**************** banner part css start ****************/
+.banner_part {
+  height: 890px;
+  position: relative;
+  background-image: url(../img/banner_bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 }
+
+@media (max-width: 575px) {
+  .banner_part {
+    height: 600px;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .banner_part {
+    height: 600px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .banner_part {
+    height: 600px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .banner_part {
+    height: 700px;
+  }
+}
+
+.banner_part .banner_text {
+  position: absolute;
+  left: 20%;
+  top: 300px;
+  width: 100%;
+  z-index: 1;
+}
+
+@media (max-width: 575px) {
+  .banner_part .banner_text {
+    top: 300px;
+    left: 0;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .banner_part .banner_text {
+    top: 300px;
+    left: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .banner_part .banner_text {
+    top: 300px;
+    left: 0;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .banner_part .banner_text {
+    top: 350px;
+  }
+}
+
+.banner_part .banner_text:after {
+  /*width: 150%;*/
+  height: 100%;
+  position: absolute;
+  content: "";
+  top: 0px;
+  z-index: 1;
+  right: 0;
+  background-color: #000;
+  opacity: 0.5;
+  left: 0;
+}
+.banner_part .banner_text .banner_text_iner {
+  position: relative;
+  z-index: 1;
+  padding-top: 29px;
+  z-index: 2;
+}
+
+@media (max-width: 575px) {
+  .banner_part .banner_text .banner_text_iner {
+    padding: 15px;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .banner_part .banner_text .banner_text_iner {
+    padding: 15px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .banner_part .banner_text .banner_text_iner {
+    padding: 15px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .banner_part .banner_text .banner_text_iner {
+    padding: 25px;
+  }
+}
+
+.banner_part .banner_text .banner_text_iner h2 {
+  font-size: 54px;
+  color: #a503a4;
+  text-transform: uppercase;
+  font-weight: 800;
+  line-height: 130px;
+}
+
+.banner_part .banner_text .banner_text_iner h2 span {
+  color: #fff;
+}
+
+@media (max-width: 575px) {
+
+  .banner_part .banner_text .banner_text_iner h2 {
+    font-size: 40px;
+    line-height: 60px;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+
+  .banner_part .banner_text .banner_text_iner h2 {
+    font-size: 40px;
+    line-height: 60px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+  .banner_part .banner_text .banner_text_iner h2 {
+    font-size: 40px;
+    line-height: 60px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+
+  .banner_part .banner_text .banner_text_iner h2 {
+    font-size: 50px;
+    line-height: 80px;
+  }
+}
+
+/* line 98, E:/171 Fitzone Fitness/171_ Fitzone_Fitness_html/sass/_banner.scss */
+.banner_part .banner_text .banner_text_iner p {
+  font-size: 21px;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 22px;
+  margin-top: -10px;
+}
+
+/**************** /**************** banner part css end  ****************/
 .about_us {
     position: relative;
     z-index: 1;
@@ -4317,6 +4490,7 @@ h1, h2, h3, h4, h5, h6 {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    height: 300px;
 }
 .breadcrumb {
     position: relative;
@@ -4335,7 +4509,8 @@ h1, h2, h3, h4, h5, h6 {
     z-index: -1;
 }
 .breadcrumb .breadcrumb_iner {
-    height: 450px;
+    height: 261px;
+    /*height: 450px;367px*/
     width: 100%;
     display: table;
 }
@@ -4361,7 +4536,9 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 69px;
 }
 .breadcrumb .breadcrumb_iner .breadcrumb_iner_item h2 {
-    color: #fff;
+    /*color: #fff;*/
+    color: #a506a4;
+    /*#a506a4*/
     font-size: 45px;
     font-weight: 600;
     margin-bottom: 10px;
@@ -4394,4 +4571,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .purple-back{
     background-color: rgb(191 30 220 / 12%);
+}
+.user-profile{
+    font-size: 20px;
 }

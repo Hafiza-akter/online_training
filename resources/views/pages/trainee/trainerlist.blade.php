@@ -1,4 +1,4 @@
-@extends('auth/master')
+@extends('../../master')
 @section('title','trainer view')
 @section('content')
 
