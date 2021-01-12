@@ -48,15 +48,15 @@
                                 </li>
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="cources.html">お客様の声</a>
+                                    <a class="nav-link" href="{{ route('review') }}">カスタマーレビュー</a>
                                 </li>
 
                                  <li class="nav-item ">
-                                    <a class="nav-link" href="cources.html">料金</a>
+                                    <a class="nav-link" href="#">料金</a>
                                 </li>
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="cources.html">サービス機能</a>
+                                    <a class="nav-link" href="#service">サービス機能</a>
                                 </li>
                                 
                                 

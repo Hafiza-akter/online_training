@@ -28,6 +28,8 @@ Route::group(['middleware'=>'checkLogout'],function(){
 
 Route::get('/', 'TopPageController@index')->name('toppage');
 Route::get('/trainer/list', 'TopPageController@trainerList')->name('trainerList');
+Route::get('/trainer/details', 'TopPageController@details')->name('trainerdetails');
+Route::get('/customer/reivews', 'TopPageController@review')->name('review');
 
 /*
 |--------------------------------------------------------------------------
