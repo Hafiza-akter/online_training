@@ -16,5 +16,8 @@ class TopPageController extends Controller
     public function index(){
         return view('pages.toppage.index_v2');
     }
+    public function trainerList(){
+    	return view('pages.toppage.trainer_list');
+    }
 
 }

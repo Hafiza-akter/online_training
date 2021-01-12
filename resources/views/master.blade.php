@@ -1,11 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Fitzone</title>
+    <title>Online Training</title>
     <link rel="icon" href="img/favicon.png')}}">
 
     <link rel="stylesheet" href="{{asset('asset_v2/css/bootstrap.min.css')}}">
@@ -32,42 +32,74 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="{{route('toppage')}}"> <img src="{{asset('asset_v2/img/logo.png')}}" alt="logo"> </a>
+                        {{-- <a class="navbar-brand" href="{{route('toppage')}}"> <img src="{{asset('asset_v2/img/logo.png')}}" alt="logo"> </a> --}}
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse main-menu-item justify-content-end" id="navbarSupportedContent">
                             <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home</a>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="{{ route('toppage')}}"><i class="fas fa-home " style="font-size: 21px"></i> 
+                                    </a>
                                 </li>
+
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.html">about</a>
+                                    <a class="nav-link" href=" {{ route('trainerList') }}">トレーナー</a>
                                 </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="cources.html">courses</a>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="cources.html">お客様の声</a>
                                 </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="blog.html">blog</a>
+
+                                 <li class="nav-item ">
+                                    <a class="nav-link" href="cources.html">料金</a>
                                 </li>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="cources.html">サービス機能</a>
+                                </li>
+                                
+                                
+
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Pages
+                                    <a class="nav-link dropdown-toggle" href="blog.html"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       <i class="fas fa-user-plus"></i>  登録
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="trainers.html">trainers</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                        <a class="dropdown-item" href="elements.html">Elements</a>
+                                            <a class="dropdown-item" href="{{route('traineeSignup')}}">
+                                            {{-- Trainee registration --}}
+                                                研修生登録
+                                            </a>
+                                            <a class="dropdown-item" href="{{route('trainerSignup')}}">
+                                                {{-- Trainer registration --}}
+                                                トレーナー登録
+                                            </a>
                                     </div>
                                 </li>
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="contact.html">Contact</a>
+                                
+                                 <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                       <i class="fas fa-lock"></i> ログイン
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="{{ route('trainerLogin') }}">
+                                            {{-- TRAINER LOGIN --}}
+                                            トレーナーログイン
+
+                                             </a>
+                                            <a class="dropdown-item" href="{{ route('traineeLogin') }}">
+                                            {{-- TRAINEE LOGIN --}}
+                                            研修生ログイン
+                                            </a>
+                                    </div>
                                 </li>
+                                
+                            
                             </ul>
                         </div>
-                        <div class="menu_btn">
+                       {{--  <div class="menu_btn">
                             <a href="#" class="btn_2 d-none d-sm-block">Get started</a>
-                        </div>
+                        </div> --}}
                     </nav>
                 </div>
             </div>
@@ -96,11 +128,9 @@
                         <h4>Important Link</h4>
                         <div class="contact_info">
                             <ul>
-                                <li><a href="#">WHMCS-bridge</a></li>
-                                <li><a href="#"> Search Domain</a></li>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Shopping Cart</a></li>
-                                <li><a href="#"> Our Shop</a></li>
+                                <li><a href="#">link 1</a></li>
+                                <li><a href="#">link 1</a></li>
+                                <li><a href="#">link 1</a></li>
                             </ul>
                         </div>
                     </div>
@@ -111,7 +141,8 @@
                         <div class="contact_info">
                             <p><span> Address :</span> Hath of it fly signs bear be one blessed after </p>
                             <p><span> Phone :</span> +2 36 265 (8060)</p>
-                            <p><span> Email : </span><a href="https://preview.colorlib.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8de4e3ebe2cdeee2e1e2ffe1e4efa3eee2e0">[email&#160;protected]</a> </p>
+                            <p><span> Email : testinfo@gmail.com</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -136,10 +167,10 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <p class="footer-text m-0">
-                            Copyright &copy;<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js')}}"></script>
+                            Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear());
-                            </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com/" target="_blank">Colorlib</a>
+                            </script> All rights reserved | Company name
 
                         </p>
                     </div>
@@ -174,20 +205,16 @@
 
     <script src="{{asset('asset_v2/js/slick.min.js')}}"></script>
     <script src="{{asset('asset_v2/js/gijgo.min.js')}}"></script>
-    <script src="{{asset('asset_v2/js/jquery.nice-select.min.js')}}"></script>
+    {{-- <script src="{{asset('asset_v2/js/jquery.nice-select.min.js')}}"></script> --}}
 
     <script src="{{asset('asset_v2/js/custom.js')}}"></script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
+        $(document).ready(function() {
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).alert('close');
+            });
+    });
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-23581568-13');
     </script>
 </body>
 
