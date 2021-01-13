@@ -4581,6 +4581,15 @@ h1, h2, h3, h4, h5, h6 {
     right: 25% !important;
     left: auto !important;
 }
+.show a:hover{
+    background-color: #4d4d4d !important;
+    color: #fff !important;
+   
+}
+.show :hover{
+    background-color: #4d4d4d !important;
+    color: #fff;
+}
 
 .show:active {
     background-color: transparent;
@@ -4589,4 +4598,8 @@ h1, h2, h3, h4, h5, h6 {
 .show:hover {
     background-color: transparent;
     color: white;
+  }
+
+  .dropdown-menu.dropdown-menu-lg.dropdown-menu-left.show:focus{
+      background-color: #4d4d4d !important;
   }
