@@ -50,7 +50,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('trainerlist') }}">トレーナー</a>
+                                    <a class="nav-link" href="{{ route('trainersList') }}">トレーナー</a>
                                 </li>
 
                                 <li class="nav-item ">
