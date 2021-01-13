@@ -4575,3 +4575,18 @@ h1, h2, h3, h4, h5, h6 {
 .user-profile{
     font-size: 20px;
 }
+
+.show{
+    background-color: #4d4d4d;
+    right: 15% !important;
+    left: auto !important;
+}
+
+.show:active {
+    background-color: transparent;
+    color: white;
+  }
+.show:hover {
+    background-color: transparent;
+    color: white;
+  }
