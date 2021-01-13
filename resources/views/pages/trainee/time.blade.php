@@ -1,4 +1,4 @@
-@extends('auth/master')
+@extends('../../master')
 @section('title','trainer schedule')
 @section('content')
 {{-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -17,6 +17,8 @@
             display: none !important;
         }
     </style>
+    <div class="offset-md-1 col-md-10">
+
     @include('pages.trainee.dashboard')
 
     <div class="row pb-5  page-content page-container" id="chart">
@@ -117,6 +119,7 @@
             <input type="hidden" name="date" id="selected_date" value="{{$selected_date}}">
 
         </form>
+    </div>
     </div>
   @endsection
   @section('footer_css_js')

@@ -1,6 +1,3 @@
-@extends('../master')
-@section('title','trainer dashboard')
-@section('content')
 <section class="breadcrumb breadcrumb_bg">
     <div class="container">
         <div class="row">
@@ -40,4 +37,3 @@
     </a>
   </div>
 </div>
-@endsection
