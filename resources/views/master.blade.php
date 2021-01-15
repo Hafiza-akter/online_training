@@ -48,10 +48,10 @@
                                     <a class="nav-link" href="{{ route('toppage')}}"><i class="fas fa-home " style="font-size: 21px"></i>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('trainerlist') }}">トレーナー</a>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('trainersList') }}">トレーナー</a>
                                 </li>
-
+                                
                                 <li class="nav-item ">
                                     <a class="nav-link" href="{{ route('review') }}">カスタマーレビュー</a>
                                 </li> -->
