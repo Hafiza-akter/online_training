@@ -1,5 +1,6 @@
 @extends('admin/master')
 @section('title','admin dashboard')
+@section('pageName','admin dashboard')
 @section('content')
 <div class="container-fluid">
         <!-- Small boxes (Stat box) -->

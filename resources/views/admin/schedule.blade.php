@@ -1,5 +1,7 @@
 @extends('admin/master')
 @section('title','Schedule Management')
+@section('pageName','Schedule Management')
+
 @section('content')
 <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
