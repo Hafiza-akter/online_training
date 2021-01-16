@@ -24,7 +24,7 @@ class TraineeController extends Controller
         return view('pages.trainer_details');
     }
     public function scheduleCalendar(Request $request){ // calendar view
-
+        $isActive = "schedule";
         if($request->trainer_id){
 
             $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->select('date as start_date','user_id')->get();
@@ -60,7 +60,7 @@ class TraineeController extends Controller
                 }
         }
     	
-    	return view('pages.trainee.calendar')->with('schedule',json_encode($parsedArray,true));
+    	return view('pages.trainee.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true));
     }
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         

@@ -1,14 +1,11 @@
-@extends('../../master')
-@section('title','trainer schedule')
-@section('content')
-{{-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css">
- --}}
-
-
+@extends('master_dashboard')
+@section('title','trainee schedule')
+@section('header_css_js')
    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>
+@endsection
+@section('content')
+
+
     <style>
         .table td, .table th{
             border:none !important;
@@ -19,8 +16,8 @@
     </style>
     <div class="offset-md-1 col-md-10">
 
-    @include('pages.trainee.dashboard')
-
+{{--     @include('pages.trainee.dashboard')
+ --}}
     <div class="row pb-5  page-content page-container" id="chart">
 
         @if(Session::has('message'))
@@ -126,7 +123,7 @@
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 $(document).ready(function() {
     $('.unselectable').prop("disabled",true);

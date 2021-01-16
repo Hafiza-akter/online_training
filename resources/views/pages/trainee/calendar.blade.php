@@ -1,15 +1,28 @@
-@extends('../../master')
-@section('title','trainer schedule')
+@extends('master_dashboard')
+@section('title','trainee schedule')
+@section('header_css_js')
+<link href='{{ asset('asset_v2/css/fullcalendar_main.min.css')}}' rel='stylesheet' />
+<script src='{{ asset('asset_v2/js/fullcalendar_main.min.js')}}'></script>
+<script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
+@endsection
 @section('content')
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.js'></script>
+
 <style>
   .table td,
   .table th {
     border: none !important;
   }
+  .fc-theme-standard td{
+    background: #fff;
+  }
+  .fc-myCustomButton-button{
+    background: none !important;
+    color: #a509a4 !important;
+    border: 1px solid #a509a4 !important;
+  }
 </style>
-@include('pages.trainee.dashboard')
+{{-- @include('pages.trainee.dashboard') --}}
+<section class="review_part gray_bg section_padding">
 <div class="offset-md-1 col-md-10">
 
   <div class="row pb-5  page-content page-container" id="chart">
@@ -39,11 +52,11 @@
   </div>
 </div>
 
-
+</section>
 @endsection
 @section('footer_css_js')
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -51,10 +64,18 @@
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       selectable: true,
+       customButtons: {
+        myCustomButton: {
+          text: 'トレーナーリスト',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        }
+      },
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: ''
+        right: 'myCustomButton'
       },
       dateClick: function(info) {
         // alert('clicked ' + info.dateStr);

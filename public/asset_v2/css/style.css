@@ -1544,8 +1544,8 @@ ul {
 }
 .main_menu .main-menu-item ul li a {
     color: #fff!important;
-    font-size: 14px;
-    padding: 0 22px!important;
+    font-size: 18px;
+    padding: 0 23px!important;
     font-family: open sans, sans-serif;
     text-transform: uppercase;
 }
@@ -1554,12 +1554,26 @@ ul {
     padding: 0 16px!important;
 }
 }.main_menu .main-menu-item ul li a:hover {
-    color: #861657!important;
+    color: #fff!important;
 }
 .home_menu {
     background-color: #000000;
     background-image: linear-gradient(315deg, #000000 25%, #414141 52%);
     opacity: 0.7;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+.active__{
+    background: #a509a4;
+    border: 1px solid #080808;
+}
+.dashboard_menu {
+    background-color: #000000;
+    background-image: linear-gradient(315deg, #000000 25%, #414141 52%);
+    /*opacity: 0.7;*/
     position: absolute;
     left: 0;
     top: 0;
@@ -1739,128 +1753,6 @@ ul {
 }
 }
 
-/*.banner_part {
-    height: 890px;
-    position: relative;
-    background-image: url(../img/banner_bg.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-}
-@media(max-width:575px) {
-    .banner_part {
-    height: 600px;
-}
-}@media only screen and (min-width:576px) and (max-width:767px) {
-    .banner_part {
-    height: 600px;
-}
-}@media only screen and (min-width:768px) and (max-width:991px) {
-    .banner_part {
-    height: 600px;
-}
-}@media only screen and (min-width:992px) and (max-width:1200px) {
-    .banner_part {
-    height: 700px;
-}
-}.banner_part .banner_text {
-    position: absolute;
-    left: 20%;
-    top: 533px;
-    width: 100%;
-    z-index: 1;
-}
-@media(max-width:575px) {
-    .banner_part .banner_text {
-    top: 400px;
-    left: 0;
-}
-}@media only screen and (min-width:576px) and (max-width:767px) {
-    .banner_part .banner_text {
-    top: 400px;
-    left: 0;
-}
-}@media only screen and (min-width:768px) and (max-width:991px) {
-    .banner_part .banner_text {
-    top: 400px;
-    left: 0;
-}
-}@media only screen and (min-width:992px) and (max-width:1200px) {
-    .banner_part .banner_text {
-    top: 450px;
-}
-}.banner_part .banner_text:after {
-    width: 150%;
-    height: 100%;
-    position: absolute;
-    content: "";
-    top: 0;
-    z-index: 1;
-    right: 0;
-    background-color: #000;
-    opacity: .5;
-    left: 0;
-}
-.banner_part .banner_text .banner_text_iner {
-    position: relative;
-    z-index: 1;
-    padding: 29px 120px;
-    z-index: 2;
-}
-@media(max-width:575px) {
-    .banner_part .banner_text .banner_text_iner {
-    padding: 15px;
-}
-}@media only screen and (min-width:576px) and (max-width:767px) {
-    .banner_part .banner_text .banner_text_iner {
-    padding: 15px;
-}
-}@media only screen and (min-width:768px) and (max-width:991px) {
-    .banner_part .banner_text .banner_text_iner {
-    padding: 15px;
-}
-}@media only screen and (min-width:992px) and (max-width:1200px) {
-    .banner_part .banner_text .banner_text_iner {
-    padding: 25px;
-}
-}.banner_part .banner_text .banner_text_iner h2 {
-    font-size: 160px;
-    color: #861657;
-    text-transform: uppercase;
-    font-weight: 700;
-    line-height: 130px;
-}
-.banner_part .banner_text .banner_text_iner h2 span {
-    color: #fff;
-}
-@media(max-width:575px) {
-    .banner_part .banner_text .banner_text_iner h2 {
-    font-size: 60px;
-    line-height: 60px;
-}
-}@media only screen and (min-width:576px) and (max-width:767px) {
-    .banner_part .banner_text .banner_text_iner h2 {
-    font-size: 60px;
-    line-height: 60px;
-}
-}@media only screen and (min-width:768px) and (max-width:991px) {
-    .banner_part .banner_text .banner_text_iner h2 {
-    font-size: 60px;
-    line-height: 60px;
-}
-}@media only screen and (min-width:992px) and (max-width:1200px) {
-    .banner_part .banner_text .banner_text_iner h2 {
-    font-size: 80px;
-    line-height: 80px;
-}
-}.banner_part .banner_text .banner_text_iner p {
-    font-size: 21px;
-    text-transform: uppercase;
-    color: #fff;
-    line-height: 22px;
-    margin-top: -10px;
-}*/
 
 /**************** banner part css start ****************/
 .banner_part {
@@ -4572,34 +4464,3 @@ h1, h2, h3, h4, h5, h6 {
 .purple-back{
     background-color: rgb(191 30 220 / 12%);
 }
-.user-profile{
-    font-size: 20px;
-}
-
-.show{
-    background-color: #4d4d4d;
-    right: 25% !important;
-    left: auto !important;
-}
-.show a:hover{
-    background-color: #4d4d4d !important;
-    color: #fff !important;
-   
-}
-.show :hover{
-    background-color: #4d4d4d !important;
-    color: #fff;
-}
-
-.show:active {
-    background-color: transparent;
-    color: white;
-  }
-.show:hover {
-    background-color: transparent;
-    color: white;
-  }
-
-  .dropdown-menu.dropdown-menu-lg.dropdown-menu-left.show:focus{
-      background-color: #4d4d4d !important;
-  }
