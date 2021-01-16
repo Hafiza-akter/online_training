@@ -119,11 +119,21 @@ Route::group(['middleware' => 'checkLogin'], function () {
 
 
 Route::prefix('admin')->group(function () {
-	// Route::group(['middleware' => 'checkLogin'], function () {
-		Route::get('/login', 'Admin\LoginController@index')->name('admin.login');
+	Route::group(['middleware' => 'checkAdmin'], function () {
 		Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
+
+		Route::get('/setting', 'Admin\DashboardController@setting')->name('admin.setting');
+		Route::get('/setting/edit', 'Admin\DashboardController@settingForm')->name('admin.setting.edit');
+		Route::post('/setting/edit/submit', 'Admin\DashboardController@settingSubmit')->name('admin.setting.submit');
+
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
 		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
-	// });
-});
+
+
+	});
+		Route::get('/login', 'Admin\LoginController@index')->name('admin.login');
+		Route::post('/login', 'Admin\LoginController@adminLoginSubmit')->name('admin.Login.submit');
+		Route::get('/logout', 'Admin\LoginController@logout')->name('admin.logout');
+
+	});

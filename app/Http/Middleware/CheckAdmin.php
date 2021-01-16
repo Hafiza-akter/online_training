@@ -17,13 +17,13 @@ class CheckAdmin
     public function handle($request, Closure $next)
     {
         $user = Session::get('user');
-        $is_admin = Session::get('is_admin');
+        $is_admin = Session::get('user_type');
         // dd($user->is_super_admin);
-        if($is_admin == 1 || $is_admin == 2){
+        if($is_admin == 'admin'){
             return $next($request);
         }
         else{
-            return redirect()->route('home');
+            return redirect()->route('admin.login');
         }
     }
 }

@@ -139,8 +139,8 @@
             <span class="float-right text-muted text-sm">12 hours</span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
+          <a href="{{route('admin.logout')}}" class="dropdown-item">
+          <i class="fas fa-sign-out-alt"></i> Logout
             <span class="float-right text-muted text-sm">2 days</span>
           </a>
           <div class="dropdown-divider"></div>
@@ -230,10 +230,10 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="pages/gallery.html" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
+            <a href="{{route('admin.setting')}}" class="nav-link">
+              <i class="nav-icon far fas fa-cog"></i>
               <p>
-                Trainer
+                Setting
               </p>
             </a>
           </li>
@@ -629,6 +629,12 @@
       "responsive": true,
     });
   });
+  $(document).ready(function() {
+            setTimeout(function() {
+                $("#flashMessage").slideUp(1000);
+            }, 3000);
+        });
 </script>
+
 </body>
 </html>
