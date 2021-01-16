@@ -27,17 +27,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.5.0/main.min.js'></script>
+    
+    @yield('header_css_js')
+
 </head>
 
 <body>
 
-    @include('layout.header')
+    @include('layout.header_dashboard')
 
     @yield('content')
 
-    @include('layout.footer')
+    @include('layout.footer_dashboard')
 
 
 
@@ -69,48 +70,8 @@
             });
         });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var dateData = JSON.parse($(schedule).val());
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                selectable: true,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: ''
-                },
-                dateClick: function(info) {
-                    // alert('clicked ' + info.dateStr);
-                    $("#selected_date").val('');
-                    $("#selected_date").val(info.dateStr);
-                    // $("#selected_date").val(info);
-                    console.log(info);
-                    $('#dateform').submit();
-                },
-                select: function(info) {
-                    // alert('selected ' + info.startStr + ' to ' + info.endStr);
-                },
-                events: dateData
-            });
-
-            calendar.render();
-        });
-
-        //   events: [
-        //   {
-        //     start: "2020-12-06",
-        //     allDay: true,
-        //     display: 'background',
-        //     color: "#00FFFF"
-
-        //   }
-        // ]
-    </script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> --}}
+    
         @yield('footer_css_js')
 
 </body>
