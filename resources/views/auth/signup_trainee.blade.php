@@ -22,7 +22,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h2>研修生登録</h2>
+                    <h2>ユーザー登録</h2>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="offset-sm-2 col-sm-8 mb-4">
                         {{-- Verification with google --}}
-                        <a href="{{ url('/login/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> 確認 グーグルで </a>
+                        <a href="{{ url('/login/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> Googleで登録 </a>
                     </div>
                    
                 </div>

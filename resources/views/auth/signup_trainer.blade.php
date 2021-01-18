@@ -86,7 +86,7 @@
                     </div>
                     <div class="offset-sm-2 col-sm-8 mb-4">
                         {{-- Verification with google --}}
-                        <a href="{{ url('/login/trainer/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> 確認 グーグルで </a>
+                        <a href="{{ url('/login/trainer/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> Googleで登録 </a>
                     </div>
                    
                 </div>

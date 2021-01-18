@@ -20,7 +20,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                       <h2>研修生ログイン</h2>
+                       <h2>ユーザーログイン</h2>
                     </div>
                 </div>
             </div>

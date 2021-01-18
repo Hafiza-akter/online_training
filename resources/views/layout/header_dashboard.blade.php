@@ -47,7 +47,7 @@
 
                                             </a>
                                             <a class="dropdown-item" href="{{ route('traineeLogin') }}">
-                                                研修生ログイン
+                                                ユーザーログイン
                                             </a>
                                         </div>
                                     </li> --}}

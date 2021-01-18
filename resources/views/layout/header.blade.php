@@ -22,11 +22,11 @@
                                 </li>
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#">残高 </a>
+                                    <a class="nav-link" href="#">プラン購入</a>
                                 </li>
 
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#service">進捗 </a>
+                                    <a class="nav-link" href="#service">達成状況</a>
                                 </li>
                                 <li class="nav-item ">
                                     <a class="nav-link" href="#service">個人設定 </a>
@@ -41,7 +41,7 @@
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" href="{{route('traineeSignup')}}">
                                                 {{-- Trainee registration --}}
-                                                研修生登録
+                                                ユーザー登録
                                             </a>
                                             <a class="dropdown-item" href="{{route('trainerSignup')}}">
                                                 {{-- Trainer registration --}}
@@ -62,7 +62,7 @@
                                             </a>
                                             <a class="dropdown-item" href="{{ route('traineeLogin') }}">
                                                 {{-- TRAINEE LOGIN --}}
-                                                研修生ログイン
+                                                ユーザーログイン
                                             </a>
                                         </div>
                                     </li>
@@ -76,11 +76,11 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left">
                                             <a href="#" class="dropdown-item item-down">
-                                                <i class="fas fa-edit mr-2"></i> Edit Profile
+                                                <i class="fas fa-edit mr-2"></i> マイページ
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{ route('traineeLogout')}}" class="dropdown-item item-down">
-                                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                                <i class="fas fa-sign-out-alt mr-2"></i> ログアウト
                                             </a>
                                     </li>
                                 <?php } ?>

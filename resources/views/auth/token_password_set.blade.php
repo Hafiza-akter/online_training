@@ -6,7 +6,7 @@
     {{-- Trainee login --}}
     <h4 class="mx-auto">
 
-     研修生のパスワードの更新
+     ユーザーのパスワードの更新
 
     </h4>
 </div>
