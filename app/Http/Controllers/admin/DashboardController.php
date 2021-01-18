@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Model\Setting;
+use App\Model\Equipment;
 
 
 
@@ -50,6 +51,53 @@ class DashboardController extends Controller
         $settingData->save();
         return redirect()->route('admin.setting')->with('message', 'Edited successfully!');
     }
+
+    public function equipmentList(){
+        $list = Equipment::all();
+        // dd($list);
+        return view('admin.equipment.list')->with('equipmentList',$list);   
+        // return view('admin.equipment.list');    
+    }
+    public function equipAdd(){
+        return view('admin.equipment.add');
+    }
+    public function equipAddSubmit(Request $request){
+        $equipment = new Equipment();
+        $equipment->name = $request->input('name');
+        if($request->input('status')){
+            $equipment->status = 1;
+        }
+        else{
+            $equipment->status = 0;
+        }
+        $equipment->save();
+        return redirect()->route('admin.equipment.list')->with('message', 'Added successfully!');
+
+
+    }
+    public function eqiptEdit($id){
+        $data = Equipment::Where('id',$id)->first();
+        return view('admin.equipment.edit')->with('data',$data);
+
+    }
+    public function equipEditSubmit(Request $request){
+        $equipment = Equipment::Where('id',$request->input('id'))->first();
+        $equipment->name = $request->input('name');
+        if($request->input('status')){
+            $equipment->status = 1;
+        }
+        else{
+            $equipment->status = 0;
+        }
+        $equipment->save();
+        return redirect()->route('admin.equipment.list')->with('message', 'Edited successfully!');
+
+
+    }
+    // public function equipmentDelete($id){
+    //     $data = Equipment::Where('id',$id)->delete();
+    //     return redirect()->route('admin.equipment.list')->with('message', 'Deleted successfully!');
+    // }
     
 
 }

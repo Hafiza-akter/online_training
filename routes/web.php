@@ -126,6 +126,13 @@ Route::prefix('admin')->group(function () {
 		Route::get('/setting/edit', 'Admin\DashboardController@settingForm')->name('admin.setting.edit');
 		Route::post('/setting/edit/submit', 'Admin\DashboardController@settingSubmit')->name('admin.setting.submit');
 
+		Route::get('/equipment', 'Admin\DashboardController@equipmentList')->name('admin.equipment.list');
+		Route::get('/equipment/add', 'Admin\DashboardController@equipAdd')->name('admin.equipment.add');
+		Route::post('/equipment/add', 'Admin\DashboardController@equipAddSubmit')->name('admin.equipment.submit');
+		Route::get('/equipment/edit/{id}', 'Admin\DashboardController@eqiptEdit')->name('admin.equipment.edit');
+		Route::post('/equipment/edit', 'Admin\DashboardController@equipEditSubmit')->name('admin.equipment.edit.submit');
+		// Route::get('/equipment/delete/{id}', 'Admin\DashboardController@equipmentDelete')->name('admin.equipment.delete');
+
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
 		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
