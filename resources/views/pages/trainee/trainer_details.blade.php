@@ -1,10 +1,12 @@
-@extends('auth/master')
-@section('title','trainer view')
-@section('content')
+@extends('master_dashboard')
+@section('title','trainee trainerlist')
+@section('header_css_js')
 
     
-       @include('pages.trainee.dashboard')
+       {{-- @include('pages.trainee.dashboard') --}}
+<section class="review_part gray_bg section_padding">
 
+  <div class="offset-md-2 col-md-10">
     <div class="row mb-5">
         <div class="offset-sm-2 col-sm-8">
      
@@ -16,8 +18,8 @@
                     <form action="{{route('traineeCalendar.view')}}" method="get" id="dateform">
                       {{ csrf_field() }}
                       <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
-                      <button type="submit" class="btn border-round" >トレーナーを選択 </button> 
-                    <a class="btn border-round" href="{{ route('traineeCalendar.view')}}">
+                      <button type="submit" class="btn border-round btn-success" >トレーナーを選択 </button> 
+                    <a class="btn border-round btn-warning" href="{{ route('traineeCalendar.view')}}">
 戻る </a>
                   </form>
 
@@ -35,5 +37,6 @@
         </div>
 
 
-
+</div>
+</section>
 @endsection

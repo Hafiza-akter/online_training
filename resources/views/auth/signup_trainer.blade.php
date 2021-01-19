@@ -54,9 +54,9 @@
 
                     <div class="offset-sm-2 col-sm-8 mb-4">
                         <div class="card card-info">
-                            <div class="card-header">
+                            <div class="card-header card-header gradient">
                                 {{-- email registration --}}
-                                <h4 class="card-title">メール登録</h4>
+                                <h4 class="card-title text-center"  style="color: #fff;">メール登録</h4>
                             </div>
 
                              <form class="form-horizontal" action="{{route('trainerSignup.submit')}}" method="post">
@@ -76,6 +76,8 @@
                                 {{-- Registration --}}
                                 <div class="col text-center">
                                 <button type="submit" class="btn  btn_lg login_button"><i class="fas fa-user-check"></i>  登録</button>
+                                 <a  class="btn btn-lg login_button" style="border:none !important;font-size:13px;" href="{{ route('trainerLogin') }}" style="font-size: 14px;color: #007bff;">  すでにアカウントをお持ちですか？ ログインする
+                                 </a>
                                 </div>
 
                             </div>
@@ -86,7 +88,7 @@
                     </div>
                     <div class="offset-sm-2 col-sm-8 mb-4">
                         {{-- Verification with google --}}
-                        <a href="{{ url('/login/trainer/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> 確認 グーグルで </a>
+                        <a href="{{ url('/login/trainer/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> Googleで登録 </a>
                     </div>
                    
                 </div>

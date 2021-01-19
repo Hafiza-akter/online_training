@@ -160,7 +160,7 @@ class LoginController extends Controller
         dd('hello world');
     }
     public function tokenReset(){
-        return view('auth.token_reset');
+        return view('auth.forget_password');
     }
     public function tokenResetSubmit(Request $request){
         $validateData = $request->validate([

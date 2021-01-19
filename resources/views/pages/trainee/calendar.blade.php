@@ -45,11 +45,54 @@
   <input type="hidden" id="schedule" value="{{ $schedule}}">
 
   <div class="row mb-5 mt-3">
-    <div class="offset-sm-4 col-sm-4 border-round">
+    {{-- <div class="offset-sm-4 col-sm-4 border-round">
       <a class="btn" href="{{ route('trainerlist') }}">トレーナーリスト </a>
 
-    </div>
+    </div> --}}
   </div>
+
+
+  <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
+
+           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+
+    <table class="table table-striped" style="background: #f9f9ff;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Available time</th>
+        <th scope="col">Trainer</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if($listSchedule)
+        @foreach($listSchedule as $key=>$val)
+          <tr>
+            <th scope="row">{{ ++$key}}</th>
+            <td>{{ \Carbon\Carbon::parse($val->start_date)->format('d/m/Y')}}</td>
+            <td>{{ \Carbon\Carbon::parse($val->time)->format('g:i A')}}</td>
+            <td>
+              @if($val->is_occupied )
+                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > Trainer Details</button>
+              @else 
+                <span> Not assigned yet </span>
+              @endif
+              
+            </td>
+            <td>
+              <button class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >Join Course</button>
+              <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a>
+              <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button>
+            </td>
+          </tr>
+        @endforeach
+      @endif
+      
+    </tbody>
+  </table>
+</div>
 </div>
 
 </section>
@@ -68,7 +111,7 @@
         myCustomButton: {
           text: 'トレーナーリスト',
           click: function() {
-            alert('clicked the custom button!');
+             window.location.href ='{{ route('trainerlist') }}';
           }
         }
       },

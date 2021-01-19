@@ -1,16 +1,19 @@
-@extends('../../master')
-@section('title','trainer view')
-@section('content')
+@extends('master_dashboard')
+@section('title','trainee trainerlist')
+@section('header_css_js')
 
-      @include('pages.trainee.dashboard')
+      {{-- @include('pages.trainee.dashboard') --}}
 
+<section class="review_part gray_bg section_padding">
+
+  <div class="offset-md-2 col-md-10">
     <div class="row mb-5">
-        <div class="offset-sm-2 col-sm-8">
+        <div class="offset-sm-3 col-sm-10">
         <div class="container h-100">
             <div class="justify-content-center h-100">
                 <div class="searchbar">
-                <input class="search_input" type="text" name="" placeholder="Search...">
-                <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                {{-- <input class="search_input" type="text" name="" placeholder="Search..."> --}}
+                {{-- <a href="#" class="search_icon"><i class="fas fa-search"></i></a> --}}
                 </div>
             </div>
             </div>
@@ -31,6 +34,9 @@
         </div>
     @endif
 
+    <h2> No data found</h2>
 
 
+</div>
+</section>
 @endsection

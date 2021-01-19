@@ -35,7 +35,7 @@ class SignupController extends Controller
         // dd(route('signup.verification',$request->_token));
         $validateData = $request->validate([
 
-            'email' => 'email',
+            'email' => 'required|email|unique:tbl_users,email',
             // 'name' => 'required',
             // 'password' => 'required|confirmed|min:6',
             // 'weight' => 'required',
@@ -124,7 +124,9 @@ class SignupController extends Controller
         return view('auth.verification')->with('token',$token);
     }
 
+    // registration verification link submit 
     public function verification(Request $request){
+        
 
         !$request->token ? $token='' : $token=$request->token;
 
@@ -151,16 +153,27 @@ class SignupController extends Controller
                 $user->save();
             }else{
                 // token expired 
-                 dd(' Token expiredß ');
+                 dd(' Token expired ');
             }
         }else{
             dd(' User and Token not found ');
         }
         if($request->type === 'trainee'){
+            // is verified successfull mail
+
+            $details['url'] =  route('traineeLogin') ;
+
+             \Mail::to($user->email)->send(new \App\Mail\RegistrationVerificationSuccess($details));
+
             return view('auth.update_trainee')->with('user',$user)->with('equipment',Equipment::get())->with('token',$token)->with('type',$request->type);
 
         }
         if($request->type === 'trainer'){
+
+            $details['url'] =  route('trainerLogin') ;
+
+             \Mail::to($user->email)->send(new \App\Mail\RegistrationVerificationSuccess($details));
+
             return view('auth.update_trainer')->with('user',$user)->with('equipment',Equipment::get())->with('token',$token)->with('type',$request->type);
         }
 
@@ -174,7 +187,7 @@ class SignupController extends Controller
     public function signupTrainerSubmit(Request $request){
 
         $validateData = $request->validate([
-            'email' => 'required',
+            'email' => 'required|email|unique:tbl_trainers,email',
             // 'password' => 'required',
         ]);
 
@@ -201,7 +214,7 @@ class SignupController extends Controller
 
         $validateData = $request->validate([
             'email' => 'required',
-            // 'password' => 'required',
+            'password' => 'required',
         ]);
 
         $date= new DateTime();
@@ -263,7 +276,74 @@ class SignupController extends Controller
     
 
     }
-    public function tokenVerifySubmit(Request $request ){
+    
+   
+
+    // forget password //
+    // forget password //
+    // forget password //
+
+    public function tokenReset(Request $request){ // forget password view
+        return view('auth.forget_password')->with('type',$request->type);
+    }
+    public function tokenResetSubmit(Request $request){ // forget password email form submit
+
+        $validateData = $request->validate([
+            'email' => 'required',
+            // 'password' => 'required',
+        ]);
+
+
+       
+        $email = $request->input('email');
+
+        if($request->input('type') === 'trainee'){
+            $user = Trainee::where('email',$email)->where('is_verified',1)->first();
+        }
+
+         if($request->type == 'trainer'){
+            
+            $user = Trainer::where('email',$email)->where('is_verified',1)->first();
+        }
+
+        
+        if(!$user){
+
+            return redirect()->back()->with('message','User email address is not verified');
+
+        }else{
+
+            $date= new DateTime();
+            $new_time =  $date->add(new DateInterval('PT24H00S'));
+            // dd($new_time);
+            $user->is_verified = 2;
+            $user->token = \Str::random(60).time();
+            $user->expired_at = $new_time;
+            $user->save();
+
+            $details['name'] =  $user->name;
+            $details['token'] =  $user->token;
+            $details['type'] =  $request->type ;
+
+            \Mail::to($user->email)->send(new \App\Mail\ForgetEmailController($details));
+
+            return redirect()->back()->with('message','A password link is sent to your email address');
+        }
+        
+    }
+
+    // forget password verification link with new password form view 
+     public function tokenVerify(Request $request){
+
+        $token=$request->token;
+        $type = $request->type;
+
+        return view('auth.forget_password_submit')->with('type',$type)->with('token',$token);
+
+    }
+
+    // forget password verification link with new password submit
+    public function tokenVerifySubmit(Request $request ){ 
 
         $validateData = $request->validate([
 
@@ -282,99 +362,62 @@ class SignupController extends Controller
         }
 
         if(!$user){
-                    return redirect()->back()->with('message','Token or user not found');
-        }else{
 
-        $user->password = Hash::make($request->input('password'));
-        $user->is_verified = 1;
-        $user->save();
-
-        if($request->type == 'trainer'){
-
-         session(['user' => $user,'user_type'=>'trainer']);
-        return redirect()->route('trainerCalendar.view')->with('message','Welcome to trainer dashboard');
-        }
-
-
-       if($request->type == 'trainee'){
-         session(['user' => $user,'user_type'=>'trainee']);
-        return redirect()->route('traineeCalendar.view')->with('message','Welcome to trainer dashboard');
-        }
-    }
-
-
-    }
-    public function tokenVerify(Request $request){
-
-        $token=$request->token;
-        $type = $request->type;
-
-        return view('auth.token_password_set')->with('type',$type)->with('token',$token);
-
-    }
-    public function tokenReset(Request $request){
-        return view('auth.token_reset')->with('type',$request->type);
-    }
-    public function tokenResetSubmit(Request $request){
-
-        $validateData = $request->validate([
-            'email' => 'required',
-            // 'password' => 'required',
-        ]);
-
-
-       
-        $email = $request->input('email');
-
-        if($request->input('type') === 'trainee'){
-            $user = Trainee::where('email',$email)->where('is_verified',1)->first();
-        }
-
-         if($request->type == 'trainer '){
-            $user = Trainer::where('email',$email)->where('is_verified',1)->first();
-        }
-
-        
-        if(!$user){
-                    return redirect()->back()->with('message','User email address is not verified');
+            return redirect()->back()->with('message','Token or user not found');
 
         }else{
 
-            $date= new DateTime();
-            $new_time =  $date->add(new DateInterval('PT24H00S'));
-            // dd($new_time);
-            $user->is_verified = 2;
-            $user->token = \Str::random(60).time();
-            $user->expired_at = $new_time;
+            $end= new Carbon($user->expired_at);
+            $start = Carbon::now();
+            $totalDuration = $end->diffInHours($start,false); 
+
+            if($totalDuration > 0){
+                return redirect()->back()->with('message','Token expired');
+            }
+
+
+            $user->password = Hash::make($request->input('password'));
+            $user->is_verified = 1;
             $user->save();
 
-            $details['name'] =  $user->name;
-            $details['token'] =  $user->token;
-            $details['type'] =  $request->type ;
 
-            \Mail::to($user->email)->send(new \App\Mail\ForgetEmailController($details));
+            if($request->type == 'trainer'){
 
-            return redirect()->back()->with('message','A password link is set to your email address');
+                $details['url'] =  route('trainerLogin') ;
+                \Mail::to($user->email)->send(new \App\Mail\ForgetPasswordSuccess($details));
+
+                session(['user' => $user,'user_type'=>'trainer']);
+                return redirect()->route('trainerCalendar.view')->with('message','Welcome to trainer dashboard');
+            }
+
+
+            if($request->type == 'trainee'){
+
+                $details['url'] =  route('traineeLogin') ;
+                \Mail::to($user->email)->send(new \App\Mail\ForgetPasswordSuccess($details));
+
+                session(['user' => $user,'user_type'=>'trainee']);
+                return redirect()->route('traineeCalendar.view')->with('message','Welcome to trainer dashboard');
+            }
         }
-        
     }
 
-    public function tokenResetTrainee(){
-        return view('auth.token_reset_trainee');
-    }
-    public function tokenResetSubmitTrainee(Request $request){
-        $validateData = $request->validate([
-            'email' => 'required',
-            // 'password' => 'required',
-        ]);
-        $email = $request->input('email');
-        $trainee = Trainee::where('email',$email)->first();
-        $date= new DateTime();
-        $new_time =  $date->add(new DateInterval('PT24H00S'));
-        $trainee->expired_at = $new_time;
-        $trainee->save();
-        return redirect()->back()->with('message','Token expired time reset!');
-    }
+    // public function tokenResetTrainee(){
+    //     return view('auth.token_reset_trainee');
+    // }
+    // public function tokenResetSubmitTrainee(Request $request){
+    //     $validateData = $request->validate([
+    //         'email' => 'required',
+    //         // 'password' => 'required',
+    //     ]);
+    //     $email = $request->input('email');
+    //     $trainee = Trainee::where('email',$email)->first();
+    //     $date= new DateTime();
+    //     $new_time =  $date->add(new DateInterval('PT24H00S'));
+    //     $trainee->expired_at = $new_time;
+    //     $trainee->save();
+    //     return redirect()->back()->with('message','Token expired time reset!');
+    // }
 
     public function inquery(){
         return view('pages.inquery');

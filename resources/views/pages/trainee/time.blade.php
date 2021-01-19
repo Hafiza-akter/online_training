@@ -14,6 +14,15 @@
             display: none !important;
         }
     </style>
+    <section class="review_part gray_bg section_padding">
+    
+             <div class="row justify-content-center">
+                <div class="col-md-8 col-xl-6">
+                    <div class="section_tittle">
+                        <h3>スケジュール 時間</h3>
+                    </div>
+                </div>
+            </div>
     <div class="offset-md-1 col-md-10">
 
 {{--     @include('pages.trainee.dashboard')
@@ -118,6 +127,7 @@
         </form>
     </div>
     </div>
+</section>
   @endsection
   @section('footer_css_js')
 

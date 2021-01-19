@@ -101,7 +101,7 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainer/scheduled/{selected_date}/time", "TrainerController@scheduleTime")->name(('trainerTime.view'));
 	Route::post("/trainer/scheduled/submit", "TrainerController@scheduleSubmit")->name(('scheduleSubmit.submit'));
 	Route::get("/trainer/logout", "TrainerController@logout")->name(('trainerLogout'));
-
+	Route::get("/trainer/scheduled/{id}", "TrainerController@trainerScheduleDelete")->name(('trainerScheduleDelete'));
 
 	// trainee
 	Route::get("/trainee/scheduled/calendar", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
@@ -110,6 +110,7 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainee/scheduled/{selected_date}/time", "TraineeController@scheduleTime")->name(('traineeTime.view'));
 	Route::post("/trainee/scheduled/submit", "TraineeController@scheduleSubmit")->name(('tscheduleSubmit.submit'));
 	Route::get("/trainee/logout", "TraineeController@logout")->name(('traineeLogout'));
+	Route::get("/trainee/purchaseplan", "TraineeController@purchaseplan")->name(('purchaseplan'));
 
 	// select trainer 
 	Route::get("/trainee/trainerlist", "TraineeController@trainerlist")->name(('trainerlist'));

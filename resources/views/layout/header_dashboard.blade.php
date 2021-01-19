@@ -3,6 +3,19 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
+                        @if(Session::get('user_type') == 'trainee' )
+                        <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
+                            ユーザーページ                        
+                        </a>
+                        @endif
+
+                        @if(Session::get('user_type') == 'trainer' )
+                        <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
+                            トレーナーページ
+                        </a>
+                        @endif
+
+
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -10,32 +23,61 @@
                         <div class="collapse navbar-collapse main-menu-item justify-content-end" id="navbarSupportedContent">
 
                             <ul class="navbar-nav">
-                                <li class="nav-item ">
+                                @if(Session::get('user_type') == 'trainee' )
+                   
+                                    <li class="nav-item  {{ !empty($isActive) &&  $isActive == 'schedule' ? 'active__' : ''}}">
                                         {{-- schedule --}}
+                                        <a class="nav-link" href="{{ route('traineeCalendar.view') }}">スケジュール</a>
+                                    </li>
+                                    
+                                    <li class="nav-item ">
+                                            {{-- progress --}}
+                                        <a class="nav-link" href="#">進捗</a>
+                                    </li>
+                                     <li class="nav-item ">
+                                            {{-- plan purchase --}}
+                                        <a class="nav-link" href="#">プラン購入</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                            {{-- progress --}}
+                                        <a class="nav-link" href="#">達成状況</a>
+                                    </li>
+                                    
+                                    <li class="nav-item ">
+                                             {{-- Personal Settings --}}
+                                        <a class="nav-link" href="#">個人設定 </a>
+                                    </li>
+                                     <li class="nav-item ">
+                                             {{-- Lgout  --}}
+                                       <a class="btn" href="{{ route('traineeLogout')}}"> <i class="fas fa-sign-out-alt"></i></span>  </a>
 
-                                    <a class="nav-link" href="{{ route('toppage')}}"><i class="fas fa-home " style="font-size: 21px"></i>
-                                    </a>
-                                </li>
-                                <li class="nav-item  {{ !empty($isActive) &&  $isActive == 'schedule' ? 'active__' : ''}}">
-                                    {{-- schedule --}}
-                                    <a class="nav-link" href="{{ route('trainerCalendar.view') }}">スケジュール</a>
-                                </li>
-                                
-                                <li class="nav-item ">
-                                        {{-- progress --}}
-                                    <a class="nav-link" href="#">進捗</a>
-                                </li>
+                                    </li>
 
-                                <li class="nav-item ">
-                                         {{-- Personal Settings --}}
-                                    <a class="nav-link" href="#">個人設定 </a>
-                                </li>
-                                 <li class="nav-item ">
-                                         {{-- Lgout  --}}
-                                   <a class="btn" href="{{ route('traineeLogout')}}"> <i class="fas fa-sign-out-alt"></i></span>  </a>
+                                @endif 
 
-                                </li>
+                                @if(Session::get('user_type') == 'trainer' )
+                                    
+                                    <li class="nav-item  {{ !empty($isActive) &&  $isActive == 'schedule' ? 'active__' : ''}}">
+                                        {{-- schedule --}}
+                                        <a class="nav-link" href="{{ route('trainerCalendar.view') }}">スケジュール</a>
+                                    </li>
+                                    
+                                    <li class="nav-item ">
+                                            {{-- progress --}}
+                                        <a class="nav-link" href="#">進捗</a>
+                                    </li>
 
+                                    <li class="nav-item ">
+                                             {{-- Personal Settings --}}
+                                        <a class="nav-link" href="#">個人設定 </a>
+                                    </li>
+                                     <li class="nav-item ">
+                                             {{-- Lgout  --}}
+                                       <a class="btn" href="{{ route('trainerLogout')}}"> <i class="fas fa-sign-out-alt"></i></span>  </a>
+
+                                    </li>
+
+                                @endif
 
                                   {{--   <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="blog.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

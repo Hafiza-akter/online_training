@@ -28,7 +28,7 @@
             </div>
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                       <h2>研修生情報</h2>
+                       <h2>ユーザー情報</h2>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
             <div class="card-body">
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label name">名前</label>
+                  <label class="col-form-label name">お名前</label>
                 </div>
                 <div class="col-8">
                   <input type="text" name="name" class="form-control" value="{{ old('name')}}">
@@ -100,7 +100,7 @@
 
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label sex">セックス</label>
+                  <label class="col-form-label sex">性別</label>
                 </div>
                  <div class="col-8">
                     <select class="form-control" name="sex">
@@ -116,7 +116,7 @@
 
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label birthday">お誕生日</label>
+                  <label class="col-form-label birthday">誕生日</label>
                 </div>
                   <div class="col-8">
                   <input type="text" name="birthday" class="form-control datepicker" value="{{ old('birthday')}}">
@@ -124,7 +124,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label height">高さ</label>
+                  <label class="col-form-label height">身長</label>
                 </div>
                   <div class="col-8">
                   <input type="number" name="height" class="form-control" value="{{ old('height')}}">
@@ -143,7 +143,7 @@
 
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label _email_address_">電子メールアドレス</label>
+                  <label class="col-form-label _email_address_">メールアドレス</label>
                 </div>
                 <div class="col-8">
                     <input type="email" name="email1" class="form-control" disabled="disabled" value="{{ $user->email}}">
@@ -161,7 +161,7 @@
 
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label _confirm_password_">パスワードを認証する <span style="color:red">*</span></label>
+                  <label class="col-form-label _confirm_password_">パスワード(確認) <span style="color:red">*</span></label>
                 </div>
                 <div class="col-8">
                   <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation')}}" required="required">
@@ -188,7 +188,7 @@
 
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label _current_weight_">現在の体重</label>
+                  <label class="col-form-label _current_weight_">現在の体重(kg)</label>
                 </div>
                 <div class="col-8">
                   <input type="text" name="weight" class="form-control" value="{{ old('weight')}}">
@@ -220,7 +220,7 @@
                         <select class="form-control" name="equipment[{{$key}}][is_available]">
                             {{-- <option> 持ってる</option> --}}
                             <option value="1"> はい</option>
-                            <option value="0"> 番号</option>
+                            <option value="0"> いいえ</option>
 
 
                         </select>

@@ -17,12 +17,12 @@
 }
 </style>
 
-<section class="review_part gray_bg section_padding">
+<section class="about_us section_padding">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h2>研修生登録</h2>
+                    <h2>ユーザー登録</h2>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="offset-sm-2 col-sm-8 mb-4">
                         {{-- Verification with google --}}
-                        <a href="{{ url('/login/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> 確認 グーグルで </a>
+                        <a href="{{ url('/login/redirect/google') }}" class="btn  btn-block btn-danger"><i class="fab fa-google"></i> Googleで登録 </a>
                     </div>
                    
                 </div>
@@ -97,6 +97,13 @@
     <div class="overlay_icon">
         <img src="{{asset('asset_v2/img/animate_icon/icon_6.png')}}" class="amitated_icon_6" alt="animate_icon">
     </div>
+
+<div class="overlay_icon">
+            <img src="{{asset('asset_v2/img/animate_icon/icon_1.png')}}" class="amitated_icon_1" alt="animate_icon">
+            <img src="{{asset('asset_v2/img/animate_icon/icon_2.png')}}" class="amitated_icon_2" alt="animate_icon">
+            <img src="{{asset('asset_v2/img/animate_icon/icon_4.png')}}" class="amitated_icon_4" alt="animate_icon">
+            <img src="{{asset('asset_v2/img/animate_icon/icon_5.png')}}" class="amitated_icon_5" alt="animate_icon">
+        </div>
 </section>
 
 

@@ -27,7 +27,7 @@ class TraineeController extends Controller
         $isActive = "schedule";
         if($request->trainer_id){
 
-            $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->select('date as start_date','user_id')->get();
+            $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->select('date as start_date','is_occupied','trainer_id','time','user_id')->get();
                 $parsedArray = array();
                 if($schedule){
                     foreach ($schedule as $key => $value) {
@@ -60,7 +60,9 @@ class TraineeController extends Controller
                 }
         }
     	
-    	return view('pages.trainee.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true));
+
+        $listSchedule =TrainerSchedule::where('user_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->get();
+    	return view('pages.trainee.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true))->with('listSchedule',$listSchedule);
     }
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         
@@ -136,6 +138,11 @@ class TraineeController extends Controller
     public function logout(){
         session()->flush();
         return redirect()->route('traineeLogin');
+    }
+    public function purchaseplan(Request $request){
+        $isactive='purchase';
+        return view('pages.trainee.purchase_plan')->with('isactive',$isactive);
+
     }
   
 

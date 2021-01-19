@@ -1,14 +1,11 @@
-@extends('auth/master')
+@extends('master_dashboard')
 @section('title','trainer schedule')
+@section('header_css_js')
+<script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>
+@endsection
 @section('content')
-{{-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap.min.css">
- --}}
 
-
-   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>
     <style>
         .table td, .table th{
             border:none !important;
@@ -17,13 +14,28 @@
             display: none !important;
         }
     </style>
-    @include('pages.trainer.dashboard')
-
+    {{-- @include('pages.trainer.dashboard') --}}
+<section class="review_part gray_bg section_padding">
+    
+             <div class="row justify-content-center">
+                <div class="col-md-8 col-xl-6">
+                    <div class="section_tittle">
+                        <h3>スケジュール 時間</h3>
+                    </div>
+                </div>
+            </div>
+  <div class="offset-md-1 col-md-10">
     <div class="row pb-5  page-content page-container" id="chart">
 
         @if(Session::has('message'))
         <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{{ Session::get('message') }}</p>
         @endif
+
+        @if(Session::has('errors_m'))
+        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{{ Session::get('errors_m') }}</p>
+        @endif
+
+        
 
         @php 
             // $timePX =Carbon\Carbon::now()->format('i')."px";
@@ -96,27 +108,28 @@
             <input type="hidden" name="start_time"  id="selected_time" value="">
         </form>
     </div>
+</div>
+</section>
   @endsection
   @section('footer_css_js')
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-  {{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<style>
-    .swal2-styled.swal2-confirm{
-        background-color: #ffc107
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        .swal2-styled.swal2-confirm{
+            background-color: #ffc107
 
-    }
-    .swal2-styled.swal2-deny{
-        background-color: #09951a;
+        }
+        .swal2-styled.swal2-deny{
+            background-color: #09951a;
 
-    }
-    .swal2-styled.swal2-cancel{
-        background-color: #e93232;
-    }
-</style>
-<script>
+        }
+        .swal2-styled.swal2-cancel{
+            background-color: #e93232;
+        }
+    </style>
+    <script>
 
 
 $(document).ready(function() {

@@ -20,13 +20,13 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                       <h2>研修生ログイン</h2>
+                       <h2>ユーザーログイン</h2>
                     </div>
                 </div>
             </div>
            
         </div>
-        <div class="overlay_icon">
+         <div class="overlay_icon">
             <img src="{{asset('asset_v2/img/animate_icon/icon_1.png')}}" class="amitated_icon_1" alt="animate_icon">
             <img src="{{asset('asset_v2/img/animate_icon/icon_2.png')}}" class="amitated_icon_2" alt="animate_icon">
             <img src="{{asset('asset_v2/img/animate_icon/icon_3.png')}}" class="amitated_icon_3" alt="animate_icon">

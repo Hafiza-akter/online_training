@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Online Training Verification</title>
+	<title>{{getenv('APP_NAME')}}パスワード再設定のお知らせ</title>
 </head>
 <body>	
+<div>
 
-<div style="padding: 30px;background:#cce5ff;border-color: #b8daff">
-	@if($details['type'] === 'trainer')
-		<p>Dear  {{$details['name'] }},</p>
-	@endif 
-	@if($details['type'] === 'trainee')
-		<p>Dear {{$details['name'] }},</p>
-	@endif 
-	<p> Please click the password reset link for update your password. <p>
-	<p>{{ route('passwordVerifyToken',['token'=>$details['token'], 'type'=>$details['type']]) }}</p>
+	***-------------------------------------------------------***<br>
+	*<br>
+	*    {{getenv('APP_NAME')}}パスワード再設定のお知らせ<br>
+	*<br>
+	***-------------------------------------------------------***<br>
+	<br>
+	このたびは、ご利用いただきありがとうございます。
+	<br>
+	以下のURLをクリックして、必要事項入力ページにお進みください。<br>
+	{{ route('passwordVerifyToken',['token'=>$details['token'], 'type'=>$details['type']]) }}
+	<br>
+	<br>
+	※このURLはメール到着から、60分間のみ有効です。<br>
+	有効期限が過ぎてしまった場合、<br>
+	あらためてパスワード再設定の手続きを行ってください。
+	<br>
 </div>
 </body>
 </html>

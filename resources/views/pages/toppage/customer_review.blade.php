@@ -14,10 +14,8 @@
                         {{-- <h2>顧客の反応</h2> --}}
 
                         <div class="section_tittle">
-                    <p>Testimonials</p>
-                    <h2>happy customer says</h2>
-                    <span>Stars fowl deep she greater bearing to seed dont is let you're appear first thing saying
-                    it years abundantly fowl tree you shall also</span>
+                    <h2>お客様の声</h2>
+                    <span>当サービスをご利用いただいたお客様の声をご紹介します。</span>
                 </div>
                     </div>
                 </div>

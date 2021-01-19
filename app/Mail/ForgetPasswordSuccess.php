@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailController extends Mailable
+class ForgetPasswordSuccess extends Mailable
 {
     use Queueable, SerializesModels;
     public $details;
@@ -17,11 +17,10 @@ class EmailController extends Mailable
      *
      * @return void
      */
-    public function __construct($listen)
+    public function __construct($details)
     {
         //
-        $this->details = $listen->user;
-        $this->type = $listen->type;
+        $this->details = $details;
     }
 
     /**
@@ -31,6 +30,7 @@ class EmailController extends Mailable
      */
     public function build()
     {
-        return $this->subject(getenv('APP_NAME').'仮会員登録受付完了のお知らせ')->view('email.registration_verification');
+        
+        return $this->subject(getenv('APP_NAME').'パスワード再設定完了のお知らせ')->view('email.forgetpassword_success');
     }
 }

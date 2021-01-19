@@ -24,8 +24,8 @@ class TrainerController extends Controller
         return view('pages.trainer_details');
     }
     public function scheduleCalendar(Request $request){
-
-    	$schedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->select('date as start_date','is_occupied','trainer_id','user_id')->groupBy('date')->get();
+        $isActive = "schedule";
+    	$schedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->groupBy('date')->get();
     	$parsedArray = array();
     	if($schedule){
     		foreach ($schedule as $key => $value) {
@@ -47,8 +47,8 @@ class TrainerController extends Controller
 
     		}
     	}
-    	
-    	return view('pages.trainer.calendar')->with('schedule',json_encode($parsedArray,true));
+        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->get();
+    	return view('pages.trainer.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true))->with('listSchedule',$listSchedule);
     }
     public function scheduleCalendarSubmit(Request $request){
     	// time 
@@ -73,6 +73,33 @@ class TrainerController extends Controller
     	// $ftime = $time->format('H:i:s');
     	// $ftime = $arrT[0];
 
+
+        // validation for unique time set up 
+
+        $allDateSchedule = TrainerSchedule::where('date',$request->date)->get();
+
+        if($allDateSchedule){
+            foreach($allDateSchedule as $val){
+
+
+                $start =strtotime($val->time);
+
+                $timestamp = strtotime($val->time) + 60*60;
+                $end = strtotime(date('H:i:s', $timestamp));
+
+                $ctime=  strtotime($request->start_time.':00') + 60*60; 
+               
+                if ( $ctime > $start && $ctime < $end ) {
+                    return redirect()->back()->with('errors_m','Time slot is not avaliable');
+
+                }
+
+
+            }
+
+        }
+
+
     	$schedule = new TrainerSchedule();
     	$schedule->date =$request->date;
     	$schedule->trainer_id =$request->trainer_id;
@@ -91,6 +118,13 @@ class TrainerController extends Controller
     public function trainerDetails(Request $request){
     	$trainerData = Trainer::find($request->id);
     	return view('pages.trainee.trainer_details')->with('trainerData',$trainerData);
+    }
+
+    public function trainerScheduleDelete($id){
+        TrainerSchedule::Where('id',$id)->delete();
+        return redirect()->back()->with('message','Schedule delete successful');
+
+
     }
   
 

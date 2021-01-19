@@ -34,18 +34,10 @@
                 </div>
                 <div class="col-xl-3 col-sm-6 col-md-6">
                     <div class="single-footer-widget footer_3">
-                        <h4>Newsletter</h4>
-                        <p>Heaven fruitful doesn't over lesser in days. Appear creeping seas</p>
-                        <form action="#">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder='Email Address' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
-                                    <div class="input-group-append">
-                                        <button class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                         <a class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;" href="{{route('trainerSignup')}}">
+                            {{-- click here for trainers --}}
+                            トレーナーはこちら
+                        </a>
                     </div>
                 </div>
             </div>

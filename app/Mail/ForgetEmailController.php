@@ -30,6 +30,6 @@ class ForgetEmailController extends Mailable
      */
     public function build()
     {
-        return $this->subject('Online Training Verification')->view('email.forgetpassword');
+        return $this->subject(getenv('APP_NAME').'パスワード再設定のお知らせ')->view('email.forgetpassword');
     }
 }
