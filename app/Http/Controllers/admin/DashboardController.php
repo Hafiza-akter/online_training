@@ -53,7 +53,7 @@ class DashboardController extends Controller
     }
 
     public function equipmentList(){
-        $list = Equipment::all();
+        $list = Equipment::Orderby('id','desc')->get();
         // dd($list);
         return view('admin.equipment.list')->with('equipmentList',$list);   
         // return view('admin.equipment.list');    
@@ -62,6 +62,9 @@ class DashboardController extends Controller
         return view('admin.equipment.add');
     }
     public function equipAddSubmit(Request $request){
+        $validateData = $request->validate([
+            'name' => 'required',
+        ]);
         $equipment = new Equipment();
         $equipment->name = $request->input('name');
         if($request->input('status')){
@@ -81,6 +84,9 @@ class DashboardController extends Controller
 
     }
     public function equipEditSubmit(Request $request){
+        $validateData = $request->validate([
+            'name' => 'required',
+        ]);
         $equipment = Equipment::Where('id',$request->input('id'))->first();
         $equipment->name = $request->input('name');
         if($request->input('status')){

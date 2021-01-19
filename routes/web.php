@@ -133,6 +133,13 @@ Route::prefix('admin')->group(function () {
 		Route::post('/equipment/edit', 'Admin\DashboardController@equipEditSubmit')->name('admin.equipment.edit.submit');
 		// Route::get('/equipment/delete/{id}', 'Admin\DashboardController@equipmentDelete')->name('admin.equipment.delete');
 
+		Route::get('/admin/list', 'Admin\UserController@adminList')->name('admin.list');
+		Route::get('/admin/add', 'Admin\UserController@adminAdd')->name('admin.add');
+		Route::post('/admin/add', 'Admin\UserController@adminAddSubmit')->name('admin.add.submit');
+		Route::get('/admin/edit/{id}', 'Admin\UserController@adminEdit')->name('admin.edit');
+		Route::post('/admin/edit', 'Admin\UserController@adminEditSubmit')->name('admin.edit.submit');
+		// Route::get('/equipment/delete/{id}', 'Admin\DashboardController@equipmentDelete')->name('admin.equipment.delete');
+
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
 		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');

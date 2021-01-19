@@ -161,6 +161,41 @@
                 </p>
               </a>
             </li>
+            
+
+            <li class="nav-item">
+              <a href="{{route('admin.setting')}}" class="nav-link">
+                <i class="nav-icon far fas fa-user"></i>
+                <p>
+                  <!-- Admin User -->
+                  管理者ユーザー
+
+                </p>
+                <i class="right fas fa-angle-left"></i>
+
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{route('admin.list')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                    <!-- list -->
+                    リスト
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{route('admin.add')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                    <!-- add -->
+                    追加
+                    </p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
             <li class="nav-item">
               <a href="{{route('admin.setting')}}" class="nav-link">
                 <i class="nav-icon far fas fa-cog"></i>
@@ -186,8 +221,6 @@
                 </li>
               </ul>
             </li>
-
-
 
           </ul>
         </nav>
