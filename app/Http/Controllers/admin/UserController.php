@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Hash;
 
 use App\Model\Admin;
+use App\Model\User;
 
 
 
@@ -74,6 +75,40 @@ class UserController extends Controller
         }
         $admin->save();
         return redirect()->route('admin.list')->with('message', 'Edited successfully!');
+
+    }
+
+    public function userList(){
+        $userList = User::orderBy('id','DESC')->get();
+        // dd($trainerList);
+        return view('admin.user_manage.list')->with('userList',$userList);
+    }
+    public function userEdit($id){
+        $data = User::Where('id',$id)->first();
+        return view('admin.user_manage.edit')->with('user',$data);     
+    }
+
+    public function userEditSubmit(Request $request){
+        // dd($request);
+        $validateData = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+        $id = $request->input('id');
+        $data = User::Where('id',$id)->first();
+        $data->name = $request->input('name');
+        $data->phonetic = $request->input('phonetic');
+        $data->email = $request->input('email');
+        $data->weight = $request->input('weight');
+        $data->length = $request->input('length');
+        if($request->input('status')){
+            $data->status = 1;
+        }
+        else{
+            $data->status = 0;
+        }
+        $data->save();
+        return redirect()->route('user.list')->with('message', 'Edited successfully!');
 
     }
    

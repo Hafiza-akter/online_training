@@ -221,7 +221,27 @@
                 </li>
               </ul>
             </li>
+            <li class="nav-item">
+              <a href="{{route('trainer.list')}}" class="nav-link">
+                <!-- <i class="nav-icon far fa-image"></i> -->
+                <i class=" nav-icon fas fa-tasks"></i>
+                <p>
+                  <!-- Admin Trainer Manage -->
+                  管理トレーナー管理
 
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('user.list')}}" class="nav-link">
+                <!-- <i class="nav-icon far fa-image"></i> -->
+                <i class=" nav-icon fas fa-tasks"></i>
+                <p>
+                  <!-- User Trainer Manage -->
+                  ユーザートレーナー管理
+                </p>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

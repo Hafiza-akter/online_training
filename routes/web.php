@@ -141,6 +141,17 @@ Route::prefix('admin')->group(function () {
 		Route::post('/admin/edit', 'Admin\UserController@adminEditSubmit')->name('admin.edit.submit');
 		// Route::get('/equipment/delete/{id}', 'Admin\DashboardController@equipmentDelete')->name('admin.equipment.delete');
 
+
+		// Admin trainer manage
+		Route::get('/trainer/list', 'Admin\TrainerController@trainerList')->name('trainer.list');
+		Route::get('/trainer/edit/{id}', 'Admin\TrainerController@trainerEdit')->name('admin.trainer.edit');
+		Route::post('/trainer/edit', 'Admin\TrainerController@trainerEditSubmit')->name('trainer.edit.submit');
+
+		// Admin user manage
+		Route::get('/user/list', 'Admin\UserController@userList')->name('user.list');
+		Route::get('/user/edit/{id}', 'Admin\UserController@userEdit')->name('user.edit');
+		Route::post('/user/edit', 'Admin\UserController@userEditSubmit')->name('user.edit.submit');
+
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
 		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
