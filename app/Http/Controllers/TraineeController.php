@@ -141,7 +141,88 @@ class TraineeController extends Controller
     }
     public function purchaseplan(Request $request){
         $isactive='purchase';
-        return view('pages.trainee.purchase_plan')->with('isactive',$isactive);
+        return view('pages.trainee.purchase_plan')->with('isActive',$isactive);
+
+    }
+    public function psettings(Request $request){
+
+        $user = Trainee::where('id',Session::get('user.id'))->first();
+
+        return view('pages.trainee.p-settings')
+        ->with('user',$user)
+        ->with('equipment',Equipment::get())->with('isActive','p-settings');
+
+    }
+    public function psettingsSubmit(Request $request){
+
+
+
+        if($request->action_type == 'password_update'){
+
+        $validateData = $request->validate([
+
+            // 'name' => 'required',
+            'password' => 'required|confirmed|min:6',
+            // 'weight' => 'required',
+            // 'fat' => 'required',
+        ]);
+
+            $trainee = Trainee::find($request->user_id);
+            if( (!Hash::check($request->input('oldpassword'),$trainee->password))){
+                return redirect()->back()->with('message','Your Previous Password did not match');
+            }
+
+            $trainee->password = Hash::make($request->input('password'));
+
+            $trainee->save();
+            return redirect()->back()
+            ->with('success','Password update succesfully');
+        }
+        if($request->action_type == 'info_update'){
+
+            $trainee = Trainee::find($request->user_id);
+            $trainee->name = $request->input('name');
+
+            $trainee->sex = $request->input('sex');
+            $trainee->dob = $request->input('birthday');
+            $trainee->length = $request->input('height');
+
+            $trainee->phonetic = $request->input('phonetic');
+            $trainee->address = $request->input('address');
+            $trainee->phone = $request->input('phone');
+
+            if($trainee->save()){
+                //  EVENT TRIGGERED
+                // event(new NewUserRegisteredEvent($trainee,'trainee'));
+                // NOW SAVE DATA TO TBL_USER_HISTORY TABLE
+                if($request->input('weight')){
+                    $history = new UserHistory();
+                    $history->weight = $request->input('weight');
+                    $history->body_fat_percentage = $request->input('fat');
+                    $history->user_id = $trainee->id;
+                    $history->save();
+                }
+                
+
+                // NOW SAVE DATA TO TBLE_USER_EQUIPMENT TABLE
+                if($request->equipment){
+                    $arr = $request->equipment;
+                    foreach($arr as $val){
+                        if($val['is_available'] == 1){
+                            $equipment = new UserEquipment();
+                            $equipment->user_id = $trainee->id;
+                            $equipment->equipment_id = $val['id'];
+                            // $equipment->is_available = $val['is_available'];
+                            $equipment->save();
+                        }
+                        
+                    }
+                }
+            }
+            return redirect()->back()
+            ->with('success','Profile update succesfully');
+        }
+        
 
     }
   

@@ -10,10 +10,14 @@
                             <!-- <h2>Join <span>now</span> </h2> -->
                             {{-- <p>get in shape today</p> --}}
                         <h2><span> オンライン</span>トレーニング<span>マッチング</span> </h2>
+                        @if(Session::get('user_type') === 'trainer' || Session::get('user_type') === 'trainee')
+
+                        @else
                         <p class="pb-3">
                             <a href="{{route('trainerSignup')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">トレーナー  登録</a> <!-- Trainer registraion-->
                             <a href="{{route('traineeSignup')}}" class="btn_2" style="border-radius: 1px !important;background: none;border:2px solid #c604c6;font-size: 18px;">ユーザー 登録</a> <!-- Trainee registraion-->
                         </p>
+                        @endif
                         </div>
                     </div>
                 </div>

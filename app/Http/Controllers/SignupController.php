@@ -75,8 +75,8 @@ class SignupController extends Controller
         $trainee->name = $request->input('name');
 
         $trainee->sex = $request->input('sex');
-        $trainee->birthday = $request->input('birthday');
-        $trainee->height = $request->input('height');
+        $trainee->dob = $request->input('birthday');
+        $trainee->length = $request->input('height');
 
         $trainee->phonetic = $request->input('phonetic');
         $trainee->email = $request->input('email');
@@ -271,7 +271,7 @@ class SignupController extends Controller
             }
         }
 
-        session(['user' => $trainer,'user_type'=>'trainee']);
+        session(['user' => $trainer,'user_type'=>'trainer']);
         return redirect()->route('trainerCalendar.view')->with('message','Welcome to trainer dashboard');
     
 

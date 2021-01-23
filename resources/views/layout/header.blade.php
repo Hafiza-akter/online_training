@@ -21,18 +21,20 @@
                                 <a class="nav-link" href="{{ route('review') }}">カスタマーレビュー</a>
                             </li>
 
-                            <li class="nav-item ">
-                                <a class="nav-link" href="#">残高 </a>
-                            </li>
 
                             <li class="nav-item ">
-                                <a class="nav-link" href="#service">進捗 </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="#service">個人設定 </a>
+                                <a class="nav-link" href="#service">サービス </a>
                             </li>
 
-
+                            @if(Session::get('user_type') === 'trainer')
+                                <li class="nav-item ">
+                                    <a class="nav-link active__" href="{{ route('trainerCalendar.view')}}">トレーナーページ <i class="fas fa-forward"></i></a>
+                                </li>
+                            @elseif(Session::get('user_type') === 'trainee')
+                                <li class="nav-item ">
+                                    <a class="nav-link active__" href="{{ route('traineeCalendar.view')}}">ユーザーページ <i class="fas fa-forward"></i></a>
+                                </li>
+                            @else 
                                 <li class="nav-item ">
                                     <a class="nav-link" href="{{ route('traineeSignup')}}" >
                                         <i class="fas fa-user-plus"></i> {{-- Trainee registration --}}
@@ -46,6 +48,8 @@
                                         <i class="fas fa-lock"></i>  ユーザーログイン
                                     </a>
                                 </li>
+                            @endif
+ 
                         </ul>
                     </div>
                     {{-- <div class="menu_btn">

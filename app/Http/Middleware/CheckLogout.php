@@ -19,10 +19,10 @@ class CheckLogout
         if(Session::get('user')){
             // dd(Session::get('user_type'));
             if(Session::get('user_type') === 'trainer'){
-                return redirect()->route('trainerView');
+                return redirect()->route('trainerCalendar.view');
             }
             if(Session::get('user_type') === 'trainee'){
-                return redirect()->route('trainerView');
+                return redirect()->route('traineeCalendar.view');
             }
         }
         else{

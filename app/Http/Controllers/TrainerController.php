@@ -126,6 +126,88 @@ class TrainerController extends Controller
 
 
     }
+    public function psettings(Request $request){
+
+        $user = Trainer::where('id',Session::get('user.id'))->first();
+
+        return view('pages.trainer.p-settings')
+        ->with('user',$user)
+        ->with('equipment',Equipment::get())->with('isActive','p-settings');
+
+    }
+    public function psettingsSubmit(Request $request){
+
+
+        if($request->action_type == 'password_update'){
+
+            $trainee = Trainer::find($request->user_id);
+            if( (!Hash::check($request->input('oldpassword'),$trainee->password))){
+                return redirect()->back()->with('message','Your Previous Password did not match');
+            }
+
+            $trainee->password = Hash::make($request->input('password'));
+
+            $trainee->save();
+            return redirect()->back()
+            ->with('success','Password update succesfully');
+        }
+        if($request->action_type == 'info_update'){
+
+            $trainer = Trainer::find($request->user_id);
+
+            $trainer->first_name = $request->input('first_name');
+            $trainer->first_phonetic = $request->input('first_phonetic');
+
+            $trainer->family_name = $request->input('family_name');
+            $trainer->family_phonetic = $request->input('family_phonetic');
+            
+            $trainer->prefecture = $request->input('prefecture');
+
+            $trainer->address_line = $request->input('address');
+            $trainer->zip_code = $request->input('zip_code');
+            $trainer->city = $request->input('city');
+            $trainer->phone = $request->input('phone');
+            $trainer->intro = $request->input('intro');
+            $trainer->photo_path = $request->input('photo_path');
+            $trainer->unit_price = $request->input('unit_price');
+            $trainer->certification = $request->input('certification');
+            $trainer->interface = $request->input('interface');
+
+
+            
+            if($trainer->save()){
+                //  EVENT TRIGGERED
+                // NOW SAVE DATA TO TBL_USER_HISTORY TABLE
+                // if($request->input('weight')){
+                //     $history = new UserHistory();
+                //     $history->weight = $request->input('weight');
+                //     $history->body_fat_percentage = $request->input('fat');
+                //     $history->user_id = $trainer->id;
+                //     $history->save();
+                // }
+                
+
+                // NOW SAVE DATA TO TBLE_USER_EQUIPMENT TABLE
+                if($request->equipment){
+                    $arr = $request->equipment;
+                    foreach($arr as $val){
+                        if($val['is_available'] == 1){
+                            $equipment = new TrainerEquipment();
+                            $equipment->trainer_id = $trainer->id;
+                            $equipment->equipment_id = $val['id'];
+                            $equipment->save();
+                        }
+                        
+                    }
+                }
+            }
+
+            return redirect()->back()
+            ->with('success','Profile update succesfully');
+        }
+        
+
+    }
   
 
 }
