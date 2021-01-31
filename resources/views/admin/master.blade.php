@@ -137,6 +137,15 @@
                     <p>list</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="{{route('purchase.plan.list')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                    購入を計画する
+                    <!-- Plan Purchase -->
+                    </p>
+                  </a>
+                </li>
 
               </ul>
             </li>

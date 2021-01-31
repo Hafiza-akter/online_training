@@ -159,6 +159,12 @@ Route::prefix('admin')->group(function () {
 		Route::get('/user/edit/{id}', 'Admin\UserController@userEdit')->name('user.edit');
 		Route::post('/user/edit', 'Admin\UserController@userEditSubmit')->name('user.edit.submit');
 
+		// User plan purchase
+		Route::get('/user/purchase/plan/list', 'Admin\PurchasePlanController@planList')->name('purchase.plan.list');
+		Route::get('/user/purchase/plan/edit/{id}', 'Admin\PurchasePlanController@planEdit')->name('purchase.plan.edit');
+		Route::post('/user/purchase/plan/edit', 'Admin\PurchasePlanController@planEditSubmit')->name('purchase.plan.edit.submit');
+
+
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
 		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
