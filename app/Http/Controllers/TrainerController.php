@@ -25,30 +25,52 @@ class TrainerController extends Controller
     }
     public function scheduleCalendar(Request $request){
         $isActive = "schedule";
-    	$schedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->groupBy('date')->get();
+    	$schedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)
+        ->where('status',NULL)
+        ->get();
     	$parsedArray = array();
+
     	if($schedule){
     		foreach ($schedule as $key => $value) {
 
     			if($value->trainer_id == Session::get('user')->id){
-    				$parsedArray[$key]['start'] = $value->start_date;
-		    		$parsedArray[$key]['allDay'] = true;
-		    		$parsedArray[$key]['display'] = 'background';
+
+            //         "title": "12.06 am - 1.06 am",
+            // "start": "2021-01-25T00:30:00",
+            // "end": "2021-01-25T01:30:00",
+            //   'className' : 'tblue',
+            //   'textColor' : '#ffffff'
+
+                    $y=Carbon::parse($value->date)->format('Y-m-d');
+                    $t=Carbon::parse($value->time)->format('H:i:s');
+                    $tt = Carbon::parse($value->time)->addMinutes(60)->format('g:i A');
+
+                    $title=Carbon::parse($value->time)->format('g:i A')." - ".$tt;
+                    $parsedArray[$key]['title'] = $title;
+                    $parsedArray[$key]['id'] = $value->id;
+                    $parsedArray[$key]['date_data'] = Carbon::parse($value->date)->format('Y-m-d');
+
+                    $parsedArray[$key]['start'] = Carbon::parse($value->date)->format('Y-m-d')."T".$t;
+                    $parsedArray[$key]['end'] = Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
 		    		if($value->is_occupied === 1){
-		    			$parsedArray[$key]['color'] = 'red';
+                         $parsedArray[$key]['className'] = 'tred';
 
 		    		}else{
-		    			 $parsedArray[$key]['color'] = '#007bff';
-
+		    			 $parsedArray[$key]['className'] = 'tblue';
 
 		    		}
+                        $parsedArray[$key]['textColor'] = '#ffffff';
+                        // $parsedArray[$key]['display'] = 'background';
     			}
-	    		
 
     		}
     	}
-        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->get();
-    	return view('pages.trainer.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true))->with('listSchedule',$listSchedule);
+        // dd($parsedArray);
+        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->get();
+    	return view('pages.trainer.calendar')
+        ->with('isActive',$isActive)
+        ->with('schedule',json_encode($parsedArray,true))
+        ->with('listSchedule',$listSchedule)->with('gridView','dayGridMonth');
     }
     public function scheduleCalendarSubmit(Request $request){
     	// time 
@@ -68,9 +90,11 @@ class TrainerController extends Controller
 
     public function scheduleSubmit(Request $request){
 
+
     	// $arrT=explode('-',$request->start_time);
-     //    $time= new Carbon($arrT[0]);
+        // $time= Carbon::parse('14:27')->format('H:i:s');
     	// $ftime = $time->format('H:i:s');
+        // dd($time);
     	// $ftime = $arrT[0];
 
 
@@ -103,7 +127,7 @@ class TrainerController extends Controller
     	$schedule = new TrainerSchedule();
     	$schedule->date =$request->date;
     	$schedule->trainer_id =$request->trainer_id;
-    	$schedule->time =$request->start_time.':00';
+    	$schedule->time =Carbon::parse($request->start_time)->format('H:i:s');
     	$schedule->save();
 
     	return redirect()->route('trainerTime.view',$request->date)
@@ -111,7 +135,200 @@ class TrainerController extends Controller
     	->with('selected_date',$request->date);
 
     }
-     public function logout(){
+
+    public function schedule(Request $request){
+        $initialDate="FA";
+        $Error="";
+        if($request->type == 'weekinsert'){
+            
+            $arr = explode(',',$request->date_array[0]);
+            if(count($arr) > 0){
+
+                if(count($arr) == 1){
+                    $initialDate = $arr[0];
+                }
+
+                $Error="";
+                foreach($arr as $key=>$val){
+
+                    $uniqueSlot=$this->checkUniqueTimeSlot($val,$request->start_time);
+                    if($uniqueSlot === 'FALSE'){
+
+                        $Error .= '<br> Time slot date: '.$val.' time range from '.$request->start_time.' already assigned <br>';
+                        if(count($arr) == 1){
+                            return redirect()->back()
+                            ->with('errors_m','Time slot is not avaliable for '.$request->start_time)
+                            ->with('dayGridspecific',$initialDate)
+                            ->with('gridView',$request->gridView);
+                        }
+
+                        
+                    }else{
+
+                        $scheduleU = new TrainerSchedule();
+                        $scheduleU->date =$val;
+                        $scheduleU->trainer_id =$request->trainer_id;
+                        $scheduleU->time =Carbon::parse($request->start_time)->format('H:i:s');
+                        $scheduleU->save();
+                    }
+
+                    
+                }
+
+                if(count($arr) == 1){
+                    return redirect()->back()
+                    ->with('dayGridspecific',$initialDate)
+                    ->with('message','Schedule time set succesfully!! ')->with('gridView',$request->gridView);
+                }
+
+
+            }
+
+             return redirect()->back()
+                    ->with('message','Schedule time set succesfully!! ');
+                            
+        }
+        
+        if($request->type == 'weekupdate'){
+
+            $arr = explode(',',$request->date_array[0]);
+            if(count($arr) > 0){
+
+                if(count($arr) == 1){
+                    $initialDate = $arr[0];
+                }
+                foreach($arr as $key=>$val){
+
+                        $uniqueSlot=$this->checkUniqueTimeSlot($val,$request->start_time);
+                        if($uniqueSlot === 'FALSE'){
+
+                            // $Error .= '<br> Time slot date: '.$val.' time range from '.$request->start_time.' already assigned <br>';
+                             $Error .= '<br> Time slot date: '.$val.' time range from '.$request->start_time.' already assigned <br>';
+                            if(count($arr) == 1){
+                                return redirect()->back()
+                                ->with('errors_m','Time slot is not avaliable for '.$request->start_time)
+                                ->with('dayGridspecific',$initialDate)
+                                ->with('gridView',$request->gridView);
+                            }
+                        }else{
+                            $scheduleU = TrainerSchedule::where('date',$val)->where('time',Carbon::parse($request->db_start_time)->format('H:i:s'))->where('trainer_id',$request->trainer_id)->get()->first();
+                            if($scheduleU){
+                                $scheduleU->status ='rescheduled';
+                                $scheduleU->save();
+                            }
+                            
+
+                            $scheduleU = new TrainerSchedule();
+                            $scheduleU->date =$val;
+                            $scheduleU->trainer_id =$request->trainer_id;
+                            $scheduleU->time =Carbon::parse($request->start_time)->format('H:i:s');
+                            $scheduleU->save();
+                        }
+                    
+                }
+            }
+            
+            return redirect()->back()
+                    ->with('dayGridspecific',$initialDate)
+                    ->with('message','Reschedule time set succesfully!! ')->with('gridView',$request->gridView);
+        }
+
+        if($request->type == 'dayupdate'){
+
+
+                        $uniqueSlot=$this->checkUniqueTimeSlot($request->db_date,$request->start_time);
+                        if($uniqueSlot === 'FALSE'){
+                            return redirect()->back()
+                                    ->with('errors_m','Time slot is not avaliable')->with('gridView',$request->gridView);
+                        }
+                    
+
+                        $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)->get()->first();
+                        $scheduleU->status ='rescheduled';
+                        $scheduleU->save();
+
+                        $scheduleU = new TrainerSchedule();
+                        $scheduleU->date =$request->db_date;
+                        $scheduleU->trainer_id =$request->trainer_id;
+                        $scheduleU->time =Carbon::parse($request->start_time)->format('H:i:s');
+                        $scheduleU->save();
+                    
+            return redirect()->back()
+                    ->with('message','Reschedule time set succesfully!! ')->with('gridView',$request->gridView);
+        }
+
+        if($request->type == 'weekcancel'){
+
+            $arr = explode(',',$request->date_array[0]);
+            if(count($arr) > 0){
+                if(count($arr) == 1){
+                    $initialDate = $arr[0];
+                }
+                foreach($arr as $key=>$val){
+
+                        $scheduleU = TrainerSchedule::where('date',$val)->where('time',Carbon::parse($request->db_start_time)->format('H:i:s'))->where('trainer_id',$request->trainer_id)->get()->first();
+                        if($scheduleU){
+                            $scheduleU->status ='cancelled';
+                            $scheduleU->save();
+                        }
+                        
+
+                }
+            }
+
+            
+            return redirect()->back()                  
+                    ->with('dayGridspecific',$initialDate)
+                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+        }
+
+        if($request->type == 'daycancel'){
+
+            $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)->get()->first();
+            if($scheduleU){
+                $scheduleU->status ='cancelled';
+                $scheduleU->save();
+            }
+            
+
+            return redirect()->back()
+                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+        }
+    }
+
+    public function checkUniqueTimeSlot($date,$time){
+        $allDateSchedule = TrainerSchedule::where('status',NULL)->where('date',$date)->where('trainer_id',Session::get('user')->id)->get();
+        
+
+        if($allDateSchedule){
+            foreach($allDateSchedule as $val){
+
+            
+                $start =strtotime($val->time);
+
+                $end = strtotime($val->time) + 60*60;
+
+                $ctime=  strtotime($time); 
+                $ctimeH=  strtotime($time) + 60*60; 
+                if($ctime == $start){
+                     return "FALSE";
+                }
+
+                if($ctime < $start && ($ctimeH > $start &&  $ctimeH < $end)){
+                     return "FALSE";
+                }
+
+                if($ctime > $start &&  $ctime < $end){
+                     return "FALSE";
+                }
+
+
+            }
+
+        }
+        return "TRUE";
+    }
+    public function logout(){
         session()->flush();
         return redirect()->route('trainerLogin');
     }

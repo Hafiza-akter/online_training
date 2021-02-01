@@ -82,4 +82,26 @@ function diff($finish){
 			$finish = Carbon\Carbon::parse($finish);
 			return $finish->diffInSeconds($startTime);
 }
+function BMRcalculation($gendar,$weight,$length,$age){
+
+	$setUpData = \App\Model\Setting::get()->first();
+	if($gendar === 'male'){
+		$bmr_gender_coefficient = $setUpData->bmr_male_coefficient;
+		$bmr_gender_offset = $setUpData->bmr_male_offset;
+
+	}else{
+		$bmr_gender_coefficient = $setUpData->bmr_female_coefficient;
+		$bmr_gender_offset = $setUpData->bmr_female_offset;
+
+	}
+	
+	dd($bmr_gender_coefficient);
+	$result = ($setUpData->bmr_weight_coefficient*$setUpData->bmr_weight_offset*$weight)
+			+($setUpData->bmr_length_coefficient*$setUpData->bmr_length_offset*$length)
+			+($setUpData->bmr_age_coefficient*$setUpData->bmr_age_offset*$age)
+			+($setUpData->bmr_gender_coefficient+$setUpData->bmr_gender_offset);
+	return $result;
+
+	//BMR_weight_coefficient*BMR_weight_offset*weight+BMR_length_coefficient*BMR_length_offset*length+BMR_age_coefficient*BMR_age_offset+BMR_male_coefficient+BMR_male_offse
+}
 ?>

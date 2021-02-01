@@ -3,6 +3,8 @@
 @section('header_css_js')
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>
+{{-- <link rel="stylesheet" href="{{asset('asset_v2/css/jquery.timepicker.min.css')}}"> --}}
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css" integrity="sha512-/Ae8qSd9X8ajHk6Zty0m8yfnKJPlelk42HTJjOHDWs1Tjr41RfsSkceZ/8yyJGLkxALGMIYd5L2oGemy/x1PLg==" crossorigin="anonymous" /> --}}
 @endsection
 @section('content')
 
@@ -116,9 +118,14 @@
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <style>
+{{-- <script src="{{ asset('asset_v2/js/jquery.timepicker.min.js')}}"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js" integrity="sha512-2xXe2z/uA+2SyT/sTSt9Uq4jDKsT0lV4evd3eoE/oxKih8DSAsOF6LUb+ncafMJPAimWAXdu9W+yMXGrCVOzQA==" crossorigin="anonymous"></script> --}}
+<script src="{{asset('asset_v2/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>   
+
+ <style>
         .swal2-styled.swal2-confirm{
-            background-color: #ffc107
+            background-color: #a509a4
 
         }
         .swal2-styled.swal2-deny{
@@ -160,31 +167,37 @@ $(document).ready(function() {
                 hour = 23;
             }
 
-        console.log('hour: '+hour);
+            console.log('hour: '+hour);
+            // prepare to set in hidden input
+            var timES = (hour)+":"+timme; 
 
-            var timES = (hour)+":"+timme; // prepare to set in hidden input
+            // set in 1st date picker
+            console.log('Datepicker1: '+moment(timES, 'HH:mm:ss').format('HH:mm A'));
+            // let oktime=moment(timES, 'HH:mm:ss').format('HH:mm');
+            // console.log('ok time: '+oktime);
+            console.log();
             var id = $(this).closest('tr').attr("id") ;
             var result = id.split('-');
             var time="";
             // time to show in modal 
             if(result[1] == 'AM'){
                 if(parseInt(result[0]) == 1){
-                     time = '12:'+timme+ 'am-1:'+timme+'am';
+                     time = '12:'+timme+ 'AM-1:'+timme+'AM';
                 }else if(parseInt(result[0]) == 12){
-                     time = '11:'+timme+ 'am-12:'+timme+'pm';
+                     time = '11:'+timme+ 'AM-12:'+timme+'PM';
                 }else{
-                    time=(parseInt(result[0]) -1 ) +':'+ timme +'am -' + parseInt(result[0]) +':'+ timme +'am'
+                    time=(parseInt(result[0]) -1 ) +':'+ timme +'AM -' + parseInt(result[0]) +':'+ timme +'AM'
                 }
             }
             if(result[1] == 'PM'){
 
                 if(parseInt(result[0]) == 12 ){
-                     time = '11:'+timme+ 'pm-12:'+timme+'am';
+                     time = '11:'+timme+ 'PM-12:'+timme+'AM';
 
                 }else if(parseInt(result[0]) == 1){
-                     time = '12:'+timme+ 'pm-1:'+timme+'pm';
+                     time = '12:'+timme+ 'PM-1:'+timme+'PM';
                 }else{
-                    time=(parseInt(result[0]) -1 ) +':'+ timme +'pm -' + parseInt(result[0]) +':'+ timme +'pm'
+                    time=(parseInt(result[0]) -1 ) +':'+ timme +'PM -' + parseInt(result[0]) +':'+ timme +'PM'
                 }
             }
             // ------------------
@@ -204,7 +217,23 @@ $(document).ready(function() {
             // blue background color will show the selected date
 
             if(hexaColor === '#1b97ef'){ // blue
-
+                Swal.fire({
+                  title: 'Do you want to save the changes?',
+                  showDenyButton: true,
+                  showCancelButton: true,
+                    width: '650px',
+                  confirmButtonText: `Reschedule`,
+                  denyButtonText: `Delete`,
+                }).then((result) => {
+                  /* Read more about isConfirmed, isDenied below */
+                  if (result.isConfirmed) {
+                    Swal.fire('reschedule!', '', 'success')
+                  } else if (result.isDenied) {
+                    Swal.fire('Delete', '', 'info')
+                  }else{
+                    console.log('Delete');
+                  }
+                })
             }
             else if(hexaColor === '##a2ffb7'){ // green
 
@@ -215,6 +244,7 @@ $(document).ready(function() {
                   title: 'Do you want to save the changes?',
                   showDenyButton: true,
                   showCancelButton: true,
+                    width: '650px',
                   confirmButtonText: `Reschedule`,
                   denyButtonText: `View Details`,
                 }).then((result) => {
@@ -236,7 +266,7 @@ $(document).ready(function() {
                 // icon: "success",
                 // buttons: [
                 //         'No, cancel it!',
-                //         'Yes, I am sure!'
+                //         'Yes, I AM sure!'
                 //     ]
                 // }).then(function(isConfirm) {
                 //     if (isConfirm) {
@@ -248,11 +278,47 @@ $(document).ready(function() {
 
                 Swal.fire({
                   title: '本気ですか ？',
-                text: "Your available date is  "+$(this).closest('tr').attr("data-date")+" at "+time+ ".",
+                // text: "Your available date is  "+$(this).closest('tr').attr("data-date")+" at "+time+ ".",
                   showDenyButton: false,
+                // html: '<input class="" type="text" id="datetimepicker" readonly style="width:100px"> TO <input class="" type="text" id="datetimepicker2" readonly style="width:100px">'+"Your available date is "+$(this).closest('tr').attr("data-date")+" at <span id='timepicker1'>"+time+ " </span> ",
+                html: "Your available date is "+$(this).closest('tr').attr("data-date")+' at <input class="" type="text" id="datetimepicker" readonly style="width:100px"> TO <input class="" type="text" id="datetimepicker2" readonly style="width:100px">',
                   showCancelButton: true,
                   confirmButtonText: `Save`,
+                    width: '650px',
                   denyButtonText: `Don't save`,
+                  didOpen:function(){
+                    // $('#onselectExample').timepicker();
+                    // $('#onselectExample').on('changeTime', function() {
+                    //     // $('#onselectTarget').text($(this).val());
+                    // });
+
+                                // $('#timepicker1').timepicker();
+
+                    $("#datetimepicker").datetimepicker({
+                        formatViewType: 'time',
+                        fontAwesome: true,
+                        autoclose: true,
+                        startView: 1,
+                        maxView: 1,
+                        minView: 0,
+                        minuteStep: 5,
+                        format: 'HH:ii P',
+                        showMeridian: true,
+
+                    });
+                     $("#datetimepicker").val(moment(timES, 'HH:mm').format('HH:mm A'));
+                     $("#datetimepicker2").val(moment(timES, 'HH:mm').add(60, 'minutes').format('HH:mm A'));
+
+                      $("#datetimepicker").on("change.dp",function (e) {
+                            let newtime = moment(this.value, 'HH:mm').add(60, 'minutes').format('HH:mm A');
+                            $("#datetimepicker2").val(newtime);
+                            $("#selected_time").val(this.value);
+
+                    });
+
+
+
+                  }
                 }).then((result) => {
                   /* Read more about isConfirmed, isDenied below */
                   if (result.isConfirmed) {
@@ -266,5 +332,13 @@ $(document).ready(function() {
         } );
  
 } );
-</script>  
+</script> 
+{{-- Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'Your work has been saved',
+  showConfirmButton: false,
+  timer: 1500
+}) --}}
+
 @endsection 

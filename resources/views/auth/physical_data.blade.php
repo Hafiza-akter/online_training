@@ -1,6 +1,6 @@
 {{-- @extends('master_page') --}}
-@extends('../master')
-@section('title','trainee login')
+@extends('master_dashboard')
+@section('title','user physical data')
 @section('content')
 <style>
      .login_button{
@@ -20,15 +20,10 @@
         <div class="container">
 
             <div class="row justify-content-center">
-                <div class=" col-sm-8 mb-4">
-                <div class="alert alert-success">
-                {{-- thank you for the confirmation --}}
-                  <h5 style="text-align:center">確認ありがとう</h5>
-                </div> 
-            </div>
+               
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                       <h2>ユーザー情報</h2>
+                       <h2>物理情報登録</h2>
                     </div>
                 </div>
             </div>
@@ -68,10 +63,7 @@
 
 <div class="offset-sm-2 col-sm-8 mb-4">
     <div class="card card-info">
-       <div class="card-header">
-            {{-- Add more information --}}
-            <h4 class="card-title">さらに情報を追加する</h4>
-        </div>
+      
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -83,27 +75,28 @@
         </div>
     @endif
 
-    <form action="{{route('traineeSignupUpdate.submit')}}" method="post">
+    <form action="{{route('physicaldata.submit')}}" method="post">
                    
         {{ csrf_field() }}
             <input type="hidden" name="email" class="form-control" value="{{ $user->email}}">
             <input type="hidden" name="user_id" class="form-control" value="{{ $user->id}}">   
             <div class="card-body">
+
             <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label name">お名前</label>
+                  <label class="col-form-label birthday">誕生日 <span style="color:red">*</span></label>
                 </div>
-                <div class="col-8">
-                  <input type="text" name="name" class="form-control" value="{{ old('name')}}">
+                  <div class="col-8">
+                  <input type="text" name="birthday" required="required" class="form-control datepicker" value="{{ old('birthday')}}">
                 </div>
             </div>
 
-            {{-- <div class="row mb-3">
+            <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label sex">性別</label>
+                  <label class="col-form-label sex">性別 <span style="color:red">*</span></label>
                 </div>
                  <div class="col-8">
-                    <select class="form-control" name="sex">
+                    <select class="form-control" name="sex"  required="required">
                         <option value=""> 性別をお選びください</option> 
                         <option value="1"> 男性</option> 
                         <option value="0"> 女性</option>
@@ -111,61 +104,19 @@
 
                     </select>
                 </div>
-            </div> --}}
+            </div>
 
-           {{--  <div class="row mb-3">
+            
+            <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label birthday">誕生日</label>
+                  <label class="col-form-label height">身長(cm) <span style="color:red">*</span></label>
                 </div>
                   <div class="col-8">
-                  <input type="text" name="birthday" class="form-control datepicker" value="{{ old('birthday')}}">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-4">
-                  <label class="col-form-label height">身長</label>
-                </div>
-                  <div class="col-8">
-                  <input type="number" name="height" class="form-control" value="{{ old('height')}}">
-                </div>
-            </div> --}}
-
-
-            <div class="row mb-3">
-                <div class="col-4">
-                  <label class="col-form-label phonetic">ふりがな</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" name="phonetic" class="form-control" value="{{ old('phonetic')}}">
+                  <input  type="number"  step="0.01"  required="required" name="height" class="form-control" value="{{ old('height')}}">
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-4">
-                  <label class="col-form-label _email_address_">メールアドレス</label>
-                </div>
-                <div class="col-8">
-                    <input type="email" name="email1" class="form-control" disabled="disabled" value="{{ $user->email}}">
-                </div>
-            </div>
 
-            <div class="row mb-3">
-                <div class="col-4">
-                  <label class="col-form-label">パスワード <span style="color:red">*</span></label>
-                </div>
-                <div class="col-8">
-                  <input type="password" name="password" class="form-control" value="{{ old('password')}}" required="required">
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-4">
-                  <label class="col-form-label _confirm_password_">パスワード(確認) <span style="color:red">*</span></label>
-                </div>
-                <div class="col-8">
-                  <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation')}}" required="required">
-                </div>
-            </div>
 
            {{--  <div class="row mb-3">
                 <div class="col-4">
@@ -185,27 +136,52 @@
                 </div>
             </div> --}}
 
-           {{--  <div class="row mb-3">
+            <div class="row mb-3">
                 <div class="col-4">
-                  <label class="col-form-label _current_weight_">現在の体重(kg)</label>
+                  <label class="col-form-label _current_weight_">体重(kg) <span style="color:red">*</span></label>
                 </div>
                 <div class="col-8">
-                  <input type="text" name="weight" class="form-control" value="{{ old('weight')}}">
+                  <input type="number"  step="0.01" name="weight"  required="required" class="form-control" value="{{ old('weight')}}">
                 </div>
-            </div> --}}
-
-            {{-- <div class="row mb-3">
-                <div class="col-4">
-                    <label class="col-form-label _body_fat_percentage_">体脂肪率</label>
-                </div>
-                <div class="col-8">
-                    <input type="text" name="fat" class="form-control" value="{{ old('fat')}}">
-                </div>
-            </div> --}}
-
-            <div class="row pt-3 pb-3">
-                <h4 class="mx-auto">トレーニング機器</h4>
             </div>
+
+            <div class="row mb-3">
+                <div class="col-4">
+                    <label class="col-form-label _body_fat_percentage_">体脂肪率 <span style="color:red">*</span></label>
+                </div>
+                <div class="col-8">
+                    <input  type="number"  step="0.01" name="fat" class="form-control"  required="required" value="{{ old('fat')}}">
+                </div>
+            </div>
+             <div class="row mb-3">
+                <div class="col-4">
+                    <label class="col-form-label _pal_">身体活動レベル <span style="color:red">*</span> </label>
+                </div>
+                <div class="col-8">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" >
+                      <label class="form-check-label" for="exampleRadios1">
+                        低
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios2" value="medium" checked>
+                      <label class="form-check-label" for="exampleRadios2">
+                        中
+                      </label>
+                    </div>
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios3" value="high" >
+                      <label class="form-check-label" for="exampleRadios3">
+                        
+
+高
+                      </label>
+                    </div>
+                </div>
+            </div>
+
+
 
 
             {{-- @if($equipment)
@@ -244,6 +220,9 @@
 
 @endsection
 @section('footer_css_js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
 <script>
     $(document).ready(function() {
 

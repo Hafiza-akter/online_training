@@ -13,6 +13,8 @@ use App\Model\Equipment;
 use App\Model\UserEquipment;
 use App\Model\UserHistory;
 use App\Model\TrainerSchedule;
+use App\Model\UserPlanPurchase;
+use App\Model\PlanPurchase;
 
 
 use DateTime;
@@ -23,7 +25,90 @@ class TraineeController extends Controller
     public function traineeView(){
         return view('pages.trainer_details');
     }
+    public function physicaldata(Request $request){
+            $user = Trainee::find(Session::get('user.id'));
+
+            return view('auth.physical_data')->with('user',$user)->with('equipment',Equipment::get());
+
+    }
+
+    public function physicaldatasubmit(Request $request){
+
+       $validateData = $request->validate([
+
+            'weight' => 'required',
+            'fat' => 'required',
+            'sex' => 'required',
+            'birthday' => 'required',
+            'height' => 'required',
+        ]);
+
+        $date= new DateTime();
+        $trainee = Trainee::find($request->user_id);
+
+        $trainee->sex = $request->input('sex');
+        $trainee->dob = $request->input('birthday');
+        $trainee->length = $request->input('height');
+        $trainee->weight = $request->input('weight');
+        $pal = $request->input('pal');
+        $weight = $request->input('weight');
+
+
+        if($trainee->save()){
+            //  EVENT TRIGGERED
+            // event(new NewUserRegisteredEvent($trainee,'trainee'));
+            // NOW SAVE DATA TO TBL_USER_HISTORY TABLE
+            if($request->input('weight')){
+                $timing=$this->morningOrEvening();
+                $history = new UserHistory();
+
+                $history->weight_morning = ($timing== 'morning') ? $request->input('weight') : '' ;
+                $history->weight_evening = ($timing== 'evening') ? $request->input('weight') : '' ;
+
+                $history->body_fat_percentage_morning = ($timing== 'morning') ? $request->input('fat') : '' ;
+                $history->body_fat_percentage_evening = ($timing== 'evening') ? $request->input('fat') : '' ;
+
+                // $history->calory_gained = $request->input('weight');
+                // $history->calory_consumed = $request->input('weight');
+
+                $history->recorded_at = date('Y-m-d H:i:s');
+                $history->user_id = $trainee->id;
+                $history->save();
+            }
+            
+        }
+                    return redirect()->route('purchaseplan')->with('message','Physical information added successfully');
+
+    }
+    public function morningOrEvening(){
+            /* This sets the $time variable to the current hour in the 24 hour clock format */
+        $time = date("H");
+        /* Set the $timezone variable to become the current timezone */
+        $timezone = date("e");
+        /* If the time is less than 1200 hours, show good morning */
+        if ($time < "12") {
+            return "morning";
+        } else
+        /* If the time is grater than or equal to 1200 hours, but less than 1700 hours, so good afternoon */
+        if ($time >= "12" && $time < "17") {
+            return "evening";
+        } else
+        /* Should the time be between or equal to 1700 and 1900 hours, show good evening */
+        if ($time >= "17" && $time < "19") {
+            return "evening";
+        } else
+        /* Finally, show good night if the time is greater than or equal to 1900 hours */
+        if ($time >= "19") {
+            return "evening";
+        }
+    }
     public function scheduleCalendar(Request $request){ // calendar view
+
+        // branch page 
+               return view('auth.branch');
+
+        //
+
         $isActive = "schedule";
         if($request->trainer_id){
 
@@ -63,6 +148,7 @@ class TraineeController extends Controller
 
         $listSchedule =TrainerSchedule::where('user_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->get();
     	return view('pages.trainee.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true))->with('listSchedule',$listSchedule);
+    
     }
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         
@@ -140,8 +226,29 @@ class TraineeController extends Controller
         return redirect()->route('traineeLogin');
     }
     public function purchaseplan(Request $request){
+
+        // calculation test //
+
+        $bmrData = BMRcalculation("male","70","161","30");
+        dd($bmrData);
+        // $isactive='purchase';
+        // $purchase=PlanPurchase::where('status',1)->get();
+        // $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        // // dd($userPurchasePlan);
+        // return view('pages.trainee.purchase_plan')->with('purchase',$purchase)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
+         $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
         $isactive='purchase';
-        return view('pages.trainee.purchase_plan')->with('isActive',$isactive);
+        $purchase=PlanPurchase::where('status',1)->get();
+        $plan=PlanPurchase::where('id',1)->get()->first();
+        return view('pages.trainee.purchase_details')->with('purchase',$purchase)->with('plan',$plan)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
+
+    }
+    public function purchasedetails(Request $request){
+        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        $isactive='purchase';
+        $purchase=PlanPurchase::where('status',1)->get();
+        $plan=PlanPurchase::where('id',$request->id)->get()->first();
+        return view('pages.trainee.purchase_details')->with('purchase',$purchase)->with('plan',$plan)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
 
     }
     public function psettings(Request $request){

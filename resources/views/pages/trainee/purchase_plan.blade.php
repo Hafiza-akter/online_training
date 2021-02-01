@@ -3,6 +3,8 @@
 @section('header_css_js')
 <script src='{{ asset('asset_v2/js/Chart.min.js')}}'></script>
 <script src='{{ asset('asset_v2/js/utils.js')}}'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <style>
 .table td, .table th{
     border:none !important;
@@ -19,6 +21,19 @@
                     </div>
                 </div>
             </div>
+
+            @if($userPurchasePlan)
+            <div class="card">
+              <!-- Card header --> 
+              <div class="card-header success" >
+                  <h3 class="mb-0">
+                    <i class="fas fa-check-circle"></i> Your current purchase plan is <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>
+                  </h3>
+              </div>
+            </div>
+          @endif
+
+          <br> <br>
             <!--Accordion wrapper-->
     <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 
@@ -54,10 +69,64 @@
 
                       </td>
                       <td><h3 class="text-center">24000 yen <small class="text-muted">/ mo</small></h3></td>
-                      <td><button type="button" class="btn btn-lg btn-block" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">Purchase</button></td>
-                    </tr>
-                  </tbody>
-                </table>
+                      <td>
+                        {{-- <button type="button" class="btn btn-lg btn-block" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">Purchase</button> --}}
+
+                        @if(!$userPurchasePlan)
+                        <div class="content">
+                            <div class="links">
+                                <div id="paypal-button"></div>
+                            </div>
+                          </div>
+                          <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+                          <script>
+                          paypal.Button.render({
+                            env: 'sandbox', // Or 'production'
+                            style: {
+                              size: 'large',
+                              color: 'gold',
+                              shape: 'pill',
+                            },
+                            // Set up the payment:
+                            // 1. Add a payment callback
+                            payment: function (data, actions) {
+                              // 2. Make a request to your server
+                              return actions.request.post('{{ route('cp')}}')
+                                .then(function (res) {
+                                  // 3. Return res.id from the response
+                                  // console.log(res);
+                                  return res.id
+                                })
+                            },
+                            // Execute the payment:
+                            // 1. Add an onAuthorize callback
+                            onAuthorize: function (data, actions) {
+                              // 2. Make a request to your server
+                              return actions.request.post('{{ route('conp')}}', {
+                                payment_id: data.paymentID,
+                                payer_id: data.payerID,
+                                user_id: {{ Session::get('user.id')}},
+
+                              })
+                                .then(function (res) {
+                                  console.log(res)
+                                  alert('Payment successfully done!!');
+                                  Swal.fire(
+                                      'Payment successfully done'
+                                    )
+                                  // 3. Show the buyer a confirmation message.
+                                })
+                            }
+                          }, '#paypal-button')
+                          </script>
+                          @else 
+                                              <i class="fas fa-check-circle"></i> Your already purchase  <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>
+
+                          @endif 
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
                 <canvas id="line-chart" width="800" height="450"></canvas>
 
@@ -160,125 +229,38 @@
     <!-- Accordion wrapper -->
 
   </div>
+
+    <div class="container my-4">
+       <div class="row justify-content-center">
+      <div class="col-sm">
+          <div class="card-deck mb-3 text-center">
+
+            @if($purchase)
+            @foreach($purchase as $val)
+              <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                      <h3 class="my-0 font-weight-normal">{{ $val->name}}</h3>
+                  </div>
+                  <div class="card-body">
+                      <h1 class="card-title pricing-card-title">{{ $val->cost_per_month}} yen <small class="text-muted">/ mo</small></h1>
+                      <ul class="list-unstyled mt-3 mb-4">
+                          <li>{{ $val->cost_per_month}}  yen  for {{ $val->objective}} </li>
+                      </ul>
+                      <a  href="{{ route('purchasedetails',$val->id)}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">Purchase</a>
+                  </div>
+              </div>
+            @endforeach
+            @endif 
+          </div>
+      </div>
+  </div>
+</div>
 </section>
 
 
-<div class="row pb-5">
-    <h2 class="mx-auto">Trainee's Page</h2>
-</div>
-{{-- <div class="row pb-3">
-    <div class="col-sm border-round">
-        <a class="btn">Schedule </a>
-    </div>
-    <div class="col-sm border-round">
-        <a class="btn">Plan Purchase </a>
-    </div>
-    <div class="col-sm border-round">
-        <a class="btn">Progress </a>
-    </div>
-    <div class="col-sm border-round">
-        <a class="btn">ログインする </a>
-    </div>
-</div> --}}
-{{-- <div class="row mb-5">
-    <div class="offset-sm-4 col-sm-4 border-round">
-        <a class="btn">Plan Purchase </a>
-    </div>
-    <div class="offset-sm-2 col-sm-8 pt-5">
-        <h2 class="mx-auto">Current plan is weekly plan</h2>
-    </div>
-</div> --}}
-<div class="row">
-    <div class="col-sm">
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Weekly Plan</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">24000 yen <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>24000 yen will increase for weight loss</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Purchase</button>
-                </div>
-            </div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Twice a week</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">48000 yen <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>lorem ipsum</li>
 
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Purchase</button>
-                </div>
-            </div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Three times a week</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">72000 yen <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>lorem ipsum</li>
 
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Purchase</button>
-                </div>
-            </div>
 
-        </div>
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-sm">
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Three times a week</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">72000 yen <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>lorem ipsum</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Purchase</button>
-                </div>
-            </div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">One Time a week</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">4800 yen <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>lorem ipsum</li>
-
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Purchase</button>
-                </div>
-            </div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Others any plan</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">---- yen <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>lorem ipsum</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Purchase</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-</div>
 
 @endsection
 @section('footer_css_js')

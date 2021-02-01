@@ -23,8 +23,9 @@
     <link rel="stylesheet" href="{{asset('asset_v2/css/all.css')}}">
 
     <link rel="stylesheet" href="{{asset('asset_v2/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('asset_v2/css/bootstrap-datetimepicker.min.css')}}">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+{{--     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"> --}}
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     

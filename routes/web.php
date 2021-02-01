@@ -103,10 +103,16 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainer/logout", "TrainerController@logout")->name(('trainerLogout'));
 	Route::get("/trainer/scheduled/{id}", "TrainerController@trainerScheduleDelete")->name(('trainerScheduleDelete'));
 	
+	// trainer schedule new update
+	Route::post("/trainer/schedule/", "TrainerController@schedule")->name(('schedule'));
+
 	// trainee personal settings
 	Route::get('/trainer/p-settings', 'TrainerController@psettings')->name('trainer.p-settings');
 	Route::post('/trainer/p-settings', 'TrainerController@psettingsSubmit')->name('trainer.p-settings.submit');
 	// trainee
+
+	Route::get("/trainee/physicaldata", "TraineeController@physicaldata")->name(('physicaldata'));
+	Route::post("/trainee/physicaldata/submit", "TraineeController@physicaldatasubmit")->name(('physicaldata.submit'));
 	Route::get("/trainee/scheduled/calendar", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
 	Route::post("/trainee/scheduled/calendar", "TraineeController@scheduleCalendarSubmit")->name(('traineeCalendar.submit'));
 
@@ -114,7 +120,7 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::post("/trainee/scheduled/submit", "TraineeController@scheduleSubmit")->name(('tscheduleSubmit.submit'));
 	Route::get("/trainee/logout", "TraineeController@logout")->name(('traineeLogout'));
 	Route::get("/trainee/purchaseplan", "TraineeController@purchaseplan")->name(('purchaseplan'));
-	
+	Route::get("/trainee/purchaseplan/{id}", "TraineeController@purchasedetails")->name(('purchasedetails'));
 	// trainee personal settings
 	Route::get('/trainee/p-settings', 'TraineeController@psettings')->name('trainee.p-settings');
 	Route::post('/trainee/p-settings', 'TraineeController@psettingsSubmit')->name('trainee.p-settings.submit');

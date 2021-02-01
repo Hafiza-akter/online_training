@@ -74,13 +74,13 @@ class SignupController extends Controller
         $trainee = Trainee::find($request->user_id);
         $trainee->name = $request->input('name');
 
-        $trainee->sex = $request->input('sex');
-        $trainee->dob = $request->input('birthday');
-        $trainee->length = $request->input('height');
+        // $trainee->sex = $request->input('sex');
+        // $trainee->dob = $request->input('birthday');
+        // $trainee->length = $request->input('height');
 
         $trainee->phonetic = $request->input('phonetic');
         $trainee->email = $request->input('email');
-        $trainee->address = $request->input('address');
+        // $trainee->address = $request->input('address');
         $trainee->phone = $request->input('phone');
         $trainee->password = Hash::make($request->input('password'));
         $trainee->token = \Str::random(60).time();
@@ -115,7 +115,7 @@ class SignupController extends Controller
             }
         }
         session(['user' => $trainee,'user_type'=>'trainee']);
-        return redirect()->route('traineeCalendar.view')->with('message','Welcome to trainee dashboard');
+        return redirect()->route('traineeCalendar.view')->with('message','Welcome to user dashboard');
     
     }
 
@@ -163,7 +163,7 @@ class SignupController extends Controller
 
             $details['url'] =  route('traineeLogin') ;
 
-             \Mail::to($user->email)->send(new \App\Mail\RegistrationVerificationSuccess($details));
+             // \Mail::to($user->email)->send(new \App\Mail\RegistrationVerificationSuccess($details));
 
             return view('auth.update_trainee')->with('user',$user)->with('equipment',Equipment::get())->with('token',$token)->with('type',$request->type);
 
