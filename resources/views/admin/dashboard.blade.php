@@ -53,7 +53,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Plan</th>
-                                <th>Paid</th>
+                                <th>Payment status</th>
                             </tr>
                         </tfoot>
                     </table>
