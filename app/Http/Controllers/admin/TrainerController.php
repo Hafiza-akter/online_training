@@ -50,6 +50,11 @@ class TrainerController extends Controller
     return redirect()->route('trainer.list')->with('message', 'Edited successfully!');
 
    }
-   
+   public function trainerView($id){
+        $trainer_id = $id;
+        $data = Trainer::Where('id',$trainer_id)->first();
+        return view('admin.trainer_manage.details')->with('trainer',$data); 
+
+    }
 
 }

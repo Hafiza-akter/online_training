@@ -24,6 +24,7 @@
     <script src="{{asset('admin/plugins/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('admin/js/custom.js')}}"></script>
     <style>
+    
         .login_admin {
             border-radius: 1px !important;
             font-size: 18px;

@@ -237,7 +237,6 @@
                 <p>
                   <!-- Admin Trainer Manage -->
                   管理トレーナー管理
-
                 </p>
               </a>
             </li>

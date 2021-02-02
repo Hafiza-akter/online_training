@@ -158,6 +158,7 @@ Route::prefix('admin')->group(function () {
 		// Admin trainer manage
 		Route::get('/trainer/list', 'Admin\TrainerController@trainerList')->name('trainer.list');
 		Route::get('/trainer/edit/{id}', 'Admin\TrainerController@trainerEdit')->name('admin.trainer.edit');
+		Route::get('/trainer/view/{id}', 'Admin\TrainerController@trainerView')->name('admin.trainer.view');
 		Route::post('/trainer/edit', 'Admin\TrainerController@trainerEditSubmit')->name('trainer.edit.submit');
 
 		// Admin user manage

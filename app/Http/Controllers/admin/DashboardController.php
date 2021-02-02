@@ -5,13 +5,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Model\Setting;
 use App\Model\Equipment;
+use App\Model\UserPlanPurchase;
 
 
 
 class DashboardController extends Controller
 {
     public function index(){
-        return view(('admin.dashboard'));
+        $data = UserPlanPurchase::Where('id','!=',null)->get();
+        return view('admin.dashboard')->with('planList',$data);
     }
 
     

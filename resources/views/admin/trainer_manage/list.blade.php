@@ -30,7 +30,7 @@
                                 <th>Phone</th>
                                 <th>Photo</th>
                                 <th>Unit Price</th>
-                                <th>Certification</th>
+                                <!-- <th>Certification</th> -->
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -48,7 +48,7 @@
                                 <img src="{{asset('asset_v2/img/user-thumb.jpg')}}" style="width:50px">
                                 </td>
                                 <td>{{$trainer->unit_price}}</td>
-                                <td>{{$trainer->certification}}</td>
+                                <!-- <td>{{$trainer->certification}}</td> -->
                                 <td>
                                     <?php 
                                     if($trainer->status == 1){ ?>
@@ -59,6 +59,7 @@
                                 </td>                                
                                 <td>
                                     <a href="{{route('admin.trainer.edit',$trainer->id)}}" class="pl-3 pr-3"><i class="fas fa-edit"></i></a>
+                                    <a href="{{route('admin.trainer.view',$trainer->id)}}" class="pl-3 pr-3"><i class="fas fa-eye"></i></a>
                                 </td>
 
                             </tr>
@@ -75,7 +76,7 @@
                                 <th>Phone</th>
                                 <th>Photo</th>
                                 <th>Unit Price</th>
-                                <th>Certification</th>
+                                <!-- <th>Certification</th> -->
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
