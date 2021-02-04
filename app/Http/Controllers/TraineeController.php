@@ -22,6 +22,9 @@ use DateInterval;
 
 class TraineeController extends Controller
 {
+    public $RECURSIVE=array();
+    public $counter=0;
+
     public function traineeView(){
         return view('pages.trainer_details');
     }
@@ -228,21 +231,196 @@ class TraineeController extends Controller
     public function purchaseplan(Request $request){
 
         // calculation test //
+        $user_id = Session::get('user.id');
+        $user = \App\Model\User::where('id',$user_id)->get()->first();
 
-        $bmrData = BMRcalculation("male","70","161","30");
-        dd($bmrData);
-        // $isactive='purchase';
-        // $purchase=PlanPurchase::where('status',1)->get();
-        // $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
-        // // dd($userPurchasePlan);
-        // return view('pages.trainee.purchase_plan')->with('purchase',$purchase)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
-         $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        // $bmrData = BMRcalculation($user->weight);
+        // dd($bmrData);
+       
+        $weight = $user->weight;
+
+        $totalDay=90;
+        $start=1;
+        $pal=1.75;
+
+        $this->repeatedFunction($weight,$pal,$totalDay,'1day_per_week',$start,$counter=0);
+        $this->repeatedFunction($weight,$pal,$totalDay,'2day_per_week',$start,$counter=0);
+        $this->repeatedFunction($weight,$pal,$totalDay,'3day_per_week',$start,$counter=0);
+        $weightData = $this->RECURSIVE;
+        $dataset=array();
+
+        // for graph in purchae plan
+        $dataset[0]=array(
+                        'data' => array(70,
+                                    $this->number_formate($weightData['1day_per_week'][29]['weight']),
+                                    $this->number_formate($weightData['1day_per_week'][59]['weight']),
+                                    $this->number_formate($weightData['1day_per_week'][89]['weight'])
+                                ),
+                        'label'=> "1 day per week",
+                        'borderColor'=> "#6d93ff",
+                        'fill'=> false
+                    );
+
+        $dataset[1]=array(
+                        'data' => array(70,
+                                    $this->number_formate($weightData['2day_per_week'][29]['weight']),
+                                    $this->number_formate($weightData['2day_per_week'][59]['weight']),
+                                    $this->number_formate($weightData['2day_per_week'][89]['weight'])
+                                ),
+                        'label'=> "2 day per week",
+                        'borderColor'=> "green",
+                        'fill'=> false
+                    );
+
+        $dataset[2]=array(
+                        'data' => array(70,
+                                    $this->number_formate($weightData['3day_per_week'][29]['weight']),
+                                    $this->number_formate($weightData['3day_per_week'][59]['weight']),
+                                    $this->number_formate($weightData['3day_per_week'][89]['weight'])
+                                ),
+                        'label'=> "3 day per week",
+                        'borderColor'=> "yellow",
+                        'fill'=> false
+                    );
+        
+
+            
+        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
         $isactive='purchase';
         $purchase=PlanPurchase::where('status',1)->get();
         $plan=PlanPurchase::where('id',1)->get()->first();
-        return view('pages.trainee.purchase_details')->with('purchase',$purchase)->with('plan',$plan)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
+        return view('pages.trainee.purchase_details')->with('dataset',json_encode($dataset,true))->with('purchase',$purchase)->with('plan',$plan)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
 
     }
+    public function number_formate($data){
+            return number_format((float)$data, 2, '.', '');  // Outputs -> 105.00
+    }
+    // public function calculation(Request $request){
+
+    //     $caloryGain = $request->target_calory_gain;
+    //     $pal = $request->pal;
+
+    //     $user_id = Session::get('user.id');
+    //     $user = \App\Model\User::where('id',$user_id)->get()->first();
+
+    //     $bmrData = $caloryGain;
+    //     $weightBalance = weight_balance($bmrData,$pal,$user->weight);
+
+    //     $day1 = $user->weight+$weightBalance;
+
+    //     $weight = $user->weight;
+    //     $result = $this->dayKg($weight,1.55);
+    //     // dd($result);
+    //     return $result;
+
+    // }
+
+    public function repeatedFunction($weight,$pal,$totalday,$trainingType,$start,$counter){
+
+    
+        if ($totalday === 0){
+            return $this->RECURSIVE;
+        }else{
+
+            $bmrData = BMRcalculation($weight);
+            $weightBalance = weight_balance($bmrData,$pal,$weight,$start,$trainingType);
+            $weight = $weight+$weightBalance;
+            $this->RECURSIVE[$trainingType][$counter]['plan_type']=$trainingType;
+            $this->RECURSIVE[$trainingType][$counter]['weight']=$weight;
+            $this->RECURSIVE[$trainingType][$counter]['weightBalance']=$weightBalance;
+            $this->RECURSIVE[$trainingType][$counter]['bmr']=$bmrData;
+            $this->RECURSIVE[$trainingType][$counter]['pal']=$pal;
+        }   
+        $this->counter++;
+        $this->repeatedFunction($weight,$pal,($totalday-1),$trainingType,$start+1,$counter+1); 
+    }
+
+
+    // public function dayKg($weight,$pal){
+
+        // $rt = $this->repeatedFunction($weight,$pal,13);
+        // return $rt;
+        // dd($this->RECURSIVE);
+
+        // $returnArray=array();
+
+        // for($i=1;$i<30;$i++){
+        //     $returnArray[$i] = $this->repeatedFunction($weight,$pal);
+        // }
+
+        // dd($returnArray);
+        // $factor=1;
+        // $monthCounter=1;
+        // for($i=0;$i<3;$i++){
+        //     $returnArray[$i]['label']='';
+        //     $returnArray[$i]['borderColor']='#6d93ff';
+        //     $returnArray[$i]['fill']=false;
+
+        //     for($j=0;$j<=3;$j++){
+                
+        //         if($j==0){
+        //             $returnArray[$i]['data'][$j]=$weight;
+        //         }else{
+
+        //             $returnArray[$i]['data'][$j]=($weight+($weightBalance*30*$j*$factor));
+        //             $monthCounter++;
+        //         }
+        //     }
+        //     $factor++;
+
+        //     // $weight 
+        //     // $weight 
+        //     // $weight 
+
+        //     // $weight + $weightBalance*30*1;
+        //     // $weight + $weightBalance*60*1;
+        //     // $weight + $weightBalance*90*1;
+
+        //     // $weight + $weightBalance*30*2;
+        //     // $weight + $weightBalance*60*2;
+        //     // $weight + $weightBalance*90*2;
+
+        //     // $weight + $weightBalance*30*3;
+        //     // $weight + $weightBalance*60*3;
+        //     // $weight + $weightBalance*90*3;
+        // }
+        // return ($returnArray);
+        // // one times a week 
+        // $oneMonth = ($weight + (30*$weightBalance)) * 1;
+        // $twoMonth = ($weight + (2*30*$weightBalance)) * 1;
+        // $threeMonth = ($weight + (3*30*$weightBalance)) * 1;
+
+        // // two times a week
+        // $oneMonth = ($weight + (30*$weightBalance)) * 2;
+        // $twoMonth = ($weight + (2*30*$weightBalance)) * 2;
+        // $threeMonth = ($weight + (3*30*$weightBalance)) * 2;
+        // // three times a week
+        // $oneMonth = ($weight + (30*$weightBalance)) * 3;
+        // $twoMonth = ($weight + (2*30*$weightBalance)) * 3;
+        // $threeMonth = ($weight + (3*30*$weightBalance)) * 3;
+
+    //     [
+    //   { 
+    //     data: [70,68,60,50],
+    //     label: "",
+    //     borderColor: "#6d93ff",
+    //     fill: false
+    //   }, 
+    //   { 
+    //     data: [70,67,59,55],
+    //     label: "",
+    //     borderColor: "green",
+    //     fill: false
+    //   },
+    //   { 
+    //     data: [70,60,55,50],
+    //     label: "",
+    //     borderColor: "yellow",
+    //     fill: false
+    //   }, 
+    
+    // ]
+
     public function purchasedetails(Request $request){
         $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
         $isactive='purchase';

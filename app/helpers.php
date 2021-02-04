@@ -82,26 +82,186 @@ function diff($finish){
 			$finish = Carbon\Carbon::parse($finish);
 			return $finish->diffInSeconds($startTime);
 }
-function BMRcalculation($gendar,$weight,$length,$age){
+function BMRcalculation($weight){
+
+
+	$user_id = Session::get('user.id');
+	$user = \App\Model\User::where('id',$user_id)->get()->first();
+	$setUpData = \App\Model\Setting::get()->first();
+
+
+	// age of the user 
+	$dateOfBirth = $user->dob;
+	$today = date("m/d/Y");
+	$diff = date_diff(date_create($dateOfBirth), date_create($today));
+
+	$age = $diff->format('%y');
+	$weight = $weight;
+	$height = $user->height;
+	// dd($weight);
+
+	$bmr_weight_offset=$user->bmr_weight_offset;
+	$bmr_length_offset=$user->bmr_length_offset;
+	$bmr_height_offset=$user->bmr_height_offset;
+	$bmr_age_offset=$user->bmr_age_offset;
+
+	if($user->sex ==='male'){
+		$bmr_gender_offset = $user->bmr_male_offset;
+		$bmr_gender_coefficient = $setUpData->bmr_male_coefficient;
+	}else{
+		$bmr_gender_offset = $user->bmr_female_offset;
+		$bmr_gender_coefficient = $setUpData->bmr_female_coefficient;
+	}
+
+	$bmr_gender_offset=$user->bmr_gender_offset;
+   
+
+	
+	$result = ($setUpData->bmr_weight_coefficient*$bmr_weight_offset*$weight)
+			+($setUpData->bmr_length_coefficient*$bmr_length_offset*$height)
+			+($setUpData->bmr_age_coefficient*$bmr_age_offset*$age)
+			+($bmr_gender_coefficient+$bmr_gender_offset);
+			//dd($result);
+	return $result;
+}
+function training_calory($weight){
+	
+	$user_id = Session::get('user.id');
+	$user = \App\Model\User::where('id',$user_id)->get()->first();
+	$setUpData = \App\Model\Setting::get()->first();
+
+	$session_time=0.67;
+	$mets=6;
+
+	$result= $weight * $setUpData->traininng_calory_coefficient * $user->trainning_calory_offset*$mets*$session_time;
+	//dd($result);
+	return $result;
+		// weight*traininng_calory_coefficient*trainning_calory_offset*METS*session_time
+}
+function after_burn($weight){
+	$user_id = Session::get('user.id');
+	$user = \App\Model\User::where('id',$user_id)->get()->first();
 
 	$setUpData = \App\Model\Setting::get()->first();
-	if($gendar === 'male'){
-		$bmr_gender_coefficient = $setUpData->bmr_male_coefficient;
-		$bmr_gender_offset = $setUpData->bmr_male_offset;
+	$result = BMRcalculation($weight)*$setUpData->adter_burn_coefficient*$user->after_burn_offset;
+	// dd($result);
+	return $result;
+	// BMR*adter_burn_coefficient*after_burn_offset
+}
 
-	}else{
-		$bmr_gender_coefficient = $setUpData->bmr_female_coefficient;
-		$bmr_gender_offset = $setUpData->bmr_female_offset;
+// function traingDay($n,$day,$type){
+// 	if($n == 1){
+// 		$trainingDay=1;
+// 	}
+// 	// 1 day per week 
+// 	if($type == '1_day_per_week'){
+// 		$trainingDay=7*$n-6;
+// 	}
 
+
+// 	// 2 day per week 
+// 	if($type == '2_day_per_week'){
+// 		if($n%2 == 0){
+// 			$trainingDay=7*($n-$n/2);
+// 		}
+// 		if($n%2 != 0){
+// 			$trainingDay=7*($n - floar($n/2) )-6;
+// 		}
+// 	}
+
+// 	// 3 day per week 
+// 	if($type == '3_day_per_week'){
+// 		if($n%2 == 0){
+// 			$trainingDay=7*($n-$n/2);
+// 		}
+// 		if($n%2 != 0){
+// 			$trainingDay=7*($n - floar($n/2) )-6;
+// 		}
+// 	}
+
+
+// }
+function consumed_calory($pal,$weight,$daynumber,$trainingtype){
+	$trainingDay='FALSE';
+	$training_cal=0;
+	$after_burn =0;
+
+	if($trainingtype === '1day_per_week'){
+		$allTraingingArray = Config::get('statics.1day_per_week');
+		if (in_array($daynumber, $allTraingingArray)) {
+		    $trainingDay="TRUE";
+		    $training_cal = training_calory($weight);
+		    $after_burn = after_burn($weight);
+		}
 	}
-	
-	dd($bmr_gender_coefficient);
-	$result = ($setUpData->bmr_weight_coefficient*$setUpData->bmr_weight_offset*$weight)
-			+($setUpData->bmr_length_coefficient*$setUpData->bmr_length_offset*$length)
-			+($setUpData->bmr_age_coefficient*$setUpData->bmr_age_offset*$age)
-			+($setUpData->bmr_gender_coefficient+$setUpData->bmr_gender_offset);
+	if($trainingtype === '2day_per_week'){
+		$allTraingingArray = Config::get('statics.2day_per_week');
+		if (in_array($daynumber, $allTraingingArray)) {
+		    $trainingDay="TRUE";
+		    $training_cal = training_calory($weight);
+		    $after_burn = after_burn($weight);
+		}
+	}
+	if($trainingtype === '3day_per_week'){
+		$allTraingingArray = Config::get('statics.3day_per_week');
+		if (in_array($daynumber, $allTraingingArray)) {
+		    $trainingDay="TRUE";
+		    $training_cal = training_calory($weight);
+		    $after_burn = after_burn($weight);
+		}
+	}
+
+	if($trainingDay === 'FALSE'){
+		// finding out after_burn() for next 2 days after training day
+		if($trainingtype === '1day_per_week'){
+			$allBurnDayArray = Config::get('statics.after_burn_1day_per_week');
+			if (in_array($daynumber, $allBurnDayArray)) {
+			    $after_burn = after_burn($weight);
+			}
+		}
+
+		if($trainingtype === '2day_per_week'){
+			$allBurnDayArray = Config::get('statics.after_burn_2day_per_week');
+			if (in_array($daynumber, $allBurnDayArray)) {
+			    $after_burn = after_burn($weight);
+			}
+		}
+
+		if($trainingtype === '3day_per_week'){
+		    $after_burn = after_burn($weight);
+		}
+	}
+
+	$result= (BMRcalculation($weight)*$pal)+$training_cal+$after_burn;
+	return $result;
+}
+//BMR*physicalactive level+training calory+after burn
+function calory_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype){
+
+	$result = $calory_gained - consumed_calory($pal,$weight,$daynumber,$trainingtype);
 	return $result;
 
-	//BMR_weight_coefficient*BMR_weight_offset*weight+BMR_length_coefficient*BMR_length_offset*length+BMR_age_coefficient*BMR_age_offset+BMR_male_coefficient+BMR_male_offse
+	//calory_gained-consumed calor
+}
+function weight_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype){
+
+	$user_id = Session::get('user.id');
+	$user = \App\Model\User::where('id',$user_id)->get()->first();
+	$setUpData = \App\Model\Setting::get()->first();
+
+	$result=calory_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype)*$setUpData->weight_balance_coefficient1*$user->weight_balance_offset
+		/$setUpData->weight_balance_coefficient2/1000;
+
+	return $result;
+}
+
+function dit($calory_gained){ //Diet Induced Thermogenesis
+	$user_id = Session::get('user.id');
+	$user = \App\Model\User::where('id',$user_id)->get()->first();
+	$setUpData = \App\Model\Setting::get()->first();
+
+	$result = $calory_gained*$setUpData->ditcoefficient*$user->ditoffset;
+	return $result;
+	// calory_gained*uDITcoefficient*DIToffset
 }
 ?>
