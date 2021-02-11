@@ -155,6 +155,15 @@ Route::prefix('admin')->group(function () {
 		// Route::get('/equipment/delete/{id}', 'Admin\DashboardController@equipmentDelete')->name('admin.equipment.delete');
 
 
+		//couses route
+
+		Route::get('/admin/course/list', 'Admin\CourseController@courseList')->name('course.list');
+		Route::get('/admin/course/view/{id}', 'Admin\CourseController@courseView')->name('course.view');
+		Route::get('/admin/course/add', 'Admin\CourseController@courseAdd')->name('course.add');
+		Route::post('/admin/course/add', 'Admin\CourseController@courseAddSubmit')->name('course.add.submit');
+		Route::get('/admin/course/edit/{id}', 'Admin\CourseController@courseEdit')->name('course.edit');
+		Route::post('/admin/course/edit', 'Admin\CourseController@courseEditSubmit')->name('course.edit.submit');
+
 		// Admin trainer manage
 		Route::get('/trainer/list', 'Admin\TrainerController@trainerList')->name('trainer.list');
 		Route::get('/trainer/edit/{id}', 'Admin\TrainerController@trainerEdit')->name('admin.trainer.edit');

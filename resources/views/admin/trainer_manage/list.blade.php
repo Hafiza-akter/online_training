@@ -49,14 +49,15 @@
                                 </td>
                                 <td>{{$trainer->unit_price}}</td>
                                 <!-- <td>{{$trainer->certification}}</td> -->
+                                
                                 <td>
                                     <?php 
-                                    if($trainer->status == 1){ ?>
-                                        <input type="button"  readonly  class="btn btn-primary"  value=" Active ">
+                                  if($trainer->status == 1){ ?>
+                                    <span class="span-info ml-2">Active</span>
                                     <?php }else{?>
-                                        <input type="button"  readonly  class="btn btn-warning"  value="Inactive">
-                                  <?php  } ?>
-                                </td>                                
+                                        <span class="span-warning ml-2">Inactive</span>
+                                   <?php } ?>
+                                </td>
                                 <td>
                                     <a href="{{route('admin.trainer.edit',$trainer->id)}}" class="pl-3 pr-3"><i class="fas fa-edit"></i></a>
                                     <a href="{{route('admin.trainer.view',$trainer->id)}}" class="pl-3 pr-3"><i class="fas fa-eye"></i></a>

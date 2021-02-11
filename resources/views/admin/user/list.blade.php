@@ -36,13 +36,14 @@
                                 <td>{{$i++}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->role}}</td>
+                               
                                 <td>
                                     <?php 
-                                    if($user->status == 1){ ?>
-                                        <input type="button"  readonly  class="btn btn-primary"  value=" Active ">
+                                  if($user->status == 1){ ?>
+                                    <span class="span-info ml-2">Active</span>
                                     <?php }else{?>
-                                        <input type="button"  readonly  class="btn btn-warning"  value="Inactive">
-                                  <?php  } ?>
+                                        <span class="span-warning ml-2">Inactive</span>
+                                   <?php } ?>
                                 </td>
                                 <td>
                                     <a href="{{route('admin.edit',$user->id)}}" class="pl-3 pr-3"><i class="fas fa-edit"></i></a>

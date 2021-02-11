@@ -30,6 +30,19 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <style>
+    .span-info {
+      background-color: rgb(178, 224, 116);
+      padding: 5px;
+      border-radius: 4px;
+    }
+
+    .span-warning {
+      background-color: yellow;
+      padding: 5px;
+      border-radius: 4px;
+    }
+  </style>
 
 </head>
 
@@ -141,8 +154,8 @@
                   <a href="{{route('purchase.plan.list')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
-                    購入を計画する
-                    <!-- Plan Purchase -->
+                      購入を計画する
+                      <!-- Plan Purchase -->
                     </p>
                   </a>
                 </li>
@@ -170,7 +183,7 @@
                 </p>
               </a>
             </li>
-            
+
 
             <li class="nav-item">
               <a href="{{route('admin.setting')}}" class="nav-link">
@@ -188,8 +201,8 @@
                   <a href="{{route('admin.list')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
-                    <!-- list -->
-                    リスト
+                      <!-- list -->
+                      リスト
                     </p>
                   </a>
                 </li>
@@ -197,8 +210,8 @@
                   <a href="{{route('admin.add')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
-                    <!-- add -->
-                    追加
+                      <!-- add -->
+                      追加
                     </p>
                   </a>
                 </li>
@@ -247,6 +260,16 @@
                 <p>
                   <!-- User Trainer Manage -->
                   ユーザートレーナー管理
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('course.list')}}" class="nav-link">
+                <!-- <i class="nav-icon far fa-image"></i> -->
+                <i class=" nav-icon fas fa-tasks"></i>
+                <p>
+                  <!-- Courses -->
+                  コース
                 </p>
               </a>
             </li>
