@@ -51,7 +51,7 @@ class LoginController extends Controller
         }
         else{
             session(['user' => $trainer,'user_type'=>'trainer','message'=>'Login Success']);
-            return redirect()->route('trainerCalendar.view')->with('message','login success!');
+            return redirect()->route('calendar.view','month')->with('message','login success!');
 
         }
 

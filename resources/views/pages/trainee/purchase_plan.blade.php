@@ -78,47 +78,7 @@
                                 <div id="paypal-button"></div>
                             </div>
                           </div>
-                          <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-                          <script>
-                          paypal.Button.render({
-                            env: 'sandbox', // Or 'production'
-                            style: {
-                              size: 'large',
-                              color: 'gold',
-                              shape: 'pill',
-                            },
-                            // Set up the payment:
-                            // 1. Add a payment callback
-                            payment: function (data, actions) {
-                              // 2. Make a request to your server
-                              return actions.request.post('{{ route('cp')}}')
-                                .then(function (res) {
-                                  // 3. Return res.id from the response
-                                  // console.log(res);
-                                  return res.id
-                                })
-                            },
-                            // Execute the payment:
-                            // 1. Add an onAuthorize callback
-                            onAuthorize: function (data, actions) {
-                              // 2. Make a request to your server
-                              return actions.request.post('{{ route('conp')}}', {
-                                payment_id: data.paymentID,
-                                payer_id: data.payerID,
-                                user_id: {{ Session::get('user.id')}},
-
-                              })
-                                .then(function (res) {
-                                  console.log(res)
-                                  alert('Payment successfully done!!');
-                                  Swal.fire(
-                                      'Payment successfully done'
-                                    )
-                                  // 3. Show the buyer a confirmation message.
-                                })
-                            }
-                          }, '#paypal-button')
-                          </script>
+                        
                           @else 
                                               <i class="fas fa-check-circle"></i> Your already purchase  <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>
 
@@ -264,6 +224,47 @@
 
 @endsection
 @section('footer_css_js')
+  <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script>
+    paypal.Button.render({
+      env: 'sandbox', // Or 'production'
+      style: {
+        size: 'large',
+        color: 'gold',
+        shape: 'pill',
+      },
+      // Set up the payment:
+      // 1. Add a payment callback
+      payment: function (data, actions) {
+        // 2. Make a request to your server
+        return actions.request.post('{{ route('cp')}}')
+          .then(function (res) {
+            // 3. Return res.id from the response
+            // console.log(res);
+            return res.id
+          })
+      },
+      // Execute the payment:
+      // 1. Add an onAuthorize callback
+      onAuthorize: function (data, actions) {
+        // 2. Make a request to your server
+        return actions.request.post('{{ route('conp')}}', {
+          payment_id: data.paymentID,
+          payer_id: data.payerID,
+          user_id: {{ Session::get('user.id')}},
+
+        })
+          .then(function (res) {
+            console.log(res)
+            alert('Payment successfully done!!');
+            Swal.fire(
+                'Payment successfully done'
+              )
+            // 3. Show the buyer a confirmation message.
+          })
+      }
+    }, '#paypal-button')
+    </script>
 <script>
 new Chart(document.getElementById("line-chart"), {
   type: 'line',

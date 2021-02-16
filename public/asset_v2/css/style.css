@@ -22,7 +22,7 @@ body {
     font-family: open sans, sans-serif;
     padding: 0;
     margin: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 .message_submit_form:focus {
     outline: none;
@@ -169,7 +169,8 @@ a:focus, .button:focus, button:focus, .btn:focus {
     transition: 1s;
 }
 .section_tittle {
-    margin-bottom: 75px;
+    /*margin-bottom: 75px;*/
+    margin-bottom: 44px;
     text-align: center;
 }
 @media(max-width:575px) {
@@ -202,12 +203,12 @@ a:focus, .button:focus, button:focus, .btn:focus {
 @media(max-width:575px) {
     .section_tittle h2 {
     font-size: 25px;
-    line-height: 35px;
+    line-height: 128px;
 }
 }@media only screen and (min-width:576px) and (max-width:767px) {
     .section_tittle h2 {
     font-size: 25px;
-    line-height: 35px;
+    line-height: 128px;
 }
 }@media only screen and (min-width:768px) and (max-width:991px) {
     .section_tittle h2 {
@@ -4463,4 +4464,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .purple-back{
     background-color: rgb(191 30 220 / 12%);
+}
+.btn_active_{
+
+
+    background: #a509a4;
+
 }

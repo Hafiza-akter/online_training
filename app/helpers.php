@@ -119,13 +119,13 @@ function BMRcalculation($weight){
 	
 	$result = ($setUpData->bmr_weight_coefficient*$bmr_weight_offset*$weight)
 			+($setUpData->bmr_length_coefficient*$bmr_length_offset*$height)
-			+($setUpData->bmr_age_coefficient*$bmr_age_offset*$age)
+			-($setUpData->bmr_age_coefficient*$bmr_age_offset*$age)
 			+($bmr_gender_coefficient+$bmr_gender_offset);
 			//dd($result);
 	return $result;
 }
 function training_calory($weight){
-	
+
 	$user_id = Session::get('user.id');
 	$user = \App\Model\User::where('id',$user_id)->get()->first();
 	$setUpData = \App\Model\Setting::get()->first();
@@ -243,14 +243,15 @@ function calory_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype){
 
 	//calory_gained-consumed calor
 }
+
 function weight_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype){
 
 	$user_id = Session::get('user.id');
 	$user = \App\Model\User::where('id',$user_id)->get()->first();
-	$setUpData = \App\Model\Setting::get()->first();
+		$setUpData = \App\Model\Setting::get()->first();
 
-	$result=calory_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype)*$setUpData->weight_balance_coefficient1*$user->weight_balance_offset
-		/$setUpData->weight_balance_coefficient2/1000;
+		$result=calory_balance($calory_gained,$pal,$weight,$daynumber,$trainingtype)*$setUpData->weight_balance_coefficient1*$user->weight_balance_offset
+			/$setUpData->weight_balance_coefficient2/1000;
 
 	return $result;
 }
@@ -264,4 +265,12 @@ function dit($calory_gained){ //Diet Induced Thermogenesis
 	return $result;
 	// calory_gained*uDITcoefficient*DIToffset
 }
+function checkEquipment($user_id,$id){
+	  return \App\Model\UserEquipment::where('user_id',$user_id)->where('equipment_id',$id)->get()->first();
+
+}
+function number_formate($data){
+            return number_format((float)$data, 2, '.', '');  // Outputs -> 105.00
+ }
+
 ?>

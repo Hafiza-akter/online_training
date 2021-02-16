@@ -152,16 +152,19 @@ public function confirmPayment(Request $request)
         $transaction->user_id =$request->user_id;
         $transaction->amount = 10;
         $transaction->transaction_id =$paymentId;
-        $transaction->purchase_plan_id =1;
+        $transaction->purchase_plan_id =$request->purchase_plan_id;
         $transaction->status =1;
         $transaction->save();
 
 
-        $transaction = new UserPlanPurchase();
-        $transaction->user_id =$request->user_id;
-        $transaction->purchase_plan_id =1;
-        $transaction->status =1;
-        $transaction->save();
+        $planPurchaseUser = new UserPlanPurchase();
+        $planPurchaseUser->user_id =$request->user_id;
+        $planPurchaseUser->purchase_plan_id =$request->purchase_plan_id;
+        $planPurchaseUser->target_calory_gained =$request->target_calory_gained;
+        $planPurchaseUser->objective =$request->objective;
+        
+        $planPurchaseUser->status =1;
+        $planPurchaseUser->save();
 
 
         return $result;

@@ -5,7 +5,13 @@
       {{-- @include('pages.trainee.dashboard') --}}
 
 <section class="review_part gray_bg section_padding">
-
+     <div class="row justify-content-center">
+                <div class="col-md-8 col-xl-6">
+                    <div class="section_tittle">
+                        <h3>トレーナーリスト</h3>
+                    </div>
+                </div>
+            </div>
   <div class="offset-md-2 col-md-10">
     <div class="row mb-5">
         <div class="offset-sm-3 col-sm-10">
@@ -32,9 +38,11 @@
                 @endforeach
 
         </div>
+    @else 
+                <h2> No data found</h2>
+
     @endif
 
-    <h2> No data found</h2>
 
 
 </div>

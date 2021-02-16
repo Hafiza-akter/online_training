@@ -35,14 +35,19 @@
                             </li>
                             <li class="nav-item ">
                                     {{-- progress --}}
-                                <a class="nav-link" href="#">達成状況</a>
+                                <a class="nav-link {{ !empty($isActive) &&  ($isActive == 'progress' || $isActive == 'dailydata') ? 'active__' : ''}}" href="{{ route('progress')}}">達成状況</a>
                             </li>
                             
                             <li class="nav-item ">
                                      {{-- Personal Settings --}}
                                 <a class="nav-link {{ !empty($isActive) &&  $isActive == 'p-settings' ? 'active__' : ''}}" href="{{ route('trainee.p-settings') }}">個人設定 </a>
                             </li>
-                             <li class="nav-item ">
+
+                            <li class="nav-item ">
+                                     {{-- Personal Settings --}}
+                                <a class="nav-link {{ !empty($isActive) &&  $isActive == 'inquiry' ? 'active__' : ''}}" href="{{ route('inquiry') }}">問い合わせ</a>
+                            </li>
+                            <li class="nav-item ">
                                      {{-- Lgout  --}}
                                <a class="btn" href="{{ route('traineeLogout')}}"> <i class="fas fa-sign-out-alt"></i></span>  </a>
 
@@ -54,7 +59,7 @@
                             
                             <li class="nav-item  {{ !empty($isActive) &&  $isActive == 'schedule' ? 'active__' : ''}}">
                                 {{-- schedule --}}
-                                <a class="nav-link" href="{{ route('trainerCalendar.view') }}">スケジュール</a>
+                                <a class="nav-link" href="{{ route('calendar.view','month') }}">スケジュール</a>
                             </li>
                             
                             <li class="nav-item ">
@@ -66,6 +71,11 @@
                                      {{-- Personal Settings --}}
                                 <a class="nav-link {{ !empty($isActive) &&  $isActive == 'p-settings' ? 'active__' : ''}}" href="{{ route('trainer.p-settings') }}">個人設定 </a>
                             </li>
+                            <li class="nav-item ">
+                                     {{-- Personal Settings --}}
+                                <a class="nav-link {{ !empty($isActive) &&  $isActive == 'inquiry' ? 'active__' : ''}}" href="{{ route('inquiry') }}">問い合わせ</a>
+                            </li>
+
                              <li class="nav-item ">
                                      {{-- Lgout  --}}
                                <a class="btn" href="{{ route('trainerLogout')}}"> <i class="fas fa-sign-out-alt"></i></span>  </a>

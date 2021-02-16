@@ -145,14 +145,14 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
+         {{--    <div class="row mb-3">
                 <div class="col-4">
                     <label class="col-form-label _body_fat_percentage_">体脂肪率 <span style="color:red">*</span></label>
                 </div>
                 <div class="col-8">
                     <input  type="number"  step="0.01" name="fat" class="form-control"  required="required" value="{{ old('fat')}}">
                 </div>
-            </div>
+            </div> --}}
              <div class="row mb-3">
                 <div class="col-4">
                     <label class="col-form-label _pal_">身体活動レベル <span style="color:red">*</span> </label>

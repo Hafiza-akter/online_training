@@ -20,10 +20,20 @@
     color: #a509a4 !important;
     border: 1px solid #a509a4 !important;
   }
+  .fc .fc-bg-event{
+    opacity: 1 !important;
+  }
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
 <div class="offset-md-1 col-md-10">
+          @if(Session::has('message'))
+        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{!! Session::get('message') !!}</p>
+        @endif
+
+        @if(Session::has('errors_m'))
+        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
+        @endif
 
   <div class="row pb-5  page-content page-container" id="chart">
 
@@ -83,8 +93,8 @@
             </td>
             <td>
               <button class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >Join Course</button>
-              <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a>
-              <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button>
+              {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
+              {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
             </td>
           </tr>
         @endforeach
@@ -131,6 +141,7 @@
       select: function(info) {
         // alert('selected ' + info.startStr + ' to ' + info.endStr);
       },
+      
       events: dateData
     });
 

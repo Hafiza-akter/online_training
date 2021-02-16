@@ -1,0 +1,206 @@
+@extends('master_dashboard')
+@section('title','purchase plan')
+@section('header_css_js')
+<script src='{{ asset('asset_v2/js/Chart.min.js')}}'></script>
+<script src='{{ asset('asset_v2/js/utils.js')}}'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<style>
+.table td, .table th{
+    border:none !important;
+}
+</style>
+@endsection
+@section('content')
+<section class="review_part gray_bg section_padding">
+  <div class="container my-4">
+
+       <div class="row justify-content-center">
+            <div class="col-md-8 col-xl-6">
+                <div class="section_tittle">
+                    <h3>ユーザーの成果</h3>
+                </div>
+            </div>
+        </div>
+
+   
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-xl-12">
+              <div class="card">
+                    <div class="card-header">
+                       <ul class="list-inline">
+                          <li class="list-inline-item {{ $isActive == 'progress' ? 'btn_active_' : 'btn-secondary'}}" style="padding: 10px;color: white;">
+                            <a href="{{ route('progress')}}" style="color: #fff">
+                              <i class="fas fa-trophy"></i> ユーザーの成果
+                            </a>
+                          </li>
+
+                          <li class="list-inline-item {{ $isActive == 'dailydata' ? 'btn_active_' : 'btn-secondary'}}" style="padding:10px;color: white;">
+                            <a href="{{ route('dailydata')}}" style="color: #fff">
+                            <i class="fas fa-plus"></i>  毎日のデータ
+                            </a>
+                           </li>
+
+                        </ul>
+
+                    </div>
+                <!-- Card body -->
+                  <div class="card-body">
+
+                     <div class="row justify-content-center">
+
+                       <div class="col-md-12 col-xl-12">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+
+                            @if(Session::has('success'))
+                            <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}</p>
+                            @endif
+                        </div>
+
+                        <div class="col-md-12 col-xl-12">
+
+                            <table class="table">
+                     
+                              <tbody>
+                       
+                                    <input type="hidden" name="email" class="form-control" value="{{ $user->email}}">
+                                    <input type="hidden" name="user_id" class="form-control" value="{{ $user->id}}">   
+                                <tr>
+                                  <td width="50%">
+                                    <div class="form-group">
+                                      @php 
+                                        $startDay = date('m/d/Y', strtotime("-7 days"));
+                                        $endday = date('m/d/Y');
+                                        $date = $startDay." - ".$endday;
+                                      @endphp
+
+                                        <label> Date Range </label>
+                                        <input type="text" name="dates" required="required" class="form-control datepicker" value="{{ $date }}">
+                                    </div>
+                                  </td> 
+                                 
+                                  <td></td>                          
+                                </tr>
+                                
+                               
+                              </tbody>
+                          </table>
+                          </div>
+
+
+                        <div class="col-md-12 col-xl-12">
+                            <canvas id="line-chart" width="800" height="450"></canvas>
+                        </div>
+                      </div>
+
+                  </div>
+
+              </div>
+            </div>
+          </div>
+    
+  </div>
+  <input type="hidden" id="dataset" value="{{ $dataset}}">
+{{--   <input type="hidden" id="datasetlebel" value="{{ $datasetlebel['1/02','2/02','3/02','4/02','5/02','6/02','7/02']}}">
+ --}}
+
+</section>
+
+
+
+@endsection
+@section('footer_css_js')
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script>
+var dateRange="";
+$(function() {
+  $('input[name="dates"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    dateRange = start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD');
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  });
+});
+
+console.log(dateRange);
+var dataset = JSON.parse($('#dataset').val());
+console.log(dataset[0].data);
+
+  var lineChartData = {
+      labels: ['1/02','2/02','3/02','4/02','5/02','6/02','7/02'],
+      datasets: [{
+        label: 'My First dataset',
+        borderColor: window.chartColors.red,
+        backgroundColor: window.chartColors.red,
+        fill: false,
+        data: dataset[0].data,
+        yAxisID: 'y-axis-1',
+      }, {
+        label: 'My Second dataset',
+        borderColor: window.chartColors.blue,
+        backgroundColor: window.chartColors.blue,
+        fill: false,
+        data: [85, "84.60", "84.40", "84.20", "84.00", "83.90", null],
+        yAxisID: 'y-axis-2'
+      },
+      {
+        label: 'My Second dataset',
+        borderColor: window.chartColors.red,
+        backgroundColor: window.chartColors.blue,
+        fill: false,
+        data: [85, "84.60", "74.40", "84.20", "84.00", "83.90", null],
+      }]
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('line-chart').getContext('2d');
+      window.myLine = Chart.Line(ctx, {
+        data: lineChartData,
+        options: {
+          responsive: true,
+          hoverMode: 'index',
+          stacked: false,
+          title: {
+            display: true,
+            text: dateRange
+          },
+          scales: {
+            yAxes: [{
+              type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+              display: true,
+              position: 'left',
+              id: 'y-axis-1',
+            }, {
+              type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+              display: true,
+              position: 'right',
+              id: 'y-axis-2',
+
+              // grid line settings
+              gridLines: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
+            }],
+          }
+        }
+      });
+    };
+
+
+
+
+</script>
+@endsection

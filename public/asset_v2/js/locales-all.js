@@ -839,7 +839,7 @@
       next: '次',
       today: '今日',
       month: '月',
-      week: '週',
+      week: '毎週の登録',
       day: '日',
       list: '予定リスト',
     },

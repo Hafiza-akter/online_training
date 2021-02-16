@@ -32,6 +32,8 @@ Route::get('/test/dashboard', 'LoginController@dashboard')->name('dashboard');
 Route::get('/trainer/list', 'TopPageController@trainerList')->name('trainersList');
 Route::get('/trainer/details', 'TopPageController@details')->name('trainerdetails');
 Route::get('/customer/reivews', 'TopPageController@review')->name('review');
+Route::get('/inquiry', 'InquiryController@inquiry')->name('inquiry');
+Route::get('/inquiry/submit', 'InquiryController@inquirysubmit')->name('inquiry.submit');
 
 /*
 |--------------------------------------------------------------------------
@@ -95,16 +97,19 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
 
 	// trainer 
-	Route::get("/trainer/scheduled/calendar", "TrainerController@scheduleCalendar")->name(('trainerCalendar.view'));
+	Route::get("/trainer/calendar/{type}", "ScheduleController@calendar")->name(('calendar.view'));
+	Route::post("/trainer/schedule/", "ScheduleController@schedule")->name(('schedule'));
+	Route::post("/trainer/scheduleDelete/", "ScheduleController@scheduleDelete")->name(('scheduleDelete'));
+
+
 	Route::post("/trainer/scheduled/calendar", "TrainerController@scheduleCalendarSubmit")->name(('trainerCalendar.submit'));
 
 	Route::get("/trainer/scheduled/{selected_date}/time", "TrainerController@scheduleTime")->name(('trainerTime.view'));
-	Route::post("/trainer/scheduled/submit", "TrainerController@scheduleSubmit")->name(('scheduleSubmit.submit'));
+	Route::post("/trainer/calendar/submit", "TrainerController@scheduleSubmit")->name(('scheduleSubmit.submit'));
 	Route::get("/trainer/logout", "TrainerController@logout")->name(('trainerLogout'));
 	Route::get("/trainer/scheduled/{id}", "TrainerController@trainerScheduleDelete")->name(('trainerScheduleDelete'));
 	
 	// trainer schedule new update
-	Route::post("/trainer/schedule/", "TrainerController@schedule")->name(('schedule'));
 
 	// trainee personal settings
 	Route::get('/trainer/p-settings', 'TrainerController@psettings')->name('trainer.p-settings');
@@ -113,7 +118,11 @@ Route::group(['middleware' => 'checkLogin'], function () {
 
 	Route::get("/trainee/physicaldata", "TraineeController@physicaldata")->name(('physicaldata'));
 	Route::post("/trainee/physicaldata/submit", "TraineeController@physicaldatasubmit")->name(('physicaldata.submit'));
-	Route::get("/trainee/scheduled/calendar", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
+
+	Route::get("/trainee/traininginfo", "TraineeController@traininginfo")->name(('traininginfo'));
+	Route::post("/trainee/traininginfo/submit", "TraineeController@traininginfosubmit")->name(('traininginfo.submit'));
+
+	Route::get("/trainee/scheduled/month", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
 	Route::post("/trainee/scheduled/calendar", "TraineeController@scheduleCalendarSubmit")->name(('traineeCalendar.submit'));
 
 	Route::get("/trainee/scheduled/{selected_date}/time", "TraineeController@scheduleTime")->name(('traineeTime.view'));
@@ -121,6 +130,15 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainee/logout", "TraineeController@logout")->name(('traineeLogout'));
 	Route::get("/trainee/purchaseplan", "TraineeController@purchaseplan")->name(('purchaseplan'));
 	Route::get("/trainee/purchaseplan/{id}", "TraineeController@purchasedetails")->name(('purchasedetails'));
+	Route::post("/trainee/purchaseplan/purchaseajaxcall", "TraineeController@purchaseajaxcall")->name(('purchaseajaxcall'));
+
+	Route::get("/trainee/progress", "UserAchievement@progress")->name(('progress'));
+	Route::get("/trainee/progress/dailydata/{date}", "UserAchievement@dailydata")->name(('dailydata'));
+	Route::post("/trainee/progress/dailydata/submit", "UserAchievement@dailydataSubmit")->name(('dailydata.submit'));
+	Route::get("/trainee/progress/dailydata/edit/{id}", "UserAchievement@dailydataEdit")->name(('dailydata.edit'));
+
+	Route::post("/trainee/purchaseplan/purchaseajaxcall", "TraineeController@purchaseajaxcall")->name(('purchaseajaxcall'));
+
 	// trainee personal settings
 	Route::get('/trainee/p-settings', 'TraineeController@psettings')->name('trainee.p-settings');
 	Route::post('/trainee/p-settings', 'TraineeController@psettingsSubmit')->name('trainee.p-settings.submit');

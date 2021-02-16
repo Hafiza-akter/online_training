@@ -40,7 +40,7 @@ class TraineeController extends Controller
        $validateData = $request->validate([
 
             'weight' => 'required',
-            'fat' => 'required',
+            // 'fat' => 'required',
             'sex' => 'required',
             'birthday' => 'required',
             'height' => 'required',
@@ -53,31 +53,41 @@ class TraineeController extends Controller
         $trainee->dob = $request->input('birthday');
         $trainee->length = $request->input('height');
         $trainee->weight = $request->input('weight');
-        $pal = $request->input('pal');
-        $weight = $request->input('weight');
+        if($request->input('pal') === 'high'){
+             $trainee->pal =2;
+        }
+        if($request->input('pal') === 'low'){
+             $trainee->pal= 1.55;
+
+        }   
+        if($request->input('pal') === 'medium'){
+             $trainee->pal =1.75;
+
+        }
+        
 
 
         if($trainee->save()){
             //  EVENT TRIGGERED
             // event(new NewUserRegisteredEvent($trainee,'trainee'));
             // NOW SAVE DATA TO TBL_USER_HISTORY TABLE
-            if($request->input('weight')){
-                $timing=$this->morningOrEvening();
-                $history = new UserHistory();
+            // if($request->input('weight')){
+            //     $timing=$this->morningOrEvening();
+            //     $history = new UserHistory();
 
-                $history->weight_morning = ($timing== 'morning') ? $request->input('weight') : '' ;
-                $history->weight_evening = ($timing== 'evening') ? $request->input('weight') : '' ;
+            //     $history->weight_morning = ($timing== 'morning') ? $request->input('weight') : '' ;
+            //     $history->weight_evening = ($timing== 'evening') ? $request->input('weight') : '' ;
 
-                $history->body_fat_percentage_morning = ($timing== 'morning') ? $request->input('fat') : '' ;
-                $history->body_fat_percentage_evening = ($timing== 'evening') ? $request->input('fat') : '' ;
+            //     $history->body_fat_percentage_morning = ($timing== 'morning') ? $request->input('fat') : '' ;
+            //     $history->body_fat_percentage_evening = ($timing== 'evening') ? $request->input('fat') : '' ;
 
-                // $history->calory_gained = $request->input('weight');
-                // $history->calory_consumed = $request->input('weight');
+            //     // $history->calory_gained = $request->input('weight');
+            //     // $history->calory_consumed = $request->input('weight');
 
-                $history->recorded_at = date('Y-m-d H:i:s');
-                $history->user_id = $trainee->id;
-                $history->save();
-            }
+            //     $history->recorded_at = date('Y-m-d H:i:s');
+            //     $history->user_id = $trainee->id;
+            //     $history->save();
+            // }
             
         }
                     return redirect()->route('purchaseplan')->with('message','Physical information added successfully');
@@ -106,30 +116,51 @@ class TraineeController extends Controller
         }
     }
     public function scheduleCalendar(Request $request){ // calendar view
-
+        $user_id = Session::get('user.id');
+        $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
-               return view('auth.branch');
+        if($user->dob == null){
 
+
+               return view('auth.branch');
+        }
         //
+        $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
+        
+        $datePlan = Carbon::parse($puchasePlan->created_at);
+       
 
         $isActive = "schedule";
         if($request->trainer_id){
 
-            $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->select('date as start_date','is_occupied','trainer_id','time','user_id')->get();
+            $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->get();
                 $parsedArray = array();
                 if($schedule){
                     foreach ($schedule as $key => $value) {
-                    $parsedArray[$key]['start'] = $value->start_date;
+                    $parsedArray[$key]['start'] = $value->date;
                     $parsedArray[$key]['allDay'] = true;
                     $parsedArray[$key]['display'] = 'background';
 
-                    if($value->user_id == Session::get('user')->id){
-                        $parsedArray[$key]['color'] = 'red';
+                   
 
-                    }else{
-                        $parsedArray[$key]['color'] = '#007bff';
+                        $now = Carbon::parse($value->date);
 
-                    }
+                        $diff = $datePlan->diffInDays($now);
+
+                        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+                        if (!in_array($diff+1, $allTraingingArray)) {
+                            $parsedArray[$key]['color'] = 'grey';
+                        }else{
+                            if($value->user_id == Session::get('user')->id){
+                                $parsedArray[$key]['color'] = 'red';
+
+                            }else{
+
+
+                                $parsedArray[$key]['color'] = 'blue';
+
+                            }
+                        }
 
                     }
                 }
@@ -156,12 +187,23 @@ class TraineeController extends Controller
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         
     	// time 
+        $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
+        
+        $date = Carbon::parse($puchasePlan->created_at);
+        $now = Carbon::parse($request->selected_date);
+
+        $diff = $date->diffInDays($now);
+
+        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+        if (!in_array($diff+1, $allTraingingArray)) {
+            return redirect()->back()->with('errors_m','Your purchase plan does not support this day as training day. ');
+        }
 
         if($request->trainer_id){
             $time =TrainerSchedule::where('date',$request->selected_date)->where('trainer_id',$request->trainer_id)->get();
         }else{
 
-            $time =TrainerSchedule::where('date',$request->selected_date)->where('user_id',Session::get('user')->id)->get();
+            $time =TrainerSchedule::where('date',$request->selected_date)->where('user_id',Session::get('user.id'))->get();
 
             if(count($time) == 0){
 
@@ -234,24 +276,70 @@ class TraineeController extends Controller
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
 
-        // $bmrData = BMRcalculation($user->weight);
-        // dd($bmrData);
+        if($user->phone === null || $user->address === null){
+            return redirect()->route('traininginfo')->with('success','Please input traininginfo first');
+        }
+        $bmrData = BMRcalculation($user->weight);
        
         $weight = $user->weight;
 
         $totalDay=90;
         $start=1;
-        $pal=1.75;
+        $pal=$user->pal;
+        $type=1;
+        $dataset = $this->calculation($bmrData,$weight,$pal,$totalDay,$start,$type);
+            // dd($dataset);
+        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        $isactive='purchase';
+        $purchase=PlanPurchase::where('status',1)->get();
+        $plan=PlanPurchase::where('id',1)->get()->first();
+        $purchasePlaneList=UserPlanPurchase::where('user_id',Session::get('user.id'))->get();
 
-        $this->repeatedFunction($weight,$pal,$totalDay,'1day_per_week',$start,$counter=0);
-        $this->repeatedFunction($weight,$pal,$totalDay,'2day_per_week',$start,$counter=0);
-        $this->repeatedFunction($weight,$pal,$totalDay,'3day_per_week',$start,$counter=0);
+        return view('pages.trainee.purchase_details')
+        ->with('dataset',$dataset)
+        ->with('purchase',$purchase)
+        ->with('plan',$plan)
+        ->with('isActive',$isactive)
+        ->with('userPurchasePlan',$userPurchasePlan)
+        ->with('bmrData',$bmrData)
+        ->with('purchasePlaneList',$purchasePlaneList)
+        ->with('user',$user);
+
+    }
+    public function number_formate($data){
+            return number_format((float)$data, 2, '.', '');  // Outputs -> 105.00
+    }
+
+    // purchase calculation and ajax call
+    // purchase calculation and ajax call
+    public function purchaseajaxcall(Request $request){
+        $bmrData=$request->bmrData;
+        $totalDay=$request->totalday;
+        $start=$request->startday;
+        $pal=$request->pal;
+        $type=1;
+        $weight=$request->weight;
+        return  $this->calculation($bmrData,$weight,$pal,$totalDay,$start,$type);
+    }
+    public function calculation($bmrData,$weight,$pal,$totalDay,$start,$type){
+
+        $bmrData=$bmrData;
+        $totalDay=$totalDay;
+        $start=$start;
+        $pal=$pal;
+        $type=$type;
+        
+
+        $this->repeatedFunction($bmrData,$weight,$pal,$totalDay,'1day_per_week',$start,$counter=0,$type);
+        $this->repeatedFunction($bmrData,$weight,$pal,$totalDay,'2day_per_week',$start,$counter=0,$type);
+        $this->repeatedFunction($bmrData,$weight,$pal,$totalDay,'3day_per_week',$start,$counter=0,$type);
         $weightData = $this->RECURSIVE;
+        // dd($weightData);
         $dataset=array();
 
         // for graph in purchae plan
         $dataset[0]=array(
-                        'data' => array(70,
+                    'data' => array($weight,
                                     $this->number_formate($weightData['1day_per_week'][29]['weight']),
                                     $this->number_formate($weightData['1day_per_week'][59]['weight']),
                                     $this->number_formate($weightData['1day_per_week'][89]['weight'])
@@ -262,7 +350,7 @@ class TraineeController extends Controller
                     );
 
         $dataset[1]=array(
-                        'data' => array(70,
+                        'data' => array($weight,
                                     $this->number_formate($weightData['2day_per_week'][29]['weight']),
                                     $this->number_formate($weightData['2day_per_week'][59]['weight']),
                                     $this->number_formate($weightData['2day_per_week'][89]['weight'])
@@ -273,7 +361,7 @@ class TraineeController extends Controller
                     );
 
         $dataset[2]=array(
-                        'data' => array(70,
+                        'data' => array($weight,
                                     $this->number_formate($weightData['3day_per_week'][29]['weight']),
                                     $this->number_formate($weightData['3day_per_week'][59]['weight']),
                                     $this->number_formate($weightData['3day_per_week'][89]['weight'])
@@ -282,49 +370,20 @@ class TraineeController extends Controller
                         'borderColor'=> "yellow",
                         'fill'=> false
                     );
-        
+            return json_encode($dataset,true);
 
-            
-        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
-        $isactive='purchase';
-        $purchase=PlanPurchase::where('status',1)->get();
-        $plan=PlanPurchase::where('id',1)->get()->first();
-        return view('pages.trainee.purchase_details')->with('dataset',json_encode($dataset,true))->with('purchase',$purchase)->with('plan',$plan)->with('isActive',$isactive)->with('userPurchasePlan',$userPurchasePlan);
 
     }
-    public function number_formate($data){
-            return number_format((float)$data, 2, '.', '');  // Outputs -> 105.00
-    }
-    // public function calculation(Request $request){
 
-    //     $caloryGain = $request->target_calory_gain;
-    //     $pal = $request->pal;
-
-    //     $user_id = Session::get('user.id');
-    //     $user = \App\Model\User::where('id',$user_id)->get()->first();
-
-    //     $bmrData = $caloryGain;
-    //     $weightBalance = weight_balance($bmrData,$pal,$user->weight);
-
-    //     $day1 = $user->weight+$weightBalance;
-
-    //     $weight = $user->weight;
-    //     $result = $this->dayKg($weight,1.55);
-    //     // dd($result);
-    //     return $result;
-
-    // }
-
-    public function repeatedFunction($weight,$pal,$totalday,$trainingType,$start,$counter){
+    public function repeatedFunction($bmrData,$weight,$pal,$totalday,$trainingType,$start,$counter,$type){
 
     
         if ($totalday === 0){
             return $this->RECURSIVE;
         }else{
 
-            $bmrData = BMRcalculation($weight);
             $weightBalance = weight_balance($bmrData,$pal,$weight,$start,$trainingType);
-            $weight = $weight+$weightBalance;
+            $weight = $weight+$type*$weightBalance;
             $this->RECURSIVE[$trainingType][$counter]['plan_type']=$trainingType;
             $this->RECURSIVE[$trainingType][$counter]['weight']=$weight;
             $this->RECURSIVE[$trainingType][$counter]['weightBalance']=$weightBalance;
@@ -332,7 +391,7 @@ class TraineeController extends Controller
             $this->RECURSIVE[$trainingType][$counter]['pal']=$pal;
         }   
         $this->counter++;
-        $this->repeatedFunction($weight,$pal,($totalday-1),$trainingType,$start+1,$counter+1); 
+        $this->repeatedFunction($bmrData,$weight,$pal,($totalday-1),$trainingType,$start+1,$counter+1,$type); 
     }
 
 
@@ -480,29 +539,34 @@ class TraineeController extends Controller
                 //  EVENT TRIGGERED
                 // event(new NewUserRegisteredEvent($trainee,'trainee'));
                 // NOW SAVE DATA TO TBL_USER_HISTORY TABLE
-                if($request->input('weight')){
-                    $history = new UserHistory();
-                    $history->weight = $request->input('weight');
-                    $history->body_fat_percentage = $request->input('fat');
-                    $history->user_id = $trainee->id;
-                    $history->save();
-                }
+
                 
 
                 // NOW SAVE DATA TO TBLE_USER_EQUIPMENT TABLE
-                if($request->equipment){
-                    $arr = $request->equipment;
-                    foreach($arr as $val){
-                        if($val['is_available'] == 1){
+                        if($request->equipment){
+                $arr = $request->equipment;
+                foreach($arr as $val){
+                    if($val['is_available'] == 1){
+
+                       $dataExist= UserEquipment::where('user_id',$trainee->id)
+                            ->where('equipment_id',$val['id'])->get()->first();
+
+                        if(!$dataExist){
                             $equipment = new UserEquipment();
                             $equipment->user_id = $trainee->id;
                             $equipment->equipment_id = $val['id'];
                             // $equipment->is_available = $val['is_available'];
                             $equipment->save();
-                        }
+                        }    
                         
+                    }else{
+
+                        $dataExist= UserEquipment::where('user_id',$trainee->id)
+                            ->where('equipment_id',$val['id'])->delete();
                     }
+                    
                 }
+            }
             }
             return redirect()->back()
             ->with('success','Profile update succesfully');
@@ -510,6 +574,211 @@ class TraineeController extends Controller
         
 
     }
-  
+    public function traininginfo(Request $request){
+            $user = Trainee::find(Session::get('user.id'));
+            $equipment = Equipment::get();
+          
+            $userEquipment = UserEquipment::where('user_id',$user->id)->get();
+            return view('auth.traininginfo')->with('user',$user)->with('equipment',$equipment)->with('userEquipment',$userEquipment);
+    }
+    public function traininginfosubmit(Request $request){
+        $validateData = $request->validate([
+
+            'phone' => 'required',
+            'address' => 'required',
+          
+        ]);
+
+        $date= new DateTime();
+        $trainee = Trainee::find($request->user_id);
+
+        $trainee->address = $request->input('address');
+        $trainee->phone = $request->input('phone');
+
+        if($trainee->save()){
+             // NOW SAVE DATA TO TBLE_USER_EQUIPMENT TABLE
+            if($request->equipment){
+                $arr = $request->equipment;
+                foreach($arr as $val){
+                    if($val['is_available'] == 1){
+
+                       $dataExist= UserEquipment::where('user_id',$trainee->id)
+                            ->where('equipment_id',$val['id'])->get()->first();
+
+                        if(!$dataExist){
+                            $equipment = new UserEquipment();
+                            $equipment->user_id = $trainee->id;
+                            $equipment->equipment_id = $val['id'];
+                            // $equipment->is_available = $val['is_available'];
+                            $equipment->save();
+                        }    
+                        
+                    }else{
+
+                        $dataExist= UserEquipment::where('user_id',$trainee->id)
+                            ->where('equipment_id',$val['id'])->delete();
+                    }
+                    
+                }
+            }
+        }
+                    return redirect()->route('purchaseplan')->with('success','Training information added successfully');
+    }
+    
+    public function dailydata(Request $request){
+         // calculation test //
+
+        $user_id = Session::get('user.id');
+        $user = \App\Model\User::where('id',$user_id)->get()->first();
+        $isactive='dailydata';
+
+        return view('pages.trainee.daily_data')
+        ->with('isActive',$isactive)
+        ->with('user',$user);
+    }
+    public function dailydataSubmit(Request $request){
+            $validateData = $request->validate([
+
+                'weight' => 'required',
+                'fat' => 'required',
+                'calory_gained' => 'required',
+                'consumed_calory' => 'required',
+            ]);
+            $date = date('Y-m-d');
+
+            $timing=$this->morningOrEvening();
+            $todayData = UserHistory::whereDate('created_at',$date)->where('user_id',$request->user_id)->get()->first();
+
+            if($todayData){
+                 $history = UserHistory::find($todayData->id);
+                 $msg = "Data updated succesfully!";
+
+            }else{
+                 $history = new UserHistory();
+                 $msg = "Data inserted succesfully!";
+            }
+           
+
+            $history->weight_morning = ($timing== 'morning') ? $request->input('weight') : '' ;
+            $history->weight_evening = ($timing== 'evening') ? $request->input('weight') : '' ;
+
+            $history->body_fat_percentage_morning = ($timing== 'morning') ? $request->input('fat') : '' ;
+            $history->body_fat_percentage_evening = ($timing== 'evening') ? $request->input('fat') : '' ;
+
+            $history->calory_gained = $request->input('calory_gained');
+            $history->calory_consumed = $request->input('consumed_calory');
+
+            $history->recorded_at = date('Y-m-d H:i:s');
+            $history->user_id = $request->user_id;
+            $history->save();
+
+            return redirect()->back()->with('success',$msg);
+
+    }   
+
+public function progress(){
+         // calculation test //
+        $user_id = Session::get('user.id');
+        $user = \App\Model\User::where('id',$user_id)->get()->first();
+
+        $bmrData = BMRcalculation($user->weight);
+        // dd($bmrData);
+       
+        $weight = $user->weight;
+
+        $totalDay=7;
+        $start=1;
+        $pal=1.75;
+        $type=1;
+        $dataset = $this->calculation2($bmrData,$weight,$pal,$totalDay,$start,$type);
+
+
+        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        $isactive='progress';
+        $purchase=PlanPurchase::where('status',1)->get();
+        $plan=PlanPurchase::where('id',1)->get()->first();
+        return view('pages.trainee.progress')
+        ->with('dataset',$dataset)
+        ->with('purchase',$purchase)
+        ->with('plan',$plan)
+        ->with('isActive',$isactive)
+        ->with('userPurchasePlan',$userPurchasePlan)
+        ->with('bmrData',$bmrData)
+        ->with('user',$user);
+    }
+    // user acheivement calculation and ajax call
+    // user acheivement calculation and ajax call
+
+    public function acheivementjaxcall(Request $request){
+        $bmrData=$request->bmrData;
+        $totalDay=$request->totalday;
+        $start=$request->startday;
+        $pal=$request->pal;
+        $type=$request->type;
+        $weight=$request->weight;
+        return  $this->calculation($bmrData,$weight,$pal,$totalDay,$start,$type);
+    }
+    public function calculation2($bmrData,$weight,$pal,$totalDay,$start,$type){
+
+        $bmrData=$bmrData;
+        $totalDay=$totalDay;
+        $start=$start;
+        $pal=$pal;
+        $type=$type;
+        
+
+        $this->repeatedFunction2($bmrData,$weight,$pal,$totalDay,$type,$start,$counter=0,$type);
+        $weightData = $this->RECURSIVE;
+        // dd($weightData);
+        $dataset=array();
+
+        // for graph in purchae plan
+
+        $datasetArray = array();
+        $lebel = array();
+        for($i=0;$i<$totalDay;$i++){
+            
+            if($i == 0){
+                $datasetArray[$i] =$weight;
+            }else{
+                $datasetArray[$i]=$this->number_formate($weightData[$type][$i]['weight']);
+            }
+          
+            
+        }
+
+        $dataset[0]=array(
+                    'lebel' => $datasetArray,
+                    'data' => $datasetArray,
+                    'label'=> "1 day per week",
+                    'borderColor'=> "#6d93ff",
+                    'fill'=> false
+                );
+
+    
+        return json_encode($dataset,true);
+
+
+    }
+
+    public function repeatedFunction2($bmrData,$weight,$pal,$totalday,$trainingType,$start,$counter,$type){
+
+    
+        if ($totalday === 0){
+            return $this->RECURSIVE;
+        }else{
+
+            $weightBalance = weight_balance($bmrData,$pal,$weight,$start,$trainingType);
+            $weight = $weight+$type*$weightBalance;
+            $this->RECURSIVE[$trainingType][$counter]['plan_type']=$trainingType;
+            $this->RECURSIVE[$trainingType][$counter]['weight']=$weight;
+            $this->RECURSIVE[$trainingType][$counter]['weightBalance']=$weightBalance;
+            $this->RECURSIVE[$trainingType][$counter]['bmr']=$bmrData;
+            $this->RECURSIVE[$trainingType][$counter]['pal']=$pal;
+        }   
+        $this->counter++;
+        $this->repeatedFunction2($bmrData,$weight,$pal,($totalday-1),$trainingType,$start+1,$counter+1,$type); 
+    }
+    
 
 }

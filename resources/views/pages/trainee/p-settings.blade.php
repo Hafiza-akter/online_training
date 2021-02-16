@@ -178,14 +178,14 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                  {{--   <div class="row mb-3">
                         <div class="col-4">
                             <label class="col-form-label _body_fat_percentage_">体脂肪率</label>
                         </div>
                         <div class="col-8">
                             <input type="text" name="fat" class="form-control" value="{{ $user->fat}}">
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row pt-3 pb-3">
                         <h4 class="mx-auto">トレーニング機器</h4>
@@ -193,24 +193,23 @@
 
 
                     @if($equipment)
-                        @foreach($equipment as $key=>$val)
-                        <div class="row mb-3">
-                            <div class="col-4">
-                                <input type="hidden" name="equipment[{{$key}}][id]" value="{{$val->id }}">
-                                <label class="col-form-label _barbell_">{{$val->name }}</label>
-                            </div>
-                            <div class="col-8">
-                                <select class="form-control" name="equipment[{{$key}}][is_available]">
-                                    {{-- <option> 持ってる</option> --}}
-                                    <option value="1"> はい</option>
-                                    <option value="0"> いいえ</option>
+                @foreach($equipment as $key=>$val)
+                <div class="row mb-3">
+                    <div class="col-4">
+                        <input type="hidden" name="equipment[{{$key}}][id]" value="{{$val->id }}">
+                        <label class="col-form-label _barbell_">{{$val->name }}</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-control" name="equipment[{{$key}}][is_available]">
+                            <option value="0" > いいえ</option>
+                            <option value="1" {{ checkEquipment($user->id,$val->id) ? 'selected="selected' : ''}} > はい</option>
 
 
-                                </select>
-                            </div>
-                        </div>
-                        @endforeach
-                    @endif 
+                        </select>
+                    </div>
+                </div>
+                @endforeach
+            @endif 
 
                 </div>
                 <div class="card-footer">

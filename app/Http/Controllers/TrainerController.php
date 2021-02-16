@@ -139,6 +139,34 @@ class TrainerController extends Controller
     public function schedule(Request $request){
         $initialDate="FA";
         $Error="";
+        if($request->type=='initial_registration'){
+            $arr=json_decode($request->list);
+            if(count($arr) > 0){
+                foreach($arr as $index=>$val){
+
+                    $allDateSchedule = TrainerSchedule::where('date',Carbon::parse($val->start)->format('Y-m-d'))
+                                    ->where('trainer_id',$request->trainer_id)
+                                    ->where('time',Carbon::parse($val->start)->format('H:i:s'))
+                                    ->get()->first();
+                    if(!$allDateSchedule){
+                        $scheduleU = new TrainerSchedule();
+                        $scheduleU->date =Carbon::parse($val->start)->format('Y-m-d');
+                        $scheduleU->trainer_id =$request->trainer_id;
+                        $scheduleU->time =Carbon::parse($val->start)->format('H:i:s');
+                        // dd($scheduleU);
+                        $scheduleU->save();
+                    }
+                    
+                }
+                return redirect()->back()
+                    ->with('message','Schedule time set succesfully!! ');
+            }else{
+                return redirect()->back()
+                    ->with('message','Please select training time first! ');
+            }
+            
+
+        }
         if($request->type == 'weekinsert'){
             
             $arr = explode(',',$request->date_array[0]);
@@ -294,6 +322,8 @@ class TrainerController extends Controller
             return redirect()->back()
                     ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
         }
+
+        return redirect()->back();
     }
 
     public function checkUniqueTimeSlot($date,$time){

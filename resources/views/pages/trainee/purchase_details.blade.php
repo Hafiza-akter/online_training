@@ -35,6 +35,8 @@
 
           <br> <br>
         <div class="row justify-content-center">
+          <div class="col-md-12 col-xl-12">
+
           <div class="card">
                 <div class="card-header">
                     <h3 style="text-align: center;">購入プラン</h3>
@@ -96,73 +98,43 @@
                         <tr>
                           <td>
                            <div class="form-group">
-                                <select class="form-control" style="padding:5px;" id="weight_loss_gain" onchange="updateConfigAsNewObject()">
-                                  <option>Weight Loss</option>
-                                  <option>Weight Gain</option>
+                                <select class="form-control" style="padding:5px;" id="weight_loss_gain" >
+                                  <option value="weight_loss">Weight Loss</option>
+                                  <option value="weight_gain">Weight Gain</option>
                                 </select>
                             </div>
                           </td>
                        
                         </tr>
+                         <tr>
+                          <td>
+                            <div class="form-group">
+                                <label>Target Calory Gain ( <span style="font-size: 12px;"> Default value is {{ $bmrData }} </span>) </label>
+                                <input  type="text" onblur="checkInput()"  onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return false"  class="form-control" name="target_calory_gained" id="target_calory_gained" value="{{ $bmrData }}" placeholder="Enter target calory gain" />
+                            </div>
+                              <div class="fa-2x" style="display: none;" id="loader">
+                                <i class="fas fa-spinner fa-spin"></i>
+                              </div>
+                          </td>                         
+                        </tr>
                        
                         <tr>
                            
 
-                          <td>
+                        <td>
                             {{-- <button type="button" class="btn btn-lg btn-block" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">Purchase</button> --}}
 
-                            @if(!$userPurchasePlan)
                             <div class="content">
                                 <div class="links">
                                     <div id="paypal-button"></div>
                                 </div>
                               </div>
-                              <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-                              <script>
-                              paypal.Button.render({
-                                env: 'sandbox', // Or 'production'
-                                style: {
-                                  size: 'large',
-                                  color: 'gold',
-                                  shape: 'pill',
-                                },
-                                // Set up the payment:
-                                // 1. Add a payment callback
-                                payment: function (data, actions) {
-                                  // 2. Make a request to your server
-                                  return actions.request.post('{{ route('cp')}}')
-                                    .then(function (res) {
-                                      // 3. Return res.id from the response
-                                      // console.log(res);
-                                      return res.id
-                                    })
-                                },
-                                // Execute the payment:
-                                // 1. Add an onAuthorize callback
-                                onAuthorize: function (data, actions) {
-                                  // 2. Make a request to your server
-                                  return actions.request.post('{{ route('conp')}}', {
-                                    payment_id: data.paymentID,
-                                    payer_id: data.payerID,
-                                    user_id: {{ Session::get('user.id')}},
+                              
+                             {{--  <h2><i class="fas fa-check-circle"></i> You already purchase  <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>
+                              </h2> --}}
 
-                                  })
-                                    .then(function (res) {
-                                      console.log(res)
-                                      alert('Payment successfully done!!');
-                                      Swal.fire(
-                                          'Payment successfully done'
-                                        )
-                                      // 3. Show the buyer a confirmation message.
-                                    })
-                                }
-                              }, '#paypal-button')
-                              </script>
-                              @else 
-                              <i class="fas fa-check-circle"></i> Your already purchase  <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>
-
-                              @endif 
                         </td>
+                       
                       </tr>
                     </tbody>
                   </table>
@@ -173,10 +145,48 @@
 
           </div>
         </div>
-    
+      </div>
+    <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
+
+           <h4 class="" style="text-align: center;">購入リスト</h4>
+
+    <table class="table table-striped" style="background: #f9f9ff;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Purchase Plan</th>
+        <th scope="col">Objective</th>
+        <th scope="col">Target Calorie</th>
+        <th scope="col">Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if($purchasePlaneList)
+        @foreach($purchasePlaneList as $key=>$val)
+          <tr>
+            <th scope="row">{{ ++$key}}</th>
+            <td>{{ \App\Model\PlanPurchase::where('id',$val->purchase_plan_id)->get()->first()->name}}</td>
+            <td>{{ $val->objective}}</td>
+            <td>{{ $val->target_calory_gained}}</td>
+            <td>{{ $val->created_at}}</td>
+          
+          
+          </tr>
+        @endforeach
+      @endif
+      
+    </tbody>
+  </table>
+</div>
   </div>
 
   <input type="hidden" id="dataset" value="{{ $dataset}}">
+  <input type="hidden" id="weight" value="{{ $user->weight}}">
+  <input type="hidden" id="pal" value="1.75">
+  <input type="hidden" id="totalday" value="90">
+  <input type="hidden" id="startday" value="1">
+  <input type="hidden" id="bmrData" value="{{ $bmrData }}">
+
 </section>
 
 
@@ -186,6 +196,54 @@
 
 @endsection
 @section('footer_css_js')
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+  <script>
+    if(("#paypal-button").length){
+  paypal.Button.render({
+    env: 'sandbox', // Or 'production'
+    style: {
+      size: 'large',
+      color: 'gold',
+      shape: 'pill',
+    },
+    // Set up the payment:
+    // 1. Add a payment callback
+    payment: function (data, actions) {
+      // 2. Make a request to your server
+      return actions.request.post('{{ route('cp')}}')
+        .then(function (res) {
+          // 3. Return res.id from the response
+          // console.log(res);
+          return res.id
+        })
+    },
+    // Execute the payment:
+    // 1. Add an onAuthorize callback
+    onAuthorize: function (data, actions) {
+      // 2. Make a request to your server
+      return actions.request.post('{{ route('conp')}}', {
+        payment_id: data.paymentID,
+        payer_id: data.payerID,
+        user_id: {{ Session::get('user.id')}},
+        purchase_plan_id: $('#planToshow option:selected').attr('value'),
+        target_calory_gained: $('#target_calory_gained').val(),
+        objective:$('#weight_loss_gain option:selected').attr('value')
+      })
+        .then(function (res) {
+          console.log(res)
+          alert('Payment successfully done!!');
+          Swal.fire(
+              'Payment successfully done'
+            );
+          location.reload();
+
+          // 3. Show the buyer a confirmation message.
+        })
+    }
+  }, '#paypal-button')
+}
+  </script>
 <script>
 $(document).on('change','#planToshow', function(e) {
     $('#1').hide();
@@ -258,36 +316,78 @@ var config = {
   };
 
 
+function checkInput(){
+  let AcinputDigit  = $("#target_calory_gained").val();
+  let inputDigit = Math.floor($("#target_calory_gained").val());
+      console.log(inputDigit);
 
+  if(inputDigit.toString().length >= 3){
+    console.log('heelo');
+    let bmrData = $("#bmrData").val();
+
+    if(bmrData != AcinputDigit){
+          updateConfigAsNewObject();
+    }
+  }
+}
 function updateConfigAsNewObject() {
-    config.data= {
-    labels: [0,1,2,3],
-    
-    datasets: [
-      { 
-        data: [70,68,60,50],
-        label: "",
-        borderColor: "#6d93ff",
-        fill: false
-      }, 
-      { 
-        data: [70,67,59,55],
-        label: "",
-        borderColor: "green",
-        fill: false
-      },
-      { 
-        data: [70,60,55,50],
-        label: "",
-        borderColor: "yellow",
-        fill: false
-      }, 
-    
-    ]
-  };
-      window.myLine.update();
+console.log($('#weight_loss_gain option:selected').attr('value'));
+  
+const params = {
+  type: $('#weight_loss_gain option:selected').attr('value'),
+  weight:$('#weight').val(),
+  pal:$('#pal').val(),
+  totalday:$('#totalday').val(),
+  startdat:$('#startdat').val(),
+  bmrData:$('#target_calory_gained').val()
 }
 
+
+
+fetch('{{ route('purchaseajaxcall')}}', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      body: JSON.stringify(params)
+    }).then(response => response.json())
+      .then(repos => {
+        // console.log(repos);
+            config.data= {
+              labels: [0,1,2,3],
+              
+              datasets: repos
+            };
+            config.options.title.text= ( params.type == '-1' ? "Weight Gain Graph" : "Weight Loss Graph");
+                window.myLine.update();
+      })
+    .catch(err => console.log(err))
+
+
+
+}
+
+function setInputFilter(textbox, inputFilter) {
+  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+    textbox.addEventListener(event, function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+setInputFilter(document.getElementById("target_calory_gained"), function(value) {
+  return /^-?\d*[.,]?\d*$/.test(value); 
+});
 
 </script>
 @endsection

@@ -8,6 +8,15 @@
 @endsection
 @section('content')
 <style>
+  .current-time {
+    background-color: rgba(20, 20, 20, 0.10);
+    border-radius: 3px;
+    color: #9B9B9B;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
+}
+
   .table td,
   .table th {
     border: none !important;
@@ -15,17 +24,27 @@
   .fc-theme-standard td{
     background: #fff;
   }
-  .fc-myCustomButton-button{
+
+  .fc-button-active{
+    background: #a50ca4 !important;
+  }
+  /*.fc-myCustomButton-button{
     background: none !important;
     color: #a509a4 !important;
     border: 1px solid #a509a4 !important;
-  }
+  }*/
 /*  .fc-timegrid-event-harness{
 z-index: 1;inset: 21px -2% -65px !important;
   }
   .fc-daygrid-event fc-daygrid-dot-event fc-event fc-event-start fc-event-end fc-event-past{
 
   }*/
+      .fc-month-button{
+    background: #a50ca4 !important;
+    color: #fff !important;
+    border: 1px solid #a509a4 !important;
+  }
+
   .tblue{
     background: blue !important;
     color:white !important;
@@ -49,6 +68,17 @@ z-index: 1;inset: 21px -2% -65px !important;
   .swal2-styled.swal2-cancel{
       background-color: #e93232;
   }
+  .fc .fc-timegrid-slot{
+    height:2.5em;
+  }
+  /*.fc .fc-bg-event{
+    border:1px solid white;
+    background: blue !important;
+    opacity:1 !important;
+  }*/
+  .fc-highlight{
+    background: none !important;
+  }
 
 </style>
 
@@ -66,7 +96,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         @endif
 
 
-
+       
 
      {{--  <div class="row pb-5  page-content page-container" id="chart">
 
@@ -78,7 +108,10 @@ z-index: 1;inset: 21px -2% -65px !important;
       </div> --}}
 
       <div id='calendar'></div>
-      <input type="hidden" id="schedule" value="{{ $schedule}}">
+      <button type="submit" class="fc-myCustomButton-button fc-button fc-button-primary mt-2" type="button" style="float: right;font-size: 20px" onclick="document.getElementById('scheduleForm').submit();">登録</button>
+
+          <input type="hidden" id="schedule" value="{{ $schedule}}">
+
   </div>
 
   <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
@@ -140,6 +173,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         <input type="hidden" name="start_time"  id="selected_time">
         <input type="hidden" name="type"  id="action_type">
         <input type="hidden" name="gridView"  id="gridView">
+        <input type="hidden" name="list"  id="list">
 
         <input type="hidden" name="db_start_time"  id="db_start_time">
         <input type="hidden" name="db_schedule_id"  id="db_schedule_id">
@@ -155,25 +189,35 @@ z-index: 1;inset: 21px -2% -65px !important;
 
 <script src='{{ asset('asset_v2/js/fullcalendar_main.min.js')}}'></script>
 <script src='{{ asset('asset_v2/js/locales-all.js')}}'></script>
+<script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
+<script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 <script src="{{asset('asset_v2/js/bootstrap-datetimepicker.min.js')}}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+$(".tblue").click(function(){
+  // Holds the product ID of the clicked element
+  console.log($(this).attr('class'));
+
+
+});
     var calendarEl = document.getElementById('calendar');
     var dateData = JSON.parse($(schedule).val());
+    let a = [];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      selectable: true,
-              contentHeight:"auto",
 
+      selectable: true,
+      allDaySlot: false,
+   
+      contentHeight:"auto",
       initialView: '{{Session::get('gridView') ? Session::get('gridView') : $gridView}}',
       displayEventTime : false,
-      scrollTime:'01:00:00',
+      // scrollTime:'01:00:00',
+      slotDuration:'01:00:00',
     // firstDay: (new Date().getDay()), // returns the day number of the week, works! 
 
       views: {
@@ -182,100 +226,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       },
 
-      allDaySlot: false,
-        customButtons: {
-          myCustomButton: {
-            text: 'すべてのスケジュールリスト',
+                customButtons: {
+          week_all: {
+            text: '予約時間一気に',
             click: function() {
-             window.location.href ='#scheduleList';
+             window.location.href ='{{ route('calendar.view','week_all') }}';
+            
             }
-          }
+          },
+          week: {
+            text: '毎週の登録',
+            click: function() {
+             window.location.href ='{{ route('calendar.view','week') }}';
+            
+            }
+          },
+          month: {
+            text: '月',
+            click: function() {
+             window.location.href ='{{ route('calendar.view','month') }}';
+            
+            }
+          },
        },
       headerToolbar: {
-        left: 'prev,next today timeGridWeek dayGridMonth',
+        left: 'prev,next today month',
         center: 'title',
-        right: 'myCustomButton',
+        right: 'week week_all',
          // right: 'dayGridMonth,timeGridWeek,timeGridDay'
 
       },
-      dateClick: function(info) {
-        // // alert('clicked ' + info.dateStr);
-        // $("#selected_date").val('');
-        // $("#selected_date").val(info.dateStr);
-        //         console.log(info);
 
-        // // $('#dateform').submit();
-        if(info.view.type === 'dayGridMonth'){
-            calendar.changeView('timeGridDay',info.dateStr);
-          }
-      },
-
-      select: function(info) {
-          console.log(info.view.type);
-          if(info.view.type === 'timeGridWeek'){
-            $('#gridView').val('timeGridWeek');
-            var msg = "This week";
-          }
-          if(info.view.type === 'timeGridDay'){
-            $('#gridView').val('timeGridDay');
-            var msg = "Schedule date "+moment(info.startStr).format('YYYY-MM-DD');
-          }
-          if(info.view.type === 'dayGridMonth'){
-            $('#gridView').val('dayGridMonth');
-            return false;
-          }
-
-        console.log('selected ' + info.startStr + ' to ' + info.endStr);
-        // console.log(info);
-        // find out all the date of the week
-        // push to date array
-        let title=$(".fc-toolbar-title").text();
-        getAllDate(title,info);
-
-
-        Swal.fire({
-          title: '本気ですか ？',
-          showDenyButton: false,
-          html: msg+' at <input class="" type="text" id="datetimepicker" readonly style="width:100px"> TO <input class="" type="text" id="datetimepicker2" readonly style="width:100px">',
-          showCancelButton: true,
-          confirmButtonText: `Save`,
-          width: '650px',
-          denyButtonText: `Don't save`,
-          didOpen:function(){
-                   
-            $("#datetimepicker").datetimepicker({
-                formatViewType: 'time',
-                fontAwesome: true,
-                autoclose: true,
-                startView: 1,
-                maxView: 1,
-                minView: 0,
-                minuteStep: 5,
-                format: 'HH:ii P',
-                showMeridian: true,
-
-            });
-            
-
-            $("#datetimepicker").val(moment(info.startStr).format('hh:mm A'));
-            $("#datetimepicker2").val(moment(info.startStr).add(60, 'minutes').format('hh:mm A'));
-            
-            $("#selected_time").val(moment(info.startStr).format('hh:mm A')); // form value
-            $("#action_type").val('weekinsert'); // form value
-
-            $("#datetimepicker").on("change.dp",function (e) {
-                let newtime = moment(this.value, 'hh:mm').add(60, 'minutes').format('hh:mm A');
-                $("#datetimepicker2").val(newtime);
-                $("#selected_time").val(this.value);
-
-              });
-          }
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $('#scheduleForm').submit();
-          } 
-        })
-      },
        eventClick: function(info) {
         console.log(info);
         console.log('Event: ' + info.event.id);
@@ -367,121 +348,23 @@ document.addEventListener('DOMContentLoaded', function() {
           })
         }
 
-        if(info.view.type === 'timeGridWeek' || info.view.type === 'timeGridDay' ){
-          $('#gridView').val('timeGridWeek');
-
-          var msgse=info.view.type === 'timeGridWeek' ?   " Everyday this week " : 'Schedule date '+moment(info.event.start).format('YYYY-MM-DD');
-          var dayname=moment(moment(info.event.start)).format('dddd');
-          Swal.fire({
-              title: 'Do you want to save the changes?',
-              showDenyButton: true,
-              showCancelButton: true,
-              width: '650px',
-              // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
-              // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'
-              // +'<div class="row p-3 "><select class="form-control"  id="select_option">'
-              //     +'<option value="reschedule"> Reschedule</option>'
-              //     +'<option value="cancle_shedule"> Cancel Schedule</option>'
-              // +'</select></div>'
-              // ,
-               html: "<div class='row p-3'>" + msgse+
-               ' at '+moment(info.event.start).format('hh:mm A')+' To '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
-               +' </div>'
-               +'<div class="row p-3 " id="res" style="display:none">'
-               + 'Reschedule at <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> TO <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
-               +'</div>'
-               +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
-              +'<option value="0">--Select Action Type--</option>'
-                  +'<option value="reschedule"> Reschedule</option>'
-                  +'<option value="cancle_schedule"> Cancel Schedule</option>'
-              +'</select></div>'
-              ,
-
-
-              confirmButtonText: `Reschedule`,
-              denyButtonText: `View Details`,
-              cancelButtonText: `Cancel Schedule`,
-              
-              didOpen:function(){
-                Swal.disableButtons();
-                
-
-                  $(".dtp").datetimepicker({
-                    formatViewType: 'time',
-                    fontAwesome: true,
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    minView: 0,
-                    minuteStep: 5,
-                    format: 'HH:ii P',
-                    showMeridian: true,
-
-                });
-              
-                
-                $(".dtp").val(moment(info.event.start).format('hh:mm A'));
-                $(".dtp2").val(moment(info.event.start).add(60, 'minutes').format('hh:mm A'));
-                
-                $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
-                $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
-                $("#action_type").val(''); // form value
-                // $("#schedule_id").val(info.event.id); // form value
-
-                let title=$(".fc-toolbar-title").text();
-                getAllDate(title,info);  // form value
-
-                $(".dtp").on("change.dp",function (e) {
-                    let newtime = moment(this.value, 'hh:mm').add(60, 'minutes').format('hh:mm A');
-                    $(".dtp2").val(newtime);
-                    $("#selected_time").val(this.value);
-
-                });
-            }
-
-            }).then((result) => {
-              /* Read more about isConfirmed, isDenied below */
-              if (result.isConfirmed) {
-                $('#scheduleForm').submit();
-              } else if (result.isDenied) {
-                console.log('details view');
-              }else{
-                if(result.dismiss === 'cancel'){
-                  $('#scheduleForm').submit();
-                }
-                console.log('he he he backdrop');
-              }
-          })
-        }
+       
         // change the border color just for fun
         // info.el.style.background = 'red';
       },
 
       events: dateData
-      // [
-      //     {
-      //       "title": "12.06 am - 1.06 am",
-      //       "start": "2021-01-25T00:30:00",
-      //       "end": "2021-01-25T01:30:00",
-      //         'className' : 'tblue',
-      //         'textColor' : '#ffffff'
-
-
-      //     },
-      //     {
-      //       "title": "12.06 am - 1.06 am",
-      //       "start": "2021-01-26T00:30:00",
-      //       "end": "2021-01-26T01:30:00",
-      //         'className' : 'tblue',
-      //         'textColor' : '#ffffff'
-
-      //     }
-
-      //   ]
+      
     });
 
       calendar.render();
-      calendar.setOption('locale', 'en');
+      calendar.setOption('locale', 'ja');
+
+
+      // allDaySlot:false
+      // calendar.select( 'allDay',false );
+      // calendar.select( 'allDaySlot',false );
+
       // calendar.scrollToTime( '01:00');
       if($('#dayGridspecific').val() != 'FA' ){
                     calendar.changeView('timeGridDay',$('#dayGridspecific').val());
@@ -537,6 +420,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
   });
+  function getHourDiff(start,end){
+
+      var startDTime = moment(start, "HH:mm:ss");
+      var endDTime = moment(end, "HH:mm:ss");
+
+      // calculate total duration
+      var duration = moment.duration(endDTime.diff(startDTime));
+
+      // duration in hours
+      var hours = parseInt(duration.asHours());
+
+      return hours;
+  }
 
   function getAllDate(title,info){
     let selected = [];
@@ -560,6 +456,54 @@ document.addEventListener('DOMContentLoaded', function() {
     // console.log(selected);
     $("#selected_date").val((selected)); // form value
   }
+  function isAnOverlapEvent(events, eventToCheck) {
+    // Properties
+    const resourceID = eventToCheck.id;
+    console.log(events);
+    console.log(resourceID);
+    return true;
+    // Moment.js objects
+   
+
+    // try {
+    //     if (moment.isMoment(startMoment) && moment.isMoment(endMoment)) {
+    //         // Filter Events by a specific resource
+    //         const eventsByResource = events.filter(event => event.resourceId === resourceID);
+    //         for (let i = 0; i < eventsByResource.length; i++) {
+    //             const eventA = eventsByResource[i];
+    //             if (moment.isMoment(eventA.start) && moment.isMoment(eventA.end)) {
+    //                 // start-time in between any of the events
+    //                 if (moment(startMoment).isAfter(eventA.start) && moment(startMoment).isBefore(eventA.end)) {
+    //                     console.log("start-time in between any of the events")
+    //                     return true;
+    //                 }
+    //                 //end-time in between any of the events
+    //                 if (moment(endMoment).isAfter(eventA.start) && moment(endMoment).isBefore(eventA.end)) {
+    //                     console.log("end-time in between any of the events")
+    //                     return true;
+    //                 }
+    //                 //any of the events in between/on the start-time and end-time
+    //                 if (moment(startMoment).isSameOrBefore(eventA.start) && moment(endMoment).isSameOrAfter(eventA.end)) {
+    //                     console.log("any of the events in between/on the start-time and end-time")
+    //                     return true;
+    //                 }
+    //             } else {
+    //                 const error = 'Error, Any event on array of events is not valid. start or end are not Moment objects';
+    //                 console.error(error);
+    //                 throw new Error(error);
+    //             }
+    //         }
+    //         return false;
+    //     } else {
+    //         const error = 'Error, start or end are not Moment objects';
+    //         console.error(error);
+    //         throw new Error(error);
+    //     }
+    // } catch (error) {
+    //     console.error(error);
+    //     throw error;
+    // }
+}
 
        
   //   events: [
