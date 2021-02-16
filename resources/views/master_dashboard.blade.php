@@ -26,11 +26,14 @@
 
     <link rel="stylesheet" href="{{asset('asset_v2/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('asset_v2/css/bootstrap-datetimepicker.min.css')}}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('asset_v2/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset_v2/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 
-{{--     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"> --}}
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    
+
     @yield('header_css_js')
 
 </head>
@@ -74,8 +77,21 @@
         });
     </script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> --}}
-    
-        @yield('footer_css_js')
+    <!-- DataTables -->
+    <script src="{{asset('asset_v2/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('asset_v2/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('asset_v2/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('asset_v2/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+           
+        });
+    </script>
+    @yield('footer_css_js')
 
 </body>
 

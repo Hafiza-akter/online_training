@@ -33,7 +33,7 @@ Route::get('/trainer/list', 'TopPageController@trainerList')->name('trainersList
 Route::get('/trainer/details', 'TopPageController@details')->name('trainerdetails');
 Route::get('/customer/reivews', 'TopPageController@review')->name('review');
 Route::get('/inquiry', 'InquiryController@inquiry')->name('inquiry');
-Route::get('/inquiry/submit', 'InquiryController@inquirysubmit')->name('inquiry.submit');
+Route::post('/inquiry/submit', 'InquiryController@inquirysubmit')->name('inquiry.submit');
 
 /*
 |--------------------------------------------------------------------------
@@ -202,6 +202,10 @@ Route::prefix('admin')->group(function () {
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
 		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
+
+		// user inquery 
+		Route::get('/user/inquery/list', 'Admin\InquiryController@list')->name('inquery.list');
+		Route::get('/user/inquery/view/{id}', 'Admin\InquiryController@view')->name('inquery.view');
 
 
 	});

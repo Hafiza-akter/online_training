@@ -273,6 +273,16 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{route('inquery.list')}}" class="nav-link">
+                <!-- <i class="nav-icon far fa-image"></i> -->
+                <i class=" nav-icon fas fa-question"></i>
+                <p>
+                  <!-- User Inquery -->
+                  ユーザーのお問い合わせ
+                </p>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
