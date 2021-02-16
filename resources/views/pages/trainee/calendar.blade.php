@@ -132,6 +132,11 @@
       },
       dateClick: function(info) {
         // alert('clicked ' + info.dateStr);
+          // if (moment().format('YYYY-MM-DD') === info.date.format('YYYY-MM-DD') || info.date.isAfter(moment())) {
+          // // This allows today and future date
+          // } else {
+          //     // Else part is for past dates
+          // }
         $("#selected_date").val('');
         $("#selected_date").val(info.dateStr);
         // $("#selected_date").val(info);
@@ -141,7 +146,7 @@
       select: function(info) {
         // alert('selected ' + info.startStr + ' to ' + info.endStr);
       },
-      
+
       events: dateData
     });
 

@@ -99,7 +99,46 @@
   <input type="hidden" id="dataset" value="{{ $dataset}}">
 {{--   <input type="hidden" id="datasetlebel" value="{{ $datasetlebel['1/02','2/02','3/02','4/02','5/02','6/02','7/02']}}">
  --}}
+ <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
 
+           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+
+    <table class="table table-striped" style="background: #f9f9ff;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Weight Morning</th>
+        <th scope="col">Weight Evening</th>
+        <th scope="col">Calory Gained</th>
+        <th scope="col">PAL</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if($list)
+        @foreach($list as $key=>$val)
+          <tr>
+            <td scope="row">{{ ++$key}}</td>
+            <td >
+            {{ \Carbon\Carbon::parse($val->recorded_at)->format('Y-m-d')}}
+            </th>
+            <td>{{ $val->weight_evening}}</td>
+            <td>{{ $val->weight_morning}}</td>
+            <td>{{ $val->calory_gained}}</td>
+            <td>{{ $val->pal}}</td>
+
+            <td>
+              <a class="btn btn-danger" href="{{ route('dailydata',\Carbon\Carbon::parse($val->recorded_at)->format('Y-m-d')) }}">Edit</a>
+            </td>
+          </tr>
+        @endforeach
+      @endif
+      
+    </tbody>
+  </table>
+     
+</div>s
 </section>
 
 

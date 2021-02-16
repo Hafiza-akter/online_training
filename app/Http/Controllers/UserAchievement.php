@@ -219,13 +219,26 @@ class UserAchievement extends Controller
             if( count($setUpdata['calory']) > 6 ){
 
                 $a=array();
-                for($k=count($setUpdata2['calory'])-7;$k<count($setUpdata2['calory']);$k++){
-                    $a[$k]=$setUpdata2['calory'][$k];
+                for($k=count($setUpdata['calory'])-7;$k<count($setUpdata['calory']);$k++){
+                    $a['calory'][$k]=$setUpdata['calory'][$k];
+                    $a['weight'][$k]=$setUpdata['weight'][$k];
+                    $a['pal'][$k]=$setUpdata['weight'][$k];
                 }
-                $average = array_sum($a)/7;
-                $setUpdata2['calory'][$i]=$average;
+                $average = array_sum($a['calory'])/7;
+
+                $calory_gained = $average ;
+                $weights = array_sum($a['weight'])/ 7;
+                $pals = array_sum($a['pal'])/ 7;
+
             }else{
-                $setUpdata2['calory'][$i]=array_sum($setUpdata2['calory'])/count($setUpdata2['calory']);
+
+                $calory_gained = array_sum($setUpdata['calory']) / count($setUpdata['calory']);
+                $weights = array_sum($setUpdata['weight'])/ count($setUpdata['weight']);
+                $pals = array_sum($setUpdata['pal'])/ count($setUpdata['pal']);
+
+                $calory_gained = $setUpdata['calory'][$diff-1];
+                $weights = $setUpdata['weight'][$diff-1];
+                $pals = $setUpdata['pal'][$diff-1];
             }
 
         }else{
@@ -240,14 +253,14 @@ class UserAchievement extends Controller
             $calory_gained = $targetCaloryGain;
             $weights = $initialWeight;
             $pals = $initialPal;
-            $lastarray=array();
         }
         
         // dd($calory_gained);
         // $this->repeatedFunction2($calory_gained,$weights,$pals,90-$diff,$trainingType,$start,$counter=0,$type,$diff,$lastarray);
-        $dataset[2] = $this->calculation($diff,$calory_gained,$weights,$pals,90,$start,$type,$trainingType);
+        
+        $dataset[2] = $this->calculation($diff-1,$calory_gained,$weights,$pals,90,$start,$type,$trainingType);
 
-        // // dd( $dataset[2]);
+        // dd( $dataset[2]);
         //  $actualArray2=array();
             
         // $ct=0;
@@ -358,11 +371,14 @@ class UserAchievement extends Controller
         $isactive='progress';
         $purchase=PlanPurchase::where('status',1)->get();
         $plan=PlanPurchase::where('id',1)->get()->first();
+            $list = UserHistory::where('user_id',$user_id)->get();
 
         return view('pages.trainee.progress')
         ->with('dataset',json_encode($dataset,true))
         ->with('purchase',$purchase)
         ->with('plan',$plan)
+        ->with('list',$list)
+
         ->with('isActive',$isactive)
         ->with('userPurchasePlan',$userPurchasePlan)
         ->with('bmrData',$bmrData)
@@ -389,11 +405,11 @@ class UserAchievement extends Controller
         $pal=$pal;
         $type=$type;
         
+        // dd($weight);
 
         $this->repeatedFunction($bmrData,$weight,$pal,$totalDay,$trainingType,$start,$counter=0,$type);
         $weightData = $this->RECURSIVE;
         $dataset=array();
-
         // for graph in purchae plan
         $dArray=array();
         $cnt=0;
@@ -405,7 +421,7 @@ class UserAchievement extends Controller
         }
 
         for($i=$diff;$i<$totalDay;$i++){
-            if($i==0){
+            if($i==$diff){
                 $dArray[$cnt] = $weight;
 
             }else{
@@ -414,6 +430,7 @@ class UserAchievement extends Controller
             }
             $cnt++;
         }
+
 
         return array(
                     'data' => $dArray,
@@ -540,7 +557,7 @@ class UserAchievement extends Controller
 
             $history->save();
 
-            return redirect()->back()->with('success',$msg);
+            return redirect()->route('progress')->with('success',$msg);
 
     }   
 

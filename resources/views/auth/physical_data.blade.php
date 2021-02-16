@@ -30,11 +30,11 @@
            
         </div>
         <div class="overlay_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_1.png" class="amitated_icon_1" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_2.png" class="amitated_icon_2" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_3.png" class="amitated_icon_3" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_4.png" class="amitated_icon_4" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_5.png" class="amitated_icon_5" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_1.png')}}" class="amitated_icon_1" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_2.png')}}" class="amitated_icon_2" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_3.png')}}" class="amitated_icon_3" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_4.png')}}" class="amitated_icon_4" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_5.png')}}" class="amitated_icon_5" alt="animate_icon">
         </div>
 
         <div class="offset-sm-2 col-sm-8 mb-4">
@@ -87,7 +87,7 @@
                   <label class="col-form-label birthday">誕生日 <span style="color:red">*</span></label>
                 </div>
                   <div class="col-8">
-                  <input type="text" name="birthday" required="required" class="form-control datepicker" value="{{ old('birthday')}}">
+                  <input type="text" name="birthday" required="required" class="form-control datepicker" value="{{ $user->dob}}" readonly="readonly">
                 </div>
             </div>
 
@@ -98,8 +98,8 @@
                  <div class="col-8">
                     <select class="form-control" name="sex"  required="required">
                         <option value=""> 性別をお選びください</option> 
-                        <option value="1"> 男性</option> 
-                        <option value="0"> 女性</option>
+                        <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}}> 男性</option> 
+                        <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
 
 
                     </select>
@@ -112,7 +112,7 @@
                   <label class="col-form-label height">身長(cm) <span style="color:red">*</span></label>
                 </div>
                   <div class="col-8">
-                  <input  type="number"  step="0.01"  required="required" name="height" class="form-control" value="{{ old('height')}}">
+                  <input  type="number"  min="0" step="0.01"  oninput="this.value = Math.abs(this.value)" required="required" name="height" class="form-control" value="{{ $user->length}}">
                 </div>
             </div>
 
@@ -141,7 +141,7 @@
                   <label class="col-form-label _current_weight_">体重(kg) <span style="color:red">*</span></label>
                 </div>
                 <div class="col-8">
-                  <input type="number"  step="0.01" name="weight"  required="required" class="form-control" value="{{ old('weight')}}">
+                  <input type="number"  step="0.01" name="weight"  required="required" class="form-control" value="{{ $user->weight}}">
                 </div>
             </div>
 
@@ -159,23 +159,24 @@
                 </div>
                 <div class="col-8">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" >
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" {{ $user->pal == 1.55 ? 'checked' : ''}} required="required">
                       <label class="form-check-label" for="exampleRadios1">
-                        低
+                         低 ( 生活の大部分が座位で、静的な活動が中心の場合 )
+
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios2" value="medium" checked>
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios2" value="medium" {{ $user->pal == 1.75 ? 'checked' : ''}} required="required">
                       <label class="form-check-label" for="exampleRadios2">
-                        中
+                        中 ( 座位中心の仕事だが、職場内での移動や立位での作業・接客等、あるいは通勤・買物・家事、軽いスポーツ等のいずれかを含む場合 )
                       </label>
                     </div>
                     <div class="form-check disabled">
-                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios3" value="high" >
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios3" value="high" {{ $user->pal == 2 ? 'checked' : ''}} required="required">
                       <label class="form-check-label" for="exampleRadios3">
                         
 
-高
+                                            高 ( 移動や立位の多い仕事への従事者。あるいは、スポーツなど余暇における活発な運動習慣をもっている場合 )
                       </label>
                     </div>
                 </div>
@@ -220,8 +221,10 @@
 
 @endsection
 @section('footer_css_js')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
     $(document).ready(function() {
@@ -230,9 +233,18 @@
             $(".alert-success").slideUp(500);
         });
 
-        $('.datepicker').datepicker();
 
     });
+    $(function() {
+  $('input[name="birthday"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1940,
+    maxYear: 2010
+  }, function(start, end, label) {
+
+  });
+});
 
 </script>
 @endsection 

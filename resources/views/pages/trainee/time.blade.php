@@ -38,12 +38,13 @@
             $hour =Carbon\Carbon::now()->format('H');
             
         @endphp
+        <a class="btn btn-warning " href="{{ url()->previous()}}"> <i class="fas fa-backward"></i> back  </a>
       <table id="example" class="table  nowrap" style="width:100%">
         <thead>
             <tr>
                 <th style="width: 68px;padding: 2px;border-bottom: 1px dotted rgb(192, 192, 192) !important;color: #bebebe;font-weight: normal;">GMT+06</th>
                 <th style="width: 95vw;border-bottom:1px dotted #c0c0c0 !important;border-left:1px dotted #c0c0c0 !important; ">
-                    <span style="background: #007bff;color: #fff;border-radius: 50%;width: 95px;padding: .6rem;">{{ Carbon\Carbon::now()->format('d')}}</span>
+                    <span style="background: #007bff;color: #fff;border-radius: 50%;width: 95px;padding: .6rem;">{{ Carbon\Carbon::parse($selected_date)->format('d')}}</span>
                 </th>
             </tr>
         </thead>
@@ -60,6 +61,7 @@
                             $colorFormat = '';
                             $colorFormatLast = '';
                             $scheduleId = '';
+                            $userId = 0;
 
                             if(!empty($time)){
                                     foreach($time as $val){
@@ -69,7 +71,7 @@
                                             $scheduleId = $val->id;
                                             if($val->is_occupied == 1 && ($val->user_id == Session::get('user')->id )){
                                                 $colorFormat = '#ff121275';
-                                                
+                                                $userId = $val->user_id;
                                             }
                                             
                                         }
@@ -90,7 +92,7 @@
 
                         @endphp
 
-                     <tr data-time="{{ Carbon\Carbon::parse($i.':00:00')->format('H') }}" data-date="{{$selected_date}}" id="{{ $i < 12 ? $i.'-AM' : (($i-12) ===0 ? '12-PM': ($i-12).'-PM' )}}"  data-scheduleid={{ $scheduleId}}>
+                     <tr data-time="{{ Carbon\Carbon::parse($i.':00:00')->format('H') }}" data-date="{{$selected_date}}" id="{{ $i < 12 ? $i.'-AM' : (($i-12) ===0 ? '12-PM': ($i-12).'-PM' )}}"  data-scheduleid={{ $scheduleId}} data-user_id={{ $userId}}>
                          <td style="color: #bebebe;width: 5%;padding:0px;position:relative;border:none !important;">
 {{--                            <span style="position:absolute">{{ $left}}</span>
  --}}                       @if($i != 24)
@@ -189,7 +191,10 @@ $(document).ready(function() {
                 // console.log(result);
                 // var date ="<b><span class='fas fa-clock'></span>"+date+"</b>";
                 // var htmltime ="<b><span class='fas fa-clock'></span>"+time+"</b>";
-                swal({
+                if(this.dataset.user_id > 0){
+
+                }else {
+                      swal({
                     title: "本気ですか ？", //"Are you sure ?",
                     text: "You want to reserve  "+this.dataset.date+" at "+time+ ".",
                     icon: "success",
@@ -197,13 +202,14 @@ $(document).ready(function() {
                         'No, cancel it!',
                         'Yes, I am sure!'
                     ]
-                }).then(function(isConfirm) {
-                    if (isConfirm) {
-                        $('#dateform').submit();
-                    }else{
-                        console.log('no');
-                    }
-                })
+                    }).then(function(isConfirm) {
+                        if (isConfirm) {
+                            $('#dateform').submit();
+                        }else{
+                            console.log('no');
+                        }
+                    })
+                }
             }
             
 

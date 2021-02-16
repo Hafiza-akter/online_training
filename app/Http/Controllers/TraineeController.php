@@ -116,13 +116,12 @@ class TraineeController extends Controller
         }
     }
     public function scheduleCalendar(Request $request){ // calendar view
+        // return view('auth.branch');
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
         if($user->dob == null){
-
-
-               return view('auth.branch');
+            return view('auth.branch');
         }
         //
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
@@ -148,15 +147,13 @@ class TraineeController extends Controller
                         $diff = $datePlan->diffInDays($now);
 
                         $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
-                        if (!in_array($diff+1, $allTraingingArray)) {
+                        if (!in_array($diff, $allTraingingArray)) {
                             $parsedArray[$key]['color'] = 'grey';
                         }else{
                             if($value->user_id == Session::get('user')->id){
                                 $parsedArray[$key]['color'] = 'red';
 
                             }else{
-
-
                                 $parsedArray[$key]['color'] = 'blue';
 
                             }
@@ -186,17 +183,23 @@ class TraineeController extends Controller
     }
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         
+        // dd($request->all());
     	// time 
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
-        $date = Carbon::parse($puchasePlan->created_at);
+        if(!$puchasePlan){
+            return redirect()->route('purchaseplan')->with('message','Please purchase your plan first !');
+        }
+
+        $date = Carbon::parse(date('Y-m-d', strtotime($puchasePlan->created_at)));
         $now = Carbon::parse($request->selected_date);
 
         $diff = $date->diffInDays($now);
 
+        // dd($diff);
         $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
-        if (!in_array($diff+1, $allTraingingArray)) {
-            return redirect()->back()->with('errors_m','Your purchase plan does not support this day as training day. ');
+        if (!in_array($diff, $allTraingingArray)) {
+            return redirect()->back()->with('errors_m','Your purchase plan does not support this day as a training day. ');
         }
 
         if($request->trainer_id){

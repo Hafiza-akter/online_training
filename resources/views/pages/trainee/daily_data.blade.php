@@ -85,6 +85,7 @@
                                     <input  type="text"   class="form-control" name="datepicker_" id="datepicker_" value="{{ $ua && $ua->recorded_at ? $ua->recorded_at : ''}}" placeholder="" />
                                 </div>
                               </td> 
+                              <td></td>
                                                        
                             </tr>
                             <tr>
@@ -124,47 +125,39 @@
                                 </div>
                               </td> 
                                <td>
-                                <div class="row mb-3">
-                                    <div class="col-4">
-                                        <label class="col-form-label _pal_">身体活動レベル <span style="color:red">*</span> </label>
-                                    </div>
+
+                              </td>                          
+                            </tr>
+
+
+                            
+                           
+                        </tbody>
+                         </table>
+                          <div class="col">
+                                    <label class="col-form-label _pal_">身体活動レベル <span style="color:red">*</span> </label>
                                     <div class="col-8">
                                         <div class="form-check">
                                           <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" {{ $ua && $ua->pal == 1.55 ? 'checked': ''}} >
                                           <label class="form-check-label" for="exampleRadios1">
-                                            低
+                                              低 ( 生活の大部分が座位で、静的な活動が中心の場合 )
                                           </label>
                                         </div>
                                         <div class="form-check">
                                           <input class="form-check-input" type="radio" name="pal" id="exampleRadios2" value="medium"  {{ $ua && $ua->pal == 1.75 ? 'checked': ''}}>
                                           <label class="form-check-label" for="exampleRadios2">
-                                            中
+                                            中 ( 座位中心の仕事だが、職場内での移動や立位での作業・接客等、あるいは通勤・買物・家事、軽いスポーツ等のいずれかを含む場合 )
                                           </label>
                                         </div>
                                         <div class="form-check disabled">
                                           <input class="form-check-input" type="radio" name="pal" id="exampleRadios3" value="high" {{ $ua && $ua->pal == 2 ? 'checked': ''}}>
                                           <label class="form-check-label" for="exampleRadios3">
-                                            
-
-                    高
+                                            高 ( 移動や立位の多い仕事への従事者。あるいは、スポーツなど余暇における活発な運動習慣をもっている場合 )
                                           </label>
                                         </div>
                                     </div>
                                 </div>
-                          {{--       <div class="form-group">
-                                    <label> Calory Consumed </label>
-                                    <input  type="text"    onpaste="return false"  class="form-control" name="consumed_calory" id="consumed_calory" value="{{ old('consumed_calory')}}" placeholder="" />
-                                </div> --}}
-                              </td>                          
-                            </tr>
-                            <tr>
-                              <td>
                                 
-                            </td>
-                          </tr>
-                           
-                        </tbody>
-                         </table>
                           </div>
                       </div>
                   </div>

@@ -39,10 +39,10 @@
            
         </div>
         <div class="overlay_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_1.png" class="amitated_icon_1" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_2.png" class="amitated_icon_2" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_4.png" class="amitated_icon_4" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_5.png" class="amitated_icon_5" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_1.png')}}" class="amitated_icon_1" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_2.png')}}" class="amitated_icon_2" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_4.png')}}" class="amitated_icon_4" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_5.png')}}" class="amitated_icon_5" alt="animate_icon">
         </div>
 
    
