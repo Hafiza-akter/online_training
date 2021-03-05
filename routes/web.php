@@ -93,6 +93,9 @@ Route::group(['middleware' => 'checkLogout'], function () {
 
 Route::group(['middleware' => 'checkLogin'], function () {
 
+	Route::get("/trainer/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('training'));
+	Route::post("/trainer/training_performance", "TrainingController@training_performance")->name(('training_performance'));
+	
 	Route::get("/trainer/schedule", "ScheduleController@scheduleView")->name(('trainerSchedule'));
 	Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
 

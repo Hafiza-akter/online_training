@@ -109,8 +109,8 @@
                          <tr>
                           <td>
                             <div class="form-group">
-                                <label>Target Calory Gain ( <span style="font-size: 12px;"> Default value is {{ $bmrData }} </span>) </label>
-                                <input  type="text" onblur="checkInput()"  onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return false"  class="form-control" name="target_calory_gained" id="target_calory_gained" value="{{ $bmrData }}" placeholder="Enter target calory gain" />
+                                <label>Target Calory Gain ( <span style="font-size: 12px;"> Default value is {{ $bmrData*$user->pal }} </span>) </label>
+                                <input  type="text" onblur="checkInput()"  onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return false"  class="form-control" name="target_calory_gained" id="target_calory_gained" value="{{ $bmrData*$user->pal }}" placeholder="Enter target calory gain" />
                             </div>
                               <div class="fa-2x" style="display: none;" id="loader">
                                 <i class="fas fa-spinner fa-spin"></i>

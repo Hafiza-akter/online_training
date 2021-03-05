@@ -61,7 +61,7 @@
     <div class="card card-info">
       
 
-    @if ($errors->any())
+   {{--  @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -69,7 +69,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
       <li class="nav-item ">
@@ -118,7 +118,7 @@
                           <label class="col-form-label birthday">誕生日</label>
                         </div>
                           <div class="col-8">
-                          <input type="text" name="birthday" class="form-control datepicker" value="{{ $user->dob}}">
+                          <input type="text" name="birthday" class="form-control datepicker" value="{{ date('Y-m-d',strtotime($user->dob)) }}" readonly="readonly">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -145,7 +145,7 @@
                           <label class="col-form-label _email_address_">メールアドレス</label>
                         </div>
                         <div class="col-8">
-                            <input type="email" name="email1" class="form-control" disabled="disabled" value="{{ $user->email}}">
+                            <input type="email" name="email1" class="form-control" required="required" value="{{ $user->email}}">
                         </div>
                     </div>
 
@@ -174,7 +174,7 @@
                           <label class="col-form-label _current_weight_">現在の体重(kg)</label>
                         </div>
                         <div class="col-8">
-                          <input type="text" name="weight" class="form-control" value="{{ $user->weight}}">
+                          <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="weight" class="form-control "  value="{{ $user->weight}}">
                         </div>
                     </div>
 
@@ -280,17 +280,60 @@
 
 @endsection
 @section('footer_css_js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<!-- for a specific version -->
+<script
+  src="https://cdn.jsdelivr.net/npm/zebra_datepicker@1.9.13/dist/zebra_datepicker.min.js"></script>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/zebra_datepicker@latest/dist/css/bootstrap/zebra_datepicker.min.css">
 <script>
     $(document).ready(function() {
 
         $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
             $(".alert-success").slideUp(500);
         });
+            // $('input.datepicker').Zebra_DatePicker();
+        $('.datepicker').Zebra_DatePicker({
+            direction: [false,['1900-01-01']]
+        });
+//         $('.datepicker').datepicker({
+//             format: "yyyy-mm-dd",
+//             autoclose: !0,
+//             yearRange: "-150Y:-10Y",
+// minDate: "-150Y",
+// maxDate: "-10Y",
 
-        $('.datepicker').datepicker();
+//         });
 
     });
+//     // Restricts input for the given textbox to the given inputFilter.
+// function setInputFilter(textbox, inputFilter) {
+//   ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+//     textbox.addEventListener(event, function() {
+//       if (inputFilter(this.value)) {
+//         this.oldValue = this.value;
+//         this.oldSelectionStart = this.selectionStart;
+//         this.oldSelectionEnd = this.selectionEnd;
+//       } else if (this.hasOwnProperty("oldValue")) {
+//         this.value = this.oldValue;
+//         this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+//       } else {
+//         this.value = "";
+//       }
+//     });
+//   });
+// }
+
+
+
+// setInputFilter(document.getElementById("uintTextBox"), function(value) {
+//   return /^\d*$/.test(value); });
+// // setInputFilter(document.getElementById("intLimitTextBox"), function(value) {
+// //   return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 500); });
+// setInputFilter(document.getElementsByClassName("floatTextBox"), function(value) {
+//   return /^\d*[.]?\d*$/.test(value); });
+
 
 </script>
 @endsection 

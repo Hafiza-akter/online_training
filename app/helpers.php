@@ -1,4 +1,6 @@
 <?php 
+// use App\Model\Course;
+
 function test(){
 	return 'hello';
 }
@@ -95,10 +97,10 @@ function BMRcalculation($weight){
 	$today = date("m/d/Y");
 	$diff = date_diff(date_create($dateOfBirth), date_create($today));
 
-	$age = $diff->format('%y');
+	$age = (int) $diff->format('%y');
 	$weight = $weight;
-	$height = $user->height;
-	// dd($weight);
+	$height = $user->length;
+	// dd($age);
 
 	$bmr_weight_offset=$user->bmr_weight_offset;
 	$bmr_length_offset=$user->bmr_length_offset;
@@ -116,12 +118,22 @@ function BMRcalculation($weight){
 	$bmr_gender_offset=$user->bmr_gender_offset;
    
 
-	
-	$result = ($setUpData->bmr_weight_coefficient*$bmr_weight_offset*$weight)
+	if($user->sex ==='male'){
+		$result = ($setUpData->bmr_weight_coefficient*$bmr_weight_offset*$weight)
 			+($setUpData->bmr_length_coefficient*$bmr_length_offset*$height)
 			-($setUpData->bmr_age_coefficient*$bmr_age_offset*$age)
 			+($bmr_gender_coefficient+$bmr_gender_offset);
-			//dd($result);
+	}
+
+	if($user->sex ==='female'){
+		// dd($setUpData->bmr_age_female_coefficient);
+		$result = ($setUpData->bmr_weight_female_coefficient*$bmr_weight_offset*$weight)
+			+($setUpData->bmr_length_female_coefficient*$bmr_length_offset*$height)
+			-($setUpData->bmr_age_female_coefficient*$bmr_age_offset*$age)
+			+($bmr_gender_coefficient+$bmr_gender_offset);
+	}
+
+
 	return $result;
 }
 function training_calory($weight){
@@ -272,5 +284,15 @@ function checkEquipment($user_id,$id){
 function number_formate($data){
             return number_format((float)$data, 2, '.', '');  // Outputs -> 105.00
  }
+ function getCourseData($id){
+        return \App\Model\Course::find($id);
+ }
+ function getCourseDataMain($main){
+        return \App\Model\Course::where('main',$main)->get();
+ }
+ function getEquipment($id){
+        return \App\Model\Equipment::find($id);
+ }
+ 
 
 ?>

@@ -39,7 +39,13 @@ z-index: 1;inset: 21px -2% -65px !important;
   }*/
   .tblue{
     background: blue !important;
+    opacity: 1 !important;
     color:white !important;
+    border: 1px solid #ddd;
+  }
+  .exclude{
+    display: none !important;
+    opacity: 0 !important;
   }
   .tred{
     background: red !important;
@@ -62,6 +68,12 @@ z-index: 1;inset: 21px -2% -65px !important;
   }
   .fc .fc-timegrid-slot{
     height:2.5em;
+  }
+  .tblue1{
+    background: blue !important;
+    opacity: .4 !important;
+    color:white !important;
+    /*border: 1px solid #ddd;*/
   }
   /*.fc .fc-bg-event{
     border:1px solid white;
@@ -93,10 +105,10 @@ z-index: 1;inset: 21px -2% -65px !important;
      {{--  <div class="row pb-5  page-content page-container" id="chart">
 
           <form action="{{route('trainerCalendar.submit')}}" method="post" id="dateform">
-  		    {{ csrf_field() }}
-  		    <input type="hidden" name="trainer_id" value="{{ Session::get('user') ? Session::get('user')->id : ''}}">
-  		    <input type="hidden" name="selected_date" id="selected_date" value="">
-  		</form>
+          {{ csrf_field() }}
+          <input type="hidden" name="trainer_id" value="{{ Session::get('user') ? Session::get('user')->id : ''}}">
+          <input type="hidden" name="selected_date" id="selected_date" value="">
+      </form>
       </div> --}}
 
         <div class="row justify-content-center">
@@ -109,7 +121,7 @@ z-index: 1;inset: 21px -2% -65px !important;
 
       <div id='calendar'></div>
       <button  class="fc-myCustomButton-button fc-button fc-button-primary mt-2" type="button" style="float: right;font-size: 20px" onclick="document.getElementById('scheduleForm').submit();">登録</button>
-      <button  class="fc-myCustomButton-button fc-button fc-button-primary mt-2 btn-danger" type="button" id="scheduleDeletebtn" style="margin-right: 10px;display:none; float: right;font-size: 20px" onclick="document.getElementById('scheduleDelete').submit();">登録</button>
+      <button  class="fc-myCustomButton-button fc-button fc-button-primary mt-2 btn-danger" type="button" id="scheduleDeletebtn" style="margin-right: 10px;display:none; float: right;font-size: 20px" onclick="document.getElementById('scheduleDelete').submit();">削除</button>
 
           <input type="hidden" id="schedule" value="{{ $schedule}}">
 
@@ -156,7 +168,7 @@ z-index: 1;inset: 21px -2% -65px !important;
               
             </td>
             <td>
-              <button class="btn btn-success"  > Course Details</button>
+              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> Training Details</a>
               @if($val->status != 'cancelled')
               <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a>
               @endif 
@@ -185,6 +197,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         <input type="hidden" name="trainer_id" value="{{ Session::get('user')->id}}">
         <input type="hidden" name="dlist"  id="dlist">
       </form>
+
 </div>
 </section>
 
@@ -200,6 +213,7 @@ z-index: 1;inset: 21px -2% -65px !important;
 
 <script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 <script src="{{asset('asset_v2/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{asset('asset_v2/js/rrule.min.js')}}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -212,6 +226,7 @@ $(".tblue").click(function(){
 });
     var calendarEl = document.getElementById('calendar');
     var dateData = JSON.parse($(schedule).val());
+    console.log(dateData[0]);
     let a = [];
     let selectedEvent = [];
 
@@ -219,7 +234,7 @@ $(".tblue").click(function(){
 
       selectable: true,
       allDaySlot: false,
-   
+   eventLongPressDelay:900,
       contentHeight:"auto",
       initialView: 'timeGridWeek',
       displayEventTime : false,
@@ -229,7 +244,7 @@ $(".tblue").click(function(){
 
       views: {
         timeGridWeek: { // name of view
-          dayHeaderFormat:{ weekday:'short', month: 'short', day: '2-digit' }
+          dayHeaderFormat:{ weekday:'short' }
         }
       },
 
@@ -257,12 +272,13 @@ $(".tblue").click(function(){
           },
        },
       headerToolbar: {
-        left: 'prev,next today month',
-        center: 'title',
+        left: 'month',
+        center: '',
         right: 'week week_all',
          // right: 'dayGridMonth,timeGridWeek,timeGridDay'
 
       },
+
       dateClick: function(info) {
         // // alert('clicked ' + info.dateStr);
         // $("#selected_date").val('');
@@ -303,15 +319,16 @@ $(".tblue").click(function(){
           var evts = calendar.getEvents(); //get all in-memory events
           
 
-          let title=$(".fc-toolbar-title").text();
-          var numbers = title.match(/\d+/g).map(Number);
+          // let title=$(".fc-toolbar-title").text();
+          // var numbers = title.match(/\d+/g).map(Number);
 
 
-          let startDate = moment(numbers[0]+"-"+numbers[1]+"-"+numbers[2], "YYYY-MM-DD");
-          let endDate = moment(numbers[0]+"-"+numbers[1]+"-"+numbers[3], "YYYY-MM-DD");
-
-
+          // let startDate = moment(numbers[0]+"-"+numbers[1]+"-"+numbers[2], "YYYY-MM-DD");
+          // let endDate = moment(numbers[0]+"-"+numbers[1]+"-"+numbers[3], "YYYY-MM-DD");
+          let startDate = moment(info.startStr, "YYYY-MM-DD");
+          let endDate = moment(info.endStr, "YYYY-MM-DD");
           let dateDiff = moment.duration(endDate.diff(startDate)).asDays();
+
           console.log('Date diff '+dateDiff);
 
           let startTime = moment(info.startStr).format('HH:mm:ss');
@@ -337,8 +354,10 @@ $(".tblue").click(function(){
                   
 
                   if($("."+dincr+sTl)[0]){
-
+                    let dKdate = moment(dincr); // Thursday Feb 2015
+                    let dow = dKdate.day();
                     console.log('already added');
+                    // console.log(calendar.getEventById("-"+dincr+sTl+"-").extendedProps.type);
                     calendar.getEventById("-"+dincr+sTl+"-").remove();
                     var index = a.findIndex(function(o){
                       return o.id === "-"+dincr+sTl+"-";
@@ -346,44 +365,65 @@ $(".tblue").click(function(){
                     if (index !== -1) a.splice(index, 1);
 
 
-                    if(isSelectedEvent(evts, dincr,sT) != 'False'){
+                    // if(isSelectedEvent(evts, dincr,sT) != 'False'){
 
-                      var index2 = selectedEvent.findIndex(function(o){
-                       return o === isSelectedEvent(evts, dincr,sT);
-                      })
-                      if (index2 !== -1) selectedEvent.splice(index2, 1);
-                    }
+                    //   var index2 = selectedEvent.findIndex(function(o){
+                    //    return o === isSelectedEvent(evts, dincr,sT);
+                    //   })
+                    //   if (index2 !== -1) selectedEvent.splice(index2, 1);
+                    // }
 
+                      // selectedEvent.push(item);
+                      // var index2 = selectedEvent.findIndex(function(o){
+                      //  return o.id === check_time_already_exist(sT,dow,selectedEvent);
+                      // })
+                      // if (index2 !== -1) selectedEvent.splice(index2, 1);
+
+                       dateData.filter(function (match) { 
+                       if( match.startTime == sT && parseInt(match.daysOfWeek[0]) == dow){
+                          // return console.log(match.id);
+                          selectedEvent.pop(match);
+                         }
+                      });
 
                   }else{
-                   calendar.addEvent({
-                        // "title": sT + "-"+ eT,
+                    let dKdate = moment(dincr); // Thursday Feb 2015
+                    let dow = dKdate.day();
+                    let item={
+                        "title": sT + "-"+ eT,
+                        'daysOfWeek': [ dow ], // these recurrent events move separately
+                        'startTime': sT,
+                        'endTime': eT,
+                        // color: 'red',
+                        'startRecur':dincr,
+                        // 'endRecurr':dincr,
                         "title": "",
                         "id": "-"+dincr+sTl+"-",
-                        "date_data": dincr,
-                        "start": dincr+"T"+sT,
-                        "end": dincr+"T"+eT,
-                        "className": ["tblue", dincr+sTl],
+                        "unique_id": "-"+dincr+sTl+"-",
+                        // 'extendedProps': {
+                        //   'type': 'recurring'
+                        // },
+                        "className": ["tblue1", dincr+sTl],
                         "textColor": "#ffffff",
-                        display: info.view.type === 'timeGridWeek' ? 'background' : ''
+                        display: 'background'
 
+                    };
+
+                
+
+                    dateData.filter(function (match) { 
+                     if( match.startTime == sT && parseInt(match.daysOfWeek[0]) == dow){
+                        // return console.log(match.id);
+                        match.db_date="Nan";
+                        selectedEvent.push(match);
+                       }
                     });
-                   a.push({
-                        // "title": sT + "-"+ eT,
-                        "title": "",
-                        "id": "-"+dincr+sTl+"-",
-                        "date_data": dincr,
-                        "start": dincr+"T"+sT,
-                        "end": dincr+"T"+eT,
-                        "className": ["tblue", dincr+sTl],
-                        "textColor": "#ffffff",
-                        display: info.view.type === 'timeGridWeek' ? 'background' : ''
+                   calendar.addEvent(item);
+                   a.push(item);
 
-                    });
-
-                    if(isSelectedEvent(evts, dincr,sT) != 'False'){
-                      selectedEvent.push(parseInt(isSelectedEvent(evts, dincr,sT)));
-                    }
+                    // if(isSelectedEvent(evts, dincr,sT) != 'False'){
+                    //   selectedEvent.push(parseInt(isSelectedEvent(evts, dincr,sT)));
+                    // }
 
                    }
 
@@ -393,7 +433,7 @@ $(".tblue").click(function(){
           $("#action_type").val('');
           $("#list").val('');
           $("#list").val(JSON.stringify(a));
-          $("#action_type").val('initial_registration');
+          $("#action_type").val('recuring_event');
 
           if(selectedEvent.length > 0){
             $("#dlist").val(JSON.stringify(selectedEvent));
@@ -406,7 +446,7 @@ $(".tblue").click(function(){
         
 
           console.log(info.view.type);
-          // console.log(a);
+          console.log(a);
           console.log(selectedEvent.filter(onlyUnique));
           
         console.log('selected ' + info.startStr + ' to ' + info.endStr);
@@ -460,107 +500,47 @@ $(".tblue").click(function(){
         //   } 
         // })
       },
-  
+       // eventDidMount: function(info) {
+
+      // $('.fc-event-title').each(function(){
+
+      //       if($(this).text() === info.event.title && info.event.extendedProps.type === 'recurring'){
+      //        if(info.event.extendedProps.exdate != null){
+      //            if(info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))){
+      //                $(this).parent().closest('a').css("display", "none");
+      //            }
+      //        }
+      //       }
+      //    });
+         
+
+        // console.log(info.event.extendedProps.exclude);
+      // },
+
        eventClick: function(info) {
         console.log(info);
         console.log('Event: ' + info.event.id);
         console.log('View: ' + info.view.type);
         console.log('date: ' + info.event.date_data);
-
-        if(info.view.type === 'dayGridMonth'){
-          $('#gridView').val('dayGridMonth');
-           var dayname=moment(moment(info.event.start)).format('dddd');
-            Swal.fire({
-              title: 'Do you want to save the changes?',
-              showDenyButton: true,
-              showCancelButton: true,
-              width: '650px',
-              // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
-              // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'
-              // +'<div class="row p-3 "><select class="form-control"  id="select_option">'
-              //     +'<option value="reschedule"> Reschedule</option>'
-              //     +'<option value="cancle_shedule"> Cancel Schedule</option>'
-              // +'</select></div>'
-              // ,
-               html: "<div class='row p-3'>" + " Scheduled date  "
-               +moment(info.event.start).format('YYYY-MM-DD')
-               +' at '+moment(info.event.start).format('hh:mm A')+' To '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
-               +' </div>'
-               +'<div class="row p-3 " id="res" style="display:none">'
-               + 'Reschedule at <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> TO <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
-               +'</div>'
-               +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
-              +'<option value="0">--Select Action Type--</option>'
-                  +'<option value="dayreschedule"> Reschedule</option>'
-                  +'<option value="daycancle_schedule"> Cancel Schedule</option>'
-              +'</select></div>'
-              ,
+        console.log('date: ' + info.event.extendedProps.type);
 
 
-              confirmButtonText: `Reschedule`,
-              denyButtonText: `View Details`,
-              cancelButtonText: `Cancel Schedule`,
-              
-              didOpen:function(){
-                Swal.disableButtons();
-                
-
-                  $(".dtp").datetimepicker({
-                    formatViewType: 'time',
-                    fontAwesome: true,
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    minView: 0,
-                    minuteStep: 60,
-                    format: 'HH:ii P',
-                    showMeridian: true,
-
-                });
-              
-                
-                $(".dtp").val(moment(info.event.start).format('hh:mm A'));
-                $(".dtp2").val(moment(info.event.start).add(60, 'minutes').format('hh:mm A'));
-                
-                $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
-                $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
-                $("#action_type").val(''); // form value
-                $("#db_schedule_id").val(info.event.id); // form value
-                $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
-
-                $(".dtp").on("change.dp",function (e) {
-                    let newtime = moment(this.value, 'hh:mm').add(60, 'minutes').format('hh:mm A');
-                    $(".dtp2").val(newtime);
-                    $("#selected_time").val(this.value);
-
-                });
-            }
-
-            }).then((result) => {
-              console.log(result);
-              /* Read more about isConfirmed, isDenied below */
-              if (result.isConfirmed) {
-                $('#scheduleForm').submit();
-              } else if (result.isDenied) {
-                console.log('details view');
-              }else{
-                if(result.dismiss === 'cancel'){
-                  $('#scheduleForm').submit();
-                }
-                console.log('he he he backdrop');
-              }
-          })
-        }
-
-        if(info.view.type === 'timeGridWeek' || info.view.type === 'timeGridDay' ){
+        if(info.view.type === 'timeGridWeek'){
           $('#gridView').val('timeGridWeek');
-
+          let sad =info.event.extendedProps.type == 'recurring'  ? 'Every week ' : '';
           var msgse='Schedule date '+moment(info.event.start).format('YYYY-MM-DD');
+
+          if(info.event.extendedProps.type == 'normal'){
+            var msgse='Schedule date '+moment(info.event.start).format('YYYY-MM-DD');
+          }
+          if(info.event.extendedProps.type == 'recurring'){
+            var msgse='Every week at ';
+          }
           var dayname=moment(moment(info.event.start)).format('dddd');
           Swal.fire({
               title: 'Do you want to save the changes?',
-              showDenyButton: true,
-              showCancelButton: true,
+              showDenyButton: false,
+              showCancelButton: false,
               width: '650px',
               // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
               // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'
@@ -569,72 +549,49 @@ $(".tblue").click(function(){
               //     +'<option value="cancle_shedule"> Cancel Schedule</option>'
               // +'</select></div>'
               // ,
-               html: "<div class='row p-3'>" + msgse+
+               html: "<div class='row p-3 justify-content-center'>" + msgse+
                ' at '+moment(info.event.start).format('hh:mm A')+' To '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
                +' </div>'
                +'<div class="row p-3 " id="res" style="display:none">'
                + 'Reschedule at <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> TO <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
                +'</div>'
-               +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
-              +'<option value="0">--Select Action Type--</option>'
-                  +'<option value="reschedule"> Reschedule</option>'
-                  +'<option value="cancle_schedule"> Cancel Schedule</option>'
-              +'</select></div>'
+              
               ,
 
 
-              confirmButtonText: `Reschedule`,
-              denyButtonText: `View Details`,
-              cancelButtonText: `Cancel Schedule`,
+              confirmButtonText: `Delete Schedule`,
+              cancelButtonText: `Delete Recurring Schedule`,
               
               didOpen:function(){
-                Swal.disableButtons();
+                // Swal.disableButtons();
                 
 
-                  $(".dtp").datetimepicker({
-                    formatViewType: 'time',
-                    fontAwesome: true,
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    minView: 0,
-                    minuteStep: 60,
-                    format: 'HH:ii P',
-                    showMeridian: true,
-
-                });
-              
-                
-                $(".dtp").val(moment(info.event.start).format('hh:mm A'));
-                $(".dtp2").val(moment(info.event.start).add(60, 'minutes').format('hh:mm A'));
-                
                 $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
                 $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
                 $("#action_type").val(''); // form value
+                // console.log(info.event.unique_id);
                 $("#db_schedule_id").val(parseInt(info.event.id)); // form value
                 $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
 
                 // let title=$(".fc-toolbar-title").text();
                 // getAllDate(title,info);  // form value
 
-                $(".dtp").on("change.dp",function (e) {
-                    let newtime = moment(this.value, 'hh:mm').add(60, 'minutes').format('hh:mm A');
-                    $(".dtp2").val(newtime);
-                    $("#selected_time").val(this.value);
-
-                });
+            
             }
 
             }).then((result) => {
               /* Read more about isConfirmed, isDenied below */
               if (result.isConfirmed) {
+                $("#action_type").val('recurring_delete'); // form value
                 $('#scheduleForm').submit();
               } else if (result.isDenied) {
                 console.log('details view');
               }else{
                 if(result.dismiss === 'cancel'){
-                  $('#scheduleForm').submit();
+                $("#action_type").val('recurring_delete'); // form value
+                $('#scheduleForm').submit();
                 }
+           
                 console.log('he he he backdrop');
               }
           })
@@ -642,8 +599,30 @@ $(".tblue").click(function(){
         // change the border color just for fun
         // info.el.style.background = 'red';
       },
-
+    //   eventRender: function(event, element, view) {
+    //     console.log(event.extendedProps.type);
+    //   // var theDate = event.start
+    //   // var excludedDate = event.excludedDate;
+    //   // var excludedTomorrrow = new Date(excludedDate);
+    //   //  //if the date is in between August 29th at 00:00 and August 30th at 00:00 DO NOT RENDER
+    //   // if( theDate >= excludedDate && theDate < excludedTomorrrow.setDate(excludedTomorrrow.getDate() + 1) ) {
+    //   //     return false;
+    //   // }
+    // },
       events: dateData
+      // events: [
+      //        {
+      //         title: 'my recurring event',
+      //         color: 'red'
+      //         rrule: {
+      //           freq: 'weekly',
+      //           interval: 5,
+      //           byweekday: [ 'mo', 'fr' ],
+      //           dtstart: '2021-02-11T10:30:00', // will also accept '20120201T103000'
+      //         }
+      //       }
+      //     ]
+              
       // [
       //     {
       //       "title": "12.06 am - 1.06 am",
@@ -783,6 +762,21 @@ $(".tblue").click(function(){
 
   function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
+  }
+  function check_time_already_exist(start_time,dow,event){
+    console.log(dow);
+    console.log(start_time);
+    console.log(event);
+    event.filter(function (match) { 
+       if( match.startTime == start_time && parseInt(match.daysOfWeek[0]) == dow){
+          // return console.log(match.id);
+          return match;
+       }else{
+          // return console.log('not found');
+          return 'not_found';
+       }
+    });
+
   }
        
   //   events: [

@@ -155,7 +155,7 @@ z-index: 1;inset: 21px -2% -65px !important;
               
             </td>
             <td>
-              <button class="btn btn-success"  > Course Details</button>
+              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> Training Details</a>
               @if($val->status != 'cancelled')
               <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a>
               @endif 
@@ -174,7 +174,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         <input type="hidden" name="type"  id="action_type">
         <input type="hidden" name="gridView"  id="gridView">
         <input type="hidden" name="list"  id="list">
-
+        <input type="hidden" name="event_type"  id="event_type">
         <input type="hidden" name="db_start_time"  id="db_start_time">
         <input type="hidden" name="db_schedule_id"  id="db_schedule_id">
         <input type="hidden" name="db_date"  id="db_date">
@@ -256,7 +256,22 @@ $(".tblue").click(function(){
          // right: 'dayGridMonth,timeGridWeek,timeGridDay'
 
       },
+       eventDidMount: function(info) {
 
+
+
+          $('.fc-event-title').each(function(){
+          if($(this).text() === info.event.title && info.event.extendedProps.type === 'recurring'){
+           if(info.event.extendedProps.exdate != null){
+               if(info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))){
+                   $(this).parent().closest('a').css("display", "none");
+               }
+           }
+          }
+         });
+
+        // console.log(info.event.extendedProps.exclude);
+      },
        eventClick: function(info) {
         console.log(info);
         console.log('Event: ' + info.event.id);
@@ -308,7 +323,7 @@ $(".tblue").click(function(){
                     startView: 1,
                     maxView: 1,
                     minView: 0,
-                    minuteStep: 5,
+                    minuteStep: 60,
                     format: 'HH:ii P',
                     showMeridian: true,
 
@@ -321,6 +336,7 @@ $(".tblue").click(function(){
                 $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
                 $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
                 $("#action_type").val(''); // form value
+                $("#event_type").val(info.event.extendedProps.type); // form value
                 $("#db_schedule_id").val(info.event.id); // form value
                 $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
 

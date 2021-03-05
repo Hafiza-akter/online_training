@@ -15,6 +15,7 @@ use App\Model\UserHistory;
 use App\Model\TrainerSchedule;
 use App\Model\UserPlanPurchase;
 use App\Model\PlanPurchase;
+use App\Model\TrainerRecurringSchedule;
 
 
 use DateTime;
@@ -93,30 +94,11 @@ class TraineeController extends Controller
                     return redirect()->route('purchaseplan')->with('message','Physical information added successfully');
 
     }
-    public function morningOrEvening(){
-            /* This sets the $time variable to the current hour in the 24 hour clock format */
-        $time = date("H");
-        /* Set the $timezone variable to become the current timezone */
-        $timezone = date("e");
-        /* If the time is less than 1200 hours, show good morning */
-        if ($time < "12") {
-            return "morning";
-        } else
-        /* If the time is grater than or equal to 1200 hours, but less than 1700 hours, so good afternoon */
-        if ($time >= "12" && $time < "17") {
-            return "evening";
-        } else
-        /* Should the time be between or equal to 1700 and 1900 hours, show good evening */
-        if ($time >= "17" && $time < "19") {
-            return "evening";
-        } else
-        /* Finally, show good night if the time is greater than or equal to 1900 hours */
-        if ($time >= "19") {
-            return "evening";
-        }
-    }
+   
     public function scheduleCalendar(Request $request){ // calendar view
         // return view('auth.branch');
+
+        // dd($request->all());
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
@@ -126,65 +108,149 @@ class TraineeController extends Controller
         //
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
-        $datePlan = Carbon::parse($puchasePlan->created_at);
-       
+        if(!$puchasePlan){
+            return redirect()->route('purchaseplan')->with('message','Please purchase your plan first !');
+        }
+        
+        $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
+        $now = Carbon::parse(date('Y-m-d'));
 
+        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+        $startDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
+        $endDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)))->addDays(90)->format('Y-m-d');;
+
+        $count=0;
+        $parsedArray = array();
+
+  
         $isActive = "schedule";
         if($request->trainer_id){
 
-            $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->get();
-                $parsedArray = array();
+            $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->where('status',NULL)->get();
+            $recurring =TrainerRecurringSchedule::where('trainer_id',$request->trainer_id)
+                    ->where('status',NULL)
+                    ->get();
+
                 if($schedule){
                     foreach ($schedule as $key => $value) {
-                    $parsedArray[$key]['start'] = $value->date;
-                    $parsedArray[$key]['allDay'] = true;
-                    $parsedArray[$key]['display'] = 'background';
 
+                        $parsedArray[$count]['id'] = "normal_".$value->id;
+                        $parsedArray[$count]['start'] = $value->date;
+                        $parsedArray[$count]['allDay'] = true;
+                        $parsedArray[$count]['display'] = 'background';
+                        $parsedArray[$count]['extendedProps']=array(
+                                    'type' => 'normal'
+                                );
                    
 
                         $now = Carbon::parse($value->date);
 
                         $diff = $datePlan->diffInDays($now);
 
-                        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
-                        if (!in_array($diff, $allTraingingArray)) {
-                            $parsedArray[$key]['color'] = 'grey';
-                        }else{
+                    
                             if($value->user_id == Session::get('user')->id){
-                                $parsedArray[$key]['color'] = 'red';
+                                $parsedArray[$count]['color'] = 'red';
 
                             }else{
-                                $parsedArray[$key]['color'] = 'blue';
+                                $parsedArray[$count]['color'] = 'blue';
 
                             }
-                        }
-
+                        $count++;
                     }
                 }
+
+                if($recurring){
+
+                    foreach($recurring as $key=>$value){
+                        // dd($value->dow);
+                        // $found=$this->filter_array_value(Carbon::parse($value->time)->format('H:i:s'),$compareArray);
+                            // $parsedArray[$count]['start'] = $value->date;
+                        // $parsedArray[$count]['title']=Carbon::parse($value->time)->format('g:i A')." - ".Carbon::parse($value->time)->addMinutes(60)->format('g:i A');
+                        $parsedArray[$count]['id']="recurring_".$value->id;
+                        $parsedArray[$count]['daysOfWeek']=array($value->dow);
+                        // $parsedArray[$count]['startTime']=Carbon::parse($value->time)->format('H:i:s');
+                        // $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                        // $parsedArray[$count]['exclude']=$value->exclude;
+                        $parsedArray[$count]['startRecur']=date('Y-m-d',strtotime($puchasePlan->created_at));
+                        $parsedArray[$count]['endRecur']=$endDay;
+
+                        $parsedArray[$count]['allDay'] = true;
+
+
+                        $parsedArray[$count]['extendedProps']=array(
+                            'type' => 'recurring',
+                            'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                            'exdate' => $value->exclude
+
+                        );
+                        if($request->type == 'week' || $request->type == 'week_all'){
+                            // $parsedArray[$count]['display'] = 'background';
+                        } 
+                            
+                        $parsedArray[$count]['className'] = 'recurring';
+                        $parsedArray[$count]['color'] = 'blue';
+                        $parsedArray[$count]['type'] = 'recurring';
+                        $parsedArray[$count]['time'] = Carbon::parse($value->time)->format('H:i:s');
+                        $parsedArray[$count]['display'] = 'background';
+                        $count++;
+
+                        
+                    }
+                 }
+
+
         }else{
 
-              $schedule =TrainerSchedule::where('user_id',Session::get('user')->id)->select('date as start_date')->get();
-                $parsedArray = array();
+              $schedule =TrainerSchedule::where('user_id',Session::get('user')->id)->get();
                 if($schedule){
                     foreach ($schedule as $key => $value) {
-                    $parsedArray[$key]['start'] = $value->start_date;
-                    $parsedArray[$key]['allDay'] = true;
-                    $parsedArray[$key]['display'] = 'background';
-                    $parsedArray[$key]['color'] = 'red';
-
+                    $parsedArray[$count]['start'] = $value->date;
+                    $parsedArray[$count]['allDay'] = true;
+                    $parsedArray[$count]['display'] = 'background';
+                    $parsedArray[$count]['color'] = 'red';
+                    $parsedArray[$count]['extendedProps']=array(
+                            'type' => 'occupied',
+                            'trainer_id' =>   $value->trainer_id,
+                            'schedule_id' =>  $value->id,
+                            'is_occupied' =>  $value->is_occupied,
+                            'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                            'endTime' => Carbon::parse($value->time)->addMinutes(60)->format('H:i:s'),
+                        );
+                    $count++;
                     }
                 }
         }
-    	
-
+        
+        
+        // dd($startDay);
+        // for($i=1;$i<=90;$i++){
+        //     $day=$startDay->addDays(1)->format('Y-m-d');
+        //     if (!in_array($i, $allTraingingArray)) {
+        //         $parsedArray[$count]['color'] = 'grey';
+        //         $parsedArray[$count]['start'] = $day;
+        //         $parsedArray[$count]['allDay'] = true;
+        //         $parsedArray[$count]['display'] = 'background';
+        //          $parsedArray[$count]['extendedProps']=array(
+        //                     'type' => 'disabled'
+        //                 );
+        //         $count++;
+        //     }
+        // }
         $listSchedule =TrainerSchedule::where('user_id',Session::get('user')->id)->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->get();
-    	return view('pages.trainee.calendar')->with('isActive',$isActive)->with('schedule',json_encode($parsedArray,true))->with('listSchedule',$listSchedule);
+        $trainingDay= \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+        
+        return view('pages.trainee.calendar')
+        // ->with('datePlan',$datePlan)
+        // ->with('trainingDay',json_encode($trainingDay))
+        ->with('isActive',$isActive)
+        ->with('schedule',json_encode($parsedArray,true))
+        ->with('listSchedule',$listSchedule);
     
     }
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         
         // dd($request->all());
-    	// time 
+        // time 
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
         if(!$puchasePlan){
@@ -197,70 +263,274 @@ class TraineeController extends Controller
         $diff = $date->diffInDays($now);
 
         // dd($diff);
-        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
-        if (!in_array($diff, $allTraingingArray)) {
-            return redirect()->back()->with('errors_m','Your purchase plan does not support this day as a training day. ');
-        }
+        // $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+        // if (!in_array($diff, $allTraingingArray)) {
+        //     return redirect()->back()->with('errors_m','Your purchase plan does not support this day as a training day. ');
+        // }
+        $parsedArray=array();
+        $count = 0;
 
-        if($request->trainer_id){
-            $time =TrainerSchedule::where('date',$request->selected_date)->where('trainer_id',$request->trainer_id)->get();
-        }else{
+        if($request->event_type== null){
+                $trainerList1= TrainerSchedule::whereDate('date',$request->selected_date)
+                            ->where('status',NULL)
+                            ->select(['trainer_id as id'])->groupBy('trainer_id')
+                            ->get()->toArray();
+                $trainerList2= TrainerRecurringSchedule::where('dow',Carbon::parse($request->selected_date)->dayOfWeek)
+                            ->groupBy('trainer_id')
+                            ->select(['trainer_id as id'])
+                            ->get()->toArray();
 
-            $time =TrainerSchedule::where('date',$request->selected_date)->where('user_id',Session::get('user.id'))->get();
+                $trainerArray = array_unique(array_merge($trainerList1,$trainerList2),SORT_REGULAR);
 
-            if(count($time) == 0){
-
-                $trainerId = TrainerSchedule::where('date',$request->selected_date)->select('trainer_id')->groupBy('trainer_id')->get();
-
-                $trainerList = array();
-                if(($trainerId)){
-                    foreach($trainerId as $key=>$val){
-                        $trainerList[$key] = Trainer::find($val->trainer_id);
-                    }
-                }
-                // dd($trainerList);
+                // dd($trainerList2);
+                $trainerList = Trainer::whereIn('id',$trainerArray)->get();
                 return view('pages.trainee.trainerlist')->with('trainerList',$trainerList);
+
+        }
+        if($request->event_type=='occupied'){
+            $schedule =TrainerSchedule::where('date',$request->selected_date)
+                    ->where('user_id',Session::get('user.id'))
+                    ->where('status',NULL)
+                    ->get();
+            if($schedule){
+                foreach ($schedule as $key => $value) {
+
+
+        
+                    $y=Carbon::parse($value->date)->format('Y-m-d');
+                    $t=Carbon::parse($value->time)->format('H:i:s');
+                    $tt = Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+
+                    $title=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+                    // $parsedArray[$count]['title'] = $title;
+                    $parsedArray[$count]['id'] = $value->id;
+                    $parsedArray[$count]['is_occupied'] = $value->is_occupied;
+                    $parsedArray[$count]['date_data'] = Carbon::parse($value->date)->format('Y-m-d');
+
+                    // $parsedArray[$count]['time'] = $title;
+                    $parsedArray[$count]['start'] = Carbon::parse($value->date)->format('Y-m-d')."T".$t;
+                    $parsedArray[$count]['end'] = Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
+                    $parsedArray[$count]['extendedProps']=array(
+                        'type' => 'normal',
+                        'trainer_id' => $value->trainer_id,
+                        'schedule_id' =>  $value->id,
+                        'is_occupied' =>  $value->is_occupied,
+                        'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                        'endTime' => Carbon::parse($value->time)->addMinutes(60)->format('H:i:s'),
+                    );
+                    $parsedArray[$count]['type'] = 'normal';
+
+                    if($value->is_occupied === 1){
+                         $parsedArray[$count]['className'] = 'tred';
+
+                    }else{
+                         $parsedArray[$count]['className'] = 'tblue';
+
+                    }
+                       
+
+                    $count++;
+                }
             }
         }
-    	
+        if($request->event_type=='normal'){
 
-    	return view('pages.trainee.time')
-    	->with('selected_date',$request->selected_date)
-    	->with('time',$time);
+            $schedule =TrainerSchedule::where('date',$request->selected_date)
+                    ->where('trainer_id',$request->trainer_id)
+                    ->where('status',NULL)
+                    ->get();
+            if($schedule){
+                foreach ($schedule as $key => $value) {
+
+
+                //         "title": "12.06 am - 1.06 am",
+                // "start": "2021-01-25T00:30:00",
+                // "end": "2021-01-25T01:30:00",
+                //   'className' : 'tblue',
+                //   'textColor' : '#ffffff'
+
+                        $y=Carbon::parse($value->date)->format('Y-m-d');
+                        $t=Carbon::parse($value->time)->format('H:i:s');
+                        $tt = Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+
+                        $title=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+                        // $parsedArray[$count]['title'] = $title;
+                        $parsedArray[$count]['id'] = $value->id;
+                        $parsedArray[$count]['is_occupied'] = $value->is_occupied;
+                        $parsedArray[$count]['date_data'] = Carbon::parse($value->date)->format('Y-m-d');
+
+                        // $parsedArray[$count]['time'] = $title;
+                        $parsedArray[$count]['start'] = Carbon::parse($value->date)->format('Y-m-d')."T".$t;
+                        $parsedArray[$count]['end'] = Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
+                        $parsedArray[$count]['extendedProps']=array(
+                            'type' => 'normal',
+                            'trainer_id' => $request->trainer_id,
+                            'schedule_id' =>  $value->id,
+                            'is_occupied' =>  $value->is_occupied,
+                            'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                            'endTime' => Carbon::parse($value->time)->addMinutes(60)->format('H:i:s'),
+                        );
+                        $parsedArray[$count]['type'] = 'normal';
+
+                        if($value->is_occupied === 1){
+                             $parsedArray[$count]['className'] = 'tred';
+
+                        }else{
+                             $parsedArray[$count]['className'] = 'tblue';
+
+                        }
+                        // $parsedArray[$count]['display'] = 'background';
+
+                        // if($value->is_occupied === 1){
+
+                        // }else{
+                        //     if($request->type == 'week' || $request->type == 'week_all'){
+                        //         $parsedArray[$count]['display'] = 'background';
+                        //     }
+                            
+                        // }
+
+                    $count++;
+                }
+            }
+        }
+        
+        if($request->event_type=='recurring'){
+            // $request->selected_date
+            // $schedule =TrainerSchedule::where('date',$request->selected_date)
+            //         ->where('trainer_id',$request->trainer_id)
+            //         ->where('status',NULL)
+            //         ->get();
+
+            $recurring =TrainerRecurringSchedule::where('trainer_id',$request->trainer_id)
+            ->where('dow',Carbon::parse($request->selected_date)->dayOfWeek)
+            ->get();
+            // dd($recurring);
+            if($recurring){
+                // dd(Carbon::parse("2021-2-24")->dayOfWeek);
+            foreach($recurring as $key=>$value){
+                // dd($value->dow);
+                // $found=$this->filter_array_value(Carbon::parse($value->time)->format('H:i:s'),$compareArray);
+                    
+                    $fnd=TrainerSchedule::where('date',$request->selected_date)
+                    ->where('trainer_id',$request->trainer_id)
+                    ->where('time',Carbon::parse($value->time)->format('H:i:s'))
+                    ->get()->first();
+
+                    // dd(Carbon::parse($value->time)->format('H:i:s'));
+                    $parsedArray[$count]['id']=$value->id;
+                    // $parsedArray[$count]['daysOfWeek']= Carbon::parse($request->selected_date)->dayOfWeek;
+                    // $parsedArray[$count]['startTime']=Carbon::parse($value->time)->format('H:i:s');
+                    // $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                    $parsedArray[$count]['exclude']=$value->exclude;
+                    
+                    $parsedArray[$count]['date_data'] = Carbon::parse($request->selected_date)->format('Y-m-d');
+
+                    // $parsedArray[$count]['time'] = $title;
+                    $parsedArray[$count]['start'] = Carbon::parse($request->selected_date)->format('Y-m-d')."T".Carbon::parse($value->time)->format('H:i:s');
+                    $parsedArray[$count]['end'] =Carbon::parse($request->selected_date)->format('Y-m-d')."T".Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                    
+
+                   
+                    $parsedArray[$count]['extendedProps']=array(
+                        'type' => $fnd ? 'normal' :'recurring',
+                        'trainer_id' => $request->trainer_id,
+                        'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                        'exdate' => $value->exclude,
+                        'schedule_id' => $value->id,
+                        'is_occupied' => $fnd ? 1 : 0,
+                        'endTime' => Carbon::parse($value->time)->addMinutes(60)->format('H:i:s'),
+
+                    );
+                    if($fnd){
+                        $parsedArray[$count]['className'] = 'tred';
+
+                    }else{
+                        $parsedArray[$count]['className'] = 'tblue';
+
+                    }
+                    // $parsedArray[$count]['className'] = 'tblue';
+
+                    // $parsedArray[$count]['type'] = 'recurring';
+                    // $parsedArray[$count]['time'] = Carbon::parse($value->time)->format('H:i:s');
+                    // $parsedArray[$count]['display'] = 'background';
+                    $count++;
+                
+            }
+         }
+        }
+            // dd($parsedArray);
+
+
+
+        // if($request->trainer_id){
+        //     $time =TrainerSchedule::where('date',$request->selected_date)->where('trainer_id',$request->trainer_id)->get();
+        // }else{
+
+        //     $time =TrainerSchedule::where('date',$request->selected_date)->where('user_id',Session::get('user.id'))->get();
+
+        //     if(count($time) == 0){
+
+        //         $trainerId = TrainerSchedule::where('date',$request->selected_date)->select('trainer_id')->groupBy('trainer_id')->get();
+
+        //         $trainerList = array();
+        //         if(($trainerId)){
+        //             foreach($trainerId as $key=>$val){
+        //                 $trainerList[$key] = Trainer::find($val->trainer_id);
+        //             }
+        //         }
+        //         // dd($trainerList);
+        //         return view('pages.trainee.trainerlist')->with('trainerList',$trainerList);
+        //     }
+        // }
+        
+        // dd($parsedArray);
+        return view('pages.trainee.new_time')
+                ->with('schedule',json_encode($parsedArray,true))
+                ->with('event_type',$request->event_type)
+                ->with('trainer_id',$request->trainer_id)
+        ->with('selected_date',$request->selected_date);
     }
     
-    public function scheduleTime(Request $request){
+    // public function scheduleTime(Request $request){
 
-    	$time =TrainerSchedule::where('date',$request->selected_date)->get();
-    	return view('pages.trainee.time')
-    	->with('selected_date',$request->selected_date)
-    	->with('time',$time);
+    //  $time =TrainerSchedule::where('date',$request->selected_date)->get();
+    //  return view('pages.trainee.time')
+    //     ->with('selected_date',$request->selected_date)
+    //  ->with('time',$time);
 
-    }
+    // }
 
     public function scheduleSubmit(Request $request){
 
-    	// $arrT=explode('-',$request->start_time);
+        // $arrT=explode('-',$request->start_time);
      //    $time= new Carbon($arrT[0]);
-    	// $ftime = $time->format('H:i:s');
-    	// $ftime = $arrT[0];
-
-        if($request->schedule_id){
-            $schedule = TrainerSchedule::find($request->schedule_id);
+        // $ftime = $time->format('H:i:s');
+        // $ftime = $arrT[0];
+        if($request->event_type == 'recurring'){
+            $schedule = new TrainerSchedule();
             $schedule->user_id=$request->user_id;
+            $schedule->date=$request->selected_date;
+            $schedule->trainer_id=$request->trainer_id;
+            $schedule->time=$request->start_time;
             $schedule->is_occupied=1;
             $schedule->save();
-        }else{
-            $schedule = new TrainerSchedule();
-            $schedule->date =$request->date;
-            $schedule->trainer_id =$request->trainer_id;
-            $schedule->time =$request->start_time.':00:00';
-            $schedule->save(); 
+            return response()->json(['success'=>true]);
         }
-    	
-    	return redirect()->route('traineeTime.view',$request->date)
-    	->with('message','Schedule time set succesfully')
-    	->with('selected_date',$request->date);
+        if($request->event_type == 'normal'){
+
+            if($request->schedule_id){
+                $schedule = TrainerSchedule::find($request->schedule_id);
+                $schedule->user_id=$request->user_id;
+                $schedule->is_occupied=1;
+                $schedule->save();
+            }
+
+            return response()->json(['success'=>true]);
+
+        }
+       
+        
 
     }
 
@@ -282,15 +552,23 @@ class TraineeController extends Controller
         if($user->phone === null || $user->address === null){
             return redirect()->route('traininginfo')->with('success','Please input traininginfo first');
         }
+
+        if($user->dob == null || $user->weight == null ||  $user->sex == null){
+            return redirect()->route('physicaldata')->with('success','Please input physical information first');
+
+            // return view('auth.branch');
+        }
+
         $bmrData = BMRcalculation($user->weight);
        
+        // dd($bmrData);
         $weight = $user->weight;
 
         $totalDay=90;
         $start=1;
         $pal=$user->pal;
         $type=1;
-        $dataset = $this->calculation($bmrData,$weight,$pal,$totalDay,$start,$type);
+        $dataset = $this->calculation($bmrData*$pal,$weight,$pal,$totalDay,$start,$type);
             // dd($dataset);
         $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
         $isactive='purchase';
@@ -509,6 +787,7 @@ class TraineeController extends Controller
         $validateData = $request->validate([
 
             // 'name' => 'required',
+            // 'email' => 'unique:users,email,'.$request->user_id,
             'password' => 'required|confirmed|min:6',
             // 'weight' => 'required',
             // 'fat' => 'required',
@@ -527,12 +806,24 @@ class TraineeController extends Controller
         }
         if($request->action_type == 'info_update'){
 
+                 $validateData = $request->validate([
+
+            'name' => 'required',
+            'birthday' => 'required',
+            'email1' => 'unique:tbl_users,email,'.$request->user_id,
+            // 'password' => 'required|confirmed|min:6',
+            'weight' => 'required',
+            // 'fat' => 'required',
+        ]);
+
             $trainee = Trainee::find($request->user_id);
             $trainee->name = $request->input('name');
 
             $trainee->sex = $request->input('sex');
-            $trainee->dob = $request->input('birthday');
+            $trainee->dob = date('m/d/Y', strtotime($request->input('birthday')));
             $trainee->length = $request->input('height');
+            $trainee->weight = $request->input('weight');
+            $trainee->email = $request->input('email1');
 
             $trainee->phonetic = $request->input('phonetic');
             $trainee->address = $request->input('address');
@@ -721,67 +1012,18 @@ public function progress(){
         $weight=$request->weight;
         return  $this->calculation($bmrData,$weight,$pal,$totalDay,$start,$type);
     }
-    public function calculation2($bmrData,$weight,$pal,$totalDay,$start,$type){
 
-        $bmrData=$bmrData;
-        $totalDay=$totalDay;
-        $start=$start;
-        $pal=$pal;
-        $type=$type;
-        
+    // public function recurringData(){
 
-        $this->repeatedFunction2($bmrData,$weight,$pal,$totalDay,$type,$start,$counter=0,$type);
-        $weightData = $this->RECURSIVE;
-        // dd($weightData);
-        $dataset=array();
+    // }
+    // public function scheduleData(){
 
-        // for graph in purchae plan
+    // }
+    // public function trainingdayData(){
 
-        $datasetArray = array();
-        $lebel = array();
-        for($i=0;$i<$totalDay;$i++){
-            
-            if($i == 0){
-                $datasetArray[$i] =$weight;
-            }else{
-                $datasetArray[$i]=$this->number_formate($weightData[$type][$i]['weight']);
-            }
-          
-            
-        }
+    // }
+   
 
-        $dataset[0]=array(
-                    'lebel' => $datasetArray,
-                    'data' => $datasetArray,
-                    'label'=> "1 day per week",
-                    'borderColor'=> "#6d93ff",
-                    'fill'=> false
-                );
-
-    
-        return json_encode($dataset,true);
-
-
-    }
-
-    public function repeatedFunction2($bmrData,$weight,$pal,$totalday,$trainingType,$start,$counter,$type){
-
-    
-        if ($totalday === 0){
-            return $this->RECURSIVE;
-        }else{
-
-            $weightBalance = weight_balance($bmrData,$pal,$weight,$start,$trainingType);
-            $weight = $weight+$type*$weightBalance;
-            $this->RECURSIVE[$trainingType][$counter]['plan_type']=$trainingType;
-            $this->RECURSIVE[$trainingType][$counter]['weight']=$weight;
-            $this->RECURSIVE[$trainingType][$counter]['weightBalance']=$weightBalance;
-            $this->RECURSIVE[$trainingType][$counter]['bmr']=$bmrData;
-            $this->RECURSIVE[$trainingType][$counter]['pal']=$pal;
-        }   
-        $this->counter++;
-        $this->repeatedFunction2($bmrData,$weight,$pal,($totalday-1),$trainingType,$start+1,$counter+1,$type); 
-    }
     
 
 }

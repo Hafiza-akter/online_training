@@ -29,7 +29,12 @@
         <div class="row pb-5">
         
             <div class="col-sm middle">
-                <img class="img-fluid"  src="{{asset('asset/images/mini-banner-1.png')}}">
+                @if($trainerData->photo_path != NULL)
+                    <img class="img-fluid"  src="{{asset('images').'/'.$trainerData->photo_path}}" width="300">
+                @else 
+                  <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
+
+                @endif       
                 <h4 class="mx-auto _introduction_">前書き</h4>
                 <textarea name="intro" class="form-control" id="" rows="5">{{ $trainerData->intro}}</textarea>
             </div>

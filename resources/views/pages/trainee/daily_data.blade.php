@@ -92,13 +92,13 @@
                               <td>
                                 <div class="form-group">
                                     <label> Weight Morning(Kg) </label>
-                                    <input  type="number"    step="0.01"    class="form-control" name="weight_morning" id="weight" value="{{ $ua && $ua->weight_morning ? $ua->weight_morning : ''}}" placeholder="" />
+                                    <input  type="number"    step="0.01"    class="form-control" name="weight_morning" id="weight" value="{{ $ua && $ua->weight_morning ? $ua->weight_morning : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td> 
                                <td>
                                 <div class="form-group">
                                     <label> Weight Evening(Kg)  </label>
-                                    <input  type="number"    step="0.01"  class="form-control" name="weight_evening" id="fat" value="{{ $ua && $ua->weight_evening ? $ua->weight_evening : ''}}" placeholder="" />
+                                    <input  type="number"    step="0.01"  class="form-control" name="weight_evening" id="fat" value="{{ $ua && $ua->weight_evening ? $ua->weight_evening : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td>                          
                             </tr>
@@ -107,13 +107,13 @@
                               <td>
                                 <div class="form-group">
                                     <label>  Body Fat Percentage Morning(%)</label>
-                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_morning" value="{{ $ua && $ua->body_fat_percentage_morning ? $ua->body_fat_percentage_morning : ''}}" placeholder="" />
+                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_morning" value="{{ $ua && $ua->body_fat_percentage_morning ? $ua->body_fat_percentage_morning : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td> 
                                <td>
                                 <div class="form-group">
                                     <label> Body Fat Percentage Evening(%) </label>
-                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_evening" id="fat" value="{{ $ua && $ua->body_fat_percentage_evening ? $ua->body_fat_percentage_evening : ''}}" placeholder="" />
+                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_evening" id="fat" value="{{ $ua && $ua->body_fat_percentage_evening ? $ua->body_fat_percentage_evening : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td>                          
                             </tr>
@@ -121,7 +121,7 @@
                               <td>
                                 <div class="form-group">
                                     <label> Calory Gained </label>
-                                    <input  type="number"    onpaste="return false"  class="form-control" name="calory_gained" id="calory_gained" value="{{ $ua && $ua->calory_gained ? $ua->calory_gained : ''}}" placeholder="" />
+                                    <input  type="number"    onpaste="return false"  class="form-control" name="calory_gained" id="calory_gained" value="{{ $ua && $ua->calory_gained ? $ua->calory_gained : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  placeholder="" />
                                 </div>
                               </td> 
                                <td>

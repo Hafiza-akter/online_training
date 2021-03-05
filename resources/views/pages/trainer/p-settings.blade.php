@@ -81,7 +81,7 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
       <div class="tab-pane fade show active" id="updateprofile" role="tabpanel" aria-labelledby="updateprofile-tab">
-              <form action="{{route('trainer.p-settings.submit')}}" method="post">
+              <form action="{{route('trainer.p-settings.submit')}}" method="post" enctype="multipart/form-data">
                    
                 {{ csrf_field() }}
               <input type="hidden" name="email" class="form-control" value="{{ $user->email}}">
@@ -222,8 +222,22 @@
                       <div class="row pt-3 pb-3">
                         <h4 class="mx-auto _photo_path_">写真のパス</h4>
                       </div>
-                      <div class="row pt-3 pb-3">
-                        <textarea name="photo_path" class="form-control"  rows="5"></textarea>
+                      <div class="row pt-3 pb-3" style="border: 1px solid #ebe7e7">
+                        {{-- <textarea name="photo_path" class="form-control"  rows="5"></textarea> --}}
+                        <div class="col-8">
+                          @if($user->photo_path != NULL)
+
+                            <img style="width:200px" src="{{asset('images').'/'.$user->photo_path}}" style="height: 200;width: 200" />
+                          @else 
+
+                            <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
+                          @endif
+                        </div>
+                        <div class="col-4">
+                          <h4 class="mx-auto _photo_path_">写真を変更する</h4>
+                          <input type="file" name="image" >
+
+                        </div>
                       </div>
 
 

@@ -38,7 +38,7 @@
             $hour =Carbon\Carbon::now()->format('H');
             
         @endphp
-        <a class="btn btn-warning " href="{{ url()->previous()}}"> <i class="fas fa-backward"></i> back  </a>
+      {{--   <a class="btn btn-warning " href="{{ url()->previous()}}"> <i class="fas fa-backward"></i> back  </a> --}}
       <table id="example" class="table  nowrap" style="width:100%">
         <thead>
             <tr>

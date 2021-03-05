@@ -75,12 +75,12 @@
                     <div class="row mb-3">
 
                         <div class="col">
-                            <label class="col-form-label title">誕生日 <span style="color:red">*</span></label>
+                            <label class="col-form-label title">題名 <span style="color:red">*</span></label>
                             <input type="text" class="form-control" name="title" required="required">
                         </div>
                     </div>
                     <div class="col">
-                        <label class="col-form-label message">誕生日 <span style="color:red">*</span></label>
+                        <label class="col-form-label message">メッセージ <span style="color:red">*</span></label>
                         <textarea class="form-control" rows="6" name="message" required="required"></textarea>
                     </div>
                 </div>

@@ -36,9 +36,9 @@ class CourseController extends Controller
         $course->course_name = $request->input('course_name');
         $course->course_type = $request->input('course_type');
         $course->equipment_id = $request->input('equipment_id');
-        $course->set_1 = $request->input('set_1');
-        $course->set_2 = $request->input('set_2');
-        $course->set_3 = $request->input('set_3');
+        $course->set_1 = $request->input('set_1_kg')."_".$request->input('set_2_times');
+        $course->set_2 = $request->input('set_2_kg')."_".$request->input('set_2_times');
+        $course->set_3 = $request->input('set_3_kg')."_".$request->input('set_3_times');
         $course->summary = $request->input('summary');
         $course->reference_url = $request->input('reference_url');
         $course->mets = $request->input('mets');
@@ -86,9 +86,9 @@ class CourseController extends Controller
         $course->course_name = $request->input('course_name');
         $course->course_type = $request->input('course_type');
         $course->equipment_id = $request->input('equipment_id');
-        $course->set_1 = $request->input('set_1');
-        $course->set_2 = $request->input('set_2');
-        $course->set_3 = $request->input('set_3');
+        $course->set_1 = $request->input('set_1_kg')."_".$request->input('set_2_times');
+        $course->set_2 = $request->input('set_2_kg')."_".$request->input('set_2_times');
+        $course->set_3 = $request->input('set_3_kg')."_".$request->input('set_3_times');
         $course->summary = $request->input('summary');
         $course->reference_url = $request->input('reference_url');
         $course->mets = $request->input('mets');
@@ -104,8 +104,11 @@ class CourseController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $oldImagepath = public_path() . '/images/'.$course->image_path;
-            unlink($oldImagepath);
+            if($course->image_path != null){
+                $oldImagepath = public_path() . '/images/'.$course->image_path;
+                unlink($oldImagepath);
+            }
+           
             $file = $request->file('image');
             $filename = rand(1, 9000).strtotime("now");
             $file->move(public_path() . '/images/', $filename . '_course_image' . '.' . $file->getClientOriginalExtension());

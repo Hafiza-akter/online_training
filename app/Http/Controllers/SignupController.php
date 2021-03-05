@@ -387,7 +387,7 @@ class SignupController extends Controller
                 \Mail::to($user->email)->send(new \App\Mail\ForgetPasswordSuccess($details));
 
                 session(['user' => $user,'user_type'=>'trainer']);
-                return redirect()->route('trainerCalendar.view')->with('message','Welcome to trainer dashboard');
+                return redirect()->route('calendar.view','month')->with('message','Welcome to trainer dashboard');
             }
 
 

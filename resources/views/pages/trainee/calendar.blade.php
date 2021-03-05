@@ -23,6 +23,25 @@
   .fc .fc-bg-event{
     opacity: 1 !important;
   }
+  .disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+ .tblue{
+    background: blue !important;
+    opacity: 1 !important;
+    color:white !important;
+    border: 1px solid #ddd;
+  }
+  .tred{
+    background: red !important;
+    color:white !important;
+
+  }
+  .green{
+    background: green !important;
+    color:white !important;
+  }
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
@@ -47,6 +66,7 @@
       <input type="hidden" name="user_id" value="{{ Session::get('user')->id }}">
       @endif
 
+      <input type="hidden" name="event_type" id="event_type" value="">
       <input type="hidden" name="selected_date" id="selected_date" value="">
     </form>
   </div>
@@ -108,15 +128,20 @@
 </section>
 @endsection
 @section('footer_css_js')
+<script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var dateData = JSON.parse($(schedule).val());
+    // var trainingDay = JSON.parse($('#trainingDay').val());
+    // var datePlan = $('#datePlan').val();
 
+
+    console.log(dateData);
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      selectable: true,
+      selectable: false,
        customButtons: {
         myCustomButton: {
           text: 'トレーナーリスト',
@@ -130,22 +155,49 @@
         center: 'title',
         right: 'myCustomButton'
       },
+      eventDidMount: function(info) {
+
+
+        if( info.event.extendedProps.type === 'disabled'){
+           info.el.disabled = "true";
+        }
+   
+      },
+      eventClick:function(info){
+        console.log('hello me');
+        
+      },
       dateClick: function(info) {
-        // alert('clicked ' + info.dateStr);
-          // if (moment().format('YYYY-MM-DD') === info.date.format('YYYY-MM-DD') || info.date.isAfter(moment())) {
-          // // This allows today and future date
-          // } else {
-          //     // Else part is for past dates
-          // }
+
+        console.log( $(info.dayEl).find('.fc-bg-event').attr('data-type'));
+        
         $("#selected_date").val('');
+        $("#event_type").val('');
+        $("#event_type").val($(info.dayEl).find('.fc-bg-event').attr('data-type'));
         $("#selected_date").val(info.dateStr);
         // $("#selected_date").val(info);
         console.log(info);
-        $('#dateform').submit();
+        // if($(info.dayEl).find('.fc-bg-event').attr('data-type') == 'normal' || $(info.dayEl).find('.fc-bg-event').attr('data-type') == 'recurring') {
+                     $('#dateform').submit();
+
+        // }else{
+        //   alert('Please select a valid day');
+        // }
       },
-      select: function(info) {
-        // alert('selected ' + info.startStr + ' to ' + info.endStr);
+      // select: function(info) {
+      //   // alert('selected ' + info.startStr + ' to ' + info.endStr);
+      // },
+      eventDidMount: function(info){
+        // console.log(info);
+          info.el.setAttribute("data-type",info.event.extendedProps.type );
+          // info.el.setAttribute("class",'tblue' );
+
+
       },
+      select: function (start, end, jsEvent, view) {
+            
+          
+        },
 
       events: dateData
     });

@@ -82,8 +82,7 @@
                         <label for="inputEmail3" class="col-sm-3 col-form-label">電子メールアドレス</label>
                         <div class="col-sm-9">
                             {{-- Please enter your e-mail address--}}
-                            <input type="email" required class="form-control"  name="username" placeholder="
-            メールアドレスを入力してください">
+                            <input type="email" required class="form-control"  name="username" placeholder="メールアドレスを入力してください">
                         </div>
                         </div>
 

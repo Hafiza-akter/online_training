@@ -24,6 +24,7 @@ class UserAchievement extends Controller
 {
     public $RECURSIVE=array();
     public $RECURSIVE2=array();
+    public $constant_weight=0;
     public $counter=0;
 
  
@@ -66,8 +67,14 @@ class UserAchievement extends Controller
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
 
-        $userPlanData = UserPlanPurchase::where('user_id',$user_id)->get()->first();
+        $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
+        
+        if(!$puchasePlan){
+            return redirect()->route('purchaseplan')->with('message','Please purchase your plan first !');
+        }
 
+        $userPlanData = UserPlanPurchase::where('user_id',$user_id)->get()->first();
+        
         // initial value
         $targetCaloryGain=$userPlanData->target_calory_gained;
         $initialPal=$user->pal;
@@ -114,18 +121,26 @@ class UserAchievement extends Controller
         $type=1;
 
         $diff = 0;
-        $date = Carbon::parse($userPlanData->created_at);
+        $startDay = Carbon::parse(date('y-m-d',strtotime($userPlanData->created_at)));
         $now = Carbon::parse($todayDate);
-        $diff = $date->diffInDays($now);
+        $diff = $startDay->diffInDays($now);
 
 
 
-        $dataset[0] = $this->calculation(0,$bmrData,$weight,$pal,$totalDay,$start,$type,$trainingType);
+        $dataset[0] = $this->calculation(0,$bmrData*$pal,$weight,$pal,$totalDay,$start,$type,$trainingType);
 
+        // dd($dataset[0]);
          // finding out actual data //
         $flagForFirstDataHistory = "false";
         if($diff > 0){
-            for($d=0;$d<$diff;$d++){
+            for($d=0;$d<=$diff;$d++){
+
+                if($d == 0){
+                        $setUpdata['calory'][$d] = $targetCaloryGain*$user->calory_gained_offset;
+                        $setUpdata['weight'][$d] = $initialWeight;
+                        $setUpdata['pal'][$d] = $initialPal;
+                }else{
+
                 $day = $startDay->addDays(1)->format('Y-m-d');
                 $userDay = UserHistory::where('user_id',$user_id)->whereDate('recorded_at',  $day)->get()->first();
 
@@ -173,16 +188,16 @@ class UserAchievement extends Controller
                 }
 
 
-                $weightBalance = weight_balance($setUpdata['calory'][$d],$setUpdata['pal'][$d],$setUpdata['weight'][$d],$d+1,$trainingType);
-                $weight = $setUpdata['weight'][$d]+$weightBalance;
-                if($d == 0){
-                       $setUpdata['weight'][$d] =  $initialWeight;
-                    }else{
+                // $weightBalance = weight_balance($setUpdata['calory'][$d],$setUpdata['pal'][$d],$setUpdata['weight'][$d],$d+1,$trainingType);
+                // $weight = $setUpdata['weight'][$d]+$weightBalance;
+                $weight = $setUpdata['weight'][$d];
+
+                    
                         $setUpdata['weight'][$d] = $this->number_formate($weight);
                     }
 
             }
-
+            // dd($setUpdata);
 
             $actualArray=array();
             
@@ -214,15 +229,15 @@ class UserAchievement extends Controller
           $weights = $setUpdata['weight'][$diff-1];
           $pals = $setUpdata['pal'][$diff-1];
           $lastarray = $setUpdata['calory'];
-
-            //avarage calory former seven data
+            // avarage calory former seven data
             if( count($setUpdata['calory']) > 6 ){
 
                 $a=array();
                 for($k=count($setUpdata['calory'])-7;$k<count($setUpdata['calory']);$k++){
                     $a['calory'][$k]=$setUpdata['calory'][$k];
                     $a['weight'][$k]=$setUpdata['weight'][$k];
-                    $a['pal'][$k]=$setUpdata['weight'][$k];
+                    $a['pal'][$k]=$setUpdata['pal'][$k];
+
                 }
                 $average = array_sum($a['calory'])/7;
 
@@ -236,10 +251,19 @@ class UserAchievement extends Controller
                 $weights = array_sum($setUpdata['weight'])/ count($setUpdata['weight']);
                 $pals = array_sum($setUpdata['pal'])/ count($setUpdata['pal']);
 
+                // dd($setUpdata['pal']);
                 $calory_gained = $setUpdata['calory'][$diff-1];
                 $weights = $setUpdata['weight'][$diff-1];
                 $pals = $setUpdata['pal'][$diff-1];
             }
+
+                // $calory_gained = array_sum($setUpdata['calory']) / count($setUpdata['calory']);
+                // $weights = array_sum($setUpdata['weight'])/ count($setUpdata['weight']);
+                // $pals = array_sum($setUpdata['pal'])/ count($setUpdata['pal']);
+
+        $this->constant_weight=count($setUpdata) > 0 ? $setUpdata['weight'][$diff-1]:$initialWeight;
+        
+        $dataset[2] = $this->calculation($diff-1,$calory_gained,$weights,$pals,90,$start,$type,$trainingType);
 
         }else{
 
@@ -253,13 +277,21 @@ class UserAchievement extends Controller
             $calory_gained = $targetCaloryGain;
             $weights = $initialWeight;
             $pals = $initialPal;
+            $dataset[2] = $this->calculation(0,$bmrData*$pal,$weight,$pal,$totalDay,$start,$type,$trainingType);
+            $dataset[2]['borderColor'] = '#028001';
+            $dataset[2]['label'] = 'Expectation Line';
+
+            
         }
         
-        // dd($calory_gained);
+        // dd($pals);
         // $this->repeatedFunction2($calory_gained,$weights,$pals,90-$diff,$trainingType,$start,$counter=0,$type,$diff,$lastarray);
         
-        $dataset[2] = $this->calculation($diff-1,$calory_gained,$weights,$pals,90,$start,$type,$trainingType);
+          // $calory_gained = $setUpdata['calory'][$diff-1];
 
+          // $weights = $setUpdata['weight'][$diff-1];
+          // $pals = $setUpdata['pal'][$diff-1];
+ 
         // dd( $dataset[2]);
         //  $actualArray2=array();
             
@@ -409,6 +441,10 @@ class UserAchievement extends Controller
 
         $this->repeatedFunction($bmrData,$weight,$pal,$totalDay,$trainingType,$start,$counter=0,$type);
         $weightData = $this->RECURSIVE;
+        // if($diff > 0){
+        //             dd($weightData);
+
+        // }
         $dataset=array();
         // for graph in purchae plan
         $dArray=array();
@@ -422,19 +458,21 @@ class UserAchievement extends Controller
 
         for($i=$diff;$i<$totalDay;$i++){
             if($i==$diff){
-                $dArray[$cnt] = $weight;
+                $dArray[$cnt] =  $diff>0 ? $this->constant_weight : $weight ;
 
             }else{
                 $dArray[$cnt] = $this->number_formate($weightData[$trainingType][$i]['weight']);
 
             }
+                            // $dArray[$cnt] = $this->number_formate($weightData[$trainingType][$i]['weight']);
+
             $cnt++;
         }
 
 
         return array(
                     'data' => $dArray,
-                    'label'=> "Purchase Plan",
+                    'label'=> $diff ==0 ? "Purchase Plan( ".$trainingType." )" :'Expectation line',
                     'borderColor'=> $diff > 0 ? 'green' : "#6d93ff",
                     'fill'=> false
                 );

@@ -68,15 +68,22 @@
                                              </div>
                                              <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 1</label>
-                                                <input  type="number" class="form-control" name="set_1" placeholder="Enter ...">
+                                                {{-- <input  type="number" class="form-control" name="set_1" placeholder="Enter ..."> --}}
+                                                
+                                                <input type="text"  name="set_1_kg" class="kg p-1 m-1" /><span>KG</span>
+                                                <input  type="text" name="set_1_times" class="times kg p-1 m-1"  /><span>回</span>
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 2</label>
-                                                <input  type="number" class="form-control" name="set_2" placeholder="Enter ...">
+                                                {{-- <input  type="number" class="form-control" name="set_2" placeholder="Enter ..."> --}}
+                                                <input type="text"  name="set_2_kg" class="kg p-1 m-1" /><span>KG</span>
+                                                <input  type="text" name="set_2_times" class="times kg p-1 m-1"  /><span>回</span>
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 3</label>
-                                                <input  type="number" class="form-control" name="set_3" placeholder="Enter ...">
+                                                {{-- <input  type="number" class="form-control" name="set_3" placeholder="Enter ..."> --}}
+                                                <input type="text"  name="set_3_kg" class="kg p-1 m-1" /><span>KG</span>
+                                                <input  type="text" name="set_3_times" class="times kg p-1 m-1"  /><span>回</span>
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Summary</label>

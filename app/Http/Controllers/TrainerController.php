@@ -13,6 +13,7 @@ use App\Model\Equipment;
 use App\Model\UserEquipment;
 use App\Model\UserHistory;
 use App\Model\TrainerSchedule;
+use App\Model\TrainerEquipment;
 
 
 use DateTime;
@@ -400,6 +401,12 @@ class TrainerController extends Controller
         }
         if($request->action_type == 'info_update'){
 
+              $validateData = $request->validate([
+
+            'first_name' => 'required'
+            // 'fat' => 'required',
+        ]);
+
             $trainer = Trainer::find($request->user_id);
 
             $trainer->first_name = $request->input('first_name');
@@ -420,6 +427,15 @@ class TrainerController extends Controller
             $trainer->certification = $request->input('certification');
             $trainer->interface = $request->input('interface');
 
+            // dd($request->hasFile('image'));
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = rand(1, 9000).strtotime("now");
+                $file->move(public_path() . '/images/', $filename . '_trainer_image' . '.' . $file->getClientOriginalExtension());
+                $path = $filename . '_trainer_image' . '.' . $file->getClientOriginalExtension();
+                $imgfullPath = $path;
+                $trainer->photo_path = $imgfullPath;
+            }
 
             
             if($trainer->save()){

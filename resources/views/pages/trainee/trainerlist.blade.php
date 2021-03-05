@@ -5,13 +5,15 @@
       {{-- @include('pages.trainee.dashboard') --}}
 
 <section class="review_part gray_bg section_padding">
+    <div class="container my-4">
+
      <div class="row justify-content-center">
-                <div class="col-md-8 col-xl-6">
-                    <div class="section_tittle">
-                        <h3>トレーナーリスト</h3>
-                    </div>
-                </div>
+        <div class="col-md-8 col-xl-6">
+            <div class="section_tittle">
+                <h3>トレーナーリスト</h3>
             </div>
+        </div>
+    </div>
   <div class="offset-md-2 col-md-10">
     <div class="row mb-5">
         <div class="offset-sm-3 col-sm-10">
@@ -26,24 +28,29 @@
         </div>   
     </div>
 
-    @if(!empty($trainerList))
-        <div class="row pb-5">
-                @foreach($trainerList as $val)
-                    <a href="{{ route('trainerDetails',$val->id)}}">
-                    <div class="col-sm middle">
-                        <img class="img-fluid"  src="{{asset('asset/images/mini-banner-1.png')}}">
-                        <h2 class="text-center pt-3"> {{ $val->first_name}}</h2>
-                    </div>
-                    </a>
-                @endforeach
+        @if(!empty($trainerList))
+            <div class="row pb-5">
+                    @foreach($trainerList as $val)
+                        <a href="{{ route('trainerDetails',$val->id)}}">
+                        <div class="col-sm middle">
+                            @if($val->photo_path != NULL)
+                                <img class="img-fluid"  src="{{asset('images').'/'.$val->photo_path}}" width="300">
+                            @else 
+                                 <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
 
-        </div>
-    @else 
-                <h2> No data found</h2>
+                            @endif 
+                            <h2 class="text-center pt-3"> {{ $val->first_name}}</h2>
+                        </div>
+                        </a>
+                    @endforeach
 
-    @endif
+            </div>
+        @else 
+                    <h2> No data found</h2>
 
+        @endif
 
+    </div>
 
 </div>
 </section>

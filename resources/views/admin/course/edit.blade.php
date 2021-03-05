@@ -68,7 +68,7 @@
                                                 <label for="exampleInputEmail1">Image</label>
                                                 <input type="file"  name="image" accept="image/jpeg,image/png" class="form-control">
                                              </div>
-                                             <div class="form-group">
+                                             {{-- <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 1</label>
                                                 <input  type="number" class="form-control" name="set_1" value="{{$course->set_1}}" placeholder="Enter ...">
                                             </div>
@@ -79,7 +79,53 @@
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 3</label>
                                                 <input  type="number" class="form-control" name="set_3" value="{{$course->set_3}}" placeholder="Enter ...">
+                                            </div> --}}
+                                            @php 
+                                                $course1=$course->set_1;
+                                                $kg1='';
+                                                $times1='';
+                                                if($course1 != null){
+                                                    $arr1 = explode("_",$course1);
+                                                    $kg1=$arr1[0];
+                                                    $times1=$arr1[1];
+                                                }
+                                                $course2=$course->set_2;
+                                                $kg2='';
+                                                $times2='';
+                                                if($course2 != null){
+                                                    $arr2 = explode("_",$course2);
+                                                    $kg2=$arr2[0];
+                                                    $times2=$arr2[1];
+                                                }
+                                                $course3=$course->set_3;
+                                                $kg3='';
+                                                $times3='';
+                                                if($course3 != null){
+                                                    $arr2 = explode("_",$course3);
+                                                    $kg3=$arr2[0];
+                                                    $times3=$arr2[1];
+                                                }
+                                            @endphp
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Set 1</label>
+                                                {{-- <input  type="number" class="form-control" name="set_1" placeholder="Enter ..."> --}}
+                                                
+                                                <input type="text"  name="set_1_kg" class="kg p-1 m-1" value="{{ $kg1}}" /><span>KG</span>
+                                                <input  type="text" name="set_1_times" class="times kg p-1 m-1" value="{{ $times1}}"  /><span>回</span>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Set 2</label>
+                                                {{-- <input  type="number" class="form-control" name="set_2" placeholder="Enter ..."> --}}
+                                                <input type="text"  name="set_2_kg" class="kg p-1 m-1"  value="{{ $kg2}}" /><span>KG</span>
+                                                <input  type="text" name="set_2_times" class="times kg p-1 m-1" value="{{ $times2}}"  /><span>回</span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Set 3</label>
+                                                {{-- <input  type="number" class="form-control" name="set_3" placeholder="Enter ..."> --}}
+                                                <input type="text"  name="set_3_kg" class="kg p-1 m-1" value="{{ $kg3}}" /><span>KG</span>
+                                                <input  type="text" name="set_3_times" class="times kg p-1 m-1"  value="{{ $times3}}" /><span>回</span>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Summary</label>
                                                 <input  type="text" class="form-control" name="summary" value="{{$course->summary}}" placeholder="Enter ...">

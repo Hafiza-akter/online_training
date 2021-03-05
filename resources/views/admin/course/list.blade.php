@@ -42,14 +42,40 @@
                         <tbody>
                             @php $i=1 @endphp
                             @foreach($courseList as $course)
+                            @php 
+                                $course1=$course->set_1;
+                                $kg1='';
+                                $times1='';
+                                if($course1 != null){
+                                    $arr1 = explode("_",$course1);
+                                    $kg1=$arr1[0];
+                                    $times1=$arr1[1];
+                                }
+                                $course2=$course->set_2;
+                                $kg2='';
+                                $times2='';
+                                if($course2 != null){
+                                    $arr2 = explode("_",$course2);
+                                    $kg2=$arr2[0];
+                                    $times2=$arr2[1];
+                                }
+                                $course3=$course->set_3;
+                                $kg3='';
+                                $times3='';
+                                if($course3 != null){
+                                    $arr2 = explode("_",$course3);
+                                    $kg3=$arr2[0];
+                                    $times3=$arr2[1];
+                                }
+                            @endphp
                             <tr>
                                 <td>{{$i++}}</td>
                                 <td>{{$course->course_name}}</td>
                                 <td>{{$course->course_type}}</td>
                                 <td>{{$course->getEquipment->name}}</td>
-                                <td>{{$course->set_1}}</td>
-                                <td>{{$course->set_2}}</td>
-                                <td>{{$course->set_3}}</td>
+                                <td>{{$kg1." KG, ".$times1." Times"}}</td>
+                                <td>{{$kg2." KG, ".$times2." Times"}}</td>
+                                <td>{{$kg3." KG, ".$times3." Times"}}</td>
                                 <td>{{$course->summary}}</td>
                                 <td>
                                     <?php if ($course->image_path != '') { ?>

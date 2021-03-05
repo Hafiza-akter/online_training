@@ -46,11 +46,14 @@ z-index: 1;inset: 21px -2% -65px !important;
   }
   .tblue{
     background: blue !important;
+    opacity: 1 !important;
     color:white !important;
+    border: 1px solid #ddd;
   }
   .tred{
     background: red !important;
     color:white !important;
+
   }
   .green{
     background: green !important;
@@ -69,6 +72,12 @@ z-index: 1;inset: 21px -2% -65px !important;
   }
   .fc .fc-timegrid-slot{
     height:2.5em;
+  }
+  .tblue1{
+    background: blue !important;
+    opacity: .4 !important;
+    color:white !important;
+    /*border: 1px solid #ddd;*/
   }
   /*.fc .fc-bg-event{
     border:1px solid white;
@@ -161,7 +170,7 @@ z-index: 1;inset: 21px -2% -65px !important;
               
             </td>
             <td>
-              <button class="btn btn-success"  > Course Details</button>
+              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> Training Details</a>
               @if($val->status != 'cancelled')
               <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a>
               @endif 
@@ -181,6 +190,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         <input type="hidden" name="gridView"  id="gridView">
         <input type="hidden" name="list"  id="list">
 
+        <input type="hidden" name="event_type"  id="event_type">
         <input type="hidden" name="db_start_time"  id="db_start_time">
         <input type="hidden" name="db_schedule_id"  id="db_schedule_id">
         <input type="hidden" name="db_date"  id="db_date">
@@ -269,51 +279,115 @@ $(".tblue").click(function(){
          // right: 'dayGridMonth,timeGridWeek,timeGridDay'
 
       },
-      dateClick: function(info) {
-        // // alert('clicked ' + info.dateStr);
-        // $("#selected_date").val('');
-        // $("#selected_date").val(info.dateStr);
-        //         console.log(info);
+      eventDidMount: function(info) {
+          // console.log(info);
+          if(info.event.extendedProps.type == 'recurring' && info.event.extendedProps.exdate != null){
+            let exdateArray = info.event.extendedProps.exdate.split(",");
+            let time=info.event.extendedProps.startTime;
+            // console.log(exdateArray);
+            $('.fc-event-title').each(function(){
+              // console.log(info.event.title);
+              if($(this).text() == info.event.title){
+                // && info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))
+                  // info.event.setProp('display','none');
+                  // $(this).css('color','red');
+                  // info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))
+                  if(info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))){
+                    // console.log($(this).parent().closest('td').attr("data-date"));
+                    // info.event.el.setProp('display','none');
+                    info.el.style.display = "none";
+                  }
+                  // console.log(info.event.title );
+              } 
 
-        // // $('#dateform').submit();
-        if(info.view.type === 'dayGridMonth'){
-            calendar.changeView('timeGridDay',info.dateStr);
+
+            });
           }
-      },
-      // selectAllow:function(info){
-      //   console.log(info.startStr);
-      //   if(info.startStr == "2021-02-07T00:00:00+06:00"){
-      //     console.log('true');
-      //     return true;
-      //   }
-      //   if(info.endStr == "2021-02-07T03:00:00+06:00"){
+           if(info.event.extendedProps.type == 'normal'){
+            // console.log(exdateArray);
+            $('.fc-event-title').each(function(){
+              // console.log(info.event.title);
+              if($(this).text() == info.event.title){
+                // && info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))
+                  // info.event.setProp('display','none');
+                  // $(this).css('color','red');
+                  // info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))
+                    // console.log($(this).parent().closest('td').attr("data-date"));
+                    // info.event.el.setProp('display','none');
+                    info.el.style.display = "block";
+                  // console.log(info.event.title );
+              } 
 
-      //      return true;
-      //   }
-      //   // return true;
 
-      //   $('.fc-timegrid-slot-lane').each(function(){
-      //       console.log($(this).attr('data-time'));
-      //       if($(this).attr('data-time') === '00:00:00'){
-      //         $(this).css("background", "red");
-      //         // $(this)(".fc-highlight").css("background", "yellow");
-      //       }
-      //    });
-      //   // return true;
-      // },
-    //   selectOverlap: function(event) {
-    //     return false;
-    // // Here you will get all background events which are on same time.
-    //       // if(event){
-    //       //   return event.rendering === 'background';
-    //       // }else{
-    //       //   console.log('here');
-    //       //   return true;
-    //       // }
+            });
+          }
+         //  $('.fc-timegrid-event-harness-inset').each(function(){
+         //    if($(this).find('.fc-event-title').text() == info.event.title  && info.event.extendedProps.type === 'recurring'){
+
+         //      $(this).css('display','none');
+         //    } 
+
+         // });
+
+       //   $('.fc-event-title').each(function(){
+
+       //                        let x='false';
+
+       //    if($(this).text() === info.event.title && info.event.extendedProps.type === 'recurring'){
+       //      // console.log($(this).parent().closest('td').attr("data-date"));
+
+       //     if(info.event.extendedProps.exdate != null){
+       //         if(info.event.extendedProps.exdate.split(",").includes($(this).parent().closest('td').attr("data-date"))){
+       //      // console.log($(this).parent().closest('td').attr("data-date"));
+       //              // $(this).parent().closest('.fc-bg-event').css("display", "none");
+       //              // let title=$(this).text();
+       //              // console.log(info.event.extendedProps.exdate);
+       //              for(i=0;i<dateData.length;i++){
+                      
+       //                if($(this).parent().closest('td').attr("data-date") == dateData[i]['extendedProps']['date_data'] && dateData[i]['is_occupied'] != 1 && dateData[i]['extendedProps']['type'] == 'normal' && dateData[i]['title'] == info.event.title){
+       //                  x='true';
+       //                  console.log('hello me');
+
+       //                }
+       //              }
+
+       //              console.log(x);
+       //              if(x == 'false') {
+       //                  // $(this).parent().closest('.fc-bg-event').css("display", "none");
+
+       //              }
+       //              // console.log(info.event.id);
+       //         }
+       //     }
+
+
+       //    }
           
-    //       // return event.rendering === 'background';
-    //   },
+       // });
+       //   $('.fc-event-title').each(function(){
+
+       //  //   if($(this).text() === info.event.title && info.event.extendedProps.type === 'normal'){
+       //  //       $(this).parent().closest('.fc-bg-event').css("display", "block");
+
+       //  //   }else{
+       //      if($(this).text() === info.event.title && info.event.extendedProps.type === 'normal'){
+           
+       //      console.log(info.event.id);
+
+       //             // return false;
+       //             $(this).parent().closest('.fc-bg-event').css("display", "block");
+                   
+
+       //    }
+       //  // }
+
+          
+       // });
+
+        // console.log(info.event.extendedProps);
+      },
       select: function(info) {
+        console.log(info);
           var evts = calendar.getEvents(); //get all in-memory events
 
           let startDate = moment(info.startStr, "YYYY-MM-DD");
@@ -326,6 +400,7 @@ $(".tblue").click(function(){
 
           // calculation the hour diffierence
           let hrDiff = getHourDiff(startTime,endTime);
+          console.log(hrDiff);
           // let incr= moment(startTime, "HH:mm:ss").add(1, 'hours').format('HH:mm:ss');
           // let dincr=moment(startDate, "YYYY-MM-DD").add(1, 'days').format('YYYY-MM-DD');
 
@@ -339,7 +414,9 @@ $(".tblue").click(function(){
               for(j=0;j<=dateDiff;j++){
 
                 let dincr=moment(startDate, "YYYY-MM-DD").add(j, 'days').format('YYYY-MM-DD');
-              
+                    let dKdate = moment(dincr); // Thursday Feb 2015
+                    let dow = dKdate.day();
+
                   if($("."+dincr+sTl)[0]){
 
                     console.log('already added');
@@ -349,43 +426,76 @@ $(".tblue").click(function(){
                     })
                     if (index !== -1) a.splice(index, 1);
 
-                    if(isSelectedEvent(evts, dincr,sT) != 'False'){
+                     dateData.filter(function (match) { 
+                       if( match.db_date==dincr && match.startTime == sT && match.extendedProps.type == 'recurring' && parseInt(match.daysOfWeek[0]) == dow && match.extendedProps.exdate == null){
+                          // return console.log(match.id);
+                          selectedEvent.pop(match);
+                         }
 
-                      var index2 = selectedEvent.findIndex(function(o){
-                       return o === isSelectedEvent(evts, dincr,sT);
-                      })
-                      if (index2 !== -1) selectedEvent.splice(index2, 1);
-                    }
+                         if( match.startTime == sT && match.extendedProps.type == 'recurring' && parseInt(match.daysOfWeek[0]) == dow && match.extendedProps.exdate != null){
+                          if(match.db_date==dincr){
+                              selectedEvent.pop(match);
+                          }
+                          // console.log(match.extendedProps.exdate);
+
+                          // console.log(dincr);
+
+                          if(match.extendedProps.exdate.split(",").includes(dincr)){
+                              selectedEvent.pop(match);
+                          }
+                          // selectedEvent.push(match);
+                        }
+                        if( match.date_data==dincr && match.start == dincr+"T"+sT && match.extendedProps.type == 'normal'){
+                          // return console.log(match.id);
+                          selectedEvent.pop(match);
+                         }
+                      });
 
 
                   }else{
-                   calendar.addEvent({
+                    let item={
                         // "title": sT + "-"+ eT,
                         "title": "",
                         "id": "-"+dincr+sTl+"-",
                         "date_data": dincr,
                         "start": dincr+"T"+sT,
                         "end": dincr+"T"+eT,
-                        "className": ["tblue", dincr+sTl],
+                        "className": ["tblue1", dincr+sTl],
                         "textColor": "#ffffff",
+                        "onselect": "new",
                         display: info.view.type === 'timeGridWeek' ? 'background' : ''
 
-                    });
-                   a.push({
-                        // "title": sT + "-"+ eT,
-                        "title": "",
-                        "id": "-"+dincr+sTl+"-",
-                        "date_data": dincr,
-                        "start": dincr+"T"+sT,
-                        "end": dincr+"T"+eT,
-                        "className": ["tblue", dincr+sTl],
-                        "textColor": "#ffffff",
-                        display: info.view.type === 'timeGridWeek' ? 'background' : ''
+                    };
 
-                    });
-                    if(isSelectedEvent(evts, dincr,sT) != 'False'){
-                      selectedEvent.push(parseInt(isSelectedEvent(evts, dincr,sT)));
-                    }
+                     dateData.filter(function (match) { 
+                        console.log(match);
+
+                        if( match.startTime == sT && match.extendedProps.type == 'recurring' && parseInt(match.daysOfWeek[0]) == dow && match.extendedProps.exdate == null){
+                          match.db_date=dincr;
+                          selectedEvent.push(match);
+                        }
+                        if( match.startTime == sT && match.extendedProps.type == 'recurring' && parseInt(match.daysOfWeek[0]) == dow && match.extendedProps.exdate != null){
+                          match.db_date=dincr;
+                          // console.log(match.extendedProps.exdate);
+
+                          // console.log(dincr);
+
+                          if(!match.extendedProps.exdate.split(",").includes(dincr)){
+                              selectedEvent.push(match);
+                          }
+                          // selectedEvent.push(match);
+                        }
+
+
+                        if( match.date_data==dincr && match.start == dincr+"T"+sT && match.extendedProps.type == 'normal'){
+                          selectedEvent.push(match);
+                        }
+
+                      });
+
+                     calendar.addEvent(item);
+                     a.push(item);
+                    
                    }
             }
           }
@@ -415,9 +525,10 @@ $(".tblue").click(function(){
             // });
           // }
 
-          console.log(calendar.getEvents()); 
+          // console.log(calendar.getEvents()); 
           console.log(startTime); 
-          console.log(a); 
+          console.log(a);
+          console.log(selectedEvent);
 
               
               
@@ -540,91 +651,8 @@ $(".tblue").click(function(){
         console.log('Event: ' + info.event.id);
         console.log('View: ' + info.view.type);
         console.log('date: ' + info.event.date_data);
+        
 
-        if(info.view.type === 'dayGridMonth'){
-          $('#gridView').val('dayGridMonth');
-           var dayname=moment(moment(info.event.start)).format('dddd');
-            Swal.fire({
-              title: 'Do you want to save the changes?',
-              showDenyButton: true,
-              showCancelButton: true,
-              width: '650px',
-              // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
-              // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'
-              // +'<div class="row p-3 "><select class="form-control"  id="select_option">'
-              //     +'<option value="reschedule"> Reschedule</option>'
-              //     +'<option value="cancle_shedule"> Cancel Schedule</option>'
-              // +'</select></div>'
-              // ,
-               html: "<div class='row p-3'>" + " Scheduled date  "
-               +moment(info.event.start).format('YYYY-MM-DD')
-               +' at '+moment(info.event.start).format('hh:mm A')+' To '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
-               +' </div>'
-               +'<div class="row p-3 " id="res" style="display:none">'
-               + 'Reschedule at <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> TO <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
-               +'</div>'
-               +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
-              +'<option value="0">--Select Action Type--</option>'
-                  +'<option value="dayreschedule"> Reschedule</option>'
-                  +'<option value="daycancle_schedule"> Cancel Schedule</option>'
-              +'</select></div>'
-              ,
-
-
-              confirmButtonText: `Reschedule`,
-              denyButtonText: `View Details`,
-              cancelButtonText: `Cancel Schedule`,
-              
-              didOpen:function(){
-                Swal.disableButtons();
-                
-
-                  $(".dtp").datetimepicker({
-                    formatViewType: 'time',
-                    fontAwesome: true,
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    minView: 0,
-                    minuteStep: 5,
-                    format: 'HH:ii P',
-                    showMeridian: true,
-
-                });
-              
-                
-                $(".dtp").val(moment(info.event.start).format('hh:mm A'));
-                $(".dtp2").val(moment(info.event.start).add(60, 'minutes').format('hh:mm A'));
-                
-                $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
-                $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
-                $("#action_type").val(''); // form value
-                $("#db_schedule_id").val(info.event.id); // form value
-                $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
-
-                $(".dtp").on("change.dp",function (e) {
-                    let newtime = moment(this.value, 'hh:mm').add(60, 'minutes').format('hh:mm A');
-                    $(".dtp2").val(newtime);
-                    $("#selected_time").val(this.value);
-
-                });
-            }
-
-            }).then((result) => {
-              console.log(result);
-              /* Read more about isConfirmed, isDenied below */
-              if (result.isConfirmed) {
-                $('#scheduleForm').submit();
-              } else if (result.isDenied) {
-                console.log('details view');
-              }else{
-                if(result.dismiss === 'cancel'){
-                  $('#scheduleForm').submit();
-                }
-                console.log('he he he backdrop');
-              }
-          })
-        }
 
         if(info.view.type === 'timeGridWeek' || info.view.type === 'timeGridDay' ){
           $('#gridView').val('timeGridWeek');
@@ -672,7 +700,7 @@ $(".tblue").click(function(){
                     startView: 1,
                     maxView: 1,
                     minView: 0,
-                    minuteStep: 5,
+                    minuteStep: 60,
                     format: 'HH:ii P',
                     showMeridian: true,
 
@@ -686,7 +714,10 @@ $(".tblue").click(function(){
                 $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
                 $("#action_type").val(''); // form value
                 $("#schedule_id").val(info.event.id); // form value
+                $("#db_schedule_id").val(info.event.id); // form value
                 $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
+                
+                $("#event_type").val(info.event.extendedProps.type); // form value
                 let title=$(".fc-toolbar-title").text();
                 getAllDate(title,info);  // form value
 
@@ -848,6 +879,20 @@ function isSelectedEvent(evts, check_date,check_time) {
       }
     }
     return "False";
+  }
+  function HelloEvent(evts,dt,time) {
+
+    // var selectedEvent = null;
+
+    for (i in evts) {
+          console.log('hello me');
+
+      // console.log(moment(evts[i].start).format('YYYY-MM-DD'));
+      if((moment(evts[i].start).format('HH:mm:ss') == time) && (moment(evts[i].start).format('YYYY-MM-DD') ==dt)){
+        console.log(evts[i].id);
+      }
+    }
+    return true;
   }
        
   //   events: [

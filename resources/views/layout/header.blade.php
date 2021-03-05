@@ -28,7 +28,7 @@
 
                             @if(Session::get('user_type') === 'trainer')
                                 <li class="nav-item ">
-                                    <a class="nav-link active__" href="{{ route('trainerCalendar.view')}}">トレーナーページ <i class="fas fa-forward"></i></a>
+                                    <a class="nav-link active__" href="{{ route('calendar.view','month') }}">トレーナーページ <i class="fas fa-forward"></i></a>
                                 </li>
                             @elseif(Session::get('user_type') === 'trainee')
                                 <li class="nav-item ">

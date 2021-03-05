@@ -20,4 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/trainer/calender', 'ScheduleController@calenderView')->name('trainerCalender');
 Route::post('create-paypal-transaction', 'PaymentController@createPayment')->name('cp');
 Route::post('confirm-paypal-transaction', 'PaymentController@confirmPayment')->name('conp');
+Route::post('api/getcourse', 'TrainingController@getcourse')->name('getcourse');
+Route::post('api/getcoursedetails', 'TrainingController@getcoursedetails')->name('getcoursedetails');
 

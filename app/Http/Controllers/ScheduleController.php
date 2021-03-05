@@ -13,6 +13,7 @@ use App\Model\Equipment;
 use App\Model\UserEquipment;
 use App\Model\UserHistory;
 use App\Model\TrainerSchedule;
+use App\Model\TrainerRecurringSchedule;
 
 
 use DateTime;
@@ -33,14 +34,52 @@ class ScheduleController extends Controller
     		$view ='pages.trainer.week_all';
     	}
     	
-
+        $parsedArray = array();
         $isActive = "schedule";
+        $count=0;
     	$schedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)
-        ->where('status',NULL)
-        ->get();
-    	$parsedArray = array();
+                    ->where('status',NULL)
+                    ->get();
+        $recurring =TrainerRecurringSchedule::where('trainer_id',Session::get('user')->id)
+                    ->where('status',NULL)
+                    ->get();
+         // dd($compareArray);
+        if($recurring){
 
-    	if($schedule){
+            foreach($recurring as $key=>$value){
+                // dd($value->dow);
+                // $found=$this->filter_array_value(Carbon::parse($value->time)->format('H:i:s'),$compareArray);
+                    $parsedArray[$count]['title']=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+                    $parsedArray[$count]['id']=$value->id;
+                    $parsedArray[$count]['daysOfWeek']=array($value->dow);
+                    $parsedArray[$count]['startTime']=Carbon::parse($value->time)->format('H:i:s');
+                    $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                    $parsedArray[$count]['exclude']=$value->exclude;
+                    $parsedArray[$count]['start_date']=$value->start_date;
+                    $parsedArray[$count]['extendedProps']=array(
+                        'type' => 'recurring',
+                        'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                        'exdate' => $value->exclude
+
+                    );
+                    if($request->type == 'week' || $request->type == 'week_all'){
+                        // $parsedArray[$count]['display'] = 'background';
+                    } 
+                        
+                    $parsedArray[$count]['className'] = 'tblue';
+                    $parsedArray[$count]['type'] = 'recurring';
+                    $parsedArray[$count]['time'] = Carbon::parse($value->time)->format('H:i:s');
+                    if($request->type == 'week' || $request->type == 'week_all'){
+                        $parsedArray[$count]['display'] = 'background';
+                    }
+                    $count++;
+
+                
+            }
+         }
+           
+
+    	if($schedule && $view != 'pages.trainer.week_all'){
     		foreach ($schedule as $key => $value) {
 
     			if($value->trainer_id == Session::get('user')->id){
@@ -55,41 +94,60 @@ class ScheduleController extends Controller
                     $t=Carbon::parse($value->time)->format('H:i:s');
                     $tt = Carbon::parse($value->time)->addMinutes(60)->format('g:i A');
 
-                    $title=Carbon::parse($value->time)->format('g:i A')." - ".$tt;
-                    $parsedArray[$key]['title'] = $title;
-                    $parsedArray[$key]['id'] = $value->id;
-                    $parsedArray[$key]['date_data'] = Carbon::parse($value->date)->format('Y-m-d');
+                    $title=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+                    $parsedArray[$count]['title'] = $title;
+                    $parsedArray[$count]['id'] = $value->id;
+                    $parsedArray[$count]['is_occupied'] = $value->is_occupied;
+                    $parsedArray[$count]['date_data'] = Carbon::parse($value->date)->format('Y-m-d');
 
-                    $parsedArray[$key]['start'] = Carbon::parse($value->date)->format('Y-m-d')."T".$t;
-                    $parsedArray[$key]['end'] = Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
-		    		if($value->is_occupied === 1){
-                         $parsedArray[$key]['className'] = 'tred';
+                    $parsedArray[$count]['time'] = $t;
+                    $parsedArray[$count]['start'] = Carbon::parse($value->date)->format('Y-m-d')."T".$t;
+                    $parsedArray[$count]['end'] = Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
+		    		$parsedArray[$count]['extendedProps']=array(
+                        'type' => 'normal'
+                    );
+                    $parsedArray[$count]['type'] = 'normal';
+
+                    if($value->is_occupied === 1){
+                         $parsedArray[$count]['className'] = 'tred';
 
 		    		}else{
-		    			 $parsedArray[$key]['className'] = 'tblue';
+		    			 $parsedArray[$count]['className'] = 'tblue';
 
 		    		}
-                        $parsedArray[$key]['textColor'] = '#ffffff';
-                        if($value->is_occupied === 1){
 
-                        }else{
-                        	if($request->type == 'week' || $request->type == 'week_all'){
-                        		$parsedArray[$key]['display'] = 'background';
-                        	}
-                        	
-                        }
+                    $parsedArray[$count]['textColor'] = '#ffffff';
+                    if($value->is_occupied === 1){
+
+                    }else{
+                    	if($request->type == 'week' || $request->type == 'week_all'){
+                    		$parsedArray[$count]['display'] = 'background';
+                    	}
+                    	
+                    }
     			}
 
+                $count++;
     		}
     	}
-        // dd($parsedArray);
+       
+         // dd($parsedArray);
+
         $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->where('is_occupied',1)->get();
     	return view($view)
         ->with('isActive',$isActive)
         ->with('schedule',json_encode($parsedArray,true))
         ->with('listSchedule',$listSchedule)->with('gridView','dayGridMonth');
     }
-  
+    public function filter_array_value($time,$compareArray){
+        // dd($parsedArray);
+        foreach($compareArray as $val){
+            if($val['time'] === $time){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function scheduleSubmit(Request $request){
 
@@ -142,6 +200,42 @@ class ScheduleController extends Controller
     public function schedule(Request $request){
         $initialDate="FA";
         $Error="";
+
+        // recurring schedule registration//
+        if($request->type=='recuring_event'){
+            $arr=json_decode($request->list);
+            if(count($arr) > 0){
+                foreach($arr as $index=>$val){
+                    // dd($val->daysOfWeek[0]);
+
+                    $allDateSchedule = TrainerRecurringSchedule::where('time',$val->startTime)
+                                    // ->where('start_date',$val->startRecur)
+                                    ->where('status',NULL)
+                                    ->where('dow',$val->daysOfWeek[0])
+                                    ->where('trainer_id',$request->trainer_id)
+                                    ->get()->first();
+                    if(!$allDateSchedule){
+                        $scheduleU = new TrainerRecurringSchedule();
+                        $scheduleU->trainer_id =$request->trainer_id;
+                        $scheduleU->time =$val->startTime;
+                        $scheduleU->unique_id =$val->unique_id;
+                        $scheduleU->start_date =$val->startRecur;
+                        $scheduleU->dow =$val->daysOfWeek[0];
+
+                        $scheduleU->save();
+                    }
+                    
+                }
+                return redirect()->back()
+                    ->with('message','Schedule time set succesfully!! ');
+            }else{
+                return redirect()->back()
+                    ->with('message','Please  select training time first! ');
+            }
+            
+        }
+
+
         if($request->type=='initial_registration'){
             $arr=json_decode($request->list);
             if(count($arr) > 0){
@@ -149,15 +243,22 @@ class ScheduleController extends Controller
 
                     $allDateSchedule = TrainerSchedule::where('date',Carbon::parse($val->start)->format('Y-m-d'))
                                     ->where('trainer_id',$request->trainer_id)
+                                    ->where('status',NULL)
                                     ->where('time',Carbon::parse($val->start)->format('H:i:s'))
                                     ->get()->first();
                     if(!$allDateSchedule){
+
+                        // filtering //
+                       
+
                         $scheduleU = new TrainerSchedule();
                         $scheduleU->date =Carbon::parse($val->start)->format('Y-m-d');
                         $scheduleU->trainer_id =$request->trainer_id;
                         $scheduleU->time =Carbon::parse($val->start)->format('H:i:s');
                         // dd($scheduleU);
                         $scheduleU->save();
+
+
                     }
                     
                 }
@@ -222,6 +323,12 @@ class ScheduleController extends Controller
         
         if($request->type == 'weekupdate' || $request->type == 'dayupdate' ){
 
+            if($request->event_type == 'recurring'){
+                  return redirect()->back()
+                    ->with('dayGridspecific',$initialDate)
+                    ->with('message','Reschedule is not possible for this schedule !! ')
+                    ->with('gridView',$request->gridView);
+            }
         	$time = Carbon::parse($request->start_time)->format('H:i:s');
         	$existingTime = Carbon::parse($request->db_start_time)->format('H:i:s');
 
@@ -231,7 +338,6 @@ class ScheduleController extends Controller
         					->where('time',Carbon::parse($request->start_time)->format('H:i:s'))
         					->where('trainer_id',$request->trainer_id)
         					->get()->first();
-
         	if($found){
                 return redirect()->back()
                 ->with('errors_m','Time slot is not avaliable for '.$request->start_time)
@@ -263,12 +369,29 @@ class ScheduleController extends Controller
         
 
         if($request->type == 'weekcancel'){
-
-        	$scheduleU = TrainerSchedule::find($request->db_schedule_id);
-            if($scheduleU){
-                $scheduleU->status ='cancelled';
-                $scheduleU->save();
+            if($request->event_type == 'recurring'){
+                
+                $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
+                // dd($scheduleU);
+                if($scheduleU){
+                    $getExcludeData = $scheduleU->exclude;
+                    if($getExcludeData != NULL ){
+                        $getExcludeData .= ",".$request->db_date;
+                    }else{
+                        $getExcludeData = $request->db_date;
+                    }
+                    $scheduleU->exclude = $getExcludeData;
+                    $scheduleU->save();
+                }
+            }else{
+                $scheduleU = TrainerSchedule::find($request->db_schedule_id);
+                if($scheduleU){
+                    $scheduleU->status ='cancelled';
+                    $scheduleU->save();
+                }
             }
+
+        	
             
             return redirect()->back()                  
                     ->with('dayGridspecific',$initialDate)
@@ -277,7 +400,35 @@ class ScheduleController extends Controller
 
         if($request->type == 'daycancel'){
 
-            $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)->get()->first();
+            if($request->event_type == 'recurring'){
+
+                 $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
+                if($scheduleU){
+                    $getExcludeData = $scheduleU->exclude;
+                    if($getExcludeData != NULL ){
+                        $getExcludeData .= ",".$request->db_date;
+                    }else{
+                        $getExcludeData = $request->db_date;
+                    }
+                    $scheduleU->exclude = $getExcludeData;
+                    $scheduleU->save();
+                }
+            }else{
+                $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)->get()->first();
+                if($scheduleU){
+                    $scheduleU->status ='cancelled';
+                    $scheduleU->save();
+                }
+            }
+            
+            
+
+            return redirect()->back()
+                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+        }
+
+        if($request->type == 'recurring_delete'){
+            $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
             if($scheduleU){
                 $scheduleU->status ='cancelled';
                 $scheduleU->save();
@@ -287,15 +438,58 @@ class ScheduleController extends Controller
             return redirect()->back()
                     ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
         }
+        if($request->type == 'recurring_delete_exclude'){
+            $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
+            if($scheduleU){
+                $getExcludeData = $scheduleU->exclude;
+                if($getExcludeData != NULL ){
+                    $getExcludeData .= ",".$request->db_date;
+                }else{
+                    $getExcludeData = $request->db_date;
+                }
+                $scheduleU->exclude = $getExcludeData;
+                $scheduleU->save();
+            }
+            
+
+            return redirect()->back()
+                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+        }
+        
 
         return redirect()->back();
     }
 
     public function scheduleDelete(Request $request){
     	$arr=json_decode($request->dlist);
+        // dd($arr);
         if(count($arr) > 0){
             foreach($arr as $index=>$val){
-               TrainerSchedule::where('id',$val)->where('is_occupied','!=',1)->delete();
+                // dd($val->extendedProps->type);
+                if($val->extendedProps->type == 'recurring'){
+                    // TrainerRecurringSchedule::where('id',$val->id)->delete();
+                    $scheduleU = TrainerRecurringSchedule::where('id',$val->id)->get()->first();
+                    if($scheduleU){
+                        if($val->db_date != 'Nan'){
+                            $getExcludeData = $scheduleU->exclude;
+                            if($getExcludeData != NULL ){
+                                $getExcludeData .= ",".$val->db_date;
+                            }else{
+                                $getExcludeData = $val->db_date;
+                            }
+                            $scheduleU->exclude = $getExcludeData;
+                        }else{
+                            $scheduleU->status ='cancelled';
+                        }
+                        $scheduleU->save();
+                    }
+                }else{
+                    $scheduleU = TrainerSchedule::where('id',$val->id)->get()->first();
+                    if($scheduleU){
+                        $scheduleU->status ='cancelled';
+                        $scheduleU->save();
+                    }
+                }
             }
             return redirect()->back()
                 ->with('message','Schedule Deleted succesfully!! ');

@@ -159,7 +159,7 @@
                 </div>
                 <div class="col-8">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" {{ $user->pal == 1.55 ? 'checked' : ''}} required="required">
+                      <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" {{ $user->pal == 1.5 ? 'checked' : ''}} required="required">
                       <label class="form-check-label" for="exampleRadios1">
                          低 ( 生活の大部分が座位で、静的な活動が中心の場合 )
 
