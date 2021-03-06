@@ -133,7 +133,9 @@ class ScheduleController extends Controller
        
          // dd($parsedArray);
 
-        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->where('is_occupied',1)->get();
+        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)
+        ->where('is_occupied',1)->orderBy('date','DESC')
+        ->get();
     	return view($view)
         ->with('isActive',$isActive)
         ->with('schedule',json_encode($parsedArray,true))

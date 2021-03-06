@@ -117,7 +117,7 @@ function BMRcalculation($weight){
 
 	$bmr_gender_offset=$user->bmr_gender_offset;
    
-
+	 $result=0;
 	if($user->sex ==='male'){
 		$result = ($setUpData->bmr_weight_coefficient*$bmr_weight_offset*$weight)
 			+($setUpData->bmr_length_coefficient*$bmr_length_offset*$height)
@@ -293,6 +293,9 @@ function number_formate($data){
  function getEquipment($id){
         return \App\Model\Equipment::find($id);
  }
- 
+ function getUserName($schedule_id){
+ 	$schedule = \App\Model\TrainerSchedule::find($schedule_id);
+	return \App\Model\User::where('id',$schedule->user_id)->get()->first();
+ }
 
 ?>

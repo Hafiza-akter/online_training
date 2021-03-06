@@ -144,8 +144,8 @@ z-index: 1;inset: 21px -2% -65px !important;
               <span class="btn-danger p-1"> {{ $val->status }}</span>
               @endif
             </th>
-            <td>{{ \Carbon\Carbon::parse($val->date)->format('d/m/Y')}}</td>
-            <td>{{ \Carbon\Carbon::parse($val->time)->format('g:i A')}}</td>
+            <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
+            <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
               @if($val->is_occupied )
                 <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > User Details</button>
@@ -157,7 +157,7 @@ z-index: 1;inset: 21px -2% -65px !important;
             <td>
               <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> Training Details</a>
               @if($val->status != 'cancelled')
-              <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a>
+              {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
               @endif 
             </td>
           </tr>

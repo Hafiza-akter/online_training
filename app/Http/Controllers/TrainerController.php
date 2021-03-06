@@ -67,7 +67,7 @@ class TrainerController extends Controller
     		}
     	}
         // dd($parsedArray);
-        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->get();
+        $listSchedule =TrainerSchedule::where('trainer_id',Session::get('user')->id)->orderBy('id','DESC')->get();
     	return view('pages.trainer.calendar')
         ->with('isActive',$isActive)
         ->with('schedule',json_encode($parsedArray,true))
@@ -367,6 +367,14 @@ class TrainerController extends Controller
     	$trainerData = Trainer::find($request->id);
     	return view('pages.trainee.trainer_details')->with('trainerData',$trainerData);
     }
+     public function trainerselect(Request $request){
+        $trainerData = Trainer::find($request->id);
+        return view('pages.trainee.trainer_details_by_time')
+        ->with('date',$request->date)
+        ->with('time',$request->time)
+        ->with('trainerData',$trainerData);
+    }
+    
 
     public function trainerScheduleDelete($id){
         TrainerSchedule::Where('id',$id)->delete();

@@ -71,7 +71,7 @@
     <script src="{{asset('asset_v2/js/custom.js')}}"></script>
     <script>
         $(document).ready(function() {
-            $(".alert").delay(4000).slideUp(200, function() {
+            $(".alert").delay(9000).slideUp(200, function() {
                 $(this).alert('close');
             });
         });
