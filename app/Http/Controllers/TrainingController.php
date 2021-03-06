@@ -105,17 +105,17 @@ class TrainingController extends Controller
 
     	}
 
-    	return redirect()->back()->with('message','Training performance added successfully! ');
+    	return response()->json(array('success' => true));
 
 
     }
     public function ajax_training_performance(Request $request){
         // dd($request->id);
-        $id = 129;//$request->id;
+        $id = $request->id;
         $course = Course::where('status',1)->get();
         $main=Course::where('status',1)->groupBy('main')->get();
 
-        $schedule = TrainerSchedule::where('id',$id)->whereDate('date',Carbon::now()->format('Y-m-d'))->get()->first();
+        $schedule = TrainerSchedule::where('id',$id)->get()->first();
         $exerciseData = Training::where('trainer_schedule_id',$id)->first();
 
         $returnHTML = view('pages.trainee.ajax_modal')
@@ -128,6 +128,24 @@ class TrainingController extends Controller
         return response()->json(array('success' => true, 'html'=>$returnHTML));
         
         
+    }
+    public function ajax_training_get_comment(Request $request){
+         // dd($request->id);
+        $id = $request->id;
+        $course = Course::where('status',1)->get();
+        $main=Course::where('status',1)->groupBy('main')->get();
+
+        $schedule = TrainerSchedule::where('id',$id)->get()->first();
+        $exerciseData = Training::where('trainer_schedule_id',$id)->first();
+
+        $returnHTML = view('pages.trainee.ajax_modal_comment')
+        ->with('course',$course)
+        ->with('main',$main)
+        ->with('exerciseData',$exerciseData)
+        ->with('schedule',$schedule)->render();
+
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
     }
     public function training_feedback(Request $request){
 
@@ -154,10 +172,13 @@ class TrainingController extends Controller
 
     		$scheduleIdexist->save();
     	}
-    	return redirect()->back()->with('message','Training performance added successfully! ');
+         
+        return response()->json(array('success' => true));
+
     }
 
     public function trainingfinished(Request $request){
+ 
     	$course = Course::where('status',1)->get();
         $main=Course::where('status',1)->groupBy('main')->get();
 
@@ -170,6 +191,21 @@ class TrainingController extends Controller
     	->with('main',$main)
     	->with('exerciseData',$exerciseData)
     	->with('schedule',$schedule);
+    }
+    public function traineefinished(Request $request){
+ 
+        $course = Course::where('status',1)->get();
+        $main=Course::where('status',1)->groupBy('main')->get();
+
+        $schedule = TrainerSchedule::find($request->id);
+        $exerciseData = Training::where('trainer_schedule_id',$request->id)->first();
+        // dd($request->id);
+        // dd($exerciseData->getExerciseData);
+        return view('pages.trainee.traineefinished')
+        ->with('course',$course)
+        ->with('main',$main)
+        ->with('exerciseData',$exerciseData)
+        ->with('schedule',$schedule);
     }
 
     public function success(Request $request){
@@ -214,7 +250,13 @@ class TrainingController extends Controller
     		$exercise->save();
 
     	}
-    	return redirect()->route('traininglist')->with('message','Training information added successfully! ');
+        
+        if(Session::get('user_type') == 'trainee'){
+                return redirect()->route('traineelist')->with('message','Training information added successfully! ');
+            }else{
+                return redirect()->route('traininglist')->with('message','Training information added successfully! ');
+            }
+    	
     }
 
     public function list(Request $request){
@@ -230,6 +272,20 @@ class TrainingController extends Controller
     	->with('list',$list)
     	->with('main',$main);
     }
+    public function traineelist(Request $request){
+        $course = Course::where('status',1)->get();
+        $main=Course::where('status',1)->groupBy('main')->get();
+
+        // $schedule = TrainerSchedule::find($request->id);
+        $list = Training::orderBy('id','DESC')->get();
+        // dd($request->id);
+        // dd($exerciseData->getExerciseData);
+        return view('pages.trainee.traininglist')
+        ->with('course',$course)
+        ->with('list',$list)
+        ->with('main',$main);
+    }
+    
 
     public function getcourse(Request $request){
 
