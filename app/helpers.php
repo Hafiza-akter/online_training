@@ -298,4 +298,23 @@ function number_formate($data){
 	return \App\Model\User::where('id',$schedule->user_id)->get()->first();
  }
 
+ function getCourseName($id){
+	//$schedule = \App\Model\TrainerSchedule::where('id',$id)->get()->first();
+	$trainingData = \App\Model\Training::where('trainer_schedule_id',$id)->first();
+	if($trainingData){
+		$exerciseData = \App\Model\Exercise::where('training_id',$trainingData->id)->get();
+		$str = '';
+		
+		foreach($exerciseData as $exercise){
+			$courseData = \App\Model\Course::where('id',$exercise->course_id)->first();
+			$str = $str.$courseData->course_name.', ';
+		}
+
+		$str = rtrim($str, ", ");
+		return $str;
+	}else{
+		return 'N/A';
+	}
+ }
+
 ?>

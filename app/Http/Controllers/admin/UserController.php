@@ -23,10 +23,11 @@ class UserController extends Controller
     public function adminList(){
         $data = Admin::Orderby('id','desc')->get();
         // dd($data);
-        return view('admin.user.list')->with('userData',$data);
+        return view('admin.user.list')->with('userData',$data)
+                                    ->with('page','admin_setting');
     }
     public function adminAdd(){
-        return view('admin.user.add');
+        return view('admin.user.add')->with('page','admin_setting');
     }
     public function adminAddSubmit(Request $request){
         // dd($request);
@@ -81,7 +82,8 @@ class UserController extends Controller
     public function userList(){
         $userList = User::orderBy('id','DESC')->get();
         // dd($trainerList);
-        return view('admin.user_manage.list')->with('userList',$userList);
+        return view('admin.user_manage.list')->with('userList',$userList)
+                                            ->with('page','user');
     }
     public function userEdit($id){
         $data = User::Where('id',$id)->first();

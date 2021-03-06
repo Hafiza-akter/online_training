@@ -13,7 +13,8 @@ class ScheduleController extends Controller
 {
     
     public function index(){
-        $list = TrainerSchedule::all();
-        return view('admin.trainer_schedule.list')->with('trainerSchedule',$list);
+        $list = TrainerSchedule::orderBy('id','desc')->get();
+        return view('admin.trainer_schedule.list') ->with('trainerSchedule',$list)
+                                                    ->with('page','schedule_management');
     }
 }

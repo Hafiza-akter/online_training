@@ -16,7 +16,8 @@ class CourseController extends Controller
     public function courseList()
     {
         $course = Course::Where('id', '!=', null)->get();
-        return view('admin.course.list')->with('courseList', $course);
+        return view('admin.course.list')->with('courseList', $course)
+                                        ->with('page','course');
     }
     public function courseAdd()
     {

@@ -20,7 +20,8 @@
                                 <th>Time</th>
                                 <th>User</th>
                                 <th>Trainer</th>
-                                <th>Instrument</th>
+                                <th>Course</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,9 +30,15 @@
                             <tr>
                                 <td>{{$schedule->date}}</td>
                                 <td>{{$schedule->time}}</td>
-                                <td>{{$schedule->getUser->name}}</td>
+                                <td>{{$schedule->user_id ? $schedule->getUser->name : ''}}</td>
                                 <td>{{$schedule->getTrainer->first_name}}</td>
-                                <td>1.8</td>
+                                <?php 
+                                   $course_name= getCourseName($schedule->id);
+                                ?>
+                                <td>{{$course_name}}</td>
+                                <td>
+                                <a href="#" class="pl-3 pr-3"><i class="fas fa-edit"></i></a>
+                                </td>
                             </tr>
                         @endforeach
                          

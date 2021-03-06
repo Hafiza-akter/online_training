@@ -17,7 +17,9 @@ class InquiryController extends Controller
                                 ->get();
         // dd($user_inquery);
         return view('admin.inquery.list')
-        ->with('inqueryList',$inqueryList);
+        ->with('inqueryList',$inqueryList)
+        ->with('page','inquery');
+
 
     }
 

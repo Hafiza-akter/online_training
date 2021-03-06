@@ -16,7 +16,9 @@ class TrainerController extends Controller
    public function trainerList(){
         $trainerList = Trainer::orderBy('id','DESC')->get();
         // dd($trainerList);
-        return view('admin.trainer_manage.list')->with('trainerList',$trainerList);
+        return view('admin.trainer_manage.list')->with('trainerList',$trainerList)
+                                                ->with('page','trainer');
+    
    }
    public function trainerEdit($id){
     $data = Trainer::Where('id',$id)->first();

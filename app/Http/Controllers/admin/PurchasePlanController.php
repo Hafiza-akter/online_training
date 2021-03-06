@@ -13,8 +13,9 @@ class PurchasePlanController extends Controller
     public function planList(){
         $planList = PurchasePlan::orderBy('id','DESC')->get();
         // dd($trainerList);
-        return view('admin.plan_purchase.list')->with('planList',$planList);
-    }
+        return view('admin.plan_purchase.list')->with('planList',$planList)
+                                                 ->with('page','plan_purchase');
+            }
     public function planEdit($id){
         $data = PurchasePlan::Where('id',$id)->first();
         return view('admin.plan_purchase.edit')->with('plan',$data);     

@@ -13,7 +13,9 @@ class DashboardController extends Controller
 {
     public function index(){
         $data = UserPlanPurchase::Where('id','!=',null)->get();
-        return view('admin.dashboard')->with('planList',$data);
+        return view('admin.dashboard')->with('planList',$data)
+                                        ->with('page','dashboard');
+
     }
 
     
@@ -23,11 +25,13 @@ class DashboardController extends Controller
 
     public function setting(){
         $settingData = Setting::Where('id','!=',null)->first();
-        return view('admin.setting')->with('setupData',$settingData);
+        return view('admin.setting')->with('setupData',$settingData)
+                                    ->with('page','equipment');
     }
     public function settingForm(){
         $settingData = Setting::Where('id','!=',null)->first();
-        return view('admin.setting_edit')->with('setupData',$settingData);
+        return view('admin.setting_edit')->with('setupData',$settingData)
+                                        ->with('page','equipment');
     }
     public function settingSubmit(Request $request){
         $settingData = Setting::Where('id','!=',null)->first();
@@ -57,7 +61,9 @@ class DashboardController extends Controller
     public function equipmentList(){
         $list = Equipment::Orderby('id','desc')->get();
         // dd($list);
-        return view('admin.equipment.list')->with('equipmentList',$list);   
+        return view('admin.equipment.list')->with('equipmentList',$list) 
+                                            ->with('page','equipment');
+
         // return view('admin.equipment.list');    
     }
     public function equipAdd(){
