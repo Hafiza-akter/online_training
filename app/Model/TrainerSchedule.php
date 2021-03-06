@@ -13,4 +13,11 @@ class TrainerSchedule extends Model
     	// !empty($time) && Carbon\Carbon::parse($time->time)->format('H') == $i ? 'color-t' : '' }}
     	return 'test';
     }
+
+    public function getUser(){
+        return $this->belongsTo('App\Model\User','user_id');
+    }
+    public function getTrainer(){
+        return $this->belongsTo('App\Model\Trainer','trainer_id');
+    }
 }

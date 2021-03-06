@@ -204,7 +204,11 @@ Route::prefix('admin')->group(function () {
 
 		Route::get('/user/management/view', 'Admin\UserController@userManagement')->name('admin.user.management.view');
 		Route::get('/user/management/details', 'Admin\UserController@userManagementDeatil')->name('admin.user.management.detail');
-		Route::get('/schedule/management/view', 'Admin\DashboardController@scheduleManagement')->name('admin.schedule.management.view');
+
+
+
+		//Admin Schedule Management
+		Route::get('/schedule/management/view', 'Admin\ScheduleController@index')->name('admin.schedule.management.view');
 
 		// user inquery 
 		Route::get('/user/inquery/list', 'Admin\InquiryController@list')->name('inquery.list');
