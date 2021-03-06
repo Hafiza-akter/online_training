@@ -94,7 +94,14 @@ Route::group(['middleware' => 'checkLogout'], function () {
 Route::group(['middleware' => 'checkLogin'], function () {
 
 	Route::get("/trainer/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('training'));
+	Route::get("/trainee/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('trainingtrainee'));
 	Route::post("/trainer/training_performance", "TrainingController@training_performance")->name(('training_performance'));
+	Route::post("/trainer/training_feedback", "TrainingController@training_feedback")->name(('training_feedback'));
+	
+	Route::get("/trainer/trainingfinished/{id}", "TrainingController@trainingfinished")->name(('trainingfinished'));
+	Route::post("/trainer/success", "TrainingController@success")->name(('success'));
+	Route::get("/trainer/training/list", "TrainingController@list")->name(('traininglist'));
+	Route::post("/trainee/training/ajax_training_performance/{id}", "TrainingController@ajax_training_performance")->name(('ajax_training_performance'));
 	
 	Route::get("/trainer/schedule", "ScheduleController@scheduleView")->name(('trainerSchedule'));
 	Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
@@ -126,7 +133,9 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::post("/trainee/traininginfo/submit", "TraineeController@traininginfosubmit")->name(('traininginfo.submit'));
 
 	Route::get("/trainee/scheduled/month", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
+	Route::post("/trainee/trainerSubmitBytime", "TraineeController@trainerSubmitBytime")->name(('trainerSubmitBytime'));
 	Route::post("/trainee/scheduled/calendar", "TraineeController@scheduleCalendarSubmit")->name(('traineeCalendar.submit'));
+
 
 	Route::get("/trainee/scheduled/{selected_date}/time", "TraineeController@scheduleTime")->name(('traineeTime.view'));
 	Route::post("/trainee/scheduled/submit", "TraineeController@scheduleSubmit")->name(('tscheduleSubmit.submit'));
@@ -148,8 +157,11 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	
 	// select trainer 
 	Route::get("/trainee/trainerlist", "TraineeController@trainerlist")->name(('trainerlist'));
+	Route::post("/trainee/trainerlistviatime", "TraineeController@trainerlistviatime")->name(('trainerlistviatime'));
 	// trainer details
 	Route::get("/trainerDetails/{id}", "TrainerController@trainerDetails")->name(('trainerDetails'));
+	Route::get("/trainerselect/{id}/{date}/{time}", "TrainerController@trainerselect")->name(('trainerselect'));
+
 });
 
 

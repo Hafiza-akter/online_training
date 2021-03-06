@@ -50,180 +50,13 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" id="modal-body">
 
-            <!-- insert mode -->
-            @if(!$exerciseData)
-            <form action="{{route('training_performance')}}" method="post" id="performance_form">
-              {{ csrf_field() }}
-              <!-- insert mode form-->
-                <input type="hidden" name="schedule_id" value="{{ $schedule->id}}">
-                <input type="hidden" name="trainer_id" value="{{ $schedule->trainer_id}}">
-
-                    <div class="container performance" id="performance">
-                      <div class="row" >
-                        <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Main</label>
-                            <select class="form-control main" style="width: 100%;" name="main[]" >
-                                <option value="">--select--</option>
-                                @if($main)
-                                  @foreach($main as $val)
-                                    <option id="{{ $val->main}}">{{ $val->main}}</option>
-                                  @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Course</label>
-                            <select class="form-control course" style="width: 100%;" name="course[]" required="required">
-                                <option value="">--select--</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Equipment</label>
-                            <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
-                                <option value="">--select--</option>
-                            </select>
-                        </div>
-                        
-                      </div>
-                      <div class="row justify-content-center">
-                          <div class="col-sm-8  m-1 ">
-                           <label class=" col-form-label">Set 1</label>
-                            <input name="set1_kg[]" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set1_times[]" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
-
-                          </div>
-                          <div class="col-sm-8 m-1">
-                           <label class=" col-form-label">Set 2</label>
-                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required"/><span>回</span>
-                          </div>
-                          <div class="col-sm-8 m-1">
-                           <label class=" col-form-label">Set 3</label>
-                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>回</span>
-                          </div>
-
-                          <div class="col-sm-8 m-1">
-                                      <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
-                          </div>
-                      </div>
-
-                    </div>
-
-
-            <div class=" row justify-content-center m-1 p-1">
-              <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-              <button type="submit" class="nav-link active__ m-1 submit_performance" style="color: white;">Submit</button>
-            
-            </div>
-            </form>
-            @endif
-            <!-- // end insert mode -->
-
-            <!-- edit mode -->
-            @if($exerciseData)
-            <form action="{{route('training_performance')}}" method="post" id="performance_form">
-              {{ csrf_field() }}
-              <!-- edit mode form-->
-
-                <input type="hidden" name="schedule_id" value="{{ $schedule->id}}">
-                <input type="hidden" name="trainer_id" value="{{ $schedule->trainer_id}}">
-                    @foreach($exerciseData->getExerciseData as $key=>$value)
-                    @php 
-                        $coursesData = getCourseData($value->course_id);
-                        $set1= $value->set_1;
-                        $sd1=explode("_",$set1);
-
-                        $set2= $value->set_2;
-                        $sd2=explode("_",$set2);
-
-                        $set3= $value->set_3;
-                        $sd3=explode("_",$set3);
-
-                        // dd($sd1[1]);
-
-                    @endphp
-                    <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
-                      <div class="row" >
-                        <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Main </label>
-                            <select class="form-control main" style="width: 100%;" name="main[]" >
-                                @if($main)
-                                  @foreach($main as $val)
-                                    <option id="{{ $val->main}}" {{$val->main ==  $coursesData->main ? 'selected' : '' }}>{{ $val->main}}</option>
-                                  @endforeach
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Course</label>
-                            <select class="form-control course" style="width: 100%;" name="course[]" required="required">
-                                @foreach(getCourseDataMain($coursesData->main) as $v)
-                                   <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Equipment</label>
-                            <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
-                                   <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
-                            </select>
-                        </div>
-                        
-                      </div>
-
-                     
-
-                      <div class="row justify-content-center">
-                          <div class="col-sm-8  m-1 ">
-                           <label class=" col-form-label">Set 1</label>
-                            <input name="set1_kg[]" class="set1_kg kg p-1 m-1" value="{{ $sd1[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set1_times[]" class="set1_times times kg p-1 m-1" value="{{ $sd1[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
-
-                          </div>
-                          <div class="col-sm-8 m-1">
-                           <label class=" col-form-label">Set 2</label>
-                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" value="{{ $sd2[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" value="{{ $sd2[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required"/><span>回</span>
-                          </div>
-                          <div class="col-sm-8 m-1">
-                           <label class=" col-form-label">Set 3</label>
-                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1"  value="{{ $sd3[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>回</span>
-                          </div>
-
-                          
-                      </div>
-
-                      @if($key > 0)
-                      <input type="button" value="削除" class="m-1 remove btn btn-danger"/>
-                      @endif
-                    </div>
-                    @endforeach
-
-                        <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
-                    <br>
-              <div class=" row justify-content-center m-1 p-1">
-                <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-                <button type="submit" class="nav-link active__ m-1 submit_performance" style="color: white;">Submit</button>
-              
-              </div>
-            </form>
-            @endif
-            <!-- // end edit mode -->
           </div>
-         {{--  <div class="modal-footer row justify-content-center">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="nav-link active__ submit_performance" style="color: white;">Submit</button>
-          
-          </div> --}}
         </div>
       </div>
       </div>
-     <input type="hidden" value="{{ $exerciseData ? count($exerciseData->getExerciseData) : 1}}" id="counter">
-  
+     
 
     <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -310,7 +143,9 @@
       </div>
     </div>
     </div>
-<button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable" style="color:white;position: absolute;top: 35%;right: 0;"> 実績 </button>
+
+<button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
+
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg3" style="color:white;position: absolute;top: 55%;right: 0"> コメント </button>
 
@@ -515,8 +350,34 @@
    // }); 
 
 });
-  $(document).on("click", ".remove", function() {
-       $(this).parent().remove(); 
+$('#performance_btn').click(function(){
+
+    $.ajax({
+        type: "POST",
+        url: '{{ route('ajax_training_performance', $schedule->id)}}',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: { 'modal_view': 'modal_view' },
+        cache: false,
+        success: function(res) {
+
+            // get the ajax response data
+            var data = res.html;
+            console.log(data);
+            // update modal content here
+            // you may want to format data or 
+            // update other modal elements here too
+            $('#modal-body').html(data);
+
+            // show modal
+            $('#exampleModalScrollable').modal('show');
+
+        },
+        error:function(request, status, error) {
+            console.log("ajax call went wrong:" + request.responseText);
+        }
+    });
 });
 
   function showExplanation(text){

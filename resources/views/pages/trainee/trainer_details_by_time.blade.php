@@ -15,9 +15,13 @@
           <div class="row pb-5">
             <div class="col-sm middle">
 
-                    <form action="{{route('traineeCalendar.view')}}" method="get" id="dateform">
+                    <form action="{{route('trainerSubmitBytime')}}" method="post" id="dateform">
                       {{ csrf_field() }}
+
                       <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
+                      <input type="hidden" name="date" value="{{ $date }}">
+                      <input type="hidden" name="time" value="{{ $time }}">
+
                       <button type="submit" class="btn border-round btn-success" >トレーナーを選択 </button> 
                     <a class="btn border-round btn-warning" href="{{ route('traineeCalendar.view')}}">戻る </a>
                   </form>

@@ -112,7 +112,7 @@
               
             </td>
             <td>
-              <button class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >Join Course</button>
+              <a href="{{ route('trainingtrainee',$val->id)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >Join Course</a>
               {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
               {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
             </td>
@@ -165,7 +165,7 @@
       },
       eventClick:function(info){
         console.log('hello me');
-        
+
       },
       dateClick: function(info) {
 
