@@ -38,7 +38,7 @@
                   <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
 
                 @endif       
-                <h4 class="mx-auto _introduction_">前書き</h4>
+                <h4 class="mx-auto _introduction_">トレーナー紹介</h4>
                 <textarea name="intro" class="form-control" id="" rows="5">{{ $trainerData->intro}}</textarea>
             </div>
 

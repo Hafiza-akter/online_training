@@ -277,7 +277,7 @@ $(document).ready(function() {
                 // })
 
                 Swal.fire({
-                  title: '本気ですか ？',
+                  title: '予約を確定します。よろしいでしょうか？',
                 // text: "Your available date is  "+$(this).closest('tr').attr("data-date")+" at "+time+ ".",
                   showDenyButton: false,
                 // html: '<input class="" type="text" id="datetimepicker" readonly style="width:100px"> TO <input class="" type="text" id="datetimepicker2" readonly style="width:100px">'+"Your available date is "+$(this).closest('tr').attr("data-date")+" at <span id='timepicker1'>"+time+ " </span> ",

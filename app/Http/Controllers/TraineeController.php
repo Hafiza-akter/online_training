@@ -918,14 +918,14 @@ class TraineeController extends Controller
 
             $trainee = Trainee::find($request->user_id);
             if( (!Hash::check($request->input('oldpassword'),$trainee->password))){
-                return redirect()->back()->with('message','Your Previous Password did not match');
+                return redirect()->back()->with('message','過去のパスワードが一致しません。');
             }
 
             $trainee->password = Hash::make($request->input('password'));
 
             $trainee->save();
             return redirect()->back()
-            ->with('success','Password update succesfully');
+            ->with('success','パスワードが更新されました');
         }
         if($request->action_type == 'info_update'){
 

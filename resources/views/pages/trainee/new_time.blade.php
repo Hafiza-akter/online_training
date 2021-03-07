@@ -204,10 +204,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let startTime = moment(info.startStr).format('HH:mm:ss');
         let endTime = moment(info.endStr).format('HH:mm:ss');
 
-        let msgse="You want to reserve  "+$("#selected_date").val();
+        let msgse="予約時間は  "+$("#selected_date").val();
         console.log(info);
          Swal.fire({
-                title: "本気ですか ？", //"Are you sure ?",
+                title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
               showDenyButton: false,
               showCancelButton: false,
               width: '650px',
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let msgse="You want to reserve  "+$("#selected_date").val();
         console.log(info);
          Swal.fire({
-                title: "本気ですか ？", //"Are you sure ?",
+                title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
               showDenyButton: false,
               showCancelButton: false,
               width: '650px',

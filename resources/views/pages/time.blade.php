@@ -19,21 +19,21 @@
     </div>
     <div class="row pb-3">
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
     </div>
     <div class="row mb-5">
       <div class="offset-sm-4 col-sm-4 border-round">
-        <a class="btn">ログインする </a> 
+        <a class="btn">ログイン </a> 
      </div>
     </div>
     <div class="row pb-5  page-content page-container" id="chart">
@@ -135,8 +135,8 @@ $(document).ready(function() {
             // var date ="<b><span class='fas fa-clock'></span>"+date+"</b>";
             var htmltime ="<b><span class='fas fa-clock'></span>"+time+"</b>";
             swal({
-                title: "本気ですか ？", //"Are you sure ?",
-                text: "Your available date is  "+this.dataset.date+" at "+time+ ".",
+                title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
+                text: "予約時間は  "+this.dataset.date+" 日の "+time+ "時です。",
                 icon: "success",
 				buttons: [
 			        'No, cancel it!',
