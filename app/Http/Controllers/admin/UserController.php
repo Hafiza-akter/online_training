@@ -14,11 +14,15 @@ class UserController extends Controller
 {
     
     public function userManagement(){
-        return view(('admin.user'));
+        return view(('admin.user'))
+        ->with('page','user');
+
     }
 
     public function userManagementDeatil(){
-        return view(('admin.user_details'));
+        return view(('admin.user_details'))
+        ->with('page','user');
+
     }
     public function adminList(){
         $data = Admin::Orderby('id','desc')->get();
@@ -53,7 +57,9 @@ class UserController extends Controller
     }
     public function adminEdit($id){
         $data = Admin::Where('id',$id)->first();
-        return view('admin.user.edit')->with('user',$data);   
+        return view('admin.user.edit')->with('user',$data)
+        ->with('page','admin_setting');
+ 
      }
 
     public function adminEditSubmit(Request $request){
@@ -87,7 +93,9 @@ class UserController extends Controller
     }
     public function userEdit($id){
         $data = User::Where('id',$id)->first();
-        return view('admin.user_manage.edit')->with('user',$data);     
+        return view('admin.user_manage.edit')->with('user',$data)
+        ->with('page','user');
+     
     }
 
     public function userEditSubmit(Request $request){

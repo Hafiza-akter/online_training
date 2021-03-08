@@ -16,8 +16,8 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="{{asset('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="{{asset('admin/plugins/jqvmap/jqvmap.min.css')}}">
-  <!-- Theme style -->
+  <!-- <link rel="stylesheet" href="{{asset('admin/plugins/jqvmap/jqvmap.min.css')}}">
+  Theme style -->
   <link rel="stylesheet" href="{{asset('admin/dist/css/adminlte.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
@@ -29,7 +29,10 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-  <link rel="stylesheet" href="{{asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/timepicker_css/bootstrap-datetimepicker.min.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/plugins/select2/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
   <style>
     .span-info {
       background-color: rgb(178, 224, 116);
@@ -340,8 +343,8 @@
   <!-- Sparkline -->
   <script src="{{asset('admin/plugins/sparklines/sparkline.js')}}"></script>
   <!-- JQVMap -->
-  <script src="{{asset('admin/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-  <script src="{{asset('admin/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+  // <script src="{{asset('admin/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
+  // <script src="{{asset('admin/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
   <!-- jQuery Knob Chart -->
   <script src="{{asset('admin/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
   <!-- daterangepicker -->
@@ -358,6 +361,18 @@
   <script src="{{asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{asset('admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+  <script src="{{asset('admin/timepicker_js/bootstrap-datetimepicker.min.js')}}"></script>
+  <script src="{{asset('admin/plugins/select2/js/select2.full.min.js')}}"></script>
+  <script type="text/javascript">
+  $(function() {
+    $('#datetimepicker4').datetimepicker({
+      pickTime: false
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+
   <!-- AdminLTE App -->
   <script src="{{asset('admin/dist/js/adminlte.js')}}"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
@@ -366,7 +381,8 @@
   <script src="{{asset('admin/dist/js/demo.js')}}"></script>
 
   <script>
-    $(function() {
+  $(function() {
+      $('.select2').select2()
       $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,

@@ -221,6 +221,9 @@ Route::prefix('admin')->group(function () {
 
 		//Admin Schedule Management
 		Route::get('/schedule/management/view', 'Admin\ScheduleController@index')->name('admin.schedule.management.view');
+		Route::get('/schedule/management/edit/{id}', 'Admin\ScheduleController@edit')->name('admin.schedule.management.edit');
+		Route::post('/schedule/management/edit/submit', 'Admin\ScheduleController@editSubmit')->name('admin.schedule.management.edit.submit');
+		Route::post('/schedule/management/search', 'Admin\ScheduleController@searchSubmit')->name('admin.schedule.management.search.submit');
 
 		// user inquery 
 		Route::get('/user/inquery/list', 'Admin\InquiryController@list')->name('inquery.list');

@@ -67,7 +67,9 @@ class DashboardController extends Controller
         // return view('admin.equipment.list');    
     }
     public function equipAdd(){
-        return view('admin.equipment.add');
+        return view('admin.equipment.add')
+        ->with('page','equipment');
+
     }
     public function equipAddSubmit(Request $request){
         $validateData = $request->validate([
@@ -88,7 +90,9 @@ class DashboardController extends Controller
     }
     public function eqiptEdit($id){
         $data = Equipment::Where('id',$id)->first();
-        return view('admin.equipment.edit')->with('data',$data);
+        return view('admin.equipment.edit')->with('data',$data)
+        ->with('page','equipment');
+
 
     }
     public function equipEditSubmit(Request $request){

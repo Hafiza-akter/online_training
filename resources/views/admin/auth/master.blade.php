@@ -17,7 +17,7 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="{{asset('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="{{asset('admin/plugins/jqvmap/jqvmap.min.css')}}">
+    <!-- <link rel="stylesheet" href="{{asset('admin/plugins/jqvmap/jqvmap.min.css')}}"> -->
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('admin/dist/css/adminlte.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">

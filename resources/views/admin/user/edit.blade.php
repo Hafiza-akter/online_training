@@ -6,7 +6,7 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-sm">
-            <div class="card card-warning">
+            <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">

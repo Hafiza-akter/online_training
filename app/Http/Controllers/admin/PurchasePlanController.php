@@ -18,7 +18,9 @@ class PurchasePlanController extends Controller
             }
     public function planEdit($id){
         $data = PurchasePlan::Where('id',$id)->first();
-        return view('admin.plan_purchase.edit')->with('plan',$data);     
+        return view('admin.plan_purchase.edit')->with('plan',$data)
+        ->with('page','plan_purchase');
+   
     }
 
     public function planEditSubmit(Request $request){
