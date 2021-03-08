@@ -13,7 +13,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h3>研修生のパスワードの更新</h3>
+                    <h3>パスワードの更新</h3>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <div class="offset-sm-2 col-sm-8 mb-4">
             <div class="card card-info">
                 <div class="card-header">
-                    <h4 class="card-title">パスワードのリセット</h4>
+                    <h4 class="card-title">パスワードリセット</h4>
                 </div>
 
                  <form class="form-horizontal" action="{{route('passwordVerifyTokenSubmit')}}" method="post">
@@ -64,7 +64,7 @@
 
                     <div class="row mb-3">
                         <div class="col-4">
-                          <label class="col-form-label _confirm_password_">パスワードを認証する <span style="color:red">*</span></label>
+                          <label class="col-form-label _confirm_password_">パスワード(確認) <span style="color:red">*</span></label>
                         </div>
                         <div class="col-8">
                           <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation')}}" required="required">
@@ -75,7 +75,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer">
                     {{-- Registration --}}
-                    <button type="submit" class="btn  btn-block btn-secondary"> 参加する</button>
+                    <button type="submit" class="btn  btn-block btn-secondary"> 送信する</button>
 
                 </div>
                 <!-- /.card-footer -->

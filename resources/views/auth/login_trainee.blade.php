@@ -69,7 +69,7 @@
             <div class="card-body">
 
                 <div class="form-group row required">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">電子メールアドレス</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">メールアドレス</label>
                     <div class="col-sm-9">
                         {{-- Please enter your e-mail address--}}
                         <input type="email" required class="form-control" name="username" placeholder="

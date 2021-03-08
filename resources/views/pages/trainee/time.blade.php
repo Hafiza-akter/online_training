@@ -19,7 +19,7 @@
              <div class="row justify-content-center">
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                        <h3>スケジュール 時間</h3>
+                        <h3>スケジュール</h3>
                     </div>
                 </div>
             </div>
