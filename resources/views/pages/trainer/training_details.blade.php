@@ -53,7 +53,8 @@
           <div class="modal-body">
 
             <!-- insert mode -->
-            @if(!$exerciseData)
+            
+            @if(!$exerciseData || count($exerciseData->getExerciseData) == 0)
             <form action="{{route('training_performance')}}" method="post" id="performance_form">
               {{ csrf_field() }}
               <!-- insert mode form-->
@@ -115,7 +116,7 @@
 
             <div class=" row justify-content-center m-1 p-1">
               <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-              <button type="submit" class="nav-link active__ m-1 submit_performance" style="color: white;">Submit</button>
+              <a  class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">Submit</a>
             
             </div>
             </form>
@@ -123,7 +124,7 @@
             <!-- // end insert mode -->
 
             <!-- edit mode -->
-            @if($exerciseData)
+            @if($exerciseData &&  count($exerciseData->getExerciseData) > 0)
             <form action="{{route('training_performance')}}" method="post" id="performance_form">
               {{ csrf_field() }}
               <!-- edit mode form-->
@@ -207,7 +208,7 @@
                     <br>
               <div class=" row justify-content-center m-1 p-1">
                 <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-                <button type="submit" class="nav-link active__ m-1 submit_performance" style="color: white;">Submit</button>
+                <a  href="#" class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">Submit</a>
               
               </div>
             </form>
@@ -284,7 +285,7 @@
         </div>
 
         <div class="modal-body">
-            <form action="{{route('training_feedback')}}" method="post" id="performance_form">
+            <form action="{{route('training_feedback')}}" method="post" id="feed_back_form">
             <!-- edit mode form-->
 
               <input type="hidden" name="schedule_id" value="{{ $schedule->id}}">
@@ -302,7 +303,7 @@
             </div>
              <div class=" row justify-content-center">
           <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-          <button type="submit" class="nav-link active__ m-1" style="color: white;">Submit</button>
+          <a type="submit" href="#" class="nav-link active__ m-1" id="f_btn" style="color: white;">Submit</a>
         </div>
           </form>
         </div>
@@ -432,6 +433,7 @@
     var course = $(this).find('option:selected').val();
     console.log(course);
     var id = $(this).parent().closest('.performance').attr('id');
+
     $.ajax
       ({
         type: "POST",
@@ -442,6 +444,8 @@
         data: { 'course': course },
         cache: false,
         success: function (data) {
+
+
           // console.log(data.location);
           // console.log(data);
           $('.set1_kg','#'+id).empty();
@@ -479,40 +483,65 @@
         $("#"+id).append(r);
    }); 
 
- // Remove element
-
-   //  $(".submit_performance").click(function(){
-
-   //      var form = $("#performance_form");
-   //      var url = form.attr('action');
+   
+   $("#f_btn").click(function(){
         
+         var form = $("#feed_back_form");
+          var url = form.attr('action');
+          
+          $.ajax({
+                 type: "POST",
+                 url: url,
+                  headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                 data: form.serialize(), // serializes the form's elements.
+                 success: function(data)
+                 {
+                     Swal.fire({
+                        icon: 'success',
+                        title: 'Course feedback set successfully ',
+                        showConfirmButton:true
+                      })
+                      // location.reload();
+                 }
+          });
+    
+   });
 
-   //      //  var lngtxt=(form.find('input[name="course[]"]').val()).length;
-   //      // console.log(lngtxt);
-   //      // if (lngtxt==0){
-   //      //     alert('please enter value');
-   //      //     return false;
-   //      // }else{
-   //      //     //submit
-   //      // }
-   //      $.ajax({
-   //             type: "POST",
-   //             url: url,
-   //              headers: {
-   //              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-   //              },
-   //             data: form.serialize(), // serializes the form's elements.
-   //             success: function(data)
-   //             {
-   //                 // Swal.fire({
-   //                 //    icon: 'success',
-   //                 //    title: 'Schedule time set successfully! ',
-   //                 //    showConfirmButton:false
-   //                 //  })
-   //                  // location.reload();
-   //             }
-   //      });
-   // }); 
+    $("#submit_performance").click(function(){
+        
+         var form = $("#performance_form");
+          var url = form.attr('action');
+          
+          $.ajax({
+                 type: "POST",
+                 url: url,
+                  headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                 data: form.serialize(), // serializes the form's elements.
+                 success: function(data)
+                 {
+                     Swal.fire({
+                        icon: 'success',
+                        title: 'Course data set successfully ',
+                        showConfirmButton:true
+                      })
+                      // location.reload();
+                 }
+          });
+
+        //  var lngtxt=(form.find('input[name="course[]"]').val()).length;
+        // console.log(lngtxt);
+        // if (lngtxt==0){
+        //     alert('please enter value');
+        //     return false;
+        // }else{
+        //     //submit
+        // }
+    
+   }); 
 
 });
   $(document).on("click", ".remove", function() {

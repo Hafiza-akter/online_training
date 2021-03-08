@@ -39,8 +39,8 @@
                     <thead>
                         <tr>
                             <th>Training Date</th>
-                            <th>Feedback</th>
-                            <th>User name</th>
+                            <th>My Feedback</th>
+                            <th>Trainer name</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -48,17 +48,17 @@
                     @php $i=1 @endphp
                     @if($list)
                       @foreach($list as $val)
-                      @if(getTrainerName($val->trainer_schedule_id)->id == Session::get('user.id'))
 
+                        @if(getUserName($val->trainer_schedule_id)->id == Session::get('user.id'))
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>
-                              <td>{{$val->trainer_feedback}}</td>
-                              <td>{{ getUserName($val->trainer_schedule_id)->name }}</td>
+                              <td>{{$val->comment}}</td>
+                              <td>{{ getTrainerName($val->trainer_schedule_id)->first_name }}</td>
                               <td>
                                 <button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable{{$val->id}}" style="color:white;"> Details </button>
                               </td>
                           </tr>
-                          @endif
+                        @endif
                       @endforeach
                     @endif
                     </tbody>
@@ -165,11 +165,8 @@
                     <div class="form-group  row justify-content-center">
                       <div class="col-sm-10">
                       <label class="col-form-label">コメントの入力</label>
-                          @if(Session::get('user_type') == 'trainee'){
                           <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
-                          @else 
-                           <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->trainer_feedback: ''}}</textarea>
-                          @endif
+                         
                       </div>
                   </div>
             @endif

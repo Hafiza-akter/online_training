@@ -551,9 +551,12 @@ class UserAchievement extends Controller
             $validateData = $request->validate([
 
                 'pal' => 'required',
-                'weight_evening' => 'required',
-                'weight_morning' => 'required',
+                'weight_evening' => 'required|integer|min:0',
+                'weight_morning' => 'required|integer|min:0',
                 'calory_gained' => 'required',
+                'fat_morning' => 'required|integer|between:1,100',
+                'fat_evening' => 'required|integer|between:1,100',
+
             ]);
             $date = $request->input('datepicker_');
 

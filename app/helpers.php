@@ -297,6 +297,10 @@ function number_formate($data){
  	$schedule = \App\Model\TrainerSchedule::find($schedule_id);
 	return \App\Model\User::where('id',$schedule->user_id)->get()->first();
  }
+ function getTrainerName($schedule_id){
+ 	$schedule = \App\Model\TrainerSchedule::find($schedule_id);
+	return \App\Model\Trainer::where('id',$schedule->trainer_id)->get()->first();
+ }
 
  function getCourseName($id){
 	//$schedule = \App\Model\TrainerSchedule::where('id',$id)->get()->first();

@@ -92,13 +92,13 @@
                               <td>
                                 <div class="form-group">
                                     <label> Weight Morning(Kg) </label>
-                                    <input  type="number"    step="0.01"    class="form-control" name="weight_morning" id="weight" value="{{ $ua && $ua->weight_morning ? $ua->weight_morning : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
+                                    <input  type="number"    step="0.01"    class="form-control" name="weight_morning" id="weight" value="{{ $ua && $ua->weight_morning ? $ua->weight_morning : old('weight_morning')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td> 
                                <td>
                                 <div class="form-group">
                                     <label> Weight Evening(Kg)  </label>
-                                    <input  type="number"    step="0.01"  class="form-control" name="weight_evening" id="fat" value="{{ $ua && $ua->weight_evening ? $ua->weight_evening : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
+                                    <input  type="number"    step="0.01"  class="form-control" name="weight_evening" id="fat" value="{{ $ua && $ua->weight_evening ? $ua->weight_evening : old('weight_evening')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td>                          
                             </tr>
@@ -107,13 +107,13 @@
                               <td>
                                 <div class="form-group">
                                     <label>  Body Fat Percentage Morning(%)</label>
-                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_morning" value="{{ $ua && $ua->body_fat_percentage_morning ? $ua->body_fat_percentage_morning : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
+                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_morning" value="{{ $ua && $ua->body_fat_percentage_morning ? $ua->body_fat_percentage_morning : old('fat_morning')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td> 
                                <td>
                                 <div class="form-group">
                                     <label> Body Fat Percentage Evening(%) </label>
-                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_evening" id="fat" value="{{ $ua && $ua->body_fat_percentage_evening ? $ua->body_fat_percentage_evening : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
+                                    <input  type="text"    onpaste="return false"  class="form-control" name="fat_evening" id="fat" value="{{ $ua && $ua->body_fat_percentage_evening ? $ua->body_fat_percentage_evening : old('fat_evening')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td>                          
                             </tr>
@@ -121,7 +121,7 @@
                               <td>
                                 <div class="form-group">
                                     <label> Calory Gained </label>
-                                    <input  type="number"    onpaste="return false"  class="form-control" name="calory_gained" id="calory_gained" value="{{ $ua && $ua->calory_gained ? $ua->calory_gained : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  placeholder="" />
+                                    <input  type="number"    onpaste="return false"  class="form-control" name="calory_gained" id="calory_gained" value="{{ $ua && $ua->calory_gained ? $ua->calory_gained : old('calory_gained')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  placeholder="" />
                                 </div>
                               </td> 
                                <td>
@@ -138,19 +138,19 @@
                                     <label class="col-form-label _pal_">身体活動レベル <span style="color:red">*</span> </label>
                                     <div class="col-8">
                                         <div class="form-check">
-                                          <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" {{ $ua && $ua->pal == 1.55 ? 'checked': ''}} >
+                                          <input class="form-check-input" type="radio" name="pal" id="exampleRadios1" value="low" {{ $ua && $ua->pal == 1.55 ? 'checked': ( old('pal') == 'low' ? 'checked' : '' )}}  >
                                           <label class="form-check-label" for="exampleRadios1">
                                               低 ( 生活の大部分が座位で、静的な活動が中心の場合 )
                                           </label>
                                         </div>
                                         <div class="form-check">
-                                          <input class="form-check-input" type="radio" name="pal" id="exampleRadios2" value="medium"  {{ $ua && $ua->pal == 1.75 ? 'checked': ''}}>
+                                          <input class="form-check-input" type="radio" name="pal" id="exampleRadios2" value="medium"  {{ $ua && $ua->pal == 1.75 ? 'checked': ( old('pal') == 'medium' ? 'checked' : '' )}}>
                                           <label class="form-check-label" for="exampleRadios2">
                                             中 ( 座位中心の仕事だが、職場内での移動や立位での作業・接客等、あるいは通勤・買物・家事、軽いスポーツ等のいずれかを含む場合 )
                                           </label>
                                         </div>
                                         <div class="form-check disabled">
-                                          <input class="form-check-input" type="radio" name="pal" id="exampleRadios3" value="high" {{ $ua && $ua->pal == 2 ? 'checked': ''}}>
+                                          <input class="form-check-input" type="radio" name="pal" id="exampleRadios3" value="high" {{ $ua && $ua->pal == 2 ? 'checked': ( old('pal') == 'high' ? 'checked' : '' )}}>
                                           <label class="form-check-label" for="exampleRadios3">
                                             高 ( 移動や立位の多い仕事への従事者。あるいは、スポーツなど余暇における活発な運動習慣をもっている場合 )
                                           </label>

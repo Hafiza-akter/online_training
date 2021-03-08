@@ -50,7 +50,7 @@
                       <div class="row" >
                         <div class="col-sm-4">
                         <label class="col-sm-2 col-form-label">Main</label>
-                            <select class="form-control main" style="width: 100%;" name="main[]" >
+                            <select class="form-control main" style="width: 100%;" name="main[]" readonly >
                                 <option value="">--select--</option>
                                 @if($main)
                                   @foreach($main as $val)
@@ -61,13 +61,13 @@
                         </div>
                         <div class="col-sm-4">
                         <label class="col-sm-2 col-form-label">Course</label>
-                            <select class="form-control course" style="width: 100%;" name="course[]" required="required">
+                            <select class="form-control course" style="width: 100%;" name="course[]" readonly required="required">
                                 <option value="">--select--</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
                         <label class="col-sm-2 col-form-label">Equipment</label>
-                            <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
+                            <select class="form-control equipment" style="width: 100%;" name="equipment[]" readonly>
                                 <option value="">--select--</option>
                             </select>
                         </div>
@@ -76,36 +76,29 @@
                       <div class="row justify-content-center">
                           <div class="col-sm-8  m-1 ">
                            <label class=" col-form-label">Set 1</label>
-                            <input name="set1_kg[]" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set1_times[]" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+                            <input name="set1_kg[]" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly /><span>KG</span>
+                            <input name="set1_times[]" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly /><span>回</span>
 
                           </div>
                           <div class="col-sm-8 m-1">
                            <label class=" col-form-label">Set 2</label>
-                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required"/><span>回</span>
+                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly/><span>KG</span>
+                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required" readonly/><span>回</span>
                           </div>
                           <div class="col-sm-8 m-1">
                            <label class=" col-form-label">Set 3</label>
-                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>回</span>
+                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly/><span>KG</span>
+                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly/><span>回</span>
                           </div>
                       </div>
                     </div>
 
-                      <div class="col-sm-8 m-1">
-                            <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
-                      </div>
-
+                 
                       <br> <br>
                       <div class="  row justify-content-center">
                         <div class="col-md-12">
                         <label class="col-form-label">コメントの入力</label>
-                            @if(Session::get('user_type') == 'trainee'){
                             <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
-                            @else 
-                             <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->trainer_feedback: ''}}</textarea>
-                            @endif
                         </div>
                     </div>
                       <div class=" row justify-content-center m-1 p-1">
@@ -141,7 +134,7 @@
                       <div class="row" >
                         <div class="col-sm-4">
                         <label class="col-sm-2 col-form-label">Main </label>
-                            <select class="form-control main" style="width: 100%;" name="main[]" >
+                            <select class="form-control main" style="width: 100%;" name="main[]" readonly >
                                 @if($main)
                                   @foreach($main as $val)
                                     <option id="{{ $val->main}}" {{$val->main ==  $coursesData->main ? 'selected' : '' }}>{{ $val->main}}</option>
@@ -151,7 +144,7 @@
                         </div>
                         <div class="col-sm-4">
                         <label class="col-sm-2 col-form-label">Course</label>
-                            <select class="form-control course" style="width: 100%;" name="course[]" required="required">
+                            <select class="form-control course" style="width: 100%;" name="course[]" required="required" readonly>
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
                                 @endforeach
@@ -159,7 +152,7 @@
                         </div>
                         <div class="col-sm-4">
                         <label class="col-sm-2 col-form-label">Equipment</label>
-                            <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
+                            <select class="form-control equipment" style="width: 100%;" name="equipment[]" readonly>
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>
                         </div>
@@ -171,40 +164,32 @@
                       <div class="row justify-content-center">
                           <div class="col-sm-8  m-1 ">
                            <label class=" col-form-label">Set 1</label>
-                            <input name="set1_kg[]" class="set1_kg kg p-1 m-1" value="{{ $sd1[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set1_times[]" class="set1_times times kg p-1 m-1" value="{{ $sd1[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+                            <input name="set1_kg[]" class="set1_kg kg p-1 m-1" value="{{ $sd1[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly /><span>KG</span>
+                            <input name="set1_times[]" class="set1_times times kg p-1 m-1" value="{{ $sd1[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly /><span>回</span>
 
                           </div>
                           <div class="col-sm-8 m-1">
                            <label class=" col-form-label">Set 2</label>
-                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" value="{{ $sd2[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" value="{{ $sd2[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required"/><span>回</span>
+                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" value="{{ $sd2[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly/><span>KG</span>
+                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" value="{{ $sd2[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required" readonly/><span>回</span>
                           </div>
                           <div class="col-sm-8 m-1">
                            <label class=" col-form-label">Set 3</label>
-                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1"  value="{{ $sd3[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>回</span>
+                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1"  value="{{ $sd3[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly/><span>KG</span>
+                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" readonly/><span>回</span>
                           </div>
 
                           
                       </div>
 
-                      @if($key > 0)
-                      <input type="button" value="削除" class="m-1 remove btn btn-danger"/>
-                      @endif
                     </div>
                     @endforeach
 
-                        <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
                     <br>
                     <div class="form-group  row justify-content-center">
                         <div class="col-sm-10">
                         <label class="col-form-label">コメントの入力</label>
-                            @if(Session::get('user_type') == 'trainee'){
                             <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
-                            @else 
-                             <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->trainer_feedback: ''}}</textarea>
-                            @endif
                         </div>
                     </div>
               <div class=" row justify-content-center m-1 p-1">
@@ -233,110 +218,11 @@
   
 
       // for upazila
-  $(document).on('change', '.main', function() {
-
-
-  // $('.main').on('change', function() {
-    // console.log($(this option:selected).text());
-    var main =  $(this).find('option:selected').text();
-    // console.log(main);
-    var id = $(this).parent().closest('.performance').attr('id');
-    // console.log(id);
-    $.ajax
-      ({
-        type: "POST",
-        url: '{{ route('getcourse')}}',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: { 'main': main },
-        cache: false,
-        success: function (data) {
-          // console.log(data.location);
-          console.log(id);
-          console.log($(this).find('.course'));
-
-          // console.log($('.course','#'.id));
-
-          $('.course','#'+id).empty();
-          $('.equipment','#'+id).empty();
-           $('.set1_kg','#'+id).empty();
-          $('.set1_times','#'+id).empty();
-
-          $('.set2_kg','#'+id).empty();
-          $('.set2_times','#'+id).empty();
-
-          $('.set3_kg','#'+id).empty();
-          $('.set3_times','#'+id).empty();
-
-          $('.equipment','#'+id).empty();
-          
-
-          // $('#equipment').append($('<option>', { value: '', text: '--select--' }));
-          $('.course','#'+id).append($('<option>', { value: '', text: '--select--' }));
-          $('.equipment','#'+id).append($('<option>', { value: '', text: '--select--' }));
-          $.each(data, function (i, item) {
-            // console.log(item.upazila_name);
-            $('.course','#'+id).append($('<option>', { value: item.id, text: item.course_name }));
-            $('.equipment','#'+id).append($('<option>', { value: item.equipment_id, text: item.equipment_name }));
-          });
-        },
-        dataType: "json"
-      });
-  });
-
-  $(document).on('change', '.course', function() {
-    // console.log($("#course option:selected").value());
-    var course = $(this).find('option:selected').val();
-    console.log(course);
-    var id = $(this).parent().closest('.performance').attr('id');
-    $.ajax
-      ({
-        type: "POST",
-        url: '{{ route('getcoursedetails')}}',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: { 'course': course },
-        cache: false,
-        success: function (data) {
-          // console.log(data.location);
-          // console.log(data);
-          $('.set1_kg','#'+id).empty();
-          $('.set1_times','#'+id).empty();
-
-          $('.set2_kg','#'+id).empty();
-          $('.set2_times','#'+id).empty();
-
-          $('.set3_kg','#'+id).empty();
-          $('.set3_times','#'+id).empty();
-
-          $('.equipment','#'+id).empty();
-          $('.equipment','#'+id).append($('<option>', { value: '', text: '--select--' }));
-          
-          $.each(data, function (i, item) {
-            // console.log(item.upazila_name);
-            let s1= item.set_1.split("_");$('.set1_kg','#'+id).val(s1[0]);$('.set1_times','#'+id).val(s1[1]);
-            let s2= item.set_2.split("_");$('.set2_kg','#'+id).val(s2[0]);$('.set2_times','#'+id).val(s2[1]);
-            let s3= item.set_3.split("_");$('.set3_kg','#'+id).val(s3[0]);$('.set3_times','#'+id).val(s3[1]);
-            $('.equipment','#'+id).append($('<option>', { value: item.equipment_id, text: item.equipment_name }));
-          });
-        },
-        dataType: "json"
-      });
-  });
+  
   $(document).ready(function(){
     $('#exampleModalScrollable').modal('show');
 
-    var cloneCount = parseInt($('#counter').val());
-    // let r= $('<input type="button" value="削除" class="m-1 remove btn btn-danger"/>');
-
-   $(".add_button").click(function(){
-      let r= $('<input type="button" value="削除" class="m-1 remove btn btn-danger"/>');
-      let id = 'performance'+ cloneCount++;
-      $("#performance").clone().attr('id',id).insertAfter($('[id^=performance]:last'));
-        $("#"+id).append(r);
-   }); 
+    
 
  // Remove element
 
@@ -359,7 +245,7 @@
                         title: 'Course data set successfully ',
                         showConfirmButton:true
                       })
-                      window.location.href ="{{ route('traininglist') }}";
+                      window.location.href ="{{ route('traineelist') }}";
                  }
           });
 
