@@ -39,7 +39,6 @@
                     <thead>
                         <tr>
                             <th>Training Date</th>
-                            <th>My Feedback</th>
                             <th>Trainer name</th>
                             <th>Details</th>
                         </tr>
@@ -52,7 +51,7 @@
                         @if(getUserName($val->trainer_schedule_id)->id == Session::get('user.id'))
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>
-                              <td>{{$val->comment}}</td>
+                              {{-- <td>{{$val->comment}}</td> --}}
                               <td>{{ getTrainerName($val->trainer_schedule_id)->first_name }}</td>
                               <td>
                                 <button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable{{$val->id}}" style="color:white;"> Details </button>
@@ -154,7 +153,7 @@
                             <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly/><span>回</span>
                           </div>
                           <div class="col-sm-8 m-1">
-                              <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`)" > Explanation </button>
+                              <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`,`{{ $coursesData->sub}}`,`{{ $coursesData->way}}`,`{{ $coursesData->motion}}`)" > Explanation </button>
                            </div>
 
                       </div>
@@ -162,13 +161,12 @@
 
                     </div>
                     @endforeach
-                    <div class="form-group  row justify-content-center">
+                  {{--   <div class="form-group  row justify-content-center">
                       <div class="col-sm-10">
                       <label class="col-form-label">コメントの入力</label>
-                          <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
-                         
+                          <p>{{ $exerciseData ? $exerciseData->comment : ''}}</p>
                       </div>
-                  </div>
+                  </div> --}}
             @endif
             <!-- // end edit mode -->
           </div>
@@ -191,11 +189,13 @@
       
  
 
-  function showExplanation(text){
+ function showExplanation(text,sub,way,motion){
         Swal.fire({
            icon: '',
            title: '説明',
-           text: text,
+           html: " <br> <b> summary:</b> "+text+" <br> <br> sub: "+sub
+          + " <br> <br> <b>way:</b> "+way
+          + " <br> <br> <b>motion:</b> "+motion,
            showConfirmButton:false
          })
   }

@@ -156,7 +156,7 @@ class TrainingController extends Controller
     		if(Session::get('user_type') == 'trainee'){
     			$training->comment=$request->user_feedback;
     		}else{
-    			$training->trainer_feedback=$request->user_feedback;
+    			$training->comment=$request->user_feedback;
     		}
 
     		$training->save();
@@ -167,7 +167,7 @@ class TrainingController extends Controller
     		if(Session::get('user_type') == 'trainee'){
     			$scheduleIdexist->comment=$request->user_feedback;
     		}else{
-    			$scheduleIdexist->trainer_feedback=$request->user_feedback;
+    			$scheduleIdexist->comment=$request->user_feedback;
     		}
 
     		$scheduleIdexist->save();
@@ -264,12 +264,22 @@ class TrainingController extends Controller
         $main=Course::where('status',1)->groupBy('main')->get();
 
         // $schedule = TrainerSchedule::find($request->id);
-        $list = Training::orderBy('id','DESC')->get();
+        if($request->birthday){
+            $date = Carbon::createFromFormat('Y-m', $request->birthday);
+            // dd($date->year);
+            $list = Training::whereMonth('created_at',$date->month)
+                            ->whereYear('created_at',$date->year)
+                            ->orderBy('id','DESC')->get();
+        }else{
+            $date = '';
+            $list = Training::orderBy('id','DESC')->get();
+        }
         // dd($request->id);
         // dd($exerciseData->getExerciseData);
     	return view('pages.trainer.traininglist')
     	->with('course',$course)
     	->with('list',$list)
+        ->with('date',$date)
     	->with('main',$main);
     }
     public function traineelist(Request $request){

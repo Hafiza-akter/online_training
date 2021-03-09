@@ -64,7 +64,7 @@
                             
                             <li class="nav-item ">
                                     {{-- progress --}}
-                                <a class="nav-link" href="#">達成状況</a>
+                                <a class="nav-link" href="{{ route('traininglist')}}">達成状況</a>
                             </li>
 
                             <li class="nav-item ">

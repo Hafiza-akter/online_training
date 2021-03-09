@@ -31,7 +31,23 @@
       <div class="col-md-10 col-xl-10">
         <div class="card mt-4">
             <div class="card-header">
-                <h3 class="card-title">トレーニングリスト</h3>
+                {{-- <h3 class="card-title">トレーニングリスト</h3> --}}
+              <form action="{{route('traininglist')}}" method="post">
+                   
+                {{ csrf_field() }}               
+                 <div class="row mb-3">
+                  <div class="col-3">
+                    <p class="col-form-label birthday">Total training:  {{ count($list)}}  </p>
+                  </div>
+                    <div class="col-4">
+                    <input type="text" name="birthday" class="form-control datepicker" value="{{ $date != '' ? date('Y-m',strtotime($date)) : date('Y-m')}}" readonly="readonly">
+                    
+                  </div>
+                  <div class="col-2">
+                      <input type="submit" value="submit" class="nav-link active__" style="color:white;">
+                  </div>
+                </div>
+              </form>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -154,7 +170,7 @@
                             <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly/><span>回</span>
                           </div>
                           <div class="col-sm-8 m-1">
-                              <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`)" > Explanation </button>
+                              <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`,`{{ $coursesData->sub}}`,`{{ $coursesData->way}}`,`{{ $coursesData->motion}}`)" > Explanation </button>
                            </div>
 
                       </div>
@@ -164,14 +180,18 @@
                     @endforeach
                     <div class="form-group  row justify-content-center">
                       <div class="col-sm-10">
-                      <label class="col-form-label">コメントの入力</label>
-                          @if(Session::get('user_type') == 'trainee'){
-                          <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
-                          @else 
-                           <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->trainer_feedback: ''}}</textarea>
-                          @endif
+                      <label class="col-form-label">コメントの入力</label>      
+                         <p> {{ $exerciseData->comment }}</p>
                       </div>
                   </div>
+                  <div class="form-group  row justify-content-center">
+                      <div class="col-sm-10">
+                      <label class="col-form-label">フィードバック</label>                 
+                         <p> {{ $exerciseData->trainer_feedback }}</p>
+                      </div>
+                  </div>
+                  
+
             @endif
             <!-- // end edit mode -->
           </div>
@@ -184,21 +204,38 @@
 
 @section('footer_css_js')
 <script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<!-- for a specific version -->
+<script
+  src="https://cdn.jsdelivr.net/npm/zebra_datepicker@1.9.13/dist/zebra_datepicker.min.js"></script>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/zebra_datepicker@latest/dist/css/bootstrap/zebra_datepicker.min.css">
 <script>
 
   </script>
 
-
+ <style>
+      .Zebra_DatePicker .dp_body .dp_current{
+        background:#a50ca4 !important;
+        color:white;
+      }
+  </style>
   <script>
-      
+              $('.datepicker').Zebra_DatePicker({
+                   direction: ['2021-01-01', false],
+                    format: 'Y-m',
+
+        });
  
 
-  function showExplanation(text){
+  function showExplanation(text,sub,way,motion){
         Swal.fire({
            icon: '',
            title: '説明',
-           text: text,
+           html: " <br> <b> summary:</b> "+text+" <br> <br> sub: "+sub
+          + " <br> <br> <b>way:</b> "+way
+          + " <br> <br> <b>motion:</b> "+motion,
            showConfirmButton:false
          })
   }

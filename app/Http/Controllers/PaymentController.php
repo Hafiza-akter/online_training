@@ -14,10 +14,14 @@ use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Api\WebProfile;
+use App\Events\NewUserRegisteredEvent;
+
 use Session;
 
 use App\Model\UserPlanPurchase;
 use App\Model\Transactions;
+use App\Model\User;
+
 
 class PaymentController extends Controller
 {
@@ -165,6 +169,15 @@ public function confirmPayment(Request $request)
         
         $planPurchaseUser->status =1;
         $planPurchaseUser->save();
+
+        $details=array();
+
+        $user = User::find($request->user_id);
+        $details['user_name'] = $user->name;
+        $details['user_email'] = $user->email;
+        $details['transaction_id'] = $paymentId;
+        
+        \Mail::to($user->email)->send(new \App\Mail\Payment($details));
 
 
         return $result;

@@ -39,7 +39,7 @@
 
                 @endif       
                 <h4 class="mx-auto _introduction_">前書き</h4>
-                <textarea name="intro" class="form-control" id="" rows="5">{{ $trainerData->intro}}</textarea>
+                <p >{{ $trainerData->intro}}</p>
             </div>
 
         </div>

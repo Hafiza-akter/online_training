@@ -28,6 +28,7 @@ class CheckLogin
             if(Session::get('user_type') === 'trainee'){
                 return redirect()->route('traineeLogin');
             }
+            return redirect()->route('toppage');
         }    
     }
 }

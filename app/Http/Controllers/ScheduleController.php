@@ -49,30 +49,34 @@ class ScheduleController extends Controller
             foreach($recurring as $key=>$value){
                 // dd($value->dow);
                 // $found=$this->filter_array_value(Carbon::parse($value->time)->format('H:i:s'),$compareArray);
-                    $parsedArray[$count]['title']=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
-                    $parsedArray[$count]['id']=$value->id;
-                    $parsedArray[$count]['daysOfWeek']=array($value->dow);
-                    $parsedArray[$count]['startTime']=Carbon::parse($value->time)->format('H:i:s');
-                    $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
-                    $parsedArray[$count]['exclude']=$value->exclude;
-                    $parsedArray[$count]['start_date']=$value->start_date;
-                    $parsedArray[$count]['extendedProps']=array(
-                        'type' => 'recurring',
-                        'startTime' => Carbon::parse($value->time)->format('H:i:s'),
-                        'exdate' => $value->exclude
+                    // $rv = $this->check_duplication($value,$schedule);
+                    // dd($rv);
+                    // if($rv == 'not_found'){
+                        $parsedArray[$count]['title']=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+                        $parsedArray[$count]['id']=$value->id;
+                        $parsedArray[$count]['daysOfWeek']=array($value->dow);
+                        $parsedArray[$count]['startTime']=Carbon::parse($value->time)->format('H:i:s');
+                        $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                        $parsedArray[$count]['exclude']=$value->exclude;
+                        $parsedArray[$count]['start_date']=$value->start_date;
+                        $parsedArray[$count]['extendedProps']=array(
+                            'type' => 'recurring',
+                            'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                            'exdate' => $value->exclude
 
-                    );
-                    if($request->type == 'week' || $request->type == 'week_all'){
-                        // $parsedArray[$count]['display'] = 'background';
-                    } 
-                        
-                    $parsedArray[$count]['className'] = 'tblue';
-                    $parsedArray[$count]['type'] = 'recurring';
-                    $parsedArray[$count]['time'] = Carbon::parse($value->time)->format('H:i:s');
-                    if($request->type == 'week' || $request->type == 'week_all'){
-                        $parsedArray[$count]['display'] = 'background';
-                    }
-                    $count++;
+                        );
+                        if($request->type == 'week' || $request->type == 'week_all'){
+                            // $parsedArray[$count]['display'] = 'background';
+                        } 
+                            
+                        $parsedArray[$count]['className'] = 'tblue';
+                        $parsedArray[$count]['type'] = 'recurring';
+                        $parsedArray[$count]['time'] = Carbon::parse($value->time)->format('H:i:s');
+                        if($request->type == 'week' || $request->type == 'week_all'){
+                            $parsedArray[$count]['display'] = 'background';
+                        }
+                        $count++;
+                    // }
 
                 
             }
@@ -151,6 +155,39 @@ class ScheduleController extends Controller
         return false;
     }
 
+    public function check_duplication($item,$arr){
+      
+        if(count($arr) > 0){
+            foreach($arr as $val){
+                
+                if($item->dow == Carbon::parse($val->date)->dayOfWeek && $item->time == $val->time){
+                    return 'found';
+                }else{
+                    return 'not_found';
+                }
+                // if(Carbon::parse($val->date)->dayOfWeek == (int) $item->dow && $val->time == $item->time){
+                //     dd('found');
+                //     return "found";
+                // }else{
+                //     return "not_found";
+                // }
+
+                // $fnd=TrainerRecurringSchedule::where('dow',$dow)
+                // ->where('time',$val->time)
+                // ->get()->first();
+                // if($fnd){
+                //     return "found";
+                // }else{
+                //     return "not_found";
+                // }
+                
+            }
+        }else{
+             return "not_found";
+        }
+
+       
+    }
     public function scheduleSubmit(Request $request){
 
 

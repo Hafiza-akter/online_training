@@ -96,6 +96,19 @@ class TraineeController extends Controller
     }
     public function trainerSubmitBytime(Request $request){
         
+        $tinfo = Trainer::find($request->trainer_id);
+
+        // dd($tinfo);
+
+        $details=array();
+        $details['user_name'] = Session::get('user.name');
+        $details['user_email'] = Session::get('user.email');
+        $details['date'] = $request->date;
+        $details['time'] = $request->time;
+        $details['trainer_name'] = $tinfo->first_name;
+        $details['trainer_email'] = $tinfo->email;
+
+      
         $schedule =TrainerSchedule::where('date',$request->date)
                                     ->where('time',$request->time)
                                     ->where('trainer_id',$request->trainer_id)
@@ -113,6 +126,11 @@ class TraineeController extends Controller
             $newSchedule->save();
 
         }
+
+        // dd($details);
+        \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
+        \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
+
 
         return redirect()->route('traineeCalendar.view')->with('message','Schedule created succesfully !');
 
@@ -632,6 +650,10 @@ class TraineeController extends Controller
      //    $time= new Carbon($arrT[0]);
         // $ftime = $time->format('H:i:s');
         // $ftime = $arrT[0];
+
+        dd($request->all());
+
+
         if($request->event_type == 'recurring'){
             $schedule = new TrainerSchedule();
             $schedule->user_id=$request->user_id;

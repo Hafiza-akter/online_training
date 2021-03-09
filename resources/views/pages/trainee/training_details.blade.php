@@ -1,6 +1,21 @@
 @extends('master_dashboard')
 @section('title','trainee trainerlist')
 @section('header_css_js')
+<style>
+  #clock {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    transform: translateX(-50%) translateY(-50%);
+    color: red;
+    font-size: 2rem;
+   
+
+
+}
+  
+
+</style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
 
 <script type="text/javascript">
@@ -34,12 +49,12 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div id="meet"></div>
+            <div id="meet" style="height: 86vh"></div>
         </div>   
     </div>
 </section>
 
-  <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal  fade left" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header" style="background: #a331a3;">
@@ -57,7 +72,7 @@
     </div>
     </div>
      
-    <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade left bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header" style="background: #a331a3;">
@@ -79,7 +94,7 @@
                 @foreach( $course as $key=>$val)
                   <tr>
                     <td>
-                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showExplanation(`{{ $val->summary}}`)">  
+                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showExplanation(`{{ $val->summary}}`,`{{ $val->sub}}`,`{{ $val->way}}`,`{{ $val->motion}}`)">  
                       <label for="course_list_{{ $val->id}}"> {{ $val->course_name}} </label>
                     </td>
                     
@@ -125,7 +140,7 @@
               <div class="form-group  row justify-content-center">
                 <div class="col-sm-10">
                 <label class="col-form-label">コメントの入力</label>
-                    <textarea class="form-control customEditor"  name="user_feedback" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : '' }}</textarea>
+                    <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : '' }}</textarea>
                 </div>
             </div>
              <div class=" row justify-content-center">
@@ -138,21 +153,89 @@
       </div>
     </div>
     </div>
+    <input type="hidden" id="clock_value" value="{{ Carbon\Carbon::parse($schedule->date)->format('Y/m/d'). " ".$schedule->time }}">
 
 <button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
 
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
 
-<button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg3" style="color:white;position: absolute;top: 55%;right: 0"> コメント </button>
-
+{{-- <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg3" style="color:white;position: absolute;top: 55%;right: 0"> コメント </button> --}}
+<div id="clock"></div>
 @endsection
 @section('footer_css_js')
 <script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
+<script src='{{ asset('asset_v2/js/jquery.countdown.min.js')}}'></script>
+<style>
+ 
 
+
+.modal.left .modal-dialog {
+  position:fixed;
+  right: 0;
+  margin: auto;
+  width: auto;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.modal.right .modal-body {
+  padding: 15px 15px 80px;
+}
+
+.modal.right.fade .modal-dialog {
+  left: -320px;
+  -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+  -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+  -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+  transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.right.fade.show .modal-dialog {
+  right: 0;
+}
+</style>
 <script>
-    Object.defineProperty(window.navigator, 'userAgent', {
-      get: function () { return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/80.0.3987.163 Chrome/80.0.3987.163 Safari/537.36'; }
+function getdayFromNow() {
+    // return new Date('2021-02-09 10:00:00');
+    // 2021-02-09T10:00:00
+    // console.log(new Date(new Date().valueOf() + 15 * 24 * 60 * 60 * 1000));
+    return new Date('2021/03/09 12:00:00');
+
+  }
+
+  var $clock = $('#clock');
+
+  // $clock.countdown('2021/03/09 09:56:00', function(event) {
+  //   $(this).html(event.strftime('%M:%S'));
+  //   if (event.type === 'finish.countdown') {
+  //       console.log('hello');
+  //       alert("the event is finish");
+  //       window.location.href = "{{ route('traineelist') }}";
+  //   }
+  // });
+
+  $('#clock').countdown($("#clock_value").val())
+    .on('update.countdown', function(e) {
+        $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));
+    })
+    .on('finish.countdown', function(e) {
+        console.log('hello');
+        alert("The course time has been finished");
+        window.location.href = "{{ route('traineelist') }}";
+
+
     });
+
+    
+
   </script>
 
   <script src="https://meet.jit.si/external_api.js"></script>
@@ -172,8 +255,8 @@
 
     var options = {
       roomName: "training_{{ $schedule->id}}",
-      width: '100%',
-      height: 640,
+      // width: '100%',
+      // height: 640,
       parentNode: document.querySelector('#meet'),
       interfaceConfigOverwrite:{requireDisplayName: false},
       configOverwrite: {
@@ -197,7 +280,7 @@
     var api = new JitsiMeetExternalAPI(domain, options);
         api.on('videoConferenceLeft', () => {
            console.log('alert');
-            window.location.href = "{{ route('traineefinished',$schedule->id) }}";
+            window.location.href = "{{ route('traineelist') }}";
     
     });
     // api.executeCommand('subject', '');
@@ -266,11 +349,13 @@ $("#f_btn").click(function(){
    });
 
 
-  function showExplanation(text){
+  function showExplanation(text,sub,way,motion){
         Swal.fire({
            icon: '',
            title: '説明',
-           text: text,
+           html: " <br> <b> summary:</b> "+text+" <br> <br> sub: "+sub
+          + " <br> <br> <b>way:</b> "+way
+          + " <br> <br> <b>motion:</b> "+motion,
            showConfirmButton:false
          })
   }

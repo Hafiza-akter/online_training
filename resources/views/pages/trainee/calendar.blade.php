@@ -101,8 +101,8 @@
         @foreach($listSchedule as $key=>$val)
           <tr>
             <th scope="row">{{ ++$key}}</th>
-            <td>{{ \Carbon\Carbon::parse($val->start_date)->format('d/m/Y')}}</td>
-            <td>{{ \Carbon\Carbon::parse($val->time)->format('g:i A')}}</td>
+            <td>{{ \Carbon\Carbon::parse($val->start_date)->format('Y-m-d')}}</td>
+            <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
               @if($val->is_occupied )
                 <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > Trainer Details</button>
