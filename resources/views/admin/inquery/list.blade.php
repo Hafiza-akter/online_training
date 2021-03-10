@@ -11,7 +11,7 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3 class="card-title">Inquery List</h3>
+                            <h3 class="card-title">お問い合わせ一覧</h3>
                         </div>
                         <div class="col-sm-6 text-right"></div>
                     </div>

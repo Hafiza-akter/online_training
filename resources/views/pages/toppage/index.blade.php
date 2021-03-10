@@ -81,7 +81,7 @@
 
 <div class="row">
     <div class="col-sm-12 pt-4 pb-3 rside black-background">
-         <button type="button" class="btn btn-light">ログインする </br> (マネージャー)</button>
+         <button type="button" class="btn btn-light">ログイン </br> (マネージャー)</button>
     </div>
 </div>
 @endsection

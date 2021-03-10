@@ -106,7 +106,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                        <h3>スケジュール 時間</h3>
+                        <h3>スケジュール</h3>
                 </div>
             </div>
         </div>
@@ -173,13 +173,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         customButtons: {
           week_all: {
-            text: '予約時間一気に',
+            text: '週次定期予約',
             click: function() {
             
             }
           },
           week: {
-            text: '毎週の登録',
+            text: '週次予約',
             click: function() {
             
             }
@@ -204,10 +204,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let startTime = moment(info.startStr).format('HH:mm:ss');
         let endTime = moment(info.endStr).format('HH:mm:ss');
 
-        let msgse="You want to reserve  "+$("#selected_date").val();
+        let msgse="予約時間は  "+$("#selected_date").val();
         console.log(info);
          Swal.fire({
-                title: "本気ですか ？", //"Are you sure ?",
+                title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
               showDenyButton: false,
               showCancelButton: false,
               width: '650px',
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let msgse="You want to reserve  "+$("#selected_date").val();
         console.log(info);
          Swal.fire({
-                title: "本気ですか ？", //"Are you sure ?",
+                title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
               showDenyButton: false,
               showCancelButton: false,
               width: '650px',

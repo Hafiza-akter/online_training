@@ -6,21 +6,21 @@
     </div>
     <div class="row pb-3">
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
       <div class="col-sm border-round">
-        <a class="btn">ログインする </a>       
+        <a class="btn">ログイン </a>       
       </div>
     </div>
     <div class="row mb-5">
       <div class="offset-sm-4 col-sm-4 border-round">
-        <a class="btn">ログインする </a> 
+        <a class="btn">ログイン </a> 
      </div>
     </div>
     <div class="row pb-5  page-content page-container" id="chart">

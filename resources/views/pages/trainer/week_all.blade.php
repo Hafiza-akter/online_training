@@ -248,14 +248,14 @@ $(".tblue").click(function(){
 
         customButtons: {
           week_all: {
-            text: '予約時間一気に',
+            text: '週次定期予約',
             click: function() {
              window.location.href ='{{ route('calendar.view','week_all') }}';
             
             }
           },
           week: {
-            text: '毎週の登録',
+            text: '週次予約',
             click: function() {
              window.location.href ='{{ route('calendar.view','week') }}';
             

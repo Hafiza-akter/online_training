@@ -10,7 +10,7 @@
      <div class="row justify-content-center">
         <div class="col-md-8 col-xl-6">
             <div class="section_tittle">
-                <h3>トレーナーリスト</h3>
+                <h3>トレーナー一覧</h3>
             </div>
         </div>
     </div>

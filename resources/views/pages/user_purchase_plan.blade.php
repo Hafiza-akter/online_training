@@ -15,7 +15,7 @@
         <a class="btn">Progress </a>
     </div>
     <div class="col-sm border-round">
-        <a class="btn">ログインする </a>
+        <a class="btn">ログイン </a>
     </div>
 </div>
 <div class="row mb-5">

@@ -76,7 +76,7 @@
 
   <div class="row mb-5 mt-3">
     {{-- <div class="offset-sm-4 col-sm-4 border-round">
-      <a class="btn" href="{{ route('trainerlist') }}">トレーナーリスト </a>
+      <a class="btn" href="{{ route('trainerlist') }}">トレーナー一覧</a>
 
     </div> --}}
   </div>
@@ -84,16 +84,16 @@
 
   <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
 
-           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+           <h4 class="" style="text-align: center;">スケジュール詳細</h4>
 
     <table class="table table-striped" style="background: #f9f9ff;">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Date</th>
-        <th scope="col">Available time</th>
-        <th scope="col">Trainer</th>
-        <th scope="col">Action</th>
+        <th scope="col">日時</th>
+        <th scope="col">予約時間</th>
+        <th scope="col">トレーナー</th>
+        <th scope="col">コース開始</th>
       </tr>
     </thead>
     <tbody>
@@ -105,14 +105,14 @@
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
               @if($val->is_occupied )
-                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > Trainer Details</button>
+                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > トレーナー詳細</button>
               @else 
                 <span> Not assigned yet </span>
               @endif
               
             </td>
             <td>
-              <a href="{{ route('trainingtrainee',$val->id)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >Join Course</a>
+              <a href="{{ route('trainingtrainee',$val->id)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
               {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
               {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
             </td>
@@ -144,7 +144,7 @@
       selectable: false,
        customButtons: {
         myCustomButton: {
-          text: 'トレーナーリスト',
+          text: 'トレーナー一覧',
           click: function() {
              window.location.href ='{{ route('trainerlist') }}';
           }

@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h2>パスワードのリセット</h2>
+                    <h2>パスワードリセット</h2>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="card card-info">
                 <div class="card-header">
                     {{-- email registration --}}
-                    <p class="card-title">パスワードリセットリンクをあなたのメールアドレスに送信します</p>
+                    <p class="card-title">パスワードリセットリンクを送信します</p>
                 </div>
 
                  <form class="form-horizontal" action="{{route('forgetPasswordEmail.submit')}}" method="post">
@@ -49,11 +49,10 @@
                 <div class="card-body">
 
                     <div class="form-group row required">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">電子メールアドレス</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">メールアドレス</label>
                     <div class="col-sm-9">
                         {{-- Please enter your e-mail address--}}
-                        <input type="email" required class="form-control"  name="email" placeholder="
-        メールアドレスを入力してください">
+                        <input type="email" required class="form-control"  name="email" placeholder="メールアドレスを入力してください">
                     </div>
                     </div>
 

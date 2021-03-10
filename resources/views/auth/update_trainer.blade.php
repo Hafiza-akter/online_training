@@ -111,7 +111,7 @@
 
                      <div class="row mb-3">
                         <div class="col-4">
-                          <label class="col-form-label _email_address_">電子メールアドレス</label>
+                          <label class="col-form-label _email_address_">メールアドレス</label>
                         </div>
                         <div class="col-8">
                             <input type="email" name="email1" class="form-control" disabled="disabled" value="{{ $user->email}}">

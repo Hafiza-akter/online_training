@@ -18,7 +18,7 @@
                     <form action="{{route('traineeCalendar.view')}}" method="get" id="dateform">
                       {{ csrf_field() }}
                       <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
-                      <button type="submit" class="btn border-round btn-success" >トレーナーを選択 </button> 
+                      <button type="submit" class="btn border-round btn-success" >次へ </button> 
                     <a class="btn border-round btn-warning" href="{{ route('traineeCalendar.view')}}">戻る </a>
                   </form>
 
@@ -34,7 +34,7 @@
                   <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
 
                 @endif       
-                <h4 class="mx-auto _introduction_">前書き</h4>
+                <h4 class="mx-auto _introduction_">トレーナー紹介</h4>
                 <p  id="" >{{ $trainerData->intro}}</p>
             </div>
 

@@ -107,12 +107,12 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Date</th>
-        <th scope="col">Weight Morning</th>
-        <th scope="col">Weight Evening</th>
-        <th scope="col">Calory Gained</th>
+        <th scope="col">日時</th>
+        <th scope="col">体重(午前)</th>
+        <th scope="col">体重(午後)</th>
+        <th scope="col">摂取カロリー</th>
         <th scope="col">PAL</th>
-        <th scope="col">Action</th>
+        <th scope="col">アクション</th>
       </tr>
     </thead>
     <tbody>

@@ -61,7 +61,7 @@
     <div class="card card-info">
         <div class="card-header  gradient">
             {{-- login in  --}}
-            <h4 class="card-title text-center " style="color:#fff" >ログインする</h4>
+            <h4 class="card-title text-center " style="color:#fff" >ログイン</h4>
         </div>
 
         <form class="form-contact contact_form" action="{{route('traineeLogin.submit')}}" method="post">
@@ -69,7 +69,7 @@
             <div class="card-body">
 
                 <div class="form-group row required">
-                    <label for="inputEmail3" class="col-sm-3 col-form-label">電子メールアドレス</label>
+                    <label for="inputEmail3" class="col-sm-3 col-form-label">メールアドレス</label>
                     <div class="col-sm-9">
                         {{-- Please enter your e-mail address--}}
                         <input type="email" required class="form-control" name="username" placeholder="

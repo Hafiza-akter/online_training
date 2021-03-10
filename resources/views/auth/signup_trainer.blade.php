@@ -64,7 +64,7 @@
                             <div class="card-body">
 
                                 <div class="form-group row required">
-                                {{-- <label for="inputEmail3" class="col-sm-3 col-form-label">電子メールアドレス</label> --}}
+                                {{-- <label for="inputEmail3" class="col-sm-3 col-form-label">メールアドレス</label> --}}
                                 <div class="col-sm-12">
                                     {{-- Please enter your e-mail address--}}
                                     <input type="email" required class="form-control"  name="email" placeholder="メールアドレスを入力してください" onfocus="this.placeholder = ''" onblur="this.placeholder = 'メールアドレスを入力してください'" >
@@ -76,7 +76,7 @@
                                 {{-- Registration --}}
                                 <div class="col text-center">
                                 <button type="submit" class="btn  btn_lg login_button"><i class="fas fa-user-check"></i>  登録</button>
-                                 <a  class="btn btn-lg login_button" style="border:none !important;font-size:13px;" href="{{ route('trainerLogin') }}" style="font-size: 14px;color: #007bff;">  すでにアカウントをお持ちですか？ ログインする
+                                 <a  class="btn btn-lg login_button" style="border:none !important;font-size:13px;" href="{{ route('trainerLogin') }}" style="font-size: 14px;color: #007bff;">  すでにアカウントをお持ちですか？ ログイン
                                  </a>
                                 </div>
 
