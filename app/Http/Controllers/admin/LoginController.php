@@ -34,11 +34,11 @@ class LoginController extends Controller
         // dd($admin);
         if (!$admin || (!Hash::check($input_password, $admin->password))) {
 
-            return redirect()->back()->with('message', 'Incorrect username or password!');
+            return redirect()->back()->with('message', 'ユーザー名もしくはパスワードが正しくありません。');
         } else {
 
-            session(['user' => $admin, 'user_type' => 'admin', 'message' => 'Login Success']);
-            return redirect()->route('admin.dashboard')->with('message', 'login success!');
+            session(['user' => $admin, 'user_type' => 'admin', 'message' => 'ログインに成功しました。']);
+            return redirect()->route('admin.dashboard')->with('message', 'ログインに成功しました。');
         }
     }
     public function logout(){

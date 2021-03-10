@@ -1,6 +1,6 @@
 <!-- <div class="row pt-5">
   <div class="col-8">
-    <h2 class="mx-auto text-center pt-5">ユーザーページ </h2>
+    <h2 class="mx-auto text-center pt-5">ユーザー管理画面 </h2>
   </div>
   <div class="col-4 pt-5">
     <a class="nav-link user-profile" data-toggle="dropdown" href="#">
@@ -21,7 +21,7 @@
 </div> -->
 <div class="row pb-5 pt-5">
   {{-- trainee --}}
-  <!-- <h2 class="mx-auto pt-5">ユーザーページ </h2>  -->
+  <!-- <h2 class="mx-auto pt-5">ユーザー管理画面</h2>  -->
 </div>
 <!-- <div class="row pb-3">
   <div class="col-sm border-round">

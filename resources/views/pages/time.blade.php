@@ -15,7 +15,7 @@
     	}
     </style>
     <div class="row pb-5">
-      <h2 class="mx-auto">オンラー</h2>
+      <h2 class="mx-auto">オンライントレーニング</h2>
     </div>
     <div class="row pb-3">
       <div class="col-sm border-round">

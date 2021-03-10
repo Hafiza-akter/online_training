@@ -55,7 +55,7 @@
         <div class="modal-content">
           <div class="modal-header" style="background: #a331a3;">
             <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
-            Training Data
+            トレーニングデータ
             </h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -75,7 +75,7 @@
                     <div class="container performance" id="performance">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Main</label>
+                        <label class="col-sm-2 col-form-label">メイン</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
                                 <option value="">--select-- </option>
                                 @if($main)
@@ -86,13 +86,13 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Course</label>
+                        <label class="col-sm-2 col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required">
                                 <option value="">--select--</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Equipment</label>
+                        <label class="col-sm-2 col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
                                 <option value="">--select--</option>
                             </select>
@@ -126,8 +126,8 @@
 
 
             <div class=" row justify-content-center m-1 p-1">
-              <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-              <a  class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">Submit</a>
+              <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
+              <a  class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">送信する</a>
             
             </div>
             </form>
@@ -160,7 +160,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Main</label>
+                        <label class="col-sm-2 col-form-label">メイン</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
                                 @if($main)
                                   @foreach($main as $val)
@@ -170,7 +170,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Course</label>
+                        <label class="col-sm-2 col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required">
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
@@ -178,7 +178,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Equipment</label>
+                        <label class="col-sm-2 col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>
@@ -218,8 +218,8 @@
                         <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
                     <br>
               <div class=" row justify-content-center m-1 p-1">
-                <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-                <a  href="#" class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">Submit</a>
+                <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
+                <a  href="#" class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">送信する</a>
               
               </div>
             </form>
@@ -275,8 +275,8 @@
             </form>
           </div>
          {{--  <div class="modal-footer row justify-content-center">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="nav-link active__" style="color: white;">Submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            <button type="button" class="nav-link active__" style="color: white;">送信する</button>
           </div> --}}
         </div>
       </div>

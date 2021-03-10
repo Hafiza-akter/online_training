@@ -18,7 +18,7 @@
        <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h3>ユーザーの成果</h3>
+                    <h3>達成状況</h3>
                 </div>
             </div>
         </div>
@@ -31,13 +31,13 @@
                        <ul class="list-inline">
                           <li class="list-inline-item {{ $isActive == 'progress' ? 'btn_active_' : 'btn-secondary'}}" style="padding: 10px;color: white;">
                             <a href="{{ route('progress')}}" style="color: #fff">
-                              <i class="fas fa-trophy"></i> ユーザーの成果
+                              <i class="fas fa-trophy"></i> 達成状況
                             </a>
                           </li>
 
                           <li class="list-inline-item {{ $isActive == 'dailydata' ? 'btn_active_' : 'btn-secondary'}}" style="padding:10px;color: white;">
                             <a href="{{ route('dailydata',date('Y-m-d'))}}" style="color: #fff">
-                            <i class="fas fa-plus"></i>  毎日のデータ
+                            <i class="fas fa-plus"></i>  日別データ入力
                             </a>
                            </li>
 
@@ -101,7 +101,7 @@
  --}}
  <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
 
-           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+           <h4 class="" style="text-align: center;">詳細</h4>
 
     <table class="table table-striped" style="background: #f9f9ff;">
     <thead>
@@ -129,7 +129,7 @@
             <td>{{ $val->pal}}</td>
 
             <td>
-              <a class="btn btn-danger" href="{{ route('dailydata',\Carbon\Carbon::parse($val->recorded_at)->format('Y-m-d')) }}">Edit</a>
+              <a class="btn btn-danger" href="{{ route('dailydata',\Carbon\Carbon::parse($val->recorded_at)->format('Y-m-d')) }}">編集</a>
             </td>
           </tr>
         @endforeach
@@ -182,7 +182,7 @@ var config = {
     options: {
       title: {
         display: true,
-        text: 'User Achievement Graph'
+        text: '達成状況確認グラフ'
       },
       tooltips: {
                   enabled: true,

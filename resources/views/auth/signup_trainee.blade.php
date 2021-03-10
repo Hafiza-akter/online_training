@@ -22,7 +22,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h2>ユーザー登録</h2>
+                    <h2>ユーザー新規登録</h2>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
                         <div class="card card-info">
                             <div class="card-header">
                                 {{-- email registration --}}
-                                <h4 class="card-title">メール登録</h4>
+                                <h4 class="card-title">メールアドレスで登録</h4>
                             </div>
 
                              <form class="form-horizontal" action="{{route('traineeSignup.submit')}}" method="post">

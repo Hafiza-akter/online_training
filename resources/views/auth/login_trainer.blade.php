@@ -100,7 +100,7 @@
                      <div class="card-footer">
                         <div class="col text-center">
                             <button type="submit" class="btn btn-lg login_button"> 次へ</button>
-                            <a  class="btn btn-lg login_button" href="{{route('trainerSignup')}}" style="border:none !important;font-size:13px;"> アカウントの作成をお探しですか？</a>
+                            <a  class="btn btn-lg login_button" href="{{route('trainerSignup')}}" style="border:none !important;font-size:13px;"> アカウントの作成はこちら</a>
                          </div>
                     </div>
                     <!-- /.card-footer -->
@@ -125,7 +125,7 @@
     
     <div class="offset-sm-2 col-sm-8 mb-4 row">
 
-        <a class="mx-auto" href="{{ route('forgetPassword','trainer')}}" style="font-size: 14px;color: #007bff;"> パスワードを忘れた場合は、ここをクリックしてください
+        <a class="mx-auto" href="{{ route('forgetPassword','trainer')}}" style="font-size: 14px;color: #007bff;"> パスワードを忘れた方はこちら
         </a>
     </div>
 

@@ -218,7 +218,7 @@ class UserAchievement extends Controller
 
             $dataset[1]=array(
                 'data' => $actualArray,
-                'label'=> "actual",
+                'label'=> "入力データ",
                 'borderColor'=> "red",
                 'fill'=> false
             );
@@ -269,7 +269,7 @@ class UserAchievement extends Controller
 
             $dataset[1]=array(
                 'data' => null,
-                'label'=> "actual",
+                'label'=> "入力データ",
                 'borderColor'=> "red",
                 'fill'=> false
             );
@@ -279,7 +279,7 @@ class UserAchievement extends Controller
             $pals = $initialPal;
             $dataset[2] = $this->calculation(0,$bmrData*$pal,$weight,$pal,$totalDay,$start,$type,$trainingType);
             $dataset[2]['borderColor'] = '#028001';
-            $dataset[2]['label'] = 'Expectation Line';
+            $dataset[2]['label'] = '期待値';
 
             
         }
@@ -472,7 +472,7 @@ class UserAchievement extends Controller
 
         return array(
                     'data' => $dArray,
-                    'label'=> $diff ==0 ? "Purchase Plan( ".$trainingType." )" :'Expectation line',
+                    'label'=> $diff ==0 ? "購入プラン( ".$trainingType." )" :'期待値',
                     'borderColor'=> $diff > 0 ? 'green' : "#6d93ff",
                     'fill'=> false
                 );

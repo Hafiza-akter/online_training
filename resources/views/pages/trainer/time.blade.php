@@ -218,7 +218,7 @@ $(document).ready(function() {
 
             if(hexaColor === '#1b97ef'){ // blue
                 Swal.fire({
-                  title: 'Do you want to save the changes?',
+                  title: '予定を変更しますか？',
                   showDenyButton: true,
                   showCancelButton: true,
                     width: '650px',
@@ -241,7 +241,7 @@ $(document).ready(function() {
             else if(hexaColor === '#f4928e'){ // red
 
                Swal.fire({
-                  title: 'Do you want to save the changes?',
+                  title: '予定を変更しますか？',
                   showDenyButton: true,
                   showCancelButton: true,
                     width: '650px',

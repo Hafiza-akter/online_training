@@ -3,7 +3,7 @@
 @section('title','token reset')
 @section('content')
     <div class="row pb-5 pt-5">
-      <h2 class="mx-auto">オンラー<br>(ニングマ)</h2>
+      <h2 class="mx-auto">オンライントレーニング</h2>
     </div>
     
 

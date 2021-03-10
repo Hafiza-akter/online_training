@@ -5,13 +5,13 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 @if(Session::get('user_type') == 'trainee' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
-                    ユーザーページ                        
+                    ユーザー管理画面
                 </a>
                 @endif
 
                 @if(Session::get('user_type') == 'trainer' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
-                    トレーナーページ
+                    トレーナー管理画面
                 </a>
                 @endif
 

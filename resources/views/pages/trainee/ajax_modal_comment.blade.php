@@ -33,8 +33,8 @@
                 </div>
             </div>
              <div class=" row justify-content-center">
-          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-          <button type="submit" class="nav-link active__ m-1" style="color: white;">Submit</button>
+          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
+          <button type="submit" class="nav-link active__ m-1" style="color: white;">送信</button>
         </div>
           </form>
 
@@ -43,5 +43,5 @@
         @endforeach
         
 @else 
- <h3> No data found </h3>      
+ <h3> データが見つかりません。 </h3>      
 @endif

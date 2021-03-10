@@ -132,7 +132,7 @@ class TraineeController extends Controller
         \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
 
 
-        return redirect()->route('traineeCalendar.view')->with('message','Schedule created succesfully !');
+        return redirect()->route('traineeCalendar.view')->with('message','レッスンの予約が完了しました。');
 
 
 
@@ -151,7 +151,7 @@ class TraineeController extends Controller
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
         if(!$puchasePlan){
-            return redirect()->route('purchaseplan')->with('message','Please purchase your plan first !');
+            return redirect()->route('purchaseplan')->with('message','はじめにレッスンを購入してください。');
         }
         
         $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));

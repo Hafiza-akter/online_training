@@ -116,17 +116,17 @@ z-index: 1;inset: 21px -2% -65px !important;
 
   <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
 
-           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+           <h4 class="" style="text-align: center;">詳細</h4>
 
     <table class="table table-striped" style="background: #f9f9ff;">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Status</th>
-        <th scope="col">Date</th>
-        <th scope="col">Start time</th>
-        <th scope="col">User</th>
-        <th scope="col">Action</th>
+        <th scope="col">ステータス</th>
+        <th scope="col">日付</th>
+        <th scope="col">開始時間</th>
+        <th scope="col">ユーザー</th>
+        <th scope="col">アクション</th>
       </tr>
     </thead>
     <tbody>
@@ -155,7 +155,7 @@ z-index: 1;inset: 21px -2% -65px !important;
               
             </td>
             <td>
-              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> Training Details</a>
+              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> トレーニング詳細</a>
               @if($val->status != 'cancelled')
               {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
               @endif 
@@ -282,7 +282,7 @@ $(".tblue").click(function(){
           $('#gridView').val('dayGridMonth');
            var dayname=moment(moment(info.event.start)).format('dddd');
             Swal.fire({
-              title: 'Do you want to save the changes?',
+              title: '予定を変更しますか？',
               showDenyButton: true,
               showCancelButton: true,
               width: '650px',
@@ -293,24 +293,24 @@ $(".tblue").click(function(){
               //     +'<option value="cancle_shedule"> Cancel Schedule</option>'
               // +'</select></div>'
               // ,
-               html: "<div class='row p-3'>" + " Scheduled date  "
+               html: "<div class='row p-3'>" + " 予約時間は  "
                +moment(info.event.start).format('YYYY-MM-DD')
-               +' at '+moment(info.event.start).format('hh:mm A')+' To '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
-               +' </div>'
+               +' の '+moment(info.event.start).format('hh:mm A')+' から '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
+               +'です。 </div>'
                +'<div class="row p-3 " id="res" style="display:none">'
-               + 'Reschedule at <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> TO <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
-               +'</div>'
+               + '予約の変更は <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> から <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
+               +'です。</div>'
                +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
-              +'<option value="0">--Select Action Type--</option>'
-                  +'<option value="dayreschedule"> Reschedule</option>'
-                  +'<option value="daycancle_schedule"> Cancel Schedule</option>'
+              +'<option value="0">タイプを選択してください。</option>'
+                  +'<option value="dayreschedule"> 予約を変更する</option>'
+                  +'<option value="daycancle_schedule"> 予約をキャンセルする</option>'
               +'</select></div>'
               ,
 
 
-              confirmButtonText: `Reschedule`,
-              denyButtonText: `View Details`,
-              cancelButtonText: `Cancel Schedule`,
+              confirmButtonText: `予約を変更する`,
+              denyButtonText: `詳細を確認する`,
+              cancelButtonText: `予約をキャンセルする`,
               
               didOpen:function(){
                 Swal.disableButtons();

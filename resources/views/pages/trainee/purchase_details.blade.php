@@ -27,7 +27,7 @@
             <!-- Card header --> 
             <div class="card-header success" >
                 <h3 class="mb-0">
-                  <i class="fas fa-check-circle"></i> Your current purchase plan is <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>
+                  <i class="fas fa-check-circle"></i> 現在選択中のプランは <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>です。
                 </h3>
             </div>
           </div>
@@ -154,10 +154,10 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Purchase Plan</th>
-        <th scope="col">Objective</th>
-        <th scope="col">Target Calorie</th>
-        <th scope="col">Created At</th>
+        <th scope="col">購入プラン</th>
+        <th scope="col">目標</th>
+        <th scope="col">目標カロリー</th>
+        <th scope="col">作成日</th>
       </tr>
     </thead>
     <tbody>
@@ -232,9 +232,9 @@
       })
         .then(function (res) {
           console.log(res)
-          alert('Payment successfully done!!');
+          alert('支払いが完了しました。');
           Swal.fire(
-              'Payment successfully done'
+              '支払いが完了しました。'
             );
           location.reload();
 
@@ -286,7 +286,7 @@ var config = {
     options: {
       title: {
         display: true,
-        text: 'weight loss graph'
+        text: '体重減少グラフ'
       },
       tooltips: {
                   enabled: true,
@@ -360,7 +360,7 @@ fetch('{{ route('purchaseajaxcall')}}', {
               
               datasets: repos
             };
-            config.options.title.text= ( params.type == '-1' ? "Weight Gain Graph" : "Weight Loss Graph");
+            config.options.title.text= ( params.type == '-1' ? "体重増加グラフ" : "体重減少グラフ");
                 window.myLine.update();
       })
     .catch(err => console.log(err))

@@ -2,7 +2,7 @@
 @section('title','schedule calender')
 @section('content')
     <div class="row pb-5">
-      <h2 class="mx-auto">オンラー</h2>
+      <h2 class="mx-auto">オンライントレーニング</h2>
     </div>
     <div id='wrap'>
 

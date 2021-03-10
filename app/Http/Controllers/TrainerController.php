@@ -160,7 +160,7 @@ class TrainerController extends Controller
                     
                 }
                 return redirect()->back()
-                    ->with('message','Schedule time set succesfully!! ');
+                    ->with('message','予約が完了しました。 ');
             }else{
                 return redirect()->back()
                     ->with('message','Please select training time first! ');
@@ -207,14 +207,14 @@ class TrainerController extends Controller
                 if(count($arr) == 1){
                     return redirect()->back()
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Schedule time set succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','予約が完了しました。 ')->with('gridView',$request->gridView);
                 }
 
 
             }
 
              return redirect()->back()
-                    ->with('message','Schedule time set succesfully!! ');
+                    ->with('message','予約が完了しました。 ');
                             
         }
         
@@ -259,7 +259,7 @@ class TrainerController extends Controller
             
             return redirect()->back()
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Reschedule time set succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','Re予約が完了しました。 ')->with('gridView',$request->gridView);
         }
 
         if($request->type == 'dayupdate'){
@@ -283,7 +283,7 @@ class TrainerController extends Controller
                         $scheduleU->save();
                     
             return redirect()->back()
-                    ->with('message','Reschedule time set succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','Re予約が完了しました。 ')->with('gridView',$request->gridView);
         }
 
         if($request->type == 'weekcancel'){
@@ -308,7 +308,7 @@ class TrainerController extends Controller
             
             return redirect()->back()                  
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','スケジュールが正常に削除されました。 ')->with('gridView',$request->gridView);
         }
 
         if($request->type == 'daycancel'){
@@ -321,7 +321,7 @@ class TrainerController extends Controller
             
 
             return redirect()->back()
-                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','スケジュールが正常に削除されました。')->with('gridView',$request->gridView);
         }
 
         return redirect()->back();
@@ -474,7 +474,7 @@ class TrainerController extends Controller
             }
 
             return redirect()->back()
-            ->with('success','Profile update succesfully');
+            ->with('success','プロフィールの更新が完了しました。');
         }
         
 

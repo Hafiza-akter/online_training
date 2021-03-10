@@ -106,7 +106,7 @@ z-index: 1;inset: 21px -2% -65px !important;
         <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h3>weekly schedule set</h3>
+                    <h3>週次スケジュール予約</h3>
                 </div>
             </div>
         </div>
@@ -131,17 +131,17 @@ z-index: 1;inset: 21px -2% -65px !important;
 
   <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
 
-           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+           <h4 class="" style="text-align: center;">詳細</h4>
 
     <table class="table table-striped" style="background: #f9f9ff;">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Status</th>
-        <th scope="col">Date</th>
-        <th scope="col">Start time</th>
-        <th scope="col">User</th>
-        <th scope="col">Action</th>
+        <th scope="col">ステータス</th>
+        <th scope="col">日付</th>
+        <th scope="col">開始時刻</th>
+        <th scope="col">ユーザー</th>
+        <th scope="col">アクション</th>
       </tr>
     </thead>
     <tbody>
@@ -163,14 +163,14 @@ z-index: 1;inset: 21px -2% -65px !important;
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
               @if($val->is_occupied )
-                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > User Details</button>
+                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > ユーザー詳細</button>
               @else 
-                <span> Not assigned yet </span>
+                <span> アサインされていません。 </span>
               @endif
               
             </td>
             <td>
-              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> Training Details</a>
+              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> トレーニング詳細</a>
                
             </td>
           </tr>
@@ -658,7 +658,7 @@ $(".tblue").click(function(){
           var msgse='Schedule date '+moment(info.event.start).format('YYYY-MM-DD');
           var dayname=moment(moment(info.event.start)).format('dddd');
           Swal.fire({
-              title: 'Do you want to save the changes?',
+              title: '予定を変更しますか？',
               showDenyButton: true,
               showCancelButton: true,
               width: '650px',

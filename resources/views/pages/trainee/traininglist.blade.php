@@ -38,9 +38,9 @@
                 <table id="example1" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Training Date</th>
-                            <th>Trainer name</th>
-                            <th>Details</th>
+                            <th>トレーニング日</th>
+                            <th>トレーナー名</th>
+                            <th>詳細</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,7 +77,7 @@
         <div class="modal-content">
           <div class="modal-header" style="background: #a331a3;">
             <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
-            Training Details
+            トレーニング詳細
             </h3>
             
           </div>
@@ -107,7 +107,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Main </label>
+                        <label class="col-sm-2 col-form-label">メイン </label>
                             <select class="form-control main" style="width: 100%;" name="main[]" disabled="disabled" readonly>
                                 @if($main)
                                   @foreach($main as $val)
@@ -117,7 +117,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Course</label>
+                        <label class="col-sm-2 col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required" disabled="disabled" readonly>
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
@@ -125,7 +125,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">Equipment</label>
+                        <label class="col-sm-2 col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" disabled="disabled" readonly>
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>

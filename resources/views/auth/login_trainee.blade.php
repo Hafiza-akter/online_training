@@ -101,7 +101,7 @@
 
 <div class="offset-sm-2 col-sm-8 mb-4 row">
 
-    <a class="mx-auto" href="{{ route('forgetPassword','trainee')}}" style="font-size: 14px;color: #007bff;"> パスワードを忘れた場合は、ここをクリックしてください
+    <a class="mx-auto" href="{{ route('forgetPassword','trainee')}}" style="font-size: 14px;color: #007bff;"> パスワードを忘れた方はこちら
     </a>
 </div>
     </section>

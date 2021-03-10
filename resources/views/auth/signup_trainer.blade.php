@@ -56,7 +56,7 @@
                         <div class="card card-info">
                             <div class="card-header card-header gradient">
                                 {{-- email registration --}}
-                                <h4 class="card-title text-center"  style="color: #fff;">メール登録</h4>
+                                <h4 class="card-title text-center"  style="color: #fff;">メールアドレスで登録</h4>
                             </div>
 
                              <form class="form-horizontal" action="{{route('trainerSignup.submit')}}" method="post">

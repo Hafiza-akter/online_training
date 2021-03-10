@@ -28,17 +28,17 @@
 
                             @if(Session::get('user_type') === 'trainer')
                                 <li class="nav-item ">
-                                    <a class="nav-link active__" href="{{ route('calendar.view','month') }}">トレーナーページ <i class="fas fa-forward"></i></a>
+                                    <a class="nav-link active__" href="{{ route('calendar.view','month') }}">トレーナー管理画面<i class="fas fa-forward"></i></a>
                                 </li>
                             @elseif(Session::get('user_type') === 'trainee')
                                 <li class="nav-item ">
-                                    <a class="nav-link active__" href="{{ route('traineeCalendar.view')}}">ユーザーページ <i class="fas fa-forward"></i></a>
+                                    <a class="nav-link active__" href="{{ route('traineeCalendar.view')}}">ユーザー管理画面<i class="fas fa-forward"></i></a>
                                 </li>
                             @else 
                                 <li class="nav-item ">
                                     <a class="nav-link" href="{{ route('traineeSignup')}}" >
                                         <i class="fas fa-user-plus"></i> {{-- Trainee registration --}}
-                                            ユーザー登録
+                                            ユーザー新規登録
                                     </a>
                                     
                                 </li>

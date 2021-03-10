@@ -47,11 +47,11 @@ class LoginController extends Controller
                         ->first();
                         // dd($trainer);
         if(!$trainer || (!Hash::check($input_password,$trainer->password))){
-            return redirect()->back()->with('message','Incorrect username or password!');
+            return redirect()->back()->with('message','ユーザー名もしくはパスワードが正しくありません。');
         }
         else{
-            session(['user' => $trainer,'user_type'=>'trainer','message'=>'Login Success']);
-            return redirect()->route('calendar.view','month')->with('message','login success!');
+            session(['user' => $trainer,'user_type'=>'trainer','message'=>'ログインに成功しました。']);
+            return redirect()->route('calendar.view','month')->with('message','ログインに成功しました。');
 
         }
 
@@ -71,13 +71,13 @@ class LoginController extends Controller
         // dd($trainee);
         if(!$trainee || (!Hash::check($input_password,$trainee->password))){
 
-            return redirect()->back()->with('message','Incorrect username or password!');
+            return redirect()->back()->with('message','ユーザー名もしくはパスワードが正しくありません。');
         
         }
         else{
 
-            session(['user' => $trainee,'user_type'=>'trainee','message'=>'Login Success']);
-            return redirect()->route('traineeCalendar.view')->with('message','login success!');
+            session(['user' => $trainee,'user_type'=>'trainee','message'=>'ログインに成功しました。']);
+            return redirect()->route('traineeCalendar.view')->with('message','ログインに成功しました。');
 
         }
 
@@ -174,7 +174,7 @@ class LoginController extends Controller
         // dd($new_time);
         $trainer->expired_at = $new_time;
         $trainer->save();
-        return redirect()->back()->with('message','Token expired time reset!');
+        return redirect()->back()->with('message','トークンの期限が切れています。');
     }
 
     public function tokenResetTrainee(){
@@ -191,7 +191,7 @@ class LoginController extends Controller
         $new_time =  $date->add(new DateInterval('PT24H00S'));
         $trainee->expired_at = $new_time;
         $trainee->save();
-        return redirect()->back()->with('message','Token expired time reset!');
+        return redirect()->back()->with('message','トークンの期限が切れています。');
     }
 
     public function inquery(){

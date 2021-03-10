@@ -14,7 +14,7 @@
 </section>
  <div class="row pb-5">
  	{{-- trainer page --}}
-  <h2 class="mx-auto">トレーナーページ </h2> 
+  <h2 class="mx-auto">トレーナー管理画面 </h2> 
 </div>
 <div class="row pb-3">
   <div class="col-sm border-round">

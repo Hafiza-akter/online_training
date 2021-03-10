@@ -73,10 +73,10 @@
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
       <li class="nav-item ">
-        <a class="nav-link active" id="updateprofile-tab" data-toggle="pill" href="#updateprofile" role="tab" aria-controls="updateprofile" aria-selected="true">Update Profile</a>
+        <a class="nav-link active" id="updateprofile-tab" data-toggle="pill" href="#updateprofile" role="tab" aria-controls="updateprofile" aria-selected="true">プロフィール更新</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="changepassword-tab" data-toggle="pill" href="#changepassword" role="tab" aria-controls="changepassword" aria-selected="false">Change Password</a>
+        <a class="nav-link" id="changepassword-tab" data-toggle="pill" href="#changepassword" role="tab" aria-controls="changepassword" aria-selected="false">パスワード変更</a>
       </li>
     </ul>
     <div class="tab-content" id="pills-tabContent">
@@ -315,7 +315,7 @@
         </div>
         <div class="card-footer">
             <div class="row pt-3 pb-3">
-                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg gradient ">次へ</button>
+                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg gradient ">更新</button>
             </div>
         </div>
       

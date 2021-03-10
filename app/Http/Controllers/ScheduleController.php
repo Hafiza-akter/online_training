@@ -266,10 +266,10 @@ class ScheduleController extends Controller
                     
                 }
                 return redirect()->back()
-                    ->with('message','Schedule time set succesfully!! ');
+                    ->with('message','予約が完了しました。 ');
             }else{
                 return redirect()->back()
-                    ->with('message','Please  select training time first! ');
+                    ->with('message','トレーニング時間を先に選択してください。 ');
             }
             
         }
@@ -302,7 +302,7 @@ class ScheduleController extends Controller
                     
                 }
                 return redirect()->back()
-                    ->with('message','Schedule time set succesfully!! ');
+                    ->with('message','予約が完了しました。 ');
             }else{
                 return redirect()->back()
                     ->with('message','Please select training time first! ');
@@ -349,14 +349,14 @@ class ScheduleController extends Controller
                 if(count($arr) == 1){
                     return redirect()->back()
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Schedule time set succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','予約が完了しました。 ')->with('gridView',$request->gridView);
                 }
 
 
             }
 
              return redirect()->back()
-                    ->with('message','Schedule time set succesfully!! ');
+                    ->with('message','予約が完了しました。 ');
                             
         }
         
@@ -434,7 +434,7 @@ class ScheduleController extends Controller
             
             return redirect()->back()                  
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','スケジュールが正常にキャンセルされました。 ')->with('gridView',$request->gridView);
         }
 
         if($request->type == 'daycancel'){
@@ -463,7 +463,7 @@ class ScheduleController extends Controller
             
 
             return redirect()->back()
-                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','スケジュールが正常にキャンセルされました。 ')->with('gridView',$request->gridView);
         }
 
         if($request->type == 'recurring_delete'){
@@ -475,7 +475,7 @@ class ScheduleController extends Controller
             
 
             return redirect()->back()
-                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','スケジュールが正常にキャンセルされました。 ')->with('gridView',$request->gridView);
         }
         if($request->type == 'recurring_delete_exclude'){
             $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
@@ -492,7 +492,7 @@ class ScheduleController extends Controller
             
 
             return redirect()->back()
-                    ->with('message','Schedule cancelled  succesfully!! ')->with('gridView',$request->gridView);
+                    ->with('message','スケジュールが正常にキャンセルされました。 ')->with('gridView',$request->gridView);
         }
         
 
@@ -531,10 +531,10 @@ class ScheduleController extends Controller
                 }
             }
             return redirect()->back()
-                ->with('message','Schedule Deleted succesfully!! ');
+                ->with('message','スケジュールが正常に削除されました。 ');
         }else{
             return redirect()->back()
-                ->with('message','Please select training time first! ');
+                ->with('message','最初にトレーニング時間を選んでください。 ');
         }
     }
 
@@ -577,7 +577,7 @@ class ScheduleController extends Controller
     
     public function trainerScheduleDelete($id){
         TrainerSchedule::Where('id',$id)->delete();
-        return redirect()->back()->with('message','Schedule delete successful');
+        return redirect()->back()->with('message','スケジュールが正常に削除されました。');
 
 
     }

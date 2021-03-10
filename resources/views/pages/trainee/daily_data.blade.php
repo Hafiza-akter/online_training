@@ -18,7 +18,7 @@
        <div class="row justify-content-center">
             <div class="col-md-8 col-xl-6">
                 <div class="section_tittle">
-                    <h3>ユーザーの成果</h3>
+                    <h3>達成状況</h3>
                 </div>
             </div>
         </div>
@@ -31,13 +31,13 @@
                        <ul class="list-inline">
                           <li class="list-inline-item {{ $isActive == 'progress' ? 'btn_active_' : 'btn-secondary'}}" style="padding: 10px;color: white;">
                             <a href="{{ route('progress')}}" style="color: #fff">
-                              <i class="fas fa-trophy"></i> ユーザーの成果
+                              <i class="fas fa-trophy"></i> 達成状況
                             </a>
                           </li>
 
                           <li class="list-inline-item {{ $isActive == 'dailydata' ? 'btn_active_' : 'btn-secondary'}}" style="padding:10px;color: white;">
                             <a href="{{ route('dailydata',date('Y-m-d'))}}" style="color: #fff">
-                            <i class="fas fa-plus"></i>  毎日のデータ
+                            <i class="fas fa-plus"></i>  日別データ入力
                             </a>
                            </li>
 
@@ -176,18 +176,18 @@
 
   <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
 
-           <h4 class="" style="text-align: center;">サービスの特徴</h4>
+           <h4 class="" style="text-align: center;">詳細</h4>
 
     <table class="table table-striped" style="background: #f9f9ff;">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Date</th>
-        <th scope="col">Weight Morning</th>
-        <th scope="col">Weight Evening</th>
-        <th scope="col">Calory Gained</th>
-        <th scope="col">PAL</th>
-        <th scope="col">Action</th>
+        <th scope="col">日付</th>
+        <th scope="col">体重(午前)</th>
+        <th scope="col">体重(午後)</th>
+        <th scope="col">摂取カロリー</th>
+        <th scope="col">身体活動レベル</th>
+        <th scope="col">アクション</th>
       </tr>
     </thead>
     <tbody>
