@@ -23,7 +23,7 @@
                 <div class=" col-sm-8 mb-4">
                 <div class="alert alert-success">
                 {{-- thank you for the confirmation --}}
-                  <h5 style="text-align:center">確認ありがとう</h5>
+                  <h5 style="text-align:center">ご登録いただき、ありがとうございます。</h5>
                 </div> 
             </div>
                 <div class="col-md-8 col-xl-6">
@@ -70,7 +70,7 @@
     <div class="card card-info">
        <div class="card-header">
             {{-- Add more information --}}
-            <h4 class="card-title">さらに情報を追加する</h4>
+            <h4 class="card-title">情報を登録する</h4>
         </div>
 
     @if ($errors->any())

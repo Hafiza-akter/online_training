@@ -51,11 +51,11 @@
                                 @foreach($purchase as $val)
                                   @if($val->times_per_week == 1)
                                        <h2 id="{{$val->id}}" style="text-align:center" >
-                                        {{ $val->cost_per_month}} yen <small class="text-muted">/ mo</small>
+                                        {{ $val->cost_per_month}} 円 <small class="text-muted">/ 月</small>
                                        </h2>
                                   @else 
                                         <h2 id="{{$val->id}}" style="display: none;text-align:center">
-                                        {{ $val->cost_per_month}} yen <small class="text-muted">/ mo</small>
+                                        {{ $val->cost_per_month}} 円 <small class="text-muted">/ 月</small>
                                        </h2>      
                                   @endif
 
@@ -70,7 +70,7 @@
                     @if($purchase)
                     @foreach($purchase as $val)
                       <div id="{{$val->id}}" style="display: none;">
-                       <h3 class="text-left">{{ $val->cost_per_month}} yen <small class="text-muted">/ mo</small></h3> 
+                       <h3 class="text-left">{{ $val->cost_per_month}} 円 <small class="text-muted">/ 月</small></h3> 
                       </div>
                     @endforeach
                     @endif
@@ -99,8 +99,8 @@
                           <td>
                            <div class="form-group">
                                 <select class="form-control" style="padding:5px;" id="weight_loss_gain" >
-                                  <option value="weight_loss">Weight Loss</option>
-                                  <option value="weight_gain">Weight Gain</option>
+                                  <option value="weight_loss">体重減少</option>
+                                  <option value="weight_gain">体重増加</option>
                                 </select>
                             </div>
                           </td>
@@ -109,7 +109,7 @@
                          <tr>
                           <td>
                             <div class="form-group">
-                                <label>Target Calory Gain ( <span style="font-size: 12px;"> Default value is {{ $bmrData*$user->pal }} </span>) </label>
+                                <label>目標摂取カロリー ( <span style="font-size: 12px;"> 基準値は {{ $bmrData*$user->pal }} です。</span>) </label>
                                 <input  type="text" onblur="checkInput()"  onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return false"  class="form-control" name="target_calory_gained" id="target_calory_gained" value="{{ $bmrData*$user->pal }}" placeholder="Enter target calory gain" />
                             </div>
                               <div class="fa-2x" style="display: none;" id="loader">

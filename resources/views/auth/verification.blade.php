@@ -29,19 +29,19 @@
     {{-- thank you for the registraion. --}}
         <h4>登録ありがとうございます。</h4>
         {{--   <p>A verification link has been sent to your email address, please confirm the verification.</p>   --}}
-         <p>確認リンクがあなたのメールアドレスに送信されました。確認を確認してください。</p>
+         <p>確認リンクをメールアドレスに送信されました。</p>
     </div>     
     @else 
     <div class="alert alert-success">
         {{-- thank you for the confirmation --}}
-        <h4 style="text-align:center">確認ありがとう</h4>
+        <h4 style="text-align:center">ご登録いただき、ありがとうございます。</h4>
      
 
         @if($type === 'trainer')
-        <p style="text-align:center;color:green"> <a href="{{ route('trainerLogin') }}">Login now </a> </p>
+        <p style="text-align:center;color:green"> <a href="{{ route('trainerLogin') }}">ログイン</a> </p>
         @endif
         @if($type === 'trainee')
-        <p style="text-align:center;color:green"> <a href="{{ route('traineeLogin') }}">Login now </a> </p>
+        <p style="text-align:center;color:green"> <a href="{{ route('traineeLogin') }}">ログイン</a> </p>
         @endif
      </div>   
     @endif

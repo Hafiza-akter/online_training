@@ -17,8 +17,6 @@
 }
 </style>
 
-
-
 <style>
      .login_button{
         border-radius: 1px !important;
@@ -38,7 +36,7 @@
            <div class=" col-sm-8 mb-4">
                   <div class="alert alert-success">
                   {{-- thank you for the confirmation --}}
-                    <h5 style="text-align:center">確認ありがとう</h5>
+                    <h5 style="text-align:center">ご登録頂きありがとうございます。</h5>
                   </div> 
               </div>
           <div class="col-md-8 col-xl-6">
@@ -54,7 +52,7 @@
           <div class="card card-info">
             <div class="card-header">
                   {{-- Add more information --}}
-                  <h4 class="card-title">さらに情報を追加する</h4>
+                  <h4 class="card-title">情報を登録する</h4>
               </div>
 
               @if ($errors->any())
@@ -84,7 +82,7 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _first_phonetic_">最初の音声</label>
+                        <label class="col-form-label _first_phonetic_">フリガナ</label>
                       </div>
                       <div class="col-8">
                         <input type="text" name="first_phonetic" class="form-control" value="{{ old('first_phonetic') }}">
@@ -118,7 +116,6 @@
                         </div>
                     </div>
 
-
                     <div class="row mb-3">
                       <div class="col-4">
                         <label class="col-form-label">パスワード <span style="color:red">*</span></label>
@@ -130,7 +127,7 @@
 
                     <div class="row mb-3">
                         <div class="col-4">
-                          <label class="col-form-label _confirm_password_">パスワードを認証する <span style="color:red">*</span></label>
+                          <label class="col-form-label _confirm_password_">パスワード(確認)<span style="color:red">*</span></label>
                         </div>
                         <div class="col-8">
                           <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation')}}" required="required">
@@ -163,7 +160,6 @@
                         <input type="text" name="zip_code" class="form-control" value="{{ old('zip_code')}}">
                       </div>
                     </div>
-
 
                     <div class="row mb-3">
                       <div class="col-4">
@@ -198,23 +194,20 @@
                     </div>
 
                       <div class="row pt-3 pb-3">
-                        <h2 class="mx-auto _prefecture_">県下</h2>
+                        <h2 class="mx-auto _prefecture_">都道府県</h2>
                       </div>
                       <div class="row pt-3 pb-3">
                         <textarea name="prefecture" class="form-control"  rows="3"></textarea>
                       </div>
 
-
-                      
-
                       <div class="row pt-3 pb-3">
-                        <h4 class="mx-auto _introduction_">自分自身について</h4>
+                        <h4 class="mx-auto _introduction_">自己紹介</h4>
                       </div>
                       <div class="row pt-3 pb-3">
                         <textarea name="intro" class="form-control" rows="5">{{ old('intro')}}</textarea>
                       </div>
                       <div class="row pt-3 pb-3">
-                        <h4 class="mx-auto certification">証明書</h4>
+                        <h4 class="mx-auto certification">資格など</h4>
                       </div>
                       <div class="row pt-3 pb-3">
                         <textarea name="certification" class="form-control" rows="5">{{ old('intro')}}</textarea>
@@ -226,8 +219,6 @@
                       <div class="row pt-3 pb-3">
                         <textarea name="photo_path" class="form-control"  rows="5"></textarea>
                       </div>
-
-
 
                       <div class="row pt-3 pb-3">
                           <h4 class="mx-auto">トレーニング機器</h4>

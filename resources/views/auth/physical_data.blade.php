@@ -23,7 +23,7 @@
                
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                       <h2>物理情報登録</h2>
+                       <h2>個人データ登録</h2>
                     </div>
                 </div>
             </div>
@@ -207,7 +207,7 @@
         </div>
         <div class="card-footer">
             <div class="row pt-3 pb-3">
-                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg gradient ">決定</button>
+                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg gradient ">送信</button>
             </div>
         </div>
       
