@@ -62,7 +62,8 @@ class ScheduleController extends Controller
                         $parsedArray[$count]['extendedProps']=array(
                             'type' => 'recurring',
                             'startTime' => Carbon::parse($value->time)->format('H:i:s'),
-                            'exdate' => $value->exclude
+                            'exdate' => $value->exclude,
+                            'dow' => $value->dow
 
                         );
                         if($request->type == 'week' || $request->type == 'week_all'){
@@ -108,7 +109,9 @@ class ScheduleController extends Controller
                     $parsedArray[$count]['start'] = Carbon::parse($value->date)->format('Y-m-d')."T".$t;
                     $parsedArray[$count]['end'] = Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
 		    		$parsedArray[$count]['extendedProps']=array(
-                        'type' => 'normal'
+                        'type' => 'normal',
+                        'startTime' =>  $t,
+                        'date' =>  Carbon::parse($value->date)->format('Y-m-d')
                     );
                     $parsedArray[$count]['type'] = 'normal';
 
@@ -142,6 +145,7 @@ class ScheduleController extends Controller
         ->get();
     	return view($view)
         ->with('isActive',$isActive)
+        ->with('nschedule',json_encode($schedule,true))
         ->with('schedule',json_encode($parsedArray,true))
         ->with('listSchedule',$listSchedule)->with('gridView','dayGridMonth');
     }

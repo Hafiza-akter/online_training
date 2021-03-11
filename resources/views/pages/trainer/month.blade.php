@@ -111,6 +111,7 @@ z-index: 1;inset: 21px -2% -65px !important;
       <button type="submit" class="fc-myCustomButton-button fc-button fc-button-primary mt-2" type="button" style="float: right;font-size: 20px" onclick="document.getElementById('scheduleForm').submit();">登録</button>
 
           <input type="hidden" id="schedule" value="{{ $schedule}}">
+          <input type="hidden" id="nschedule" value="{{ $nschedule}}">
 
   </div>
 
@@ -206,6 +207,8 @@ $(".tblue").click(function(){
 });
     var calendarEl = document.getElementById('calendar');
     var dateData = JSON.parse($(schedule).val());
+    var nschedule = JSON.parse($('#nschedule').val());
+
     let a = [];
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
