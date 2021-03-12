@@ -124,4 +124,6 @@ class CourseController extends Controller
         $course->save();
         return redirect()->route('course.list')->with('message', 'Edited successfully!');
     }
+
+   
 }

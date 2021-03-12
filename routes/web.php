@@ -200,6 +200,8 @@ Route::prefix('admin')->group(function () {
 		Route::post('/admin/course/add', 'Admin\CourseController@courseAddSubmit')->name('course.add.submit');
 		Route::get('/admin/course/edit/{id}', 'Admin\CourseController@courseEdit')->name('course.edit');
 		Route::post('/admin/course/edit', 'Admin\CourseController@courseEditSubmit')->name('course.edit.submit');
+		
+
 
 		// Admin trainer manage
 		Route::get('/trainer/list', 'Admin\TrainerController@trainerList')->name('trainer.list');
@@ -211,6 +213,8 @@ Route::prefix('admin')->group(function () {
 		Route::get('/user/list', 'Admin\UserController@userList')->name('user.list');
 		Route::get('/user/edit/{id}', 'Admin\UserController@userEdit')->name('user.edit');
 		Route::post('/user/edit', 'Admin\UserController@userEditSubmit')->name('user.edit.submit');
+		Route::get('/user/training/history/{id}', 'Admin\UserController@trainingHistory')->name('user.training.history');
+		Route::get('/user/training/history/{id}/download', 'Admin\UserController@csvDownload')->name('user.training.history.download');
 
 		// User plan purchase
 		Route::get('/user/purchase/plan/list', 'Admin\PurchasePlanController@planList')->name('purchase.plan.list');
