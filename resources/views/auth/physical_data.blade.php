@@ -101,7 +101,6 @@
                         <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}}> 男性</option> 
                         <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
 
-
                     </select>
                 </div>
             </div>
@@ -112,7 +111,7 @@
                   <label class="col-form-label height">身長(cm) <span style="color:red">*</span></label>
                 </div>
                   <div class="col-8">
-                  <input  type="number"  min="0" step="0.01"  oninput="this.value = Math.abs(this.value)" required="required" name="height" class="form-control" value="{{ $user->length}}">
+                  <input  type="number"  min="0" step="0.01"  oninput="this.value = Math.abs(this.value)" required="required" name="height" class="form-control" value="{{ $user->length > 0 ? $user->length : ''}}">
                 </div>
             </div>
 
@@ -141,7 +140,7 @@
                   <label class="col-form-label _current_weight_">体重(kg) <span style="color:red">*</span></label>
                 </div>
                 <div class="col-8">
-                  <input type="number"  step="0.01" name="weight"  required="required" class="form-control" value="{{ $user->weight}}">
+                  <input type="number"  step="0.01" name="weight"  required="required" class="form-control" value="{{ $user->weight}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                 </div>
             </div>
 

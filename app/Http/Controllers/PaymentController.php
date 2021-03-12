@@ -166,6 +166,8 @@ public function confirmPayment(Request $request)
         $planPurchaseUser->purchase_plan_id =$request->purchase_plan_id;
         $planPurchaseUser->target_calory_gained =$request->target_calory_gained;
         $planPurchaseUser->objective =$request->objective;
+        $planPurchaseUser->period_month = (int) $request->period_month;
+
         
         $planPurchaseUser->status =1;
         $planPurchaseUser->save();

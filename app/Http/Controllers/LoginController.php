@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Model\Trainer;
 use App\Model\Trainee;
 use App\Model\Equipment;
+use Illuminate\Support\Facades\Crypt;
 
 use DateTime;
 use DateInterval;
@@ -215,12 +216,20 @@ class LoginController extends Controller
         $user = $this->createUser($getInfo,$provider);
         
         if(Session::get('tp') == 'trainee'){
-
-            return view('auth.update_trainee')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type',Session::get('tp'));
-
+            $parameter =[
+                'type'=>'trainee',
+                'id'=>$user->id
+            ];
+            $parameter= Crypt::encrypt($parameter);
+            return redirect()->route('googleuser',$parameter);
         }
         if(Session::get('tp') == 'trainer'){
-            return view('auth.update_trainer')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type',Session::get('tp'));
+            $parameter =[
+                'type'=>'trainer',
+                'id'=>$user->id
+            ];
+            $parameter= Crypt::encrypt($parameter);
+            return redirect()->route('googleuser',$parameter);
         }
 
     }

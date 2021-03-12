@@ -278,6 +278,7 @@ class TrainingController extends Controller
         // dd($exerciseData->getExerciseData);
     	return view('pages.trainer.traininglist')
     	->with('course',$course)
+        ->with('isActive','traininglist')
     	->with('list',$list)
         ->with('date',$date)
     	->with('main',$main);
@@ -292,6 +293,7 @@ class TrainingController extends Controller
         // dd($exerciseData->getExerciseData);
         return view('pages.trainee.traininglist')
         ->with('course',$course)
+        ->with('isActive','traininglist')
         ->with('list',$list)
         ->with('main',$main);
     }

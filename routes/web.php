@@ -67,7 +67,7 @@ Route::group(['middleware' => 'checkLogout'], function () {
 	Route::get('/signup/trainee', 'SignupController@signupTrainee')->name('traineeSignup');
 	Route::post('/signup/trainee', 'SignupController@signupTraineeSubmit')->name('traineeSignup.submit');
 	Route::post('/trainee/info', 'SignupController@signupTraineeUpdate')->name('traineeSignupUpdate.submit');
-
+	Route::get('user/{param}', 'SignupController@googleuser')->name('googleuser');
 
 	Route::get('/signup/trainer', 'SignupController@signupTrainer')->name('trainerSignup');
 	Route::post('/signup/trainer', 'SignupController@signupTrainerSubmit')->name('trainerSignup.submit');
@@ -147,6 +147,7 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainee/purchaseplan", "TraineeController@purchaseplan")->name(('purchaseplan'));
 	Route::get("/trainee/purchaseplan/{id}", "TraineeController@purchasedetails")->name(('purchasedetails'));
 	Route::post("/trainee/purchaseplan/purchaseajaxcall", "TraineeController@purchaseajaxcall")->name(('purchaseajaxcall'));
+	Route::get("/trainee/quickview", "TraineeController@quickview")->name('quickview');
 
 	Route::get("/trainee/progress", "UserAchievement@progress")->name(('progress'));
 	Route::get("/trainee/progress/dailydata/{date}", "UserAchievement@dailydata")->name(('dailydata'));

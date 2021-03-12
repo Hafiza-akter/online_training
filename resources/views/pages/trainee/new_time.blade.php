@@ -120,8 +120,13 @@ z-index: 1;inset: 21px -2% -65px !important;
             <input type="hidden" name="selected_date" id="selected_date" value="{{$selected_date}}">
             <input type="hidden" name="event_type" id="event_type" value="{{$event_type}}">
             <input type="hidden" name="trainer_id" id="trainer_id" value="{{$trainer_id}}">
-            <input type="hidden" name="start_time" id="start_time" value="">
+            <input type="hidden" name="start_time" id="selected_time" value="">
             <input type="hidden" name="schedule_id" id="schedule_id" value="">
+            <input type="hidden" name="type"  id="action_type">
+            <input type="hidden" name="db_start_time"  id="db_start_time">
+            <input type="hidden" name="db_schedule_id"  id="db_schedule_id">
+            <input type="hidden" name="db_date"  id="db_date">
+
         </form>
       </div>
 
@@ -161,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         contentHeight:"auto",
         initialView: 'timeGridDay',
+        nowIndicator: true,
         // scrollTime:'01:00:00',
         slotDuration:'01:00:00',
     // firstDay: (new Date().getDay()), // returns the day number of the week, works! 
@@ -282,17 +288,101 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       eventClick:function(info){
         console.log(info.event.extendedProps);
-        if(info.event.extendedProps.is_occupied == 1){
-            return false;
-        }
+
         let startTime = info.event.extendedProps.startTime;
         let endTime = info.event.extendedProps.endTime;
         
         $("#schedule_id").val(info.event.id);
         let msgse="You want to reserve  "+$("#selected_date").val();
         console.log(info);
+        if(info.event.extendedProps.is_occupied == 1){
+            var dayname=moment(moment(info.event.start)).format('dddd');
+            Swal.fire({
+              title: '予定を変更しますか？',
+              showDenyButton: true,
+              showCancelButton: true,
+              width: '650px',
+              // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
+              // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'
+              // +'<div class="row p-3 "><select class="form-control"  id="select_option">'
+              //     +'<option value="reschedule"> Reschedule</option>'
+              //     +'<option value="cancle_shedule"> Cancel Schedule</option>'
+              // +'</select></div>'
+              // ,
+               html: "<div class='row p-3'>" + " 予約時間は  "
+               +moment(info.event.start).format('YYYY-MM-DD')
+               +' の '+moment(info.event.start).format('hh:mm A')+' から '+moment(info.event.start).add(60, 'minutes').format('hh:mm A')
+               +'です。 </div>'
+               +'<div class="row p-3 " id="res" style="display:none">'
+               + '予約の変更は <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> から <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
+               +'です。</div>'
+               +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
+              +'<option value="0">タイプを選択してください。</option>'
+                  +'<option value="dayreschedule"> 予約を変更する</option>'
+                  +'<option value="daycancle_schedule"> 予約をキャンセルする</option>'
+              +'</select></div>'
+              ,
+
+
+              confirmButtonText: `予約を変更する`,
+              denyButtonText: `詳細を確認する`,
+              cancelButtonText: `予約をキャンセルする`,
+              
+              didOpen:function(){
+                Swal.disableButtons();
+                
+
+                  $(".dtp").datetimepicker({
+                    formatViewType: 'time',
+                    fontAwesome: true,
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    minView: 0,
+                    minuteStep: 60,
+                    format: 'HH:ii P',
+                    showMeridian: true,
+
+                });
+              
+                
+                $(".dtp").val(moment(info.event.start).format('hh:mm A'));
+                $(".dtp2").val(moment(info.event.start).add(60, 'minutes').format('hh:mm A'));
+                
+                $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
+                $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
+                $("#action_type").val(''); // form value
+                $("#event_type").val(info.event.extendedProps.type); // form value
+                $("#db_schedule_id").val(info.event.id); // form value
+                $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
+                $("#trainer_id").val(info.event.extendedProps.trainer_id); // form value
+                $(".dtp").on("change.dp",function (e) {
+                    let newtime = moment(this.value, 'hh:mm').add(60, 'minutes').format('hh:mm A');
+                    $(".dtp2").val(newtime);
+                    $("#selected_time").val(this.value);
+
+                });
+            }
+
+            }).then((result) => {
+              console.log(result);
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                $('#dateform').submit();
+              } else if (result.isDenied) {
+                console.log('details view');
+              }else{
+                if(result.dismiss === 'cancel'){
+                  $('#dateform').submit();
+                }
+                console.log('he he he backdrop');
+              }
+          })
+        }else{
+          
+        
          Swal.fire({
-                title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
+              title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
               showDenyButton: false,
               showCancelButton: false,
               width: '650px',
@@ -364,6 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('he he he backdrop');
               }
           })    
+        }
       },
 
       events: dateData
@@ -373,7 +464,53 @@ document.addEventListener('DOMContentLoaded', function() {
       calendar.render();
       calendar.setOption('locale', 'ja');
 });
+    $(document).on('change','#select_option', function(e) {
 
+      if($(this).val() == 'reschedule'){
+        console.log();
+        Swal.disableButtons();
+        Swal.getConfirmButton().removeAttribute('disabled');
+         $('.dtp').removeAttr('Disabled');
+         $('#res').show();
+        $("#action_type").val('weekupdate'); // form value
+
+      }
+       if($(this).val() == 'cancle_schedule'){
+        Swal.disableButtons();
+        Swal.getCancelButton().removeAttribute('disabled');
+        $('.dtp').attr('disabled', 'disabled' );
+         $('#res').hide();
+        $("#action_type").val('weekcancel'); // form value
+      }
+       if($(this).val() == '0'){
+        Swal.disableButtons();
+        $('.dtp').attr('disabled', 'disabled' );
+
+      }
+
+      if($(this).val() == 'dayreschedule'){
+        Swal.disableButtons();
+        Swal.getConfirmButton().removeAttribute('disabled');
+         $('.dtp').removeAttr('Disabled');
+         $('#res').show();
+        $("#action_type").val('reschedule'); // form value
+
+      }
+       if($(this).val() == 'daycancle_schedule'){
+        Swal.disableButtons();
+        Swal.getCancelButton().removeAttribute('disabled');
+        $('.dtp').attr('disabled', 'disabled' );
+         $('#res').hide();
+        $("#action_type").val('cancel'); // form value
+      }
+       if($(this).val() == '0'){
+        Swal.disableButtons();
+        $('.dtp').attr('disabled', 'disabled' );
+
+      }
+
+
+    });
     
 </script>  
 @endsection 

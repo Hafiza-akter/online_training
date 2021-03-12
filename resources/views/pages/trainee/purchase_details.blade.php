@@ -94,7 +94,18 @@
 
                          
                         </tr>
-
+                         <tr>
+                          <td>
+                           <div class="form-group">
+                                <select class="form-control" name="period_month" style="padding:5px;" id="period_month" >
+                                  <option value="1">一か月</option>
+                                  <option value="2">二か月</option>
+                                  <option value="3">3ヶ月</option>
+                                </select>
+                            </div>
+                          </td>
+                       
+                        </tr>
                         <tr>
                           <td>
                            <div class="form-group">
@@ -182,10 +193,10 @@
 
   <input type="hidden" id="dataset" value="{{ $dataset}}">
   <input type="hidden" id="weight" value="{{ $user->weight}}">
-  <input type="hidden" id="pal" value="1.75">
+  <input type="hidden" id="pal" value="{{ $user->pal}}">
   <input type="hidden" id="totalday" value="90">
   <input type="hidden" id="startday" value="1">
-  <input type="hidden" id="bmrData" value="{{ $bmrData }}">
+  <input type="hidden" id="bmrData" value="{{ $bmrData*$user->pal }}">
 
 </section>
 
@@ -227,6 +238,7 @@
         payer_id: data.payerID,
         user_id: {{ Session::get('user.id')}},
         purchase_plan_id: $('#planToshow option:selected').attr('value'),
+        period_month:$('#period_month option:selected').attr('value'),
         target_calory_gained: $('#target_calory_gained').val(),
         objective:$('#weight_loss_gain option:selected').attr('value')
       })

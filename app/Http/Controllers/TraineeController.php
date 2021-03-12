@@ -94,12 +94,59 @@ class TraineeController extends Controller
                     return redirect()->route('purchaseplan')->with('message','Physical information added successfully');
 
     }
+    public function checkReservation($schedule_date,$user_id){
+
+        $date = Carbon::parse($schedule_date);
+
+        $start = $date->startOfWeek()->toDateString();
+        $end = $date->endOfWeek()->toDateString();
+        $count = TrainerSchedule::where('user_id',$user_id)->whereBetween('date', [$start, $end])->get()->count();
+        
+        $purchasePlan = UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get()->first();
+        $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
+        // 
+        if($count >= $dayPerWeek){
+            return "count_exceed";
+
+        }
+
+        // dd($dayPerWeek);
+
+        $planStartDate= Carbon::parse($purchasePlan->created_at)->format('Y-m-d');
+        $convertTodate = Carbon::parse($planStartDate);
+        $daysToAdd = 30*$purchasePlan->period_month;
+        $planEndDate = $convertTodate->addDays($daysToAdd);
+
+        $startDate = Carbon::parse($planStartDate);
+        $endDate = Carbon::parse($planEndDate);
+
+        $check = Carbon::parse($schedule_date)->between($startDate,$endDate);
+        if(!$check){
+            return "past_future";
+        }
+       return "not_error";
+        // dump("plan end ".Session::get('user.expired_at'));
+        // dump(" day per week " . $dayPerWeek);
+
+        // dump("Count ".$count);
+        
+        // dd();
+    }
     public function trainerSubmitBytime(Request $request){
         
         $tinfo = Trainer::find($request->trainer_id);
 
         // dd($tinfo);
-
+        $rval = $this->checkReservation($request->date,Session::get('user.id'));
+        // dd($rval);
+        if($rval == 'count_exceed'){
+            return redirect()->route('traineeCalendar.view')
+            ->with('errors_m','Plan limit exceeds');
+        }
+        if($rval == 'past_future'){
+                return redirect()->route('traineeCalendar.view')
+                    ->with('errors_m','Selection date is not between plan start and end date');
+        }
         $details=array();
         $details['user_name'] = Session::get('user.name');
         $details['user_email'] = Session::get('user.email');
@@ -128,14 +175,17 @@ class TraineeController extends Controller
         }
 
         // dd($details);
-        \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
-        \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
+        // \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
+        // \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
 
 
         return redirect()->route('traineeCalendar.view')->with('message','レッスンの予約が完了しました。');
 
 
 
+    }
+    public function quickview(){
+        return view('pages.trainee.dummyview');
     }
     public function scheduleCalendar(Request $request){ // calendar view
         // return view('auth.branch');
@@ -144,7 +194,7 @@ class TraineeController extends Controller
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
-        if($user->dob == null){
+        if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
             return view('auth.branch');
         }
         //
@@ -243,7 +293,7 @@ class TraineeController extends Controller
 
         }else{
 
-              $schedule =TrainerSchedule::where('user_id',Session::get('user')->id)->get();
+              $schedule =TrainerSchedule::where('user_id',Session::get('user')->id)->where('status',NULL)->get();
                 if($schedule){
                     foreach ($schedule as $key => $value) {
                     $parsedArray[$count]['start'] = $value->date;
@@ -292,8 +342,30 @@ class TraineeController extends Controller
 
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         
-        // dd($request->all());
-        // time 
+        // date selection conditions //
+        // date selection conditions //
+        // date selection conditions //
+        $isToday=Carbon::parse($request->selected_date)->isToday();
+        $isPast=Carbon::parse($request->selected_date)->isPast();
+       
+        if(!$isToday && $isPast){
+            return redirect()->route('traineeCalendar.view')
+            ->with('errors_m','You can not select the past date');
+        }
+
+        $rval = $this->checkReservation($request->selected_date,Session::get('user.id'));
+        if($rval == 'count_exceed'){
+            return redirect()->route('traineeCalendar.view')
+            ->with('errors_m','Plan limit exceeds');
+        }
+        if($rval == 'past_future'){
+                return redirect()->route('traineeCalendar.view')
+                    ->with('errors_m','Selection date is not between plan start and end date');
+        }
+
+        // end date selection conditions //
+        // end date selection conditions //
+
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
         if(!$puchasePlan){
@@ -313,7 +385,8 @@ class TraineeController extends Controller
         $parsedArray=array();
         $count = 0;
 
-        if($request->event_type== null){
+        if($request->event_type== null){ // when date is clicked first rather then select the trainer
+            
             $schedule =TrainerSchedule::where('date',$request->selected_date)
                     ->where('status',NULL)
                     ->get();
@@ -368,33 +441,36 @@ class TraineeController extends Controller
                         ->where('time',Carbon::parse($value->time)->format('H:i:s'))
                         ->get()->first();
 
-                        $parsedArray[$count]['id']=$value->id;
-                        $parsedArray[$count]['exclude']=$value->exclude;
-                        
-                        $parsedArray[$count]['date_data'] = Carbon::parse($request->selected_date)->format('Y-m-d');
-                        $parsedArray[$count]['start'] = Carbon::parse($request->selected_date)->format('Y-m-d')."T".Carbon::parse($value->time)->format('H:i:s');
-                        $parsedArray[$count]['end'] =Carbon::parse($request->selected_date)->format('Y-m-d')."T".Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
-                        
+                        if(!$fnd){
+                            $parsedArray[$count]['id']=$value->id;
+                            $parsedArray[$count]['exclude']=$value->exclude;
+                            
+                            $parsedArray[$count]['date_data'] = Carbon::parse($request->selected_date)->format('Y-m-d');
+                            $parsedArray[$count]['start'] = Carbon::parse($request->selected_date)->format('Y-m-d')."T".Carbon::parse($value->time)->format('H:i:s');
+                            $parsedArray[$count]['end'] =Carbon::parse($request->selected_date)->format('Y-m-d')."T".Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                            
 
-                       
-                        $parsedArray[$count]['extendedProps']=array(
-                            'type' => $fnd ? 'normal' :'recurring',
-                            'trainer_id' => $value->trainer_id,
-                            'startTime' => Carbon::parse($value->time)->format('H:i:s'),
-                            'exdate' => $value->exclude,
-                            'schedule_id' => $value->id,
-                            'is_occupied' => $fnd ? 1 : 0,
-                            'endTime' => Carbon::parse($value->time)->addMinutes(60)->format('H:i:s'),
+                           
+                            $parsedArray[$count]['extendedProps']=array(
+                                'type' => $fnd ? 'normal' :'recurring',
+                                'trainer_id' => $value->trainer_id,
+                                'startTime' => Carbon::parse($value->time)->format('H:i:s'),
+                                'exdate' => $value->exclude,
+                                'schedule_id' => $value->id,
+                                'is_occupied' => $fnd ? 1 : 0,
+                                'endTime' => Carbon::parse($value->time)->addMinutes(60)->format('H:i:s'),
 
-                        );
-                        if($fnd){
-                            $parsedArray[$count]['className'] = 'tred';
+                            );
+                            if($fnd){
+                                $parsedArray[$count]['className'] = 'tred';
 
-                        }else{
-                            $parsedArray[$count]['className'] = 'tblue';
+                            }else{
+                                $parsedArray[$count]['className'] = 'tblue';
 
+                            }
+                            $count++;
                         }
-                        $count++;
+                        
                     
                 }
 
@@ -645,15 +721,93 @@ class TraineeController extends Controller
     // }
 
     public function scheduleSubmit(Request $request){
+       
+        if(checkPastDate($request->db_date)){
+            return redirect()->route('traineeCalendar.view')
+            ->with('errors_m','The schedule date has been passed');
+        }
 
-        // $arrT=explode('-',$request->start_time);
-     //    $time= new Carbon($arrT[0]);
-        // $ftime = $time->format('H:i:s');
-        // $ftime = $arrT[0];
+        if($request->type == 'reschedule'){
 
-        dd($request->all());
+            if(checkLimitValidation($request->db_start_time,$request->db_date)){
+                return redirect()->route('traineeCalendar.view')
+                ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+            }
 
 
+            $time = Carbon::parse($request->start_time)->format('H:i:s');
+            $existingTime = Carbon::parse($request->db_start_time)->format('H:i:s');
+
+
+            if($time == $existingTime){
+                return redirect()->route('traineeCalendar.view')
+                ->with('message','Your rescheduled time is same as previous one !');
+            }
+            $id = $request->db_schedule_id;
+            $found=TrainerSchedule::where('date',$request->db_date)
+                            ->where('status',NULL)
+                            ->where('time',Carbon::parse($request->start_time)->format('H:i:s'))
+                            ->where('trainer_id',$request->trainer_id)
+                            ->get()->first();
+            if($found){
+
+                return redirect()->route('traineeCalendar.view')
+                ->with('errors_m','Time slot is not avaliable for '.$request->start_time);
+            
+            }else{
+                $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)
+                ->get()->first();
+                if($scheduleU){
+                    $scheduleU->status ='rescheduled';
+                    $scheduleU->save();
+                }
+                
+
+                $scheduleU = new TrainerSchedule();
+                $scheduleU->date =$request->db_date;
+                $scheduleU->trainer_id =$request->trainer_id;
+                $scheduleU->is_occupied =1;
+                $scheduleU->user_id =Session::get('user.id');
+                $scheduleU->time =Carbon::parse($request->start_time)->format('H:i:s');
+                $scheduleU->save();
+
+                 return redirect()->route('traineeCalendar.view')
+                ->with('message','Rescheduled Successful');
+            }
+            
+        }
+        if($request->type == 'cancel'){
+
+            $time = Carbon::parse($request->start_time)->format('H:i:s');
+           if(checkLimitValidation($time,$request->db_date)){
+                return redirect()->route('traineeCalendar.view')
+                ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+            }
+
+            // ---------------------------------------------------
+            // ---------------------------------------------------
+
+            $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)
+                        ->get()
+                        ->first();
+            if($scheduleU){
+                $scheduleU->status ='cancelled';
+                $scheduleU->save();
+            }
+            $scheduleU = new TrainerSchedule();
+            $scheduleU->date =$request->db_date;
+            $scheduleU->trainer_id =$request->trainer_id;
+            $scheduleU->time =Carbon::parse($request->start_time)->format('H:i:s');
+            $scheduleU->save();
+
+            return redirect()->route('traineeCalendar.view')
+            ->with('message','Schedule Cancel Successfully');
+          
+        }
+        // end *******
+
+
+        // booked a aschedule //
         if($request->event_type == 'recurring'){
             $schedule = new TrainerSchedule();
             $schedule->user_id=$request->user_id;
@@ -698,7 +852,7 @@ class TraineeController extends Controller
             return redirect()->route('traininginfo')->with('success','Please input traininginfo first');
         }
 
-        if($user->dob == null || $user->weight == null ||  $user->sex == null){
+        if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
             return redirect()->route('physicaldata')->with('success','Please input physical information first');
 
             // return view('auth.branch');
@@ -715,7 +869,7 @@ class TraineeController extends Controller
         $type=1;
         $dataset = $this->calculation($bmrData*$pal,$weight,$pal,$totalDay,$start,$type);
             // dd($dataset);
-        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        $userPurchasePlan=UserPlanPurchase::where('status',1)->where('user_id',Session::get('user.id'))->orderBy('id','ASC')->first();
         $isactive='purchase';
         $purchase=PlanPurchase::where('status',1)->get();
         $plan=PlanPurchase::where('id',1)->get()->first();
@@ -959,6 +1113,8 @@ class TraineeController extends Controller
             // 'password' => 'required|confirmed|min:6',
             'weight' => 'required',
             // 'fat' => 'required',
+            'phone' => 'numeric'
+
         ]);
 
             $trainee = Trainee::find($request->user_id);
