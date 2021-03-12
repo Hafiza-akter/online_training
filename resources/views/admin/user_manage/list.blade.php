@@ -48,6 +48,8 @@
                                 </td>
                                 <td>
                                     <a href="{{route('user.edit',$user->id)}}" class="pl-3 pr-3"><i class="fas fa-edit"></i></a>
+                                    <a href="{{route('user.training.history',$user->id)}}" ><i class="fas fa-dumbbell"></i></a>
+
                                 </td>
                             </tr>
                             @endforeach

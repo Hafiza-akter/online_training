@@ -73,7 +73,7 @@ class UserAchievement extends Controller
             return redirect()->route('purchaseplan')->with('message','Please purchase your plan first !');
         }
 
-        $userPlanData = UserPlanPurchase::where('user_id',$user_id)->get()->first();
+        $userPlanData = UserPlanPurchase::where('user_id',$user_id)->where('status',1)->get()->first();
         
         // initial value
         $targetCaloryGain=$userPlanData->target_calory_gained;

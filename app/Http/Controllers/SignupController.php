@@ -13,6 +13,7 @@ use App\Model\Equipment;
 use App\Model\TrainerEquipment;
 use App\Model\UserEquipment;
 use App\Model\UserHistory;
+use Illuminate\Support\Facades\Crypt;
 
 use DateTime;
 use DateInterval;
@@ -24,7 +25,35 @@ class SignupController extends Controller
     public function index(){
         
     }
+    public function googleuser(Request $request){
 
+            $data = Crypt::decrypt($request->param);
+
+       if($data['type'] == 'trainee'){
+            $user = Trainee::find($data['id']);
+
+            if($user->password != NULL){
+                    session(['user' => $user,'user_type'=>'trainee','message'=>'ログインに成功しました。']);
+            return redirect()->route('traineeCalendar.view')->with('message','ログインに成功しました。');
+            }
+           
+
+            return view('auth.update_trainee')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type','trainee');            
+
+        }
+        if($data['type'] == 'trainer'){
+            $user = Trainer::find($data['id']);
+
+            if($user->password != NULL){
+              
+                 session(['user' => $user,'user_type'=>'trainer','message'=>'ログインに成功しました。']);
+            return redirect()->route('calendar.view','month')->with('message','ログインに成功しました。');
+            }
+           
+
+            return view('auth.update_trainer')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type','trainer');
+        }
+    }
     public function signupTrainee(){
          session(['tp' => 'trainee']);
         return view('auth.signup_trainee')->with('equipment',Equipment::get());
@@ -239,7 +268,14 @@ class SignupController extends Controller
         $trainer->unit_price = $request->input('unit_price');
         $trainer->certification = $request->input('certification');
         $trainer->interface = $request->input('interface');
-
+         if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = rand(1, 9000).strtotime("now");
+                $file->move(public_path() . '/images/', $filename . '_trainer_image' . '.' . $file->getClientOriginalExtension());
+                $path = $filename . '_trainer_image' . '.' . $file->getClientOriginalExtension();
+                $imgfullPath = $path;
+                $trainer->photo_path = $imgfullPath;
+            }
 
         $trainer->token = \Str::random(60).time();
         $trainer->expired_at = $date->add(new DateInterval('PT24H00S'));
@@ -271,8 +307,9 @@ class SignupController extends Controller
             }
         }
 
-        session(['user' => $trainer,'user_type'=>'trainer']);
-        return redirect()->route('trainerCalendar.view')->with('message','Welcome to trainer dashboard');
+        
+        session(['user' => $trainer,'user_type'=>'trainer','message'=>'ログインに成功しました。']);
+            return redirect()->route('calendar.view','month')->with('message','ログインに成功しました。');
     
 
     }

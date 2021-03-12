@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg navbar-light">
                 @if(Session::get('user_type') == 'trainee' )
-                <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
+                <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 24px;font-weight: bolder;"> 
                     ユーザー管理画面
                 </a>
                 @endif
@@ -37,6 +37,10 @@
                                     {{-- progress --}}
                                 <a class="nav-link {{ !empty($isActive) &&  ($isActive == 'progress' || $isActive == 'dailydata') ? 'active__' : ''}}" href="{{ route('progress')}}">達成状況</a>
                             </li>
+                            <li class="nav-item ">
+                                    {{-- training history --}}
+                                <a class="nav-link {{ !empty($isActive) &&  ($isActive == 'traininglist' || $isActive == 'traininglist') ? 'active__' : ''}}" href="{{ route('traineelist')}}">トレーニング</a>
+                            </li>
                             
                             <li class="nav-item ">
                                      {{-- Personal Settings --}}
@@ -64,7 +68,7 @@
                             
                             <li class="nav-item ">
                                     {{-- progress --}}
-                                <a class="nav-link" href="{{ route('traininglist')}}">達成状況</a>
+                                <a class="nav-link {{ !empty($isActive) &&  $isActive == 'traininglist' ? 'active__' : ''}}" href="{{ route('traininglist')}}">達成状況</a>
                             </li>
 
                             <li class="nav-item ">

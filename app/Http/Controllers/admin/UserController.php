@@ -7,6 +7,8 @@ use Hash;
 
 use App\Model\Admin;
 use App\Model\User;
+use App\Model\TrainerSchedule;
+use App\Model\Trainer;
 
 
 
@@ -120,6 +122,86 @@ class UserController extends Controller
         $data->save();
         return redirect()->route('user.list')->with('message', 'Edited successfully!');
 
+    }
+
+    public function trainingHistory($id){
+        $user = User::Where('id',$id)->first();
+        $trainingHistory = TrainerSchedule::Join('tbl_trainings','tbl_trainings.trainer_schedule_id','=','tbl_trainer_schedules.id')
+                                            ->Join('tbl_exercise_data','tbl_exercise_data.training_id','=','tbl_trainings.id')
+                                            ->Join('tbl_courses','tbl_courses.id','=','tbl_exercise_data.course_id')
+                                            ->Join('tbl_equipments','tbl_equipments.id','=','tbl_courses.equipment_id')
+                                            ->where('tbl_trainer_schedules.user_id',$id)
+                                            ->where('tbl_trainer_schedules.status','completed')
+                                            ->select('tbl_trainings.id as training_id','tbl_trainer_schedules.user_id','tbl_trainer_schedules.date','tbl_trainer_schedules.time','tbl_exercise_data.course_id','tbl_exercise_data.set_1','tbl_exercise_data.set_2','tbl_exercise_data.set_3','tbl_courses.course_name','tbl_equipments.name as item')
+                                            ->get();
+
+        // dd($trainingHistory);
+        return view('admin.user_manage.training_history')
+        ->with('trainings',$trainingHistory)
+        ->with('user_id',$id)
+        ->with('page','user');
+    }
+
+    public function csvDownload($id){
+        $user = User::Where('id',$id)->first();
+        $trainingHistory = TrainerSchedule::Join('tbl_trainings','tbl_trainings.trainer_schedule_id','=','tbl_trainer_schedules.id')
+                                            ->Join('tbl_exercise_data','tbl_exercise_data.training_id','=','tbl_trainings.id')
+                                            ->Join('tbl_courses','tbl_courses.id','=','tbl_exercise_data.course_id')
+                                            ->Join('tbl_equipments','tbl_equipments.id','=','tbl_courses.equipment_id')
+                                            ->where('tbl_trainer_schedules.user_id',$id)
+                                            ->where('tbl_trainer_schedules.status','completed')
+                                            ->select('tbl_trainings.id as training_id','tbl_trainer_schedules.user_id','tbl_trainer_schedules.date','tbl_trainer_schedules.time','tbl_exercise_data.course_id','tbl_exercise_data.set_1','tbl_exercise_data.set_2','tbl_exercise_data.set_3','tbl_courses.course_name','tbl_equipments.name as item')
+                                            ->get();
+
+            $headers = array(
+                "Content-type" => "text/csv",
+                "Content-Disposition" => "attachment; filename=training_history.csv",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0"
+            );
+        
+            $data = $trainingHistory;
+            $columns = array('User Id', 'Date', 'Time', 'Course', 'Item', 'Set 1', 'Set 2', 'Set 3');
+        
+            $callback = function() use ($data, $columns)
+            {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+        
+                foreach($data as $data) {
+                    fputcsv($file, array($data->user_id, $data->date, $data->time, $data->course_name, $data->item, $data->set_1,$data->set_2,$data->set_3));
+                }
+                fclose($file);
+            };
+            return Response()->stream($callback, 200, $headers);
+                                        
+        }
+
+    public function dw()
+    {
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=user.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+    
+        $reviews = User::all();
+        $columns = array('name', 'email');
+    
+        $callback = function() use ($reviews, $columns)
+        {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+    
+            foreach($reviews as $review) {
+                fputcsv($file, array($review->name, $review->email));
+            }
+            fclose($file);
+        };
+        return Response()->stream($callback, 200, $headers);
     }
    
 

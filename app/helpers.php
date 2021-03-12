@@ -320,5 +320,29 @@ function number_formate($data){
 		return 'N/A';
 	}
  }
+ function checkPastDate($date){
+ 	$isToday=\Carbon\Carbon::parse($date)->isToday();
+    $isPast=\Carbon\Carbon::parse($date)->isPast();
+
+    if(!$isToday && $isPast){
+       return true;
+    }
+    return false;
+ }
+ function checkLimitValidation($time,$date){
+    $setUpData = \App\Model\Setting::get()->first();
+  // not to modify the past date and if limit time exceed
+    // not to modify the past date and if limit time exceed
+    $end= new \Carbon\Carbon($date." ".$time);
+    $start = \Carbon\Carbon::now();
+  
+    $totalDuration = $start->diffInMinutes($end,false); 
+    if($totalDuration < $setUpData->cancellation_time){
+        return true ; 
+    }
+    return false;
+    // ---------------------------------------------------
+    // ---------------------------------------------------
+}
 
 ?>

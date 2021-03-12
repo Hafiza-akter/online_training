@@ -21,10 +21,14 @@
 
             <div class="row justify-content-center">
                 <div class=" col-sm-8 mb-4">
+<<<<<<< HEAD
                 <div class="alert alert-success">
                 {{-- thank you for the confirmation --}}
                   <h5 style="text-align:center">ご登録いただき、ありがとうございます。</h5>
                 </div> 
+=======
+              
+>>>>>>> master
             </div>
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
@@ -35,11 +39,11 @@
            
         </div>
         <div class="overlay_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_1.png" class="amitated_icon_1" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_2.png" class="amitated_icon_2" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_3.png" class="amitated_icon_3" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_4.png" class="amitated_icon_4" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_5.png" class="amitated_icon_5" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_1.png')}}" class="amitated_icon_1" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_2.png')}}" class="amitated_icon_2" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_3.png')}}" class="amitated_icon_3" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_4.png')}}" class="amitated_icon_4" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_5.png')}}" class="amitated_icon_5" alt="animate_icon">
         </div>
 
         <div class="offset-sm-2 col-sm-8 mb-4">
@@ -73,15 +77,7 @@
             <h4 class="card-title">情報を登録する</h4>
         </div>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+ 
 
     <form action="{{route('traineeSignupUpdate.submit')}}" method="post">
                    
@@ -203,9 +199,7 @@
                 </div>
             </div> --}}
 
-            <div class="row pt-3 pb-3">
-                <h4 class="mx-auto">トレーニング機器</h4>
-            </div>
+        
 
 
             {{-- @if($equipment)

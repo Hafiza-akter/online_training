@@ -243,6 +243,7 @@ class ScheduleController extends Controller
     public function schedule(Request $request){
         $initialDate="FA";
         $Error="";
+        $setUpData = \App\Model\Setting::get()->first();
 
         // recurring schedule registration//
         if($request->type=='recuring_event'){
@@ -280,9 +281,18 @@ class ScheduleController extends Controller
 
 
         if($request->type=='initial_registration'){
+            $string="";
             $arr=json_decode($request->list);
             if(count($arr) > 0){
                 foreach($arr as $index=>$val){
+
+                    $isToday=Carbon::parse($val->start)->isToday();
+                    $isPast=Carbon::parse($val->start)->isPast();
+       
+                    if(!$isToday && $isPast){
+                        $string = "Some schedule can not be created, because of the past date ";
+                        continue;
+                    }
 
                     $allDateSchedule = TrainerSchedule::where('date',Carbon::parse($val->start)->format('Y-m-d'))
                                     ->where('trainer_id',$request->trainer_id)
@@ -306,7 +316,7 @@ class ScheduleController extends Controller
                     
                 }
                 return redirect()->back()
-                    ->with('message','予約が完了しました。 ');
+                    ->with('message','予約が完了しました。 !! '.$string);
             }else{
                 return redirect()->back()
                     ->with('message','Please select training time first! ');
@@ -366,15 +376,44 @@ class ScheduleController extends Controller
         
         if($request->type == 'weekupdate' || $request->type == 'dayupdate' ){
 
+            if(checkPastDate($request->db_date)){
+                return redirect()->back()
+                 ->with('errors_m','The schedule date has been passed');
+            }
+
             if($request->event_type == 'recurring'){
+
+                     $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
+                    // dd($scheduleU);
+                    if($scheduleU){
+                        $getExcludeData = $scheduleU->exclude;
+                        if($getExcludeData != NULL ){
+                            $getExcludeData .= ",".$request->db_date;
+                        }else{
+                            $getExcludeData = $request->db_date;
+                        }
+                        $scheduleU->exclude = $getExcludeData;
+                        $scheduleU->save();
+                    }
+
+                    $scheduleUn = new TrainerSchedule();
+                    $scheduleUn->date =$request->db_date;
+                    $scheduleUn->trainer_id =$request->trainer_id;
+                    $scheduleUn->time =Carbon::parse($request->start_time)->format('H:i:s');
+                    $scheduleUn->save();
                   return redirect()->back()
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Reschedule is not possible for this schedule !! ')
+                    ->with('message','Reschedule time rescheduled succesfully!! ')
                     ->with('gridView',$request->gridView);
             }
+
         	$time = Carbon::parse($request->start_time)->format('H:i:s');
         	$existingTime = Carbon::parse($request->db_start_time)->format('H:i:s');
-
+            
+            if($time == $existingTime){
+                return redirect()->route('traineeCalendar.view')
+                ->with('message','Your rescheduled time is same as previous one !');
+            }
         	$id = $request->db_schedule_id;
         	$found=TrainerSchedule::where('date',$request->db_date)
         					->where('status',NULL)
@@ -412,6 +451,13 @@ class ScheduleController extends Controller
         
 
         if($request->type == 'weekcancel'){
+
+            if(checkPastDate($request->db_date)){
+                return redirect()->back()
+                 ->with('errors_m','The schedule date has been passed');
+            }
+          
+
             if($request->event_type == 'recurring'){
                 
                 $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
@@ -427,8 +473,20 @@ class ScheduleController extends Controller
                     $scheduleU->save();
                 }
             }else{
+
+             
+
                 $scheduleU = TrainerSchedule::find($request->db_schedule_id);
+
                 if($scheduleU){
+
+                    if($scheduleU->is_occupied == 1){
+                        if(checkLimitValidation($scheduleU->time,$request->db_date)){
+                            return redirect()->back()
+                                    ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+      
+                        }
+                    }
                     $scheduleU->status ='cancelled';
                     $scheduleU->save();
                 }
@@ -443,9 +501,15 @@ class ScheduleController extends Controller
 
         if($request->type == 'daycancel'){
 
+            
+            if(checkPastDate($request->db_date)){
+                return redirect()->back()
+                 ->with('errors_m','The schedule date has been passed');
+            }
+
             if($request->event_type == 'recurring'){
 
-                 $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
+                $scheduleU = TrainerRecurringSchedule::where('id',$request->db_schedule_id)->get()->first();
                 if($scheduleU){
                     $getExcludeData = $scheduleU->exclude;
                     if($getExcludeData != NULL ){
@@ -457,8 +521,17 @@ class ScheduleController extends Controller
                     $scheduleU->save();
                 }
             }else{
+
+                
                 $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)->get()->first();
                 if($scheduleU){
+                    if($scheduleU->is_occupied == 1){
+                        if(checkLimitValidation($scheduleU->time,$request->db_date)){
+                            return redirect()->back()
+                            ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+          
+                        }
+                    }
                     $scheduleU->status ='cancelled';
                     $scheduleU->save();
                 }
@@ -502,7 +575,21 @@ class ScheduleController extends Controller
 
         return redirect()->back();
     }
-
+    public function checkLimitValidation($time,$date){
+        $setUpData = \App\Model\Setting::get()->first();
+      // not to modify the past date and if limit time exceed
+        // not to modify the past date and if limit time exceed
+        $end= new Carbon($date." ".$time);
+        $start = Carbon::now();
+      
+        $totalDuration = $start->diffInMinutes($end,false); 
+        if($totalDuration < $setUpData->cancellation_time){
+            return true ; 
+        }
+        return false;
+        // ---------------------------------------------------
+        // ---------------------------------------------------
+    }
     public function scheduleDelete(Request $request){
     	$arr=json_decode($request->dlist);
         // dd($arr);

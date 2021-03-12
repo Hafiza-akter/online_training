@@ -99,24 +99,34 @@
     <tbody>
       @if($listSchedule)
         @foreach($listSchedule as $key=>$val)
-          <tr>
-            <th scope="row">{{ ++$key}}</th>
-            <td>{{ \Carbon\Carbon::parse($val->start_date)->format('Y-m-d')}}</td>
-            <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
-            <td>
-              @if($val->is_occupied )
-                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > トレーナー詳細</button>
-              @else 
-                <span> Not assigned yet </span>
-              @endif
-              
-            </td>
-            <td>
-              <a href="{{ route('trainingtrainee',$val->id)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
-              {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
-              {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
-            </td>
-          </tr>
+            @php 
+            
+            $isToday=\Carbon\Carbon::parse($val->start_date)->isToday();
+            $isPast=\Carbon\Carbon::parse($val->start_date)->isPast();
+           
+            @endphp
+
+
+              <tr>
+                <th scope="row">{{ ++$key}}</th>
+                <td>{{ \Carbon\Carbon::parse($val->start_date)->format('Y-m-d')}}</td>
+                <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
+                <td>
+
+
+                    @if($val->is_occupied )
+                      <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > トレーナー詳細</button>
+                    @else 
+                      <span> Not assigned yet </span>
+                    @endif
+                  
+                </td>
+                <td>
+                  <a href="{{ route('trainingtrainee',$val->id)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
+                  {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
+                  {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
+                </td>
+              </tr>
         @endforeach
       @endif
       

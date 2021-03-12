@@ -73,7 +73,7 @@
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
       <li class="nav-item ">
-        <a class="nav-link active" id="updateprofile-tab" data-toggle="pill" href="#updateprofile" role="tab" aria-controls="updateprofile" aria-selected="true"></a>
+        <a class="nav-link active" id="updateprofile-tab" data-toggle="pill" href="#updateprofile" role="tab" aria-controls="updateprofile" aria-selected="true">Update info</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="changepassword-tab" data-toggle="pill" href="#changepassword" role="tab" aria-controls="changepassword" aria-selected="false">Change Password</a>
@@ -105,8 +105,8 @@
                             <select class="form-control" name="sex">
                                 {{-- 1 male, 0 女性  --}}
                                 <option value=""> 性別をお選びください</option> 
-                                <option value="1" {{ $user->sex == 1 ? 'selected' : ''}} > 男性</option> 
-                                <option value="0" {{ $user->sex == 0 ? 'selected' : ''}}> 女性</option>
+                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
+                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
 
 
                             </select>
@@ -165,7 +165,7 @@
                           <label class="col-form-label _phone_number_">電話番号</label>
                         </div>
                         <div class="col-8">
-                          <input type="text" name="phone" class="form-control" value="{{ $user->phone}}">
+                          <input type="text" name="phone" class="form-control" value="{{ $user->phone}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                         </div>
                     </div>
 

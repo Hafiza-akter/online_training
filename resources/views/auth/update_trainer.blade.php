@@ -33,12 +33,6 @@
 <section class="review_part gray_bg section_padding">
     <div class="container">
       <div class="row justify-content-center">
-           <div class=" col-sm-8 mb-4">
-                  <div class="alert alert-success">
-                  {{-- thank you for the confirmation --}}
-                    <h5 style="text-align:center">ご登録頂きありがとうございます。</h5>
-                  </div> 
-              </div>
           <div class="col-md-8 col-xl-6">
               <div class="section_tittle">
                   {{-- Trainer information --}}
@@ -217,7 +211,8 @@
                         <h4 class="mx-auto _photo_path_">写真のパス</h4>
                       </div>
                       <div class="row pt-3 pb-3">
-                        <textarea name="photo_path" class="form-control"  rows="5"></textarea>
+                          <input type="file" name="image" >
+
                       </div>
 
                       <div class="row pt-3 pb-3">
