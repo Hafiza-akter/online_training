@@ -122,7 +122,13 @@
                   
                 </td>
                 <td>
-                  <a href="{{ route('trainingtrainee',$val->id)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
+                  @php
+                    $parameter =[
+                    'id' =>$val->id,
+                    ];
+                    $parameter= \Crypt::encrypt($parameter);
+                  @endphp
+                  <a href="{{ route('trainingtrainee',$parameter)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
                   {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
                   {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
                 </td>

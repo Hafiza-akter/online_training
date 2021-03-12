@@ -17,6 +17,7 @@ use App\Model\TrainerRecurringSchedule;
 use App\Model\Course;
 use App\Model\Training;
 use App\Model\Exercise;
+use Illuminate\Support\Facades\Crypt;
 
 
 use DateTime;
@@ -26,12 +27,13 @@ class TrainingController extends Controller
 {
 
     public function trainingDetails(Request $request){
+            $data = Crypt::decrypt($request->id);
 
         $course = Course::where('status',1)->get();
         $main=Course::where('status',1)->groupBy('main')->get();
 
-        $schedule = TrainerSchedule::where('id',$request->id)->whereDate('date',Carbon::now()->format('Y-m-d'))->get()->first();
-        $exerciseData = Training::where('trainer_schedule_id',$request->id)->first();
+        $schedule = TrainerSchedule::where('id',$data['id'])->whereDate('date',Carbon::now()->format('Y-m-d'))->get()->first();
+        $exerciseData = Training::where('trainer_schedule_id',$data['id'])->first();
         
         // dd($exerciseData);
         // dd($exerciseData->getExerciseData);
@@ -59,7 +61,7 @@ class TrainingController extends Controller
         // dd('here');
 
         if(!$schedule){
-   			$schedule = TrainerSchedule::find($request->id);
+   			$schedule = TrainerSchedule::find($data['id']);
         		return redirect()->back()->with('errors_m','選択されたトレーニングは  '.Carbon::parse($schedule->date)->format('Y-m-d')." から ".Carbon::parse($schedule->time)->format('H:i')." - ".Carbon::parse($schedule->time)->addMinutes(60)->format('H:i')."までの時間で開始可能です。" );
         }
 
@@ -110,7 +112,7 @@ class TrainingController extends Controller
 
     }
     public function ajax_training_performance(Request $request){
-        // dd($request->id);
+        // dd($data['id']);
         $id = $request->id;
         $course = Course::where('status',1)->get();
         $main=Course::where('status',1)->groupBy('main')->get();
