@@ -100,7 +100,7 @@ class TraineeController extends Controller
 
         $start = $date->startOfWeek()->toDateString();
         $end = $date->endOfWeek()->toDateString();
-        $count = TrainerSchedule::where('user_id',$user_id)->whereBetween('date', [$start, $end])->get()->count();
+        $count = TrainerSchedule::where('user_id',$user_id)->where('status',NULL)->whereBetween('date', [$start, $end])->get()->count();
         
         $purchasePlan = UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get()->first();
         $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
@@ -175,8 +175,8 @@ class TraineeController extends Controller
         }
 
         // dd($details);
-        // \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
-        // \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
+        \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
+        \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
 
 
         return redirect()->route('traineeCalendar.view')->with('message','レッスンの予約が完了しました。');
@@ -354,10 +354,10 @@ class TraineeController extends Controller
         }
 
         $rval = $this->checkReservation($request->selected_date,Session::get('user.id'));
-        if($rval == 'count_exceed'){
-            return redirect()->route('traineeCalendar.view')
-            ->with('errors_m','Plan limit exceeds');
-        }
+        // if($rval == 'count_exceed'){
+        //     return redirect()->route('traineeCalendar.view')
+        //     ->with('errors_m','Plan limit exceeds');
+        // }
         if($rval == 'past_future'){
                 return redirect()->route('traineeCalendar.view')
                     ->with('errors_m','Selection date is not between plan start and end date');

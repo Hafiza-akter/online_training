@@ -20,16 +20,7 @@
         <div class="container">
 
             <div class="row justify-content-center">
-                <div class=" col-sm-8 mb-4">
-<<<<<<< HEAD
-                <div class="alert alert-success">
-                {{-- thank you for the confirmation --}}
-                  <h5 style="text-align:center">ご登録いただき、ありがとうございます。</h5>
-                </div> 
-=======
-              
->>>>>>> master
-            </div>
+
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
                        <h2>ユーザー情報</h2>

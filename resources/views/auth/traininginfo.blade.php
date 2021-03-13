@@ -29,12 +29,12 @@
             </div>
            
         </div>
-        <div class="overlay_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_1.png" class="amitated_icon_1" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_2.png" class="amitated_icon_2" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_3.png" class="amitated_icon_3" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_4.png" class="amitated_icon_4" alt="animate_icon">
-            <img src="http://training.local:8080/public/asset_v2/img/animate_icon/icon_5.png" class="amitated_icon_5" alt="animate_icon">
+       <div class="overlay_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_1.png')}}" class="amitated_icon_1" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_2.png')}}" class="amitated_icon_2" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_3.png')}}" class="amitated_icon_3" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_4.png')}}" class="amitated_icon_4" alt="animate_icon">
+            <img src="{{ asset('asset_v2/img/animate_icon/icon_5.png')}}" class="amitated_icon_5" alt="animate_icon">
         </div>
 
         <div class="offset-sm-2 col-sm-8 mb-4">
@@ -86,7 +86,7 @@
                   <label class="col-form-label _phone_number_">電話番号 <span style="color:red">*</span></label>
                 </div>
                 <div class="col-8">
-                  <input type="text" name="phone" class="form-control" value="{{ $user->phone}}">
+                  <input type="text" name="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  class="form-control" value="{{ $user->phone}}">
                 </div>
             </div>
 
