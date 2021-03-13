@@ -153,7 +153,7 @@
                             <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly/><span>回</span>
                           </div>
                           <div class="col-sm-8 m-1">
-                              <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`,`{{ $coursesData->sub}}`,`{{ $coursesData->way}}`,`{{ $coursesData->motion}}`)" > Explanation </button>
+                              <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`,`{{ $coursesData->sub}}`,`{{ $coursesData->way}}`,`{{ $coursesData->motion}}`)" > 説明 </button>
                            </div>
 
                       </div>
@@ -193,9 +193,9 @@
         Swal.fire({
            icon: '',
            title: '説明',
-           html: " <br> <b> summary:</b> "+text+" <br> <br> sub: "+sub
-          + " <br> <br> <b>way:</b> "+way
-          + " <br> <br> <b>motion:</b> "+motion,
+           html: " <br> <b> サマリ:</b> "+text+" <br> <br> サブ: "+sub
+          + " <br> <br> <b>方法:</b> "+way
+          + " <br> <br> <b>モーション:</b> "+motion,
            showConfirmButton:false
          })
   }

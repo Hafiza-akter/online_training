@@ -290,7 +290,7 @@ class ScheduleController extends Controller
                     $isPast=Carbon::parse($val->start)->isPast();
        
                     if(!$isToday && $isPast){
-                        $string = "Some schedule can not be created, because of the past date ";
+                        $string = "-- 過去の日付が含まれていたため、いくつかのスケジュールが作成に失敗しました。";
                         continue;
                     }
 

@@ -5,7 +5,7 @@
                 <div class="breadcrumb_iner text-center">
                     <div class="breadcrumb_iner_item">
                         <!-- <p></p> -->
-                        <h2>Schedule</h2>
+                        <h2>スケジュール</h2>
                     </div>
                 </div>
             </div>

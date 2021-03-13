@@ -279,7 +279,7 @@ class UserAchievement extends Controller
             $pals = $initialPal;
             $dataset[2] = $this->calculation(0,$bmrData*$pal,$weight,$pal,$totalDay,$start,$type,$trainingType);
             $dataset[2]['borderColor'] = '#028001';
-            $dataset[2]['label'] = '期待値';
+            $dataset[2]['label'] = '期待データ';
 
             
         }

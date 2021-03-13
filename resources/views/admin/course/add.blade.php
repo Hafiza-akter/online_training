@@ -10,10 +10,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="card-title">Course Add</h3>
+                            <h3 class="card-title">コース追加</h3>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <a href="{{route('course.list')}}" class="text-right"><i class="fa fas fa-list"></i> list</a>
+                            <a href="{{route('course.list')}}" class="text-right"><i class="fa fas fa-list"></i> リスト</a>
                         </div>
                     </div>
                 </div>
@@ -43,18 +43,18 @@
                                             </div>
                                             @endif
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Course Name</label>
+                                                <label for="exampleInputEmail1">コース名</label>
                                                 <input  type="text" class="form-control" name="course_name" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Course Type</label><br>
+                                                <label for="exampleInputEmail1">コースタイプ</label><br>
                                                 <select class="custom-select mr-sm-2" name="course_type">
-                                                    <option value="weight_loss" >Weight loss</option>
-                                                    <option value="weight_gain">Weight gain</option>
+                                                    <option value="weight_loss" >体重減少</option>
+                                                    <option value="weight_gain">体重増加</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Equipment</label>
+                                                <label for="exampleInputEmail1">備品</label>
                                                 <select class="custom-select mr-sm-2" name="equipment_id">
                                                 @foreach($equipmentList as $equipment)
                                                     <option value="{{$equipment->id}}" >{{$equipment->name}}</option>
@@ -63,7 +63,7 @@
                                                 
                                              </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Image</label>
+                                                <label for="exampleInputEmail1">画像</label>
                                                 <input type="file"  name="image" accept="image/jpeg,image/png" class="form-control">
                                              </div>
                                              <div class="form-group">
@@ -86,43 +86,43 @@
                                                 <input  type="text" name="set_3_times" class="times kg p-1 m-1"  /><span>回</span>
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Summary</label>
+                                                <label for="exampleInputEmail1">サマリ</label>
                                                 <input  type="text" class="form-control" name="summary" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Reference URL</label>
+                                                <label for="exampleInputEmail1">参照URL</label>
                                                 <input  type="text" class="form-control" name="reference_url" placeholder="Enter ...">
                                             </div>
                                             
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Mets</label>
+                                                <label for="exampleInputEmail1">メッツ</label>
                                                 <input  type="text" class="form-control" name="mets" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Main</label>
+                                                <label for="exampleInputEmail1">メイン</label>
                                                 <input  type="text" class="form-control" name="main" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Sub</label>
+                                                <label for="exampleInputEmail1">サブ</label>
                                                 <input  type="text" class="form-control" name="sub" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Motion</label>
+                                                <label for="exampleInputEmail1">モーション</label>
                                                 <input  type="text" class="form-control" name="motion" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Way</label>
+                                                <label for="exampleInputEmail1">方法</label>
                                                 <input  type="text" class="form-control" name="way" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Session Time</label>
+                                                <label for="exampleInputEmail1">セッション時間</label>
                                                 <input  type="number" class="form-control" name="session_time" placeholder="Enter ...">
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">送信</button>
                                         </div>
                                     </form>
                                 </div>

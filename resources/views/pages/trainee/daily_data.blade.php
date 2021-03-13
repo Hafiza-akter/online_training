@@ -81,7 +81,7 @@
                              <tr>
                               <td>
                                 <div class="form-group">
-                                    <label> Date </label>
+                                    <label> 日付 </label>
                                     <input  type="text"   class="form-control" name="datepicker_" id="datepicker_" value="{{ $ua && $ua->recorded_at ? $ua->recorded_at : ''}}" placeholder="" />
                                 </div>
                               </td> 
@@ -91,13 +91,13 @@
                             <tr>
                               <td>
                                 <div class="form-group">
-                                    <label> Weight Morning(Kg) </label>
+                                    <label> 体重-午前(Kg) </label>
                                     <input  type="number"    step="0.01"    class="form-control" name="weight_morning" id="weight" value="{{ $ua && $ua->weight_morning ? $ua->weight_morning : old('weight_morning')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td> 
                                <td>
                                 <div class="form-group">
-                                    <label> Weight Evening(Kg)  </label>
+                                    <label> 体重-午後(Kg) </label>
                                     <input  type="number"    step="0.01"  class="form-control" name="weight_evening" id="fat" value="{{ $ua && $ua->weight_evening ? $ua->weight_evening : old('weight_evening')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td>                          
@@ -106,13 +106,13 @@
                             <tr>
                               <td>
                                 <div class="form-group">
-                                    <label>  Body Fat Percentage Morning(%)</label>
+                                    <label>  体脂肪率-午前(%)</label>
                                     <input  type="text"    onpaste="return false"  class="form-control" name="fat_morning" value="{{ $ua && $ua->body_fat_percentage_morning ? $ua->body_fat_percentage_morning : old('fat_morning')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td> 
                                <td>
                                 <div class="form-group">
-                                    <label> Body Fat Percentage Evening(%) </label>
+                                    <label> 体脂肪率-午後(%) </label>
                                     <input  type="text"    onpaste="return false"  class="form-control" name="fat_evening" id="fat" value="{{ $ua && $ua->body_fat_percentage_evening ? $ua->body_fat_percentage_evening : old('fat_evening')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="" />
                                 </div>
                               </td>                          
@@ -120,7 +120,7 @@
                              <tr>
                               <td>
                                 <div class="form-group">
-                                    <label> Calory Gained </label>
+                                    <label> 摂取カロリー </label>
                                     <input  type="number"    onpaste="return false"  class="form-control" name="calory_gained" id="calory_gained" value="{{ $ua && $ua->calory_gained ? $ua->calory_gained : old('calory_gained')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  placeholder="" />
                                 </div>
                               </td> 
@@ -163,7 +163,7 @@
                   </div>
                       <div class="card-footer">
                           <div class="row ">
-                              <button type="submit" class="mx-auto btn btn_2 sibscribe-btm mt-10 ">参加する</button>
+                              <button type="submit" class="mx-auto btn btn_2 sibscribe-btm mt-10 ">登録する</button>
                           </div>
                       </div>
                            </form>

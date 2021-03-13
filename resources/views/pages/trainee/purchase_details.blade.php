@@ -98,9 +98,9 @@
                           <td>
                            <div class="form-group">
                                 <select class="form-control" name="period_month" style="padding:5px;" id="period_month" >
-                                  <option value="1">一か月</option>
-                                  <option value="2">二か月</option>
-                                  <option value="3">3ヶ月</option>
+                                  <option value="1">１か月</option>
+                                  <option value="2">２か月</option>
+                                  <option value="3">３か月</option>
                                 </select>
                             </div>
                           </td>
@@ -121,7 +121,7 @@
                           <td>
                             <div class="form-group">
                                 <label>目標摂取カロリー ( <span style="font-size: 12px;"> 基準値は {{ $bmrData*$user->pal }} です。</span>) </label>
-                                <input  type="text" onblur="checkInput()"  onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return false"  class="form-control" name="target_calory_gained" id="target_calory_gained" value="{{ $bmrData*$user->pal }}" placeholder="Enter target calory gain" />
+                                <input  type="text" onblur="checkInput()"  onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return false"  class="form-control" name="target_calory_gained" id="target_calory_gained" value="{{ $bmrData*$user->pal }}" placeholder="摂取カロリーを入力してください。" />
                             </div>
                               <div class="fa-2x" style="display: none;" id="loader">
                                 <i class="fas fa-spinner fa-spin"></i>
@@ -168,7 +168,7 @@
         <th scope="col">購入プラン</th>
         <th scope="col">目標</th>
         <th scope="col">目標カロリー</th>
-        <th scope="col">作成日</th>
+        <th scope="col">登録日</th>
       </tr>
     </thead>
     <tbody>

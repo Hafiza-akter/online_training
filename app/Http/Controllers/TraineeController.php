@@ -350,7 +350,7 @@ class TraineeController extends Controller
        
         if(!$isToday && $isPast){
             return redirect()->route('traineeCalendar.view')
-            ->with('errors_m','You can not select the past date');
+            ->with('errors_m','過去の日付は選択できません。');
         }
 
         $rval = $this->checkReservation($request->selected_date,Session::get('user.id'));
@@ -360,7 +360,7 @@ class TraineeController extends Controller
         // }
         if($rval == 'past_future'){
                 return redirect()->route('traineeCalendar.view')
-                    ->with('errors_m','Selection date is not between plan start and end date');
+                    ->with('errors_m','選択されえ日付はプランの購入日~終了日の範囲外です。');
         }
 
         // end date selection conditions //
@@ -369,7 +369,7 @@ class TraineeController extends Controller
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
         if(!$puchasePlan){
-            return redirect()->route('purchaseplan')->with('message','Please purchase your plan first !');
+            return redirect()->route('purchaseplan')->with('message','はじめにプランを購入してください。');
         }
 
         $date = Carbon::parse(date('Y-m-d', strtotime($puchasePlan->created_at)));

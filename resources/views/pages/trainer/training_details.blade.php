@@ -630,9 +630,9 @@ function getdayFromNow() {
         Swal.fire({
            icon: '',
            title: '説明',
-           html: " <br> <b> summary:</b> "+text+" <br> <br> sub: "+sub
-          + " <br> <br> <b>way:</b> "+way
-          + " <br> <br> <b>motion:</b> "+motion,
+           html: " <br> <b> サマリ:</b> "+text+" <br> <br> サブ: "+sub
+          + " <br> <br> <b>方法:</b> "+way
+          + " <br> <br> <b>モーション:</b> "+motion,
            showConfirmButton:false
          })
   }

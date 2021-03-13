@@ -55,14 +55,14 @@ class TrainingController extends Controller
 			  // meeting  time
 				// dd('meeting time');
 			}else{
-        		return redirect()->back()->with('errors_m','選択されたトレーニングは  '.Carbon::parse($schedule->date)->format('Y-m-d')." から ".Carbon::parse($schedule->time)->format('H:i')." - ".Carbon::parse($schedule->time)->addMinutes(60)->format('H:i')."までの時間で開始可能です。" );
+        		return redirect()->back()->with('errors_m','選択されたトレーニングは  '.Carbon::parse($schedule->date)->format('Y-m-d')." の ".Carbon::parse($schedule->time)->format('H:i')." - ".Carbon::parse($schedule->time)->addMinutes(60)->format('H:i')."までの時間で開始可能です。" );
 			}
         }
         // dd('here');
 
         if(!$schedule){
    			$schedule = TrainerSchedule::find($data['id']);
-        		return redirect()->back()->with('errors_m','選択されたトレーニングは  '.Carbon::parse($schedule->date)->format('Y-m-d')." から ".Carbon::parse($schedule->time)->format('H:i')." - ".Carbon::parse($schedule->time)->addMinutes(60)->format('H:i')."までの時間で開始可能です。" );
+        		return redirect()->back()->with('errors_m','選択されたトレーニングは  '.Carbon::parse($schedule->date)->format('Y-m-d')." の ".Carbon::parse($schedule->time)->format('H:i')." - ".Carbon::parse($schedule->time)->addMinutes(60)->format('H:i')."までの時間で開始可能です。" );
         }
 
          if(Session::get('user_type') == 'trainee'){

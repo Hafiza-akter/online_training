@@ -149,7 +149,7 @@ z-index: 1;inset: 21px -2% -65px !important;
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
               @if($val->is_occupied )
-                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > User Details</button>
+                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > ユーザー詳細</button>
               @else 
                 <span> Not assigned yet </span>
               @endif

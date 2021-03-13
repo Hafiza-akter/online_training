@@ -59,7 +59,7 @@
       <div class="modal-content">
         <div class="modal-header" style="background: #a331a3;">
           <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
-          Training Data
+          トレーニングデータ
           </h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -111,8 +111,8 @@
             </form>
           </div>
          {{--  <div class="modal-footer row justify-content-center">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="nav-link active__" style="color: white;">Submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            <button type="button" class="nav-link active__" style="color: white;">送信する</button>
           </div> --}}
         </div>
       </div>
@@ -144,8 +144,8 @@
                 </div>
             </div>
              <div class=" row justify-content-center">
-          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-          <a id="f_btn" href="#" class="nav-link active__ m-1" style="color: white;">Submit</a>
+          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
+          <a id="f_btn" href="#" class="nav-link active__ m-1" style="color: white;">送信する</a>
         </div>
           </form>
         </div>
@@ -353,9 +353,9 @@ $("#f_btn").click(function(){
         Swal.fire({
            icon: '',
            title: '説明',
-           html: " <br> <b> summary:</b> "+text+" <br> <br> sub: "+sub
-          + " <br> <br> <b>way:</b> "+way
-          + " <br> <br> <b>motion:</b> "+motion,
+           html: " <br> <b> サマリ:</b> "+text+" <br> <br> サブ: "+sub
+          + " <br> <br> <b>方法:</b> "+way
+          + " <br> <br> <b>モーション:</b> "+motion,
            showConfirmButton:false
          })
   }
