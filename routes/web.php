@@ -106,7 +106,8 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainee/training/list", "TrainingController@traineelist")->name(('traineelist'));
 	Route::post("/trainee/training/ajax_training_performance/{id}", "TrainingController@ajax_training_performance")->name(('ajax_training_performance'));
 	Route::post("/trainee/training/ajax_training_get_comment/{id}", "TrainingController@ajax_training_get_comment")->name(('ajax_training_get_comment'));
-	
+	Route::match(['GET'],"/trainer/userhistory/{id}", "TrainingController@userhistory")->name(('userhistory'));
+	Route::match(['GET'],"/trainee/trainerhistory/{id}", "TrainingController@trainerhistory")->name(('trainerhistory'));
 	Route::get("/trainer/schedule", "ScheduleController@scheduleView")->name(('trainerSchedule'));
 	Route::get("/user/trainer/view", "TrainerController@trainerView")->name(('trainerView'));
 

@@ -18,6 +18,7 @@ use App\Model\Course;
 use App\Model\Training;
 use App\Model\Exercise;
 use Illuminate\Support\Facades\Crypt;
+use App\Model\User;
 
 
 use DateTime;
@@ -260,7 +261,63 @@ class TrainingController extends Controller
             }
     	
     }
-
+    public function userhistory(Request $request){
+        $course = Course::where('status',1)->get();
+        $main=Course::where('status',1)->groupBy('main')->get();
+        $user=Trainee::find($request->id);
+        if(!$user){
+            return redirect()->route('calendar.view','month')->with('errors_m','ユーザーは存在しません');
+        }
+        // $schedule = TrainerSchedule::find($request->id);
+        if($request->birthday){
+            $date = Carbon::createFromFormat('Y-m', $request->birthday);
+            // dd($date->year);
+            $list = Training::whereMonth('created_at',$date->month)
+                            ->whereYear('created_at',$date->year)
+                            ->orderBy('id','DESC')->get();
+        }else{
+            $date = '';
+            $list = Training::orderBy('id','DESC')->get();
+        }
+        // dd($request->id);
+        // dd($exerciseData->getExerciseData);
+        return view('pages.trainer.user_history')
+        ->with('course',$course)
+        ->with('userId',$request->id)
+        ->with('user',$user)
+        ->with('isActive','traininglist')
+        ->with('list',$list)
+        ->with('date',$date)
+        ->with('main',$main);
+    }
+    public function trainerhistory(Request $request){
+        $course = Course::where('status',1)->get();
+        $main=Course::where('status',1)->groupBy('main')->get();
+        $user=Trainer::find($request->id);
+        if(!$user){
+            return redirect()->route('calendar.view','month')->with('errors_m','ユーザーは存在しません');
+        }
+        // $schedule = TrainerSchedule::find($request->id);
+        if($request->birthday){
+            $date = Carbon::createFromFormat('Y-m', $request->birthday);
+            // dd($date->year);
+            $list = Training::whereMonth('created_at',$date->month)
+                            ->whereYear('created_at',$date->year)
+                            ->orderBy('id','DESC')->get();
+        }else{
+            $date = '';
+            $list = Training::orderBy('id','DESC')->get();
+        }
+        // dd($request->id);
+        // dd($exerciseData->getExerciseData);
+        return view('pages.trainee.trainer_history')
+        ->with('course',$course)
+        ->with('userId',$request->id)
+        ->with('user',$user)
+        ->with('list',$list)
+        ->with('date',$date)
+        ->with('main',$main);
+    }
     public function list(Request $request){
     	$course = Course::where('status',1)->get();
         $main=Course::where('status',1)->groupBy('main')->get();

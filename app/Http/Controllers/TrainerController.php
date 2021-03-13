@@ -411,7 +411,9 @@ class TrainerController extends Controller
 
               $validateData = $request->validate([
 
-            'first_name' => 'required'
+            'first_name' => 'required',
+            'image' => 'max:5120',
+
             // 'fat' => 'required',
         ]);
 

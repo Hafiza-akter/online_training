@@ -163,15 +163,23 @@ z-index: 1;inset: 21px -2% -65px !important;
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
               @if($val->is_occupied )
-                <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > ユーザー詳細</button>
+                <a class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} href="{{ route('userhistory',$val->user_id)}}"> ユーザー詳細</a>
               @else 
-                <span> アサインされていません。 </span>
+                <span> Not assigned yet </span>
               @endif
               
             </td>
             <td>
-              <a class="btn btn-success"  href="{{ route('training',$val->id)}}"> トレーニング詳細</a>
-               
+               @php
+                    $parameter =[
+                    'id' =>$val->id,
+                    ];
+                    $parameter= \Crypt::encrypt($parameter);
+                  @endphp
+              <a class="btn btn-success"  href="{{ route('training',$parameter)}}"> トレーニング詳細</a>
+              @if($val->status != 'cancelled')
+              {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
+              @endif 
             </td>
           </tr>
         @endforeach

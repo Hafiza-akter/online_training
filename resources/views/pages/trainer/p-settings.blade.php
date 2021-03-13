@@ -27,7 +27,7 @@
 
 
     <div class="offset-sm-2 col-sm-8 mb-4">
-        @if ($errors->any())
+        {{-- @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -35,13 +35,13 @@
                 @endforeach
             </ul>
         </div>
-        @endif
+        @endif --}}
 
 
         <!-- /.card-header -->
         <!-- form start -->
         @if(Session::has('message'))
-        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('message') }}</p>
         @endif
          @if(Session::has('success'))
         <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success') }}</p>
@@ -169,7 +169,7 @@
                         <label class="col-form-label _phone_">電話</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="phone" class="form-control" value="{{ $user->phone}}">
+                        <input type="text" name="phone" class="form-control" value="{{ $user->phone}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" >
                       </div>
                     </div>
 
@@ -235,7 +235,7 @@
                         </div>
                         <div class="col-4">
                           <h4 class="mx-auto _photo_path_">写真変更</h4>
-                          <input type="file" name="image" >
+                          <input type="file" name="image" id="photo_path" >
 
                         </div>
                       </div>
@@ -346,6 +346,17 @@
         $('.datepicker').datepicker();
 
     });
+    $(function () {
+    $('#photo_path').change(function () {
+        var val = $(this).val().toLowerCase(),
+            regex = new RegExp("(.*?)\.(jpg|jpeg|png)$");
+        if (!(regex.test(val))) {
+            $(this).val('');
+            alert(' Image file is not valid !!');
+        }
+    });
+
+});
 
 </script>
 @endsection 

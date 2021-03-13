@@ -110,7 +110,6 @@ class TraineeController extends Controller
 
         }
 
-        // dd($dayPerWeek);
 
         $planStartDate= Carbon::parse($purchasePlan->created_at)->format('Y-m-d');
         $convertTodate = Carbon::parse($planStartDate);

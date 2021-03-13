@@ -99,7 +99,6 @@
                            <div class="form-group">
                                 <select class="form-control" name="period_month" style="padding:5px;" id="period_month" >
                                   <option value="1">１か月</option>
-                                  <option value="2">２か月</option>
                                   <option value="3">３か月</option>
                                 </select>
                             </div>

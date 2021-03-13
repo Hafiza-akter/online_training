@@ -115,7 +115,10 @@
 
 
                     @if($val->is_occupied )
-                      <button class="btn btn-info" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > トレーナー詳細</button>
+                      <a class="btn btn-info"
+                       {{ $val->is_occupied ? '' : 'disabled="disabled"'}} 
+                       href="{{ route('trainerhistory',$val->trainer_id)}}" 
+                       > トレーナー詳細</a>
                     @else 
                       <span> Not assigned yet </span>
                     @endif

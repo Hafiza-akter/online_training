@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
               
               didOpen:function(){
                 Swal.disableButtons();
-                
+
 
                   $(".dtp").datetimepicker({
                     formatViewType: 'time',
@@ -362,6 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     $("#selected_time").val(this.value);
 
                 });
+                                Swal.denyButton().removeAttribute('disabled');
+
             }
 
             }).then((result) => {

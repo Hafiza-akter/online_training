@@ -20,34 +20,13 @@
 
 </style>
 <section class="review_part gray_bg section_padding">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-xl-6">
-            <div class="section_tittle">
-                <h3>トレーニング履歴</h3>
-            </div>
-        </div>
-    </div>
+  
     <div class="row justify-content-center">
       <div class="col-md-10 col-xl-10">
         <div class="card mt-4">
-            <div class="card-header">
-                {{-- <h3 class="card-title">トレーニングリスト</h3> --}}
-              <form action="{{route('traininglist')}}" method="post">
-                   
-                {{ csrf_field() }}               
-                 <div class="row mb-3">
-                  <div class="col-3">
-                    <p class="col-form-label birthday">総トレーニング数:  {{ count($list)}}  </p>
-                  </div>
-                    <div class="col-4">
-                    <input type="text" name="birthday" class="form-control datepicker" value="{{ $date != '' ? date('Y-m',strtotime($date)) : date('Y-m')}}" readonly="readonly">
-                    
-                  </div>
-                  <div class="col-2">
-                      <input type="submit" value="検索" class="nav-link active__" style="color:white;">
-                  </div>
-                </div>
-              </form>
+           <div class="card-header">
+                <h3 class="card-title">
+                  {{$user->first_name }} トレーニング履歴</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -64,14 +43,14 @@
                     @php $i=1 @endphp
                     @if($list)
                       @foreach($list as $val)
-                      @if(getUserName($val->trainer_schedule_id)->id == $userId)
+                      @if(getTrainerName($val->trainer_schedule_id)->id == Session::get('user.id'))
 
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>
                               <td>{{$val->trainer_feedback}}</td>
                               <td>{{ getUserName($val->trainer_schedule_id)->name }}</td>
                               <td>
-                                <button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable{{$val->id}}" style="color:white;"> 詳細 </button>
+                                <button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable{{$val->id}}" style="color:white;"> Details </button>
                               </td>
                           </tr>
                           @endif
@@ -124,7 +103,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">メイン </label>
+                        <label class=" col-form-label">メイン </label>
                             <select class="form-control main" style="width: 100%;" name="main[]" disabled="disabled" readonly>
                                 @if($main)
                                   @foreach($main as $val)
@@ -134,7 +113,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">コース</label>
+                        <label class=" col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required" disabled="disabled" readonly>
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
@@ -142,7 +121,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">備品</label>
+                        <label class=" col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" disabled="disabled" readonly>
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>
@@ -178,12 +157,12 @@
 
                     </div>
                     @endforeach
-                    <div class="form-group  row justify-content-center">
+                   {{--  <div class="form-group  row justify-content-center">
                       <div class="col-sm-10">
                       <label class="col-form-label">コメントの入力</label>      
                          <p> {{ $exerciseData->comment }}</p>
                       </div>
-                  </div>
+                  </div> --}}
                   <div class="form-group  row justify-content-center">
                       <div class="col-sm-10">
                       <label class="col-form-label">フィードバック</label>                 
@@ -206,28 +185,10 @@
 <script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <!-- for a specific version -->
-<script
-  src="https://cdn.jsdelivr.net/npm/zebra_datepicker@1.9.13/dist/zebra_datepicker.min.js"></script>
-  <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/zebra_datepicker@latest/dist/css/bootstrap/zebra_datepicker.min.css">
-<script>
 
-  </script>
 
- <style>
-      .Zebra_DatePicker .dp_body .dp_current{
-        background:#a50ca4 !important;
-        color:white;
-      }
-  </style>
   <script>
-              $('.datepicker').Zebra_DatePicker({
-                   direction: ['2021-01-01', false],
-                    format: 'Y-m',
 
-        });
- 
 
   function showExplanation(text,sub,way,motion){
         Swal.fire({

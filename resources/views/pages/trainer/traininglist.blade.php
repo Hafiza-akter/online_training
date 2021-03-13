@@ -124,7 +124,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">メイン </label>
+                        <label class=" col-form-label">メイン </label>
                             <select class="form-control main" style="width: 100%;" name="main[]" disabled="disabled" readonly>
                                 @if($main)
                                   @foreach($main as $val)
@@ -134,7 +134,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">コース</label>
+                        <label class=" col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required" disabled="disabled" readonly>
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
@@ -142,7 +142,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">備品</label>
+                        <label class=" col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" disabled="disabled" readonly>
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>

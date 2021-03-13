@@ -293,6 +293,15 @@ class ScheduleController extends Controller
                         $string = "-- 過去の日付が含まれていたため、いくつかのスケジュールが作成に失敗しました。";
                         continue;
                     }
+                    // check past time
+                    $end= new Carbon($val->start);
+                    $start = Carbon::now();
+                    $totalDuration = $start->diffInMinutes($end,false); 
+
+                    if($totalDuration <= 0){
+                        $string = "一 部のスケジュールは、過去の時間が含まれていたために作成できませんでした。";
+                        continue;
+                    }
 
                     $allDateSchedule = TrainerSchedule::where('date',Carbon::parse($val->start)->format('Y-m-d'))
                                     ->where('trainer_id',$request->trainer_id)

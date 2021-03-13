@@ -20,18 +20,13 @@
 
 </style>
 <section class="review_part gray_bg section_padding">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-xl-6">
-            <div class="section_tittle">
-                <h3>トレーニング履歴</h3>
-            </div>
-        </div>
-    </div>
+    
     <div class="row justify-content-center">
       <div class="col-md-10 col-xl-10">
         <div class="card mt-4">
             <div class="card-header">
-                <h3 class="card-title">トレーニングリスト</h3>
+                <h3 class="card-title">
+                  {{$user->name }} トレーニング履歴</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -48,7 +43,7 @@
                     @if($list)
                       @foreach($list as $val)
 
-                        @if(getUserName($val->trainer_schedule_id)->id == Session::get('user.id'))
+                        @if(getUserName($val->trainer_schedule_id)->id == $userId)
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>
                               {{-- <td>{{$val->comment}}</td> --}}
@@ -107,7 +102,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">メイン </label>
+                        <label class=" col-form-label">メイン </label>
                             <select class="form-control main" style="width: 100%;" name="main[]" disabled="disabled" readonly>
                                 @if($main)
                                   @foreach($main as $val)
@@ -117,7 +112,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">コース</label>
+                        <label class=" col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required" disabled="disabled" readonly>
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
@@ -125,7 +120,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">備品</label>
+                        <label class=" col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" disabled="disabled" readonly>
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>
@@ -161,12 +156,14 @@
 
                     </div>
                     @endforeach
-                  {{--   <div class="form-group  row justify-content-center">
+                    @if($exerciseData->trainer_feedback)
+                    <div class="form-group  row justify-content-center">
                       <div class="col-sm-10">
                       <label class="col-form-label">コメントの入力</label>
-                          <p>{{ $exerciseData ? $exerciseData->comment : ''}}</p>
+                          <p>{{ $exerciseData ? $exerciseData->trainer_feedback : ''}}</p>
                       </div>
-                  </div> --}}
+                  </div>
+                  @endif
             @endif
             <!-- // end edit mode -->
           </div>

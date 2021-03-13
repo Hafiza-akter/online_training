@@ -160,7 +160,7 @@
                         <label class="col-form-label _phone_">電話</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="phone" class="form-control" value="{{ old('phone')}}">
+                        <input type="text" name="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  class="form-control" value="{{ old('phone')}}">
                       </div>
                     </div>
 
