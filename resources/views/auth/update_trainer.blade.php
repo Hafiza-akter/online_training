@@ -67,7 +67,7 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _first_name_">ファーストネーム</label>
+                        <label class="col-form-label _first_name_">名字</label>
                       </div>
                       <div class="col-8">
                         <input type="text" name="first_name" class="form-control" value="{{ old('first_name')}}">
@@ -76,7 +76,7 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _first_phonetic_">フリガナ</label>
+                        <label class="col-form-label _first_phonetic_">フリガナ(名字)</label>
                       </div>
                       <div class="col-8">
                         <input type="text" name="first_phonetic" class="form-control" value="{{ old('first_phonetic') }}">
@@ -85,7 +85,7 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _family_name_">苗字</label>
+                        <label class="col-form-label _family_name_">名前</label>
                       </div>
                       <div class="col-8">
                         <input type="text" name="family_name" class="form-control" value="{{ old('family_name') }}">
@@ -94,7 +94,7 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _family_phonetic_">家族のふりがな</label>
+                        <label class="col-form-label _family_phonetic_">フリガナ(名前)</label>
                       </div>
                       <div class="col-8">
                         <input type="text" name="family_phonetic" class="form-control" value="{{ old('family_phonetic') }}">
@@ -166,7 +166,7 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _unit_price">単価</label>
+                        <label class="col-form-label _unit_price">希望単価</label>
                       </div>
                       <div class="col-8">
                         <input type="text" name="unit_price" class="form-control">
@@ -175,7 +175,7 @@
 
                     <div class="row mb-3">
                         <div class="col-4">
-                            <label class="col-form-label interface">インターフェース</label>
+                            <label class="col-form-label interface">機器</label>
                         </div>
                         <div class="col-8">
                             <select class="form-control" name="interface">
@@ -201,14 +201,14 @@
                         <textarea name="intro" class="form-control" rows="5">{{ old('intro')}}</textarea>
                       </div>
                       <div class="row pt-3 pb-3">
-                        <h4 class="mx-auto certification">資格など</h4>
+                        <h4 class="mx-auto certification">資格や実績など</h4>
                       </div>
                       <div class="row pt-3 pb-3">
                         <textarea name="certification" class="form-control" rows="5">{{ old('intro')}}</textarea>
                       </div>
 
                       <div class="row pt-3 pb-3">
-                        <h4 class="mx-auto _photo_path_">写真のパス</h4>
+                        <h4 class="mx-auto _photo_path_">写真のアップロード</h4>
                       </div>
                       <div class="row pt-3 pb-3">
                           <input type="file" name="image" >
