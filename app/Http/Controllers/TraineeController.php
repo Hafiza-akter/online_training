@@ -848,11 +848,11 @@ class TraineeController extends Controller
         $user = \App\Model\User::where('id',$user_id)->get()->first();
 
         if($user->phone === null || $user->address === null){
-            return redirect()->route('traininginfo')->with('success','Please input traininginfo first');
+            return redirect()->route('traininginfo')->with('success','ユーザー情報の登録が必要です。');
         }
 
         if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
-            return redirect()->route('physicaldata')->with('success','Please input physical information first');
+            return redirect()->route('physicaldata')->with('success','身体情報の登録が必要です。');
 
             // return view('auth.branch');
         }

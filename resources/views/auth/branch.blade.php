@@ -31,7 +31,7 @@
                 <div class="col-md-12 col-xl-12">
                     <div class="section_tittle">
                         {{-- Take a peek at what it looks like --}}
-                       <a href="{{ route('quickview') }}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">それがどのように見えるかを覗いてみてください</a>
+                       <a href="{{ route('quickview') }}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">システムをのぞいてみる</a>
                     </div>
                 </div>
 
