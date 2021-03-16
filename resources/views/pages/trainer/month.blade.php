@@ -136,15 +136,23 @@ z-index: 1;inset: 21px -2% -65px !important;
           <tr>
             <td scope="row">{{ ++$key}}</td>
             <td >
+              @if($val->is_occupied == 1)
 
-              @if($val->status === 'rescheduled')
-              <span class="btn-warning p-1"> {{ $val->status }}</span>
-              @endif
+                @if($val->status === 'rescheduled')
+                <span class="btn-warning p-1"> {{ $val->status }}</span>
+                @endif
 
-              @if($val->status === 'cancelled')
-              <span class="btn-danger p-1"> {{ $val->status }}</span>
-              @endif
-            </th>
+                @if($val->status === 'cancelled')
+                <span class="btn-danger p-1"> {{ $val->status }}</span>
+                @endif
+                @if($val->status === 'completed')
+                <span class="btn-success p-1"> {{ $val->status }}</span>
+                @endif
+                @if($val->status === 'cancelled_penalty')
+                <span class="btn-red p-1"> {{ 'cancelled' }}</span>
+                @endif
+              @endif 
+            </td>
             <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
@@ -292,8 +300,9 @@ $(".tblue").click(function(){
            var dayname=moment(moment(info.event.start)).format('dddd');
             Swal.fire({
               title: '予定を変更しますか？',
-              showDenyButton: true,
+              showDenyButton: false,
               showCancelButton: true,
+              showConfirmButton: true,
               width: '650px',
               // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
               // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'

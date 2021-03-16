@@ -148,15 +148,23 @@ z-index: 1;inset: 21px -2% -65px !important;
           <tr>
             <td scope="row">{{ ++$key}}</td>
             <td >
+              @if($val->is_occupied == 1)
 
-              @if($val->status === 'rescheduled')
-              <span class="btn-warning p-1"> {{ $val->status }}</span>
-              @endif
+                @if($val->status === 'rescheduled')
+                <span class="btn-warning p-1"> {{ $val->status }}</span>
+                @endif
 
-              @if($val->status === 'cancelled')
-              <span class="btn-danger p-1"> {{ $val->status }}</span>
+                @if($val->status === 'cancelled')
+                <span class="btn-danger p-1"> {{ $val->status }}</span>
+                @endif
+                @if($val->status === 'completed')
+                <span class="btn-green p-1"> {{ $val->status }}</span>
+                @endif
+                @if($val->status === 'cancelled_penalty')
+                <span class="btn-red p-1"> {{ 'cancelled' }}</span>
+                @endif
               @endif
-            </th>
+            </td>
             <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>

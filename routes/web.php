@@ -137,9 +137,9 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainee/traininginfo", "TraineeController@traininginfo")->name(('traininginfo'));
 	Route::post("/trainee/traininginfo/submit", "TraineeController@traininginfosubmit")->name(('traininginfo.submit'));
 
-	Route::get("/trainee/scheduled/month", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
-	Route::post("/trainee/trainerSubmitBytime", "TraineeController@trainerSubmitBytime")->name(('trainerSubmitBytime'));
-	Route::post("/trainee/scheduled/calendar", "TraineeController@scheduleCalendarSubmit")->name(('traineeCalendar.submit'));
+	Route::match(['GET','POST'],"/trainee/scheduled/month", "TraineeController@scheduleCalendar")->name(('traineeCalendar.view'));
+	Route::match(['GET','POST'],"/trainee/trainerSubmitBytime", "TraineeController@trainerSubmitBytime")->name(('trainerSubmitBytime'));
+	Route::match(['GET','POST'],"/trainee/scheduled/calendar", "TraineeController@scheduleCalendarSubmit")->name(('traineeCalendar.submit'));
 
 
 	Route::get("/trainee/scheduled/{selected_date}/time", "TraineeController@scheduleTime")->name(('traineeTime.view'));

@@ -131,13 +131,13 @@ z-index: 1;inset: 21px -2% -65px !important;
       </div>
 
       <div id='calendar'></div>
-      <button  class="fc-myCustomButton-button fc-button fc-button-primary mt-2" type="button" style="float: right;font-size: 20px" onclick="document.getElementById('scheduleForm').submit();">登録</button>
+      {{-- <button  class="fc-myCustomButton-button fc-button fc-button-primary mt-2" type="button" style="float: right;font-size: 20px" onclick="document.getElementById('scheduleForm').submit();">登録</button>
       <button  class="fc-myCustomButton-button fc-button fc-button-primary mt-2 btn-danger" type="button" id="scheduleDeletebtn" style="margin-right: 10px;display:none; float: right;font-size: 20px" onclick="document.getElementById('scheduleDelete').submit();">削除</button>
-
+ --}}
         <input type="hidden" id="schedule" value="{{ $schedule}}">
   </div>
 </section>
-
+<input type="hidden" value="{{ $checkPenalty }}" id="checkPenalty">
 <input type="hidden" name="dayGridspecific"  id="dayGridspecific" value="{{Session::get('dayGridspecific') ? Session::get('dayGridspecific') : 'FA'}}">
 @endsection
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         contentHeight:"auto",
         initialView: 'timeGridDay',
-        nowIndicator: true,
+        // nowIndicator: true,
         // scrollTime:'01:00:00',
         slotDuration:'01:00:00',
     // firstDay: (new Date().getDay()), // returns the day number of the week, works! 
@@ -301,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
               title: '予定を変更しますか？',
               showDenyButton: true,
               showCancelButton: true,
+              showDenyButton: false,
               width: '650px',
               // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
               // html: "<div class='row p-3'>" +dayname+ " day "+' at <input class="dtp ml-2 mr-2" type="text"  readonly style="width:100px"> TO <input class="dtp2 dtp ml-2 mr-2" type="text"  readonly style="width:100px"></div>'
@@ -362,7 +363,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     $("#selected_time").val(this.value);
 
                 });
-                                Swal.denyButton().removeAttribute('disabled');
 
             }
 
@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('submit');
 
                     // e.preventDefault(); // avoid to execute the actual submit of the form.
-
+                    $('#dateform').submit();
                     var form = $("#dateform");
                     var url = form.attr('action');
                     
@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                   title: 'Schedule time set successfully! ',
                                   showConfirmButton:false
                                 })
-                                location.reload();
+                                // location.reload();
                            }
                     });
 
@@ -491,6 +491,17 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       if($(this).val() == 'dayreschedule'){
+        if($('#checkPenalty').val() == 'found'){
+          Swal.fire({
+            icon: 'error',
+            title: 'You got penalty in this week, and unable to reschedule ',
+            showConfirmButton:false
+          })
+           return false;
+        }
+       
+        console.log('dayreschedule');
+
         Swal.disableButtons();
         Swal.getConfirmButton().removeAttribute('disabled');
          $('.dtp').removeAttr('Disabled');

@@ -92,7 +92,14 @@
         });
     </script>
     @yield('footer_css_js')
+<style type="text/css">
+.alert-info{
+    background-color:#d4edda !important;
+    border-color:#c3e6cb;
+    color: #155724;
+}
 
+</style>
 </body>
 
 </html>

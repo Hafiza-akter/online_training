@@ -15,12 +15,16 @@
 		スケジュールが予約されました
 	<br>
 	***-----------------スケジュール情報----------------------***<br>
-		User Name : {{ $details['user_name']}}; <br>
-		User Email : {{ $details['user_email']}}; <br>
-        Booking Date: {{ $details['date'] }}<br>
-        Booking Time: {{ $details['time'] }}<br>
-        Trainer Name: {{ $details['trainer_name'] }}<br>
-        Trainer Email: {{ $details['trainer_email'] }} <br>
+		@if($details['type'] == 'trainee')
+			{{ $details['month'] }} 月 {{ $details['day'] }} 日 {{ $details['time']}} 時より {{ $details['trainer_name'] }} トレーナーとのトレーニングの予約をお取りしました。
+			当日のお時間になりましたらスケジュールページ下のトレーニング開始ボタンよりご参加ください。
+			{{ $details['address'] }}
+		@endif
+		@if($details['type'] == 'trainer')
+			{{ $details['month'] }} 月 {{ $details['day'] }} 日 {{ $details['time']}} 時より {{ $details['user_name'] }} トレーナーとのトレーニングの予約をお取りしました。
+			当日のお時間になりましたらスケジュールページ下のトレーニング開始ボタンよりご参加ください。
+			{{ $details['address'] }}
+		@endif
 	***-------------------------------------------------------***<br>
 	<br>
 	<br>

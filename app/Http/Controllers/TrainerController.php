@@ -75,7 +75,7 @@ class TrainerController extends Controller
     }
     public function scheduleCalendarSubmit(Request $request){
     	// time 
-    	$time =TrainerSchedule::where('date',$request->selected_date)->where('trainer_id',Session::get('user')->id)->get();
+    	$time =TrainerSchedule::whereDate('date',$request->selected_date)->where('trainer_id',Session::get('user')->id)->get();
 
     	return view('pages.trainer.time')
     	->with('selected_date',$request->selected_date)
@@ -83,7 +83,7 @@ class TrainerController extends Controller
     }
     
     public function scheduleTime(Request $request){
-    	$time =TrainerSchedule::where('date',$request->selected_date)->get();
+    	$time =TrainerSchedule::whereDate('date',$request->selected_date)->get();
     	return view('pages.trainer.time')
     	->with('selected_date',$request->selected_date)
     	->with('time',$time);
@@ -101,7 +101,7 @@ class TrainerController extends Controller
 
         // validation for unique time set up 
 
-        $allDateSchedule = TrainerSchedule::where('date',$request->date)->get();
+        $allDateSchedule = TrainerSchedule::whereDate('date',$request->date)->get();
 
         if($allDateSchedule){
             foreach($allDateSchedule as $val){
@@ -145,7 +145,7 @@ class TrainerController extends Controller
             if(count($arr) > 0){
                 foreach($arr as $index=>$val){
 
-                    $allDateSchedule = TrainerSchedule::where('date',Carbon::parse($val->start)->format('Y-m-d'))
+                    $allDateSchedule = TrainerSchedule::whereDate('date',Carbon::parse($val->start)->format('Y-m-d'))
                                     ->where('trainer_id',$request->trainer_id)
                                     ->where('time',Carbon::parse($val->start)->format('H:i:s'))
                                     ->get()->first();
@@ -240,7 +240,7 @@ class TrainerController extends Controller
                                 ->with('gridView',$request->gridView);
                             }
                         }else{
-                            $scheduleU = TrainerSchedule::where('date',$val)->where('time',Carbon::parse($request->db_start_time)->format('H:i:s'))->where('trainer_id',$request->trainer_id)->get()->first();
+                            $scheduleU = TrainerSchedule::whereDate('date',$val)->where('time',Carbon::parse($request->db_start_time)->format('H:i:s'))->where('trainer_id',$request->trainer_id)->get()->first();
                             if($scheduleU){
                                 $scheduleU->status ='rescheduled';
                                 $scheduleU->save();
@@ -295,7 +295,7 @@ class TrainerController extends Controller
                 }
                 foreach($arr as $key=>$val){
 
-                        $scheduleU = TrainerSchedule::where('date',$val)->where('time',Carbon::parse($request->db_start_time)->format('H:i:s'))->where('trainer_id',$request->trainer_id)->get()->first();
+                        $scheduleU = TrainerSchedule::whereDate('date',$val)->where('time',Carbon::parse($request->db_start_time)->format('H:i:s'))->where('trainer_id',$request->trainer_id)->get()->first();
                         if($scheduleU){
                             $scheduleU->status ='cancelled';
                             $scheduleU->save();
@@ -328,7 +328,7 @@ class TrainerController extends Controller
     }
 
     public function checkUniqueTimeSlot($date,$time){
-        $allDateSchedule = TrainerSchedule::where('status',NULL)->where('date',$date)->where('trainer_id',Session::get('user')->id)->get();
+        $allDateSchedule = TrainerSchedule::where('status',NULL)->whereDate('date',$date)->where('trainer_id',Session::get('user')->id)->get();
         
 
         if($allDateSchedule){

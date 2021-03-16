@@ -94,6 +94,27 @@ class TraineeController extends Controller
                     return redirect()->route('purchaseplan')->with('message','Physical information added successfully');
 
     }
+    public function checkPenalty($schedule_date,$user_id){
+
+        $date = Carbon::parse($schedule_date);
+
+        $start = $date->startOfWeek()->toDateString();
+        $end = $date->endOfWeek()->toDateString();
+        $count = TrainerSchedule::where('user_id',$user_id)
+        ->where('status','cancelled_penalty')
+        ->whereBetween('date', [$start, $end])->get()->count();
+        // dd($count);
+        $purchasePlan = UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get()->first();
+        $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
+        // 
+        // dd($dayPerWeek);
+        if($count >= $dayPerWeek){
+            return true;
+
+        }
+        
+        return false;
+    }
     public function checkReservation($schedule_date,$user_id){
 
         $date = Carbon::parse($schedule_date);
@@ -133,6 +154,7 @@ class TraineeController extends Controller
     }
     public function trainerSubmitBytime(Request $request){
         
+        // dd($request->all());
         $tinfo = Trainer::find($request->trainer_id);
 
         // dd($tinfo);
@@ -140,29 +162,27 @@ class TraineeController extends Controller
         // dd($rval);
         if($rval == 'count_exceed'){
             return redirect()->route('traineeCalendar.view')
-            ->with('errors_m','Plan limit exceeds');
+            ->with('errors_m','プラン制限を超えました');
         }
         if($rval == 'past_future'){
                 return redirect()->route('traineeCalendar.view')
-                    ->with('errors_m','Selection date is not between plan start and end date');
+                    ->with('errors_m','選択した日付がプランの開始日と終了日の間にありません');
+        } 
+        if(checkPastTIme($request->time,$request->date)){
+                return redirect()->route('traineeCalendar.view')
+                 ->with('errors_m','スケジュール時間が過ぎました');
         }
-        $details=array();
-        $details['user_name'] = Session::get('user.name');
-        $details['user_email'] = Session::get('user.email');
-        $details['date'] = $request->date;
-        $details['time'] = $request->time;
-        $details['trainer_name'] = $tinfo->first_name;
-        $details['trainer_email'] = $tinfo->email;
+       
 
       
-        $schedule =TrainerSchedule::where('date',$request->date)
+        $schedule =TrainerSchedule::whereDate('date',$request->date)
                                     ->where('time',$request->time)
                                     ->where('trainer_id',$request->trainer_id)
-                                    ->where('user_id',Session::get('user.id'))
                                     ->where('status',NULL)
                                     ->get()->first();
-
+                                    // dd($schedule);
         if(!$schedule){
+            // dd('her');
             $newSchedule = new TrainerSchedule();
             $newSchedule->date =$request->date;
             $newSchedule->time =$request->time;
@@ -171,9 +191,26 @@ class TraineeController extends Controller
             $newSchedule->is_occupied =1;
             $newSchedule->save();
 
+        }else{
+            $schedule->user_id =Session::get('user.id');
+            $schedule->is_occupied =1;
+            $schedule->save();
         }
 
-        // dd($details);
+        $details=array();
+        $details['user_name'] = Session::get('user.name');
+        $details['user_email'] = Session::get('user.email');
+        $details['date'] = $request->date;
+        $details['month'] = Carbon::parse()->format('F');
+        $details['day'] =  Carbon::parse()->format('D');
+        $details['time'] = $request->time;
+        $details['address'] = route('traineeCalendar.view');
+        $details['trainer_name'] = $tinfo->first_name;
+        $details['trainer_email'] = $tinfo->email;
+        $details['type'] = Session::get('user_type');
+        $details['trainer_name'] =getTrainerName($schedule->id)->first_name;
+        $details['user_name'] = Trainee::where('id',$schedule->user_id ? $schedule->user_id : $newSchedule->user_id )->get()->first()->name;
+
         \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
         \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
 
@@ -292,7 +329,9 @@ class TraineeController extends Controller
 
         }else{
 
-              $schedule =TrainerSchedule::where('user_id',Session::get('user')->id)->where('status',NULL)->get();
+              $schedule =TrainerSchedule::where('user_id',Session::get('user')->id)
+              ->where('status',NULL)
+              ->get();
                 if($schedule){
                     foreach ($schedule as $key => $value) {
                     $parsedArray[$count]['start'] = $value->date;
@@ -327,7 +366,7 @@ class TraineeController extends Controller
         //         $count++;
         //     }
         // }
-        $listSchedule =TrainerSchedule::where('user_id',Session::get('user')->id)->orderBy('date','DESC')->select('id','date as start_date','is_occupied','trainer_id','time','user_id')->get();
+        $listSchedule =TrainerSchedule::where('user_id',Session::get('user')->id)->orderBy('date','DESC')->get();
         $trainingDay= \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
         
         return view('pages.trainee.calendar')
@@ -340,7 +379,8 @@ class TraineeController extends Controller
     }
 
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
-        
+        $checkPenalty = "";
+
         // date selection conditions //
         // date selection conditions //
         // date selection conditions //
@@ -348,17 +388,14 @@ class TraineeController extends Controller
         $isPast=Carbon::parse($request->selected_date)->isPast();
        
         if(!$isToday && $isPast){
-            return redirect()->route('traineeCalendar.view')
+            return redirect()->back()
             ->with('errors_m','過去の日付は選択できません。');
         }
 
         $rval = $this->checkReservation($request->selected_date,Session::get('user.id'));
-        // if($rval == 'count_exceed'){
-        //     return redirect()->route('traineeCalendar.view')
-        //     ->with('errors_m','Plan limit exceeds');
-        // }
+       
         if($rval == 'past_future'){
-                return redirect()->route('traineeCalendar.view')
+               return redirect()->back()
                     ->with('errors_m','選択されえ日付はプランの購入日~終了日の範囲外です。');
         }
 
@@ -484,6 +521,13 @@ class TraineeController extends Controller
 
         }
         if($request->event_type=='occupied'){
+            
+            $penalty =$this->checkPenalty($request->selected_date,Session::get('user.id'));
+            if($penalty){
+                $checkPenalty = "found";
+            }else{
+                $checkPenalty = "not found";
+            }
             $schedule =TrainerSchedule::where('date',$request->selected_date)
                     ->where('user_id',Session::get('user.id'))
                     ->where('status',NULL)
@@ -530,7 +574,10 @@ class TraineeController extends Controller
             }
         }
         if($request->event_type=='normal'){
-
+             if($rval == 'count_exceed'){
+                return redirect()->back()
+                ->with('errors_m','プラン制限を超えました');
+            }
             $schedule =TrainerSchedule::where('date',$request->selected_date)
                     ->where('trainer_id',$request->trainer_id)
                     ->where('status',NULL)
@@ -682,6 +729,7 @@ class TraineeController extends Controller
         
         // dd($parsedArray);
         return view('pages.trainee.new_time')
+        ->with('checkPenalty',$checkPenalty)
                 ->with('schedule',json_encode($parsedArray,true))
                 ->with('event_type',$request->event_type)
                 ->with('trainer_id',$request->trainer_id)
@@ -690,7 +738,7 @@ class TraineeController extends Controller
     public function trainerlistviatime(Request $request){
 
         $trainerList1= TrainerSchedule::whereDate('date',$request->selected_date)
-                            ->whereDate('time',$request->start_time)
+                            ->where('time',$request->start_time)
                             ->where('status',NULL)
                     ->select(['trainer_id as id'])->groupBy('trainer_id')
                     ->get()->toArray();
@@ -720,10 +768,14 @@ class TraineeController extends Controller
     // }
 
     public function scheduleSubmit(Request $request){
-       
+    
         if(checkPastDate($request->db_date)){
             return redirect()->route('traineeCalendar.view')
             ->with('errors_m','The schedule date has been passed');
+        }
+        if(checkPastTIme(Carbon::parse($request->start_time)->format('H:i:s'),$request->db_date)){
+                return redirect()->route('traineeCalendar.view')
+                 ->with('errors_m','The schedule time has been passed');
         }
 
         if($request->type == 'reschedule'){
@@ -733,6 +785,12 @@ class TraineeController extends Controller
                 ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
             }
 
+            $pval = $this->checkPenalty($request->db_date,Session::get('user.id'));
+            
+            if($pval){
+                return redirect()->route('traineeCalendar.view')
+                ->with('errors_m','In this week you got a penalty and you will not able to reschedule this week');
+            }
 
             $time = Carbon::parse($request->start_time)->format('H:i:s');
             $existingTime = Carbon::parse($request->db_start_time)->format('H:i:s');
@@ -771,16 +829,24 @@ class TraineeController extends Controller
                 $scheduleU->save();
 
                  return redirect()->route('traineeCalendar.view')
-                ->with('message','Rescheduled Successful');
+                ->with('message','時間の更新を正常にスケジュールする');
             }
             
         }
         if($request->type == 'cancel'){
 
+            // dd($request->all());
             $time = Carbon::parse($request->start_time)->format('H:i:s');
            if(checkLimitValidation($time,$request->db_date)){
+                $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)
+                            ->get()
+                            ->first();
+                if($scheduleU){
+                    $scheduleU->status ='cancelled_penalty';
+                    $scheduleU->save();
+                }
                 return redirect()->route('traineeCalendar.view')
-                ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+                ->with('errors_m','You got a penalty, as you have cancelled the schedule after camcelation limit time is over');
             }
 
             // ---------------------------------------------------
@@ -800,7 +866,7 @@ class TraineeController extends Controller
             $scheduleU->save();
 
             return redirect()->route('traineeCalendar.view')
-            ->with('message','Schedule Cancel Successfully');
+            ->with('message','キャンセルを正常にスケジュールする');
           
         }
         // end *******
@@ -848,11 +914,11 @@ class TraineeController extends Controller
         $user = \App\Model\User::where('id',$user_id)->get()->first();
 
         if($user->phone === null || $user->address === null){
-            return redirect()->route('traininginfo')->with('success','Please input traininginfo first');
+            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
         }
 
         if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
-            return redirect()->route('physicaldata')->with('success','Please input physical information first');
+            return redirect()->route('physicaldata')->with('success','最初に物理情報を入力してください');
 
             // return view('auth.branch');
         }

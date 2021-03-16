@@ -364,7 +364,7 @@ class SignupController extends Controller
 
             \Mail::to($user->email)->send(new \App\Mail\ForgetEmailController($details));
 
-            return redirect()->back()->with('message','A password link is sent to your email address');
+            return redirect()->back()->with('message','パスワードリセットリンクがあなたのメールアドレスに送信されます');
         }
         
     }

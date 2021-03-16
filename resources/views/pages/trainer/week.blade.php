@@ -149,16 +149,24 @@ z-index: 1;inset: 21px -2% -65px !important;
         @foreach($listSchedule as $key=>$val)
           <tr>
             <td scope="row">{{ ++$key}}</td>
-            <td >
+            <td>
 
-              @if($val->status === 'rescheduled')
-              <span class="btn-warning p-1"> {{ $val->status }}</span>
-              @endif
+              @if($val->is_occupied == 1)
+                 @if($val->status === 'rescheduled')
+                  <span class="btn-warning p-1"> {{ $val->status }}</span>
+                  @endif
 
-              @if($val->status === 'cancelled')
-              <span class="btn-danger p-1"> {{ $val->status }}</span>
+                  @if($val->status === 'cancelled')
+                  <span class="btn-danger p-1"> {{ $val->status }}</span>
+                  @endif
+                  @if($val->status === 'completed')
+                  <span class="btn-success p-1"> {{ $val->status }}</span>
+                  @endif
+                  @if($val->status === 'cancelled_penalty')
+                  <span class="btn-red p-1"> {{ 'cancelled' }}</span>
+                @endif
               @endif
-            </th>
+            </td>
             <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
             <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
             <td>
@@ -667,7 +675,7 @@ $(".tblue").click(function(){
           var dayname=moment(moment(info.event.start)).format('dddd');
           Swal.fire({
               title: '予定を変更しますか？',
-              showDenyButton: true,
+              // showDenyButton: true,
               showCancelButton: true,
               width: '650px',
               // html: "This week every day "+' at <input class="dtp" type="text"  readonly style="width:100px"> TO <input class="dtp2" type="text"  readonly style="width:100px">'
@@ -684,16 +692,16 @@ $(".tblue").click(function(){
                + 'Reschedule at <input class="dtp ml-2 mr-2" type="text"  disabled="disabled" style="width:100px"> TO <input class="dtp2  ml-2 mr-2" type="text"  disabled="disabled" style="width:100px">'
                +'</div>'
                +'<div class="row p-3 "><select class="form-control"  id="select_option" >'
-              +'<option value="0">--Select Action Type--</option>'
-                  +'<option value="reschedule"> Reschedule</option>'
-                  +'<option value="cancle_schedule"> Cancel Schedule</option>'
+              +'<option value="0">タイプを選択してください。</option>'
+                  +'<option value="reschedule">  予約を変更する</option>'
+                  +'<option value="cancle_schedule"> 予約をキャンセルする</option>'
               +'</select></div>'
               ,
 
 
-              confirmButtonText: `Reschedule`,
-              denyButtonText: `View Details`,
-              cancelButtonText: `Cancel Schedule`,
+              confirmButtonText: `予約を変更する`,
+              denyButtonText: `詳細を確認する`,
+              cancelButtonText: `予約をキャンセルする`,
               
               didOpen:function(){
                 Swal.disableButtons();

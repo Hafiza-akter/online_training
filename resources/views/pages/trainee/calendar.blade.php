@@ -90,6 +90,7 @@
     <thead>
       <tr>
         <th scope="col">#</th>
+        <th scope="col">ステータス</th>
         <th scope="col">日時</th>
         <th scope="col">予約時間</th>
         <th scope="col">トレーナー</th>
@@ -108,7 +109,25 @@
 
 
               <tr>
-                <th scope="row">{{ ++$key}}</th>
+                <td scope="row">{{ ++$key}}</td>
+                <td>
+                  
+                @if($val->is_occupied == 1)
+                  @if($val->status === 'rescheduled')
+                  <span class="btn-warning p-1"> {{ $val->status }}</span>
+                  @endif
+
+                  @if($val->status === 'cancelled')
+                  <span class="btn-danger p-1"> {{ $val->status }}</span>
+                  @endif
+                  @if($val->status === 'completed')
+                  <span class="btn-success p-1"> {{ $val->status }}</span>
+                  @endif
+                  @if($val->status === 'cancelled_penalty')
+                  <span class="btn-red p-1"> {{ 'cancelled' }}</span>
+                  @endif
+                 @endif 
+                </td>
                 <td>{{ \Carbon\Carbon::parse($val->start_date)->format('Y-m-d')}}</td>
                 <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
                 <td>
@@ -131,7 +150,9 @@
                     ];
                     $parameter= \Crypt::encrypt($parameter);
                   @endphp
+                  {{-- @if(!checkPastTIme(\Carbon\Carbon::parse($val->start_date)->format('Y-m-d'),\Carbon\Carbon::parse($val->time)->format('H:i:s'))) --}}
                   <a href="{{ route('trainingtrainee',$parameter)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
+                  {{-- @endif --}}
                   {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
                   {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
                 </td>
