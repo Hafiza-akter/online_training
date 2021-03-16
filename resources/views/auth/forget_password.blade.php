@@ -31,7 +31,7 @@
             @endif
            
               @if(Session::has('message'))
-              <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+              <p id="flashMessage" class="alert alert-success">{{ Session::get('message') }}</p>
               @endif
         </div>
 

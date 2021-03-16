@@ -19,7 +19,7 @@
                       {{ csrf_field() }}
                       <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
                       <button type="submit" class="btn border-round btn-success" >次へ </button> 
-                    <a class="btn border-round btn-warning" href="{{ route('traineeCalendar.view')}}">戻る </a>
+                    <a class="btn border-round btn-warning" href="{{ url()->previous()}}">戻る </a>
                   </form>
 
 

@@ -162,8 +162,8 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::post('/trainee/p-settings', 'TraineeController@psettingsSubmit')->name('trainee.p-settings.submit');
 	
 	// select trainer 
-	Route::get("/trainee/trainerlist", "TraineeController@trainerlist")->name(('trainerlist'));
-	Route::post("/trainee/trainerlistviatime", "TraineeController@trainerlistviatime")->name(('trainerlistviatime'));
+	Route::match(['GET','POST'],"/trainee/trainerlist", "TraineeController@trainerlist")->name(('trainerlist'));
+	Route::match(['GET','POST'],"/trainee/trainerlistviatime", "TraineeController@trainerlistviatime")->name(('trainerlistviatime'));
 	// trainer details
 	Route::get("/trainerDetails/{id}", "TrainerController@trainerDetails")->name(('trainerDetails'));
 	Route::get("/trainerselect/{id}/{date}/{time}", "TrainerController@trainerselect")->name(('trainerselect'));

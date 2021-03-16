@@ -335,7 +335,7 @@ class SignupController extends Controller
         $email = $request->input('email');
 
         if($request->input('type') === 'trainee'){
-            $user = Trainee::where('email',$email)->where('is_verified',1)->first();
+            $user = Trainee::where('email',$email)->where('is_verified','!=',0)->first();
         }
 
          if($request->type == 'trainer'){
@@ -371,9 +371,18 @@ class SignupController extends Controller
 
     // forget password verification link with new password form view 
      public function tokenVerify(Request $request){
-
         $token=$request->token;
         $type = $request->type;
+
+        $user = Trainee::where('token',$request->token)->first();
+        $end= new Carbon($user->expired_at);
+        $start = Carbon::now();
+        $totalDuration = $end->diffInHours($start,false); 
+
+        if($totalDuration >= 0){
+            return redirect()->route('forgetPassword',$request->type)->with('message','Token expired');
+        }
+       
 
         return view('auth.forget_password_submit')->with('type',$type)->with('token',$token);
 
@@ -424,7 +433,7 @@ class SignupController extends Controller
                 \Mail::to($user->email)->send(new \App\Mail\ForgetPasswordSuccess($details));
 
                 session(['user' => $user,'user_type'=>'trainer']);
-                return redirect()->route('calendar.view','month')->with('message','Welcome to trainer dashboard');
+                return redirect()->route('calendar.view','month')->with('message','トレーナーダッシュボードへようこそ');
             }
 
 
@@ -434,7 +443,7 @@ class SignupController extends Controller
                 \Mail::to($user->email)->send(new \App\Mail\ForgetPasswordSuccess($details));
 
                 session(['user' => $user,'user_type'=>'trainee']);
-                return redirect()->route('traineeCalendar.view')->with('message','Welcome to trainer dashboard');
+                return redirect()->route('traineeCalendar.view')->with('message','研修生ダッシュボードへようこそ');
             }
         }
     }

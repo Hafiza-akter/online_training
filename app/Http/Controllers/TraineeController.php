@@ -121,7 +121,10 @@ class TraineeController extends Controller
 
         $start = $date->startOfWeek()->toDateString();
         $end = $date->endOfWeek()->toDateString();
-        $count = TrainerSchedule::where('user_id',$user_id)->where('status',NULL)->whereBetween('date', [$start, $end])->get()->count();
+        $count = TrainerSchedule::where('user_id',$user_id)
+        ->where('status',NULL)
+        ->orwhere('status','cancelled_penalty')
+        ->whereBetween('date', [$start, $end])->get()->count();
         
         $purchasePlan = UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get()->first();
         $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
@@ -208,8 +211,8 @@ class TraineeController extends Controller
         $details['trainer_name'] = $tinfo->first_name;
         $details['trainer_email'] = $tinfo->email;
         $details['type'] = Session::get('user_type');
-        $details['trainer_name'] ="trainer-name";
-        $details['user_name'] = 'traee-name';
+        $details['trainer_name'] = Trainer::find($request->trainer_id)->first_name;
+        $details['user_name'] = Session::get('user.name');
 
         \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
         \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
@@ -736,7 +739,7 @@ class TraineeController extends Controller
         ->with('selected_date',$request->selected_date);
     }
     public function trainerlistviatime(Request $request){
-
+        // dd($request->all());
         $trainerList1= TrainerSchedule::whereDate('date',$request->selected_date)
                             ->where('time',$request->start_time)
                             ->where('status',NULL)
@@ -755,6 +758,7 @@ class TraineeController extends Controller
         return view('pages.trainee.traineelist_bytime')
         ->with('date',$request->selected_date)
         ->with('time',$request->start_time)
+        ->with('request',$request->all())
         ->with('trainerList',$trainerList);
     }
     
