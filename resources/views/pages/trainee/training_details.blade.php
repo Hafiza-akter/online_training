@@ -365,4 +365,4 @@ $("#f_btn").click(function(){
   }
   </script>
 
-@endsection 
+@endsection
