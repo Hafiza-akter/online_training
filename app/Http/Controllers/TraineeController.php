@@ -423,7 +423,7 @@ class TraineeController extends Controller
 
         if($request->event_type== null){ // when date is clicked first rather then select the trainer
             
-            $schedule =TrainerSchedule::where('date',$request->selected_date)
+            $schedule =TrainerSchedule::whereDate('date',$request->selected_date)
                     ->where('status',NULL)
                     ->get();
 
@@ -473,7 +473,7 @@ class TraineeController extends Controller
             if($recurring){
                 foreach($recurring as $key=>$value){
 
-                        $fnd=TrainerSchedule::where('date',$request->selected_date)
+                        $fnd=TrainerSchedule::whereDate('date',$request->selected_date)
                         ->where('time',Carbon::parse($value->time)->format('H:i:s'))
                         ->get()->first();
 
@@ -528,7 +528,7 @@ class TraineeController extends Controller
             }else{
                 $checkPenalty = "not found";
             }
-            $schedule =TrainerSchedule::where('date',$request->selected_date)
+            $schedule =TrainerSchedule::whereDate('date',$request->selected_date)
                     ->where('user_id',Session::get('user.id'))
                     ->where('status',NULL)
                     ->get();
@@ -578,7 +578,7 @@ class TraineeController extends Controller
                 return redirect()->back()
                 ->with('errors_m','プラン制限を超えました');
             }
-            $schedule =TrainerSchedule::where('date',$request->selected_date)
+            $schedule =TrainerSchedule::whereDate('date',$request->selected_date)
                     ->where('trainer_id',$request->trainer_id)
                     ->where('status',NULL)
                     ->get();
@@ -655,7 +655,7 @@ class TraineeController extends Controller
                 // dd($value->dow);
                 // $found=$this->filter_array_value(Carbon::parse($value->time)->format('H:i:s'),$compareArray);
                     
-                    $fnd=TrainerSchedule::where('date',$request->selected_date)
+                    $fnd=TrainerSchedule::whereDate('date',$request->selected_date)
                     ->where('trainer_id',$request->trainer_id)
                     ->where('time',Carbon::parse($value->time)->format('H:i:s'))
                     ->get()->first();
@@ -801,7 +801,7 @@ class TraineeController extends Controller
                 ->with('message','Your rescheduled time is same as previous one !');
             }
             $id = $request->db_schedule_id;
-            $found=TrainerSchedule::where('date',$request->db_date)
+            $found=TrainerSchedule::whereDate('date',$request->db_date)
                             ->where('status',NULL)
                             ->where('time',Carbon::parse($request->start_time)->format('H:i:s'))
                             ->where('trainer_id',$request->trainer_id)
