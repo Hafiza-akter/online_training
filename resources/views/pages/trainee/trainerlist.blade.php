@@ -34,7 +34,7 @@
                         <a href="{{ route('trainerDetails',$val->id)}}">
                         <div class="col-sm middle">
                             @if($val->photo_path != NULL)
-                                <img class="img-fluid"  src="{{asset('images').'/'.$val->photo_path}}" width="300">
+                                <img class="img-fluid"  src="{{asset('images').'/'.$val->photo_path}}" width="200">
                             @else 
                                  <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
 
