@@ -208,7 +208,7 @@ class TraineeController extends Controller
         $details['trainer_name'] = $tinfo->first_name;
         $details['trainer_email'] = $tinfo->email;
         $details['type'] = Session::get('user_type');
-        $details['trainer_name'] =getTrainerName($schedule->id)->first_name;
+        $details['trainer_name'] =getTrainerName($schedule ? $schedule->id : $request->trainer_id)->first_name;
         $details['user_name'] = Trainee::where('id',$schedule->user_id ? $schedule->user_id : $newSchedule->user_id )->get()->first()->name;
 
         \Mail::to(Session::get('user.email'))->send(new \App\Mail\Reservation($details));
