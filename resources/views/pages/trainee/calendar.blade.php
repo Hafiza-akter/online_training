@@ -128,7 +128,7 @@
                   @endif
                  @endif 
                 </td>
-                <td>{{ \Carbon\Carbon::parse($val->start_date)->format('Y-m-d')}}</td>
+                <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
                 <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
                 <td>
 
