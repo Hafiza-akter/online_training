@@ -789,7 +789,7 @@ class TraineeController extends Controller
             
             if($pval){
                 return redirect()->route('traineeCalendar.view')
-                ->with('errors_m','In this week you got a penalty and you will not able to reschedule this week');
+                ->with('errors_m','In this week you got a penalty, because you cancelled the schedule after cancelation limit time ');
             }
 
             $time = Carbon::parse($request->start_time)->format('H:i:s');
