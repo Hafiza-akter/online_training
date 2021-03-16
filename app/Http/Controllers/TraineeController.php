@@ -118,14 +118,21 @@ class TraineeController extends Controller
     public function checkReservation($schedule_date,$user_id){
 
         $date = Carbon::parse($schedule_date);
-
-        $start = $date->startOfWeek()->toDateString();
-        $end = $date->endOfWeek()->toDateString();
-        $count = TrainerSchedule::where('user_id',$user_id)
-        ->where('status',NULL)
-        ->orwhere('status','cancelled_penalty')
-        ->whereBetween('date', [$start, $end])->get()->count();
+        $start = $date->startOfWeek(Carbon::SUNDAY)->toDateString();
+        $end = $date->endOfWeek(Carbon::SATURDAY)->toDateString();
         
+        $count1 = TrainerSchedule::where('user_id',$user_id)
+        ->where('status',NULL)
+        ->where('is_occupied',1)
+        // ->orwhere('status','cancelled_penalty')
+        ->whereBetween('date', [$start." 00:00:00", $end." 00:00:00"])->get()->count();
+        
+        $count2 = TrainerSchedule::where('user_id',$user_id)
+        ->where('is_occupied',1)
+        ->where('status','cancelled_penalty')
+        ->whereBetween('date', [$start." 00:00:00", $end." 00:00:00"])->get()->count();
+     
+        $count = $count1 + $count2;
         $purchasePlan = UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get()->first();
         $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
         // 

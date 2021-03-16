@@ -182,6 +182,8 @@
     console.log(dateData);
     var calendar = new FullCalendar.Calendar(calendarEl, {
       selectable: false,
+      firstDay: 0,
+
        customButtons: {
         myCustomButton: {
           text: 'トレーナー一覧',
