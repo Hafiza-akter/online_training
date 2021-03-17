@@ -321,7 +321,13 @@
       </div>
     </div>
     </div>
-    <input type="hidden" id="clock_value" value="{{ Carbon\Carbon::parse($schedule->date)->format('Y/m/d') ." ".$schedule->time }}">
+    @php
+      $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
+      $hour = Carbon\Carbon::parse($schedule->time)->format('H:i:s');
+
+    @endphp
+    <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
+
 <button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable" style="color:white;position: absolute;top: 35%;right: 0;"> 実績 </button>
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg3" style="color:white;position: absolute;top: 55%;right: 0"> コメント </button>
@@ -389,14 +395,23 @@ function getdayFromNow() {
   //   }
   // });
 console.log("----server provided time :-----"+ $("#clock_value").val());
-  $('#clock').countdown($("#clock_value").val())
+
+var localtime =   moment.tz($("#clock_value").val(), "Asia/Tokyo");
+console.log("----local  time :-----"+ localtime.toDate());
+var exactTime = moment(localtime.toDate()).format('YYYY/MM/DD HH:mm:ss');
+
+
+console.log('The exact time: '+exactTime);
+
+  $('#clock').countdown(exactTime)
     .on('update.countdown', function(e) {
+  // $(this).html(event.strftime('%D days %H:%M:%S'));
         $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));
     })
     .on('finish.countdown', function(e) {
         console.log('hello');
-        alert("The course time has been  finished");
-        window.location.href = "{{ route('trainingfinished',$schedule->id) }}";
+        alert(e.strftime('%M:%S'));
+        window.location.href = "{{ route('traineelist') }}";
 
 
     });

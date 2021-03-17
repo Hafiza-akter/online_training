@@ -1,5 +1,5 @@
 @extends('master_dashboard')
-@section('title','trainee trainerlist')
+@section('title','trainee training')
 @section('header_css_js')
 <script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 <script  src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
@@ -155,7 +155,12 @@
       </div>
     </div>
     </div>
-    <input type="hidden" id="clock_value" value='{{ Carbon\Carbon::parse($schedule->date)->format('Y/m/d'). " ".$schedule->time }}'>
+    @php
+      $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
+      $hour = Carbon\Carbon::parse($schedule->time)->format('H:i:s');
+
+    @endphp
+    <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
 
 <button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
 
@@ -236,8 +241,16 @@ function getdayFromNow() {
 
 console.log("----server provided time :-----"+ $("#clock_value").val());
 
-  $('#clock').countdown($("#clock_value").val())
+var localtime =   moment.tz($("#clock_value").val(), "Asia/Tokyo");
+console.log("----local  time :-----"+ localtime.toDate());
+var exactTime = moment(localtime.toDate()).format('YYYY/MM/DD HH:mm:ss');
+
+
+console.log('The exact time: '+exactTime);
+
+  $('#clock').countdown(exactTime)
     .on('update.countdown', function(e) {
+  // $(this).html(event.strftime('%D days %H:%M:%S'));
         $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));
     })
     .on('finish.countdown', function(e) {
