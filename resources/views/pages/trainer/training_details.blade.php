@@ -2,7 +2,8 @@
 @section('title','trainee trainerlist')
 @section('header_css_js')
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
-
+<script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
+<script  src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
 <script type="text/javascript">
     Object.defineProperty(window.navigator, 'userAgent', {
       get: function () { return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/80.0.3987.163 Chrome/80.0.3987.163 Safari/537.36'; }
