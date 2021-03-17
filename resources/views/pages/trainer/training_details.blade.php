@@ -388,7 +388,7 @@ function getdayFromNow() {
   //       window.location.href = "{{ route('traineelist') }}";
   //   }
   // });
-
+console.log("----server provided time :-----"+ $("#clock_value").val());
   $('#clock').countdown($("#clock_value").val())
     .on('update.countdown', function(e) {
         $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));

@@ -210,7 +210,7 @@ function getdayFromNow() {
     // return new Date('2021-02-09 10:00:00');
     // 2021-02-09T10:00:00
     // console.log(new Date(new Date().valueOf() + 15 * 24 * 60 * 60 * 1000));
-    return new Date('2021/03/09 12:00:00');
+    return new Date($("#clock_value").val());
 
   }
 
@@ -224,9 +224,19 @@ function getdayFromNow() {
   //       window.location.href = "{{ route('traineelist') }}";
   //   }
   // });
-var localTime = moment.tz($("#clock_value").val(), 'Asia/Tokyo').format('YYYY/MM/DD hh:mm:ss');
-console.log("----Local time now:-----"+ localTime);
-  $('#clock').countdown(localTime)
+  // console.log($("#clock_value").val());
+  // console.log(moment());
+// var localTime = moment.tz( moment($("#clock_value").val()), 'Asia/Tokyo').format('YYYY/MM/DD HH:mm:ss');
+// var time = moment($("#clock_value").val()).format('YYYY/MM/DD hh:mm:ss');
+// console.log( 'This is the time ' +time );
+
+// var main_time= moment.tz( time, 'Asia/Tokyo').format('YYYY/MM/DD HH:mm:ss');
+// console.log( 'This is the main time ' +main_time);
+
+
+console.log("----server provided time :-----"+ $("#clock_value").val());
+
+  $('#clock').countdown($("#clock_value").val())
     .on('update.countdown', function(e) {
         $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));
     })
