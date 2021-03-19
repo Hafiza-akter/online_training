@@ -52,11 +52,17 @@ class ScheduleController extends Controller
                     // $rv = $this->check_duplication($value,$schedule);
                     // dd($rv);
                     // if($rv == 'not_found'){
+                        $start_time = Carbon::parse($value->time)->format('H:i:s');
+                        $endTime = Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                        if($start_time == "23:00:00"){
+                            $endTime ="24:00:00";
+
+                        }
                         $parsedArray[$count]['title']=Carbon::parse($value->time)->format('H:i')." - ".Carbon::parse($value->time)->addMinutes(60)->format('H:i');
                         $parsedArray[$count]['id']=$value->id;
                         $parsedArray[$count]['daysOfWeek']=array($value->dow);
-                        $parsedArray[$count]['startTime']=Carbon::parse($value->time)->format('H:i:s');
-                        $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+                        $parsedArray[$count]['startTime']=$start_time;
+                        $parsedArray[$count]['endTime']=$endTime;
                         $parsedArray[$count]['exclude']=$value->exclude;
                         $parsedArray[$count]['start_date']=$value->start_date;
                         $parsedArray[$count]['extendedProps']=array(
