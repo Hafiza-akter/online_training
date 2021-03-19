@@ -32,7 +32,7 @@ class InquiryController extends Controller
 
     public function inquirysubmit(Request $request){
         $validateData = $request->validate([
-            'title' => 'required',
+            'title' => 'required|max:255',
             'message' => 'required',
         ]);
             $email = $request->input('email');
@@ -49,6 +49,30 @@ class InquiryController extends Controller
             $inquery->message = $message;
             $inquery->save();
             return redirect()->route('inquiry')->with('message','Successfully sent your query.');
+
+            
+
+
+    }
+    public function inquirysubmittoppage(Request $request){
+        $validateData = $request->validate([
+            'title' => 'required|max:255',
+            'message' => 'required|max:500',
+            'email' => 'required|email',
+            'name' => 'required|max:30',
+        ]);
+            $email = $request->input('email');
+            $title = $request->input('title');
+            $message = $request->input('message');
+            $user_name = $request->input('name');
+
+            $inquery = new Inquery();
+            $inquery->name = $user_name;
+            $inquery->email = $email;
+            $inquery->title = $title;
+            $inquery->message = $message;
+            $inquery->save();
+            return redirect()->back()->with('swal','success')->with('message','Successfully sent your query.');
 
             
 

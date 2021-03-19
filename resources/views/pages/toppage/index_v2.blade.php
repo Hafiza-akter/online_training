@@ -429,28 +429,40 @@
                         <a class="btn_2 sibscribe-btm">Subscribe</a>
                     </form> --}}
 
-                    <form action="#">
-
+                    <form action="{{route('inquery.submit')}}" method="post">
+                            {{ csrf_field() }}
                         <div class="mt-10">
-                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="お名前" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
+                        <input style="border:1px solid #a509a436;" type="text" name="name" placeholder="お名前" onfocus="this.placeholder = ''" onblur="this.placeholder = 'お名前'" required="" class="single-input">
                         </div>
                         <div class="mt-10">
-                        <input style="border:1px solid #a509a436;" type="email" name="EMAIL" placeholder="メールアドレス" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required="" class="single-input">
+                        <input style="border:1px solid #a509a436;" type="email" name="email" placeholder="メールアドレス" onfocus="this.placeholder = ''" onblur="this.placeholder = 'メールアドレス'" required="" class="single-input">
                         </div>
                         <div class="mt-10">
-                        <input style="border:1px solid #a509a436;" type="text" name="last_name" placeholder="お問い合わせタイトル" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required="" class="single-input">
+                        <input style="border:1px solid #a509a436;" type="text" name="title" placeholder="お問い合わせタイトル" onfocus="this.placeholder = ''" onblur="this.placeholder = 'お問い合わせタイトル'" required="" class="single-input" >
                         </div>
 
 
                         <div class="mt-10">
-                        <textarea style="border:1px solid #a509a436;" class="single-textarea" placeholder="こちらにお問い合わせ内容を記載ください。" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required=""></textarea>
+                        <textarea style="border:1px solid #a509a436;" class="single-textarea" placeholder="こちらにお問い合わせ内容を記載ください。" onfocus="this.placeholder = ''" onblur="this.placeholder = 'こちらにお問い合わせ内容を記載ください。'" required="" name="message"></textarea>
                         </div>
 
-                        <a class="btn_2 sibscribe-btm mt-10" style="color:white;">送信</a>
+                        <button type="submit" class="btn_2 sibscribe-btm mt-10" style="color:white;">送信</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
 
+    @endsection
+    @section('footer_css_js')
+    <script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
+     @if(Session::has('swal'))
+    <script type="text/javascript">
+          Swal.fire({
+            icon: 'success',
+            title: 'メッセージありがとうございます。すぐにご連絡いたします',
+            showConfirmButton:false
+          })
+    </script>
+    @endif
     @endsection

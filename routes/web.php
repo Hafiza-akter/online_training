@@ -34,6 +34,7 @@ Route::get('/trainer/details', 'TopPageController@details')->name('trainerdetail
 Route::get('/customer/reivews', 'TopPageController@review')->name('review');
 Route::get('/inquiry', 'InquiryController@inquiry')->name('inquiry');
 Route::post('/inquiry/submit', 'InquiryController@inquirysubmit')->name('inquiry.submit');
+Route::post('/inquery/submit', 'InquiryController@inquirysubmittoppage')->name('inquery.submit');
 
 /*
 |--------------------------------------------------------------------------

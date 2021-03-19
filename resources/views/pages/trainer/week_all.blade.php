@@ -341,13 +341,20 @@ $(".tblue").click(function(){
           // let endDate = moment(numbers[0]+"-"+numbers[1]+"-"+numbers[3], "YYYY-MM-DD");
           let startDate = moment(info.startStr, "YYYY-MM-DD");
           let endDate = moment(info.endStr, "YYYY-MM-DD");
+          if(moment(info.endStr).format('HH:mm:ss') == '00:00:00'){
+            endDate=startDate;
+          }
           let dateDiff = moment.duration(endDate.diff(startDate)).asDays();
 
+          console.log(moment(info.endStr).format('HH:mm:ss'));
           console.log('Date diff '+dateDiff);
 
           let startTime = moment(info.startStr).format('HH:mm:ss');
           let endTime = moment(info.endStr).format('HH:mm:ss');
-
+           if(endTime == '00:00:00'){
+             endTime="24:00:00";
+            console.log(endTime);
+          }
           // calculation the hour diffierence
           let hrDiff = getHourDiff(startTime,endTime);
           // let incr= moment(startTime, "HH:mm:ss").add(1, 'hours').format('HH:mm:ss');
@@ -359,7 +366,10 @@ $(".tblue").click(function(){
               let sT= moment(startTime, "HH:mm:ss").add(i, 'hours').format('HH:mm:ss');
               let eT= moment(startTime, "HH:mm:ss").add(i+1, 'hours').format('HH:mm:ss');
               let sTl= moment(startTime, "HH:mm:ss").add(i, 'hours').format('HH');
-
+              if(eT == '00:00:00'){
+                 eT="24:00:00";
+                console.log(endTime);
+              }
               for(j=0;j<=dateDiff;j++){
 
 

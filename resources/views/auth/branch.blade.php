@@ -24,7 +24,7 @@
                 <div class="col-md-12 col-xl-12">
                     <div class="section_tittle">
                         {{-- Training start immediately --}}
-                       <a href="{{ route('physicaldata')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">すぐにトレーニングを開始</a>
+                       <a href="{{ route('traininginfo')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">すぐにトレーニングを開始</a>
                     </div>
                 </div>
 

@@ -411,7 +411,11 @@ $(".tblue").click(function(){
 
           let startTime = moment(info.startStr).format('HH:mm:ss');
           let endTime = moment(info.endStr).format('HH:mm:ss');
-
+          if(endTime == '00:00:00'){
+             endTime="24:00:00";
+            console.log(endTime);
+          }
+          console.log(startTime);
           // calculation the hour diffierence
           let hrDiff = getHourDiff(startTime,endTime);
           console.log(hrDiff);
