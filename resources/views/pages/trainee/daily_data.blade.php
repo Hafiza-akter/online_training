@@ -247,7 +247,6 @@ function setInputFilter(textbox, inputFilter) {
 $(function() {
   $('input[name="datepicker_"]').daterangepicker({
     singleDatePicker: true,
-    maxDate:
     locale: {
       format: 'YYYY-MM-DD'
     }
