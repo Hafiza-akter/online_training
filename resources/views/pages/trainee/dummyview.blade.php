@@ -77,10 +77,41 @@
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       selectable: true,
+       views: {
+        timeGridWeek: { // name of view
+          dayHeaderFormat:{ weekday:'short', month: 'short', day: '2-digit' }
+        }
+      },
+
+                customButtons: {
+          week_all: {
+            text: '週次定期予約',
+            click: function() {
+             window.location.href ='{{ route('traininginfo') }}';
+            
+            }
+          },
+          week: {
+            text: '週次予約',
+            click: function() {
+             window.location.href ='{{ route('traininginfo') }}';
+            
+            }
+          },
+          month: {
+            text: '月',
+            click: function() {
+             window.location.href ='{{ route('traininginfo') }}';
+            
+            }
+          },
+       },
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev,next today month',
         center: 'title',
-        right: ''
+        right: 'week week_all',
+         // right: 'dayGridMonth,timeGridWeek,timeGridDay'
+
       },
       dateClick: function(info) {
                      window.location.href ='{{ route('traininginfo')}}';
@@ -89,6 +120,8 @@
     });
 
     calendar.render();
+          calendar.setOption('locale', 'ja');
+
   });
 </script>
 @endsection

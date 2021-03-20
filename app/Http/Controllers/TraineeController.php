@@ -235,13 +235,15 @@ class TraineeController extends Controller
     }
     public function scheduleCalendar(Request $request){ // calendar view
         // return view('auth.branch');
-        
+
         // dd($request->all());
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
         if($user->phone === null || $user->address === null){
-            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+                    // return view('pages.trainee.dummyview');
+
+            return redirect()->route('quickview');
         }
         // if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
         //     return view('auth.branch');
