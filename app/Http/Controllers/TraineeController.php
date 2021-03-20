@@ -791,25 +791,25 @@ class TraineeController extends Controller
     
         if(checkPastDate($request->db_date)){
             return redirect()->route('traineeCalendar.view')
-            ->with('errors_m','The schedule date has been passed');
+            ->with('errors_m','スケジュールされた日時が過ぎています。');
         }
         if(checkPastTIme(Carbon::parse($request->start_time)->format('H:i:s'),$request->db_date)){
                 return redirect()->route('traineeCalendar.view')
-                 ->with('errors_m','The schedule time has been passed');
+                 ->with('errors_m','スケジュールされた日時が過ぎています。');
         }
 
         if($request->type == 'reschedule'){
 
             if(checkLimitValidation($request->db_start_time,$request->db_date)){
                 return redirect()->route('traineeCalendar.view')
-                ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+                ->with('errors_m','キャンセル可能時間を超過しているため、スケジュール変更が出来ません。');
             }
 
             $pval = $this->checkPenalty($request->db_date,Session::get('user.id'));
             
             if($pval){
                 return redirect()->route('traineeCalendar.view')
-                ->with('errors_m','In this week you got a penalty, because you cancelled the schedule after cancelation limit time ');
+                ->with('errors_m','キャンセル可能時間を超過してキャンセルをしたため、ペナルティを課せられました。');
             }
 
             $time = Carbon::parse($request->start_time)->format('H:i:s');
@@ -818,7 +818,7 @@ class TraineeController extends Controller
 
             if($time == $existingTime){
                 return redirect()->route('traineeCalendar.view')
-                ->with('message','Your rescheduled time is same as previous one !');
+                ->with('message','指定されたスケジュールは前回予約されたスケジュールと同じです。');
             }
             $id = $request->db_schedule_id;
             $found=TrainerSchedule::whereDate('date',$request->db_date)
@@ -829,7 +829,7 @@ class TraineeController extends Controller
             if($found){
 
                 return redirect()->route('traineeCalendar.view')
-                ->with('errors_m','Time slot is not avaliable for '.$request->start_time);
+                ->with('errors_m','予約可能な時間は'.$request->start_time."です。");
             
             }else{
                 $scheduleU = TrainerSchedule::where('id',$request->db_schedule_id)
@@ -866,7 +866,7 @@ class TraineeController extends Controller
                     $scheduleU->save();
                 }
                 return redirect()->route('traineeCalendar.view')
-                ->with('errors_m','You got a penalty, as you have cancelled the schedule after camcelation limit time is over');
+                ->with('errors_m','キャンセル可能時間を超過してキャンセルをしたため、ペナルティを課せられました。');
             }
 
             // ---------------------------------------------------
@@ -944,7 +944,7 @@ class TraineeController extends Controller
         // }
 
         if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
-            return redirect()->route('physicaldata')->with('success','最初に物理情報を入力してください');
+            return redirect()->route('physicaldata')->with('success','必要データを入力してください');
 
             // return view('auth.branch');
         }
@@ -1015,7 +1015,7 @@ class TraineeController extends Controller
                                     $this->number_formate($weightData['1day_per_week'][59]['weight']),
                                     $this->number_formate($weightData['1day_per_week'][89]['weight'])
                                 ),
-                        'label'=> "1 day per week",
+                        'label'=> "週１回",
                         'borderColor'=> "#6d93ff",
                         'fill'=> false
                     );
@@ -1026,7 +1026,7 @@ class TraineeController extends Controller
                                     $this->number_formate($weightData['2day_per_week'][59]['weight']),
                                     $this->number_formate($weightData['2day_per_week'][89]['weight'])
                                 ),
-                        'label'=> "2 day per week",
+                        'label'=> "週２回",
                         'borderColor'=> "green",
                         'fill'=> false
                     );
@@ -1037,7 +1037,7 @@ class TraineeController extends Controller
                                     $this->number_formate($weightData['3day_per_week'][59]['weight']),
                                     $this->number_formate($weightData['3day_per_week'][89]['weight'])
                                 ),
-                        'label'=> "3 day per week",
+                        'label'=> "週３回",
                         'borderColor'=> "yellow",
                         'fill'=> false
                     );
