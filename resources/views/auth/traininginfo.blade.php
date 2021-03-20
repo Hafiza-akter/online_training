@@ -38,15 +38,6 @@
         </div>
 
         <div class="offset-sm-2 col-sm-8 mb-4">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
 
 
     <!-- /.card-header -->

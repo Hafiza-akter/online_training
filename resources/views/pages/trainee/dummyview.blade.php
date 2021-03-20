@@ -83,7 +83,7 @@
         right: ''
       },
       dateClick: function(info) {
-                     window.location.href ='{{ route('traineeCalendar.view') }}';
+                     window.location.href ='{{ route('traininginfo')}}';
 
       }
     });

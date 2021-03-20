@@ -235,14 +235,17 @@ class TraineeController extends Controller
     }
     public function scheduleCalendar(Request $request){ // calendar view
         // return view('auth.branch');
-
+        
         // dd($request->all());
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
-        if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
-            return view('auth.branch');
+        if($user->phone === null || $user->address === null){
+            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
         }
+        // if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
+        //     return view('auth.branch');
+        // }
         //
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
@@ -389,6 +392,10 @@ class TraineeController extends Controller
     }
 
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
+        $user = \App\Model\User::where('id',$user_id)->get()->first();
+        if($user->phone === null || $user->address === null){
+            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+        }
         $checkPenalty = "";
 
         // date selection conditions //
@@ -910,6 +917,12 @@ class TraineeController extends Controller
     }
 
     public function trainerlist(){
+
+        $user = \App\Model\User::where('id',$user_id)->get()->first();
+        if($user->phone === null || $user->address === null){
+            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+        }
+
         $trainerList = Trainer::get();
         return view('pages.trainee.trainerlist')->with('trainerList',$trainerList);
     }
@@ -924,9 +937,9 @@ class TraineeController extends Controller
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
 
-        if($user->phone === null || $user->address === null){
-            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
-        }
+        // if($user->phone === null || $user->address === null){
+        //     return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+        // }
 
         if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
             return redirect()->route('physicaldata')->with('success','最初に物理情報を入力してください');
