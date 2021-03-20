@@ -84,20 +84,7 @@
       },
 
                 customButtons: {
-          week_all: {
-            text: '週次定期予約',
-            click: function() {
-             window.location.href ='{{ route('traininginfo') }}';
-            
-            }
-          },
-          week: {
-            text: '週次予約',
-            click: function() {
-             window.location.href ='{{ route('traininginfo') }}';
-            
-            }
-          },
+          
           month: {
             text: '月',
             click: function() {
@@ -109,7 +96,7 @@
       headerToolbar: {
         left: 'prev,next today month',
         center: 'title',
-        right: 'week week_all',
+        right: '',
          // right: 'dayGridMonth,timeGridWeek,timeGridDay'
 
       },
