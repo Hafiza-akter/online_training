@@ -184,7 +184,10 @@ z-index: 1;inset: 21px -2% -65px !important;
                     ];
                     $parameter= \Crypt::encrypt($parameter);
                   @endphp
+              @if($val->status === NULL)
               <a class="btn btn-success"  href="{{ route('training',$parameter)}}"> トレーニング詳細</a>
+              @endif
+              
               @if($val->status != 'cancelled')
               {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
               @endif 
