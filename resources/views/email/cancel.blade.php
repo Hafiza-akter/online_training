@@ -16,25 +16,24 @@
 	<br>
 	***-----------------キャンセル情報----------------------***<br>
 
-		@if($details['mail_type'] == 'before_penalty_to_user')
-			{{ $details['month'] }} 月 {{ $details['day'] }} 日 {{ $details['time']}} 時より {{ $details['trainer_name'] }} トレーナーとのトレーニングをキャンセルしました。
-				スケジュールより別日程の指定をお願いいたします。
-				{{ $details['address'] }}
-		@endif
-		@if($details['mail_type'] == 'after_penalty_to_user')
-			{{ $details['month'] }} 月 {{ $details['day'] }} 日 {{ $details['time']}} 時より {{ $details['user_name'] }} 様とのトレーニングがキャンセルされました。
-				{{ $details['address'] }}
 
-		@endif
 		@if($details['mail_type'] == 'cancel_by_user_to_trainer')
 
-		@endif
-		@if($details['mail_type'] == 'cancel_by_trainer_to_user')
+			{{ $details['month'] }} 月 {{ $details['day'] }} 日 {{ $details['time']}}
+			時の {{ $details['user_name'] }} 様とのトレーニングがキャンセルされました。
+			{{ $details['address'] }}
+
 
 		@endif
-		@if($details['mail_type'] == 'cancel_by_trainer_to_trainer')
+
+		@if($details['mail_type'] == 'cancel_by_user_to_user')
+			{{ $details['month'] }} 月 {{ $details['day'] }} 日 {{ $details['time']}} 
+			時の {{ $details['trainer_name'] }} トレーナーとのトレーニングをキャンセルしました。
+			スケジュールより別日程の指定をお願いいたします。
+			{{ $details['address'] }}
 
 		@endif
+		
 
 
 	***-------------------------------------------------------***<br>

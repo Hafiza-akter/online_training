@@ -83,22 +83,18 @@
         }
       },
 
-                customButtons: {
-          
-          month: {
-            text: '月',
-            click: function() {
-             window.location.href ='{{ route('traininginfo') }}';
-            
-            }
-          },
-       },
+          customButtons: {
+        myCustomButton: {
+          text: 'トレーナー一覧',
+          click: function() {
+             window.location.href ='{{ route('trainerlist') }}';
+          }
+        }
+      },
       headerToolbar: {
-        left: 'prev,next today month',
+        left: 'prev,next today',
         center: 'title',
-        right: '',
-         // right: 'dayGridMonth,timeGridWeek,timeGridDay'
-
+        right: 'myCustomButton'
       },
       dateClick: function(info) {
                      window.location.href ='{{ route('traininginfo')}}';
