@@ -920,7 +920,7 @@ class TraineeController extends Controller
 
     public function trainerlist(){
 
-        $user = \App\Model\User::where('id',$user_id)->get()->first();
+        $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
         if($user->phone === null || $user->address === null){
             return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
         }
