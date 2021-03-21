@@ -47,6 +47,7 @@ class PaymentController extends Controller
     protected $paymentExecution;
   
     protected $details;
+    public $totalSelection;
    
     public function __construct(
         PayPalClient $payPalClient,
@@ -73,10 +74,12 @@ class PaymentController extends Controller
         $this->details          = $details;
     }
     
-    public function createPayment()
+    public function createPayment(Request $request)
     {
+        $this->totalSelection=$request->item;
         $this->payer->setPaymentMethod("paypal");
         $this->itemList->setItems($this->getPayPalItems());
+
         $subTotalAmount = $this->getTotalAmount();
         /*$this->details->setShipping(1.2)
             ->setTax(1.3)
@@ -134,11 +137,23 @@ class PaymentController extends Controller
     }
 protected function getItems()
    {
-        return [
-          ['name' => 'Item1', 'quantity' => 1, 'price' => 10],
-          // ['name' => 'Item2', 'quantity' => 1, 'price' => 10],
-          // ['name' => 'Item3', 'quantity' => 1, 'price' => 10],
-        ];
+
+        if($this->totalSelection == 1){
+            return [
+              ['name' => 'Item1', 'quantity' => 1, 'price' => 10],
+              // ['name' => 'Item2', 'quantity' => 1, 'price' => 10],
+              // ['name' => 'Item3', 'quantity' => 1, 'price' => 10],
+            ];
+        }
+        if($this->totalSelection == 3){
+            return [
+              ['name' => 'Item1', 'quantity' => 1, 'price' => 30],
+              // ['name' => 'Item2', 'quantity' => 1, 'price' => 10],
+              // ['name' => 'Item3', 'quantity' => 1, 'price' => 10],
+            ];
+        }
+            
+
    }
 public function confirmPayment(Request $request)
     {
@@ -154,7 +169,7 @@ public function confirmPayment(Request $request)
 
         $transaction = new Transactions();
         $transaction->user_id =$request->user_id;
-        $transaction->amount = 10;
+        $transaction->amount = (int) $request->period_month*10;
         $transaction->transaction_id =$paymentId;
         $transaction->purchase_plan_id =$request->purchase_plan_id;
         $transaction->status =1;
@@ -178,6 +193,10 @@ public function confirmPayment(Request $request)
         $details['user_name'] = $user->name;
         $details['user_email'] = $user->email;
         $details['transaction_id'] = $paymentId;
+
+        $details['plan'] = \App\Model\PlanPurchase::where('id',$planPurchaseUser->purchase_plan_id)->get()->first()->name;
+        $details['price'] = $transaction->amount;
+        $details['period_month'] = (int) $request->period_month;
         
         \Mail::to($user->email)->send(new \App\Mail\Payment($details));
 

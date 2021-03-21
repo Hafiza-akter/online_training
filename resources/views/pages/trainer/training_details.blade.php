@@ -118,14 +118,15 @@
                             <input name="set3_times[]" class="set3_times times kg p-1 m-1"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>回</span>
                           </div>
 
-                          <div class="col-sm-8 m-1">
-                                      <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
-                          </div>
                       </div>
 
                     </div>
+                        <div class="row" >
 
-
+                    <div class="col-sm-8 m-1">
+                    <button type="button" class="btn btn-secondary float-right m-2 add_button" > <i class="fas fa-plus"></i> </button>
+                    </div>
+                    </div>
             <div class=" row justify-content-center m-1 p-1">
               <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
               <a  class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">送信する</a>
@@ -308,7 +309,7 @@
                     @if(Session::get('user_type') == 'trainee'){
                     <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
                     @else 
-                     <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->trainer_feedback: ''}}</textarea>
+                     <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment: ''}}</textarea>
                     @endif
                 </div>
             </div>

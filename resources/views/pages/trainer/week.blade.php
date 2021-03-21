@@ -147,6 +147,7 @@ z-index: 1;inset: 21px -2% -65px !important;
     <tbody>
       @if($listSchedule)
         @foreach($listSchedule as $key=>$val)
+          @if(!checkPastTIme1(\Carbon\Carbon::parse($val->time)->format('H:i'),\Carbon\Carbon::parse($val->date)->format('Y-m-d')))
           <tr>
             <td scope="row">{{ ++$key}}</td>
             <td>
@@ -187,12 +188,13 @@ z-index: 1;inset: 21px -2% -65px !important;
               @if($val->status === NULL)
               <a class="btn btn-success"  href="{{ route('training',$parameter)}}"> トレーニング詳細</a>
               @endif
-              
+
               @if($val->status != 'cancelled')
               {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
               @endif 
             </td>
           </tr>
+          @endif
         @endforeach
       @endif
       

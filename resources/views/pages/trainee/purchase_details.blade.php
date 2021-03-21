@@ -221,7 +221,7 @@
     // 1. Add a payment callback
     payment: function (data, actions) {
       // 2. Make a request to your server
-      return actions.request.post('{{ route('cp')}}')
+      return actions.request.post('{{ route('cp')}}',{item:$('#period_month option:selected').attr('value')})
         .then(function (res) {
           // 3. Return res.id from the response
           // console.log(res);
@@ -247,7 +247,7 @@
           Swal.fire(
               '支払いが完了しました。'
             );
-          location.reload();
+          // location.reload();
 
           // 3. Show the buyer a confirmation message.
         })

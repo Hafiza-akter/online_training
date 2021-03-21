@@ -43,7 +43,7 @@
                     @php $i=1 @endphp
                     @if($list)
                       @foreach($list as $val)
-                      @if(getTrainerName($val->trainer_schedule_id)->id == Session::get('user.id'))
+                      @if(getTrainerName($val->trainer_schedule_id)->id == $userId)
 
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>

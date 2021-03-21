@@ -133,6 +133,7 @@ z-index: 1;inset: 21px -2% -65px !important;
     <tbody>
       @if($listSchedule)
         @foreach($listSchedule as $key=>$val)
+          @if(!checkPastTIme1(\Carbon\Carbon::parse($val->time)->format('H:i'),\Carbon\Carbon::parse($val->date)->format('Y-m-d')))
           <tr>
             <td scope="row">{{ ++$key}}</td>
             <td >
@@ -179,6 +180,7 @@ z-index: 1;inset: 21px -2% -65px !important;
               @endif 
             </td>
           </tr>
+          @endif
         @endforeach
       @endif
       
