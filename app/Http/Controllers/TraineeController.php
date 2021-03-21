@@ -256,12 +256,12 @@ class TraineeController extends Controller
         //     return redirect()->route('purchaseplan')->with('message','はじめにレッスンを購入してください。');
         // }
         
-        $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
-        $now = Carbon::parse(date('Y-m-d'));
+        // $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
+        // $now = Carbon::parse(date('Y-m-d'));
 
-        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
-        $startDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
-        $endDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)))->addDays(90)->format('Y-m-d');;
+        // $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+        // $startDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
+        // $endDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)))->addDays(90)->format('Y-m-d');;
 
         $count=0;
         $parsedArray = array();
@@ -325,7 +325,7 @@ class TraineeController extends Controller
                         // $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
                         // $parsedArray[$count]['exclude']=$value->exclude;
                         $parsedArray[$count]['startRecur']=date('Y-m-d',strtotime($puchasePlan->created_at));
-                        $parsedArray[$count]['endRecur']=$endDay;
+                        $parsedArray[$count]['endRecur']=$endDay ? $endDay : '';
 
                         $parsedArray[$count]['allDay'] = true;
 
