@@ -60,7 +60,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="index3.html"  class="nav-link {{($page == 'dashboard') ? 'active': ''}}">Home</a>
+          <a href="index3.html"  class="nav-link {{isset($page) && ($page == 'dashboard') ? 'active': ''}}">Home</a>
         </li>
 
       </ul>
@@ -117,7 +117,7 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item has-treeview menu-open">
-              <a href="{{route('admin.dashboard')}}" class="nav-link {{($page == 'dashboard') ? 'active': ''}}">
+              <a href="{{route('admin.dashboard')}}" class="nav-link {{isset($page) && ($page == 'dashboard') ? 'active': ''}}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   <!-- Dashboard -->
@@ -128,7 +128,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{route('admin.schedule.management.view')}}" class="nav-link {{($page == 'schedule_management') ? 'active': '' }}">
+              <a href="{{route('admin.schedule.management.view')}}" class="nav-link {{ isset($page) && ($page == 'schedule_management') ? 'active': '' }}">
                 <!-- <i class="nav-icon far fa-image"></i> -->
                 <i class="nav-icon far fa-calendar-alt"></i>
                 <p>
@@ -138,7 +138,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="{{route('admin.user.management.view')}}"  class="nav-link nav-link {{($page == 'plan_purchase') ? 'active': ''}}">
+              <a href="{{route('admin.user.management.view')}}"  class="nav-link nav-link {{ isset($page) && ($page == 'plan_purchase') ? 'active': ''}}">
                 <i class="nav-icon fas fa-money-bill-alt"></i>
                 <p>
                   <!-- User Management -->
@@ -148,7 +148,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{route('purchase.plan.list')}}"  class="nav-link {{($page == 'plan_purchase') ? 'active': ''}}">
+                  <a href="{{route('purchase.plan.list')}}"  class="nav-link {{ isset($page) && ($page == 'plan_purchase') ? 'active': ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
                       購入を計画する
@@ -182,7 +182,7 @@
 
 
             <li class="nav-item">
-              <a href="{{route('admin.setting')}}"  class="nav-link {{($page == 'admin_setting') ? 'active': ''}}">
+              <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && ($page == 'admin_setting') ? 'active': ''}}">
                 <i class="nav-icon far fas fa-user"></i>
                 <p>
                   <!-- Admin User -->
@@ -194,7 +194,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{route('admin.list')}}"  class="nav-link {{($page == 'admin_setting') ? 'active': ''}}">
+                  <a href="{{route('admin.list')}}"  class="nav-link {{ isset($page) && ($page == 'admin_setting') ? 'active': ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
                       <!-- list -->
@@ -203,7 +203,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{route('admin.add')}}"  class="nav-link {{($page == 'admin_setting') ? 'active': ''}}">
+                  <a href="{{route('admin.add')}}"  class="nav-link {{isset($page) && ($page == 'admin_setting') ? 'active': ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
                       <!-- add -->
@@ -215,7 +215,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{route('admin.setting')}}"  class="nav-link {{($page == 'equipment') ? 'active': ''}}">
+              <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
                 <i class="nav-icon far fas fa-cog"></i>
                 <p>
                   <!-- Setting/ Master Data -->
@@ -226,13 +226,13 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="{{route('admin.setting')}}"  class="nav-link {{($page == 'equipment') ? 'active': ''}}">
+                  <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>セットアップデータ</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{route('admin.equipment.list')}}"  class="nav-link {{($page == 'equipment') ? 'active': ''}}">
+                  <a href="{{route('admin.equipment.list')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>設備</p>
                   </a>
@@ -240,7 +240,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="{{route('trainer.list')}}"  class="nav-link {{($page == 'trainer') ? 'active': ''}}">
+              <a href="{{route('trainer.list')}}"  class="nav-link {{isset($page) && ($page == 'trainer') ? 'active': ''}}">
                 <!-- <i class="nav-icon far fa-image"></i> -->
                 <i class=" nav-icon fas fa-tasks"></i>
                 <p>
@@ -250,7 +250,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('user.list')}}"  class="nav-link {{($page == 'user') ? 'active': ''}}">
+              <a href="{{route('user.list')}}"  class="nav-link {{(isset($page) && $page == 'user') ? 'active': ''}}">
                 <!-- <i class="nav-icon far fa-image"></i> -->
                 <i class=" nav-icon fas fa-tasks"></i>
                 <p>
@@ -260,7 +260,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('course.list')}}"  class="nav-link {{($page == 'course') ? 'active': ''}}">
+              <a href="{{route('course.list')}}"  class="nav-link {{(isset($page) && $page == 'course') ? 'active': ''}}">
                 <!-- <i class="nav-icon far fa-image"></i> -->
                 <i class=" nav-icon fas fa-tasks"></i>
                 <p>
@@ -270,7 +270,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('inquery.list')}}"  class="nav-link {{($page == 'inquery') ? 'active': ''}}">
+              <a href="{{route('inquery.list')}}"  class="nav-link {{isset($page) && ($page == 'inquery') ? 'active': ''}}">
                 <!-- <i class="nav-icon far fa-image"></i> -->
                 <i class=" nav-icon fas fa-question"></i>
                 <p>
