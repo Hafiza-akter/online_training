@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Edit Trainer')
+@section('title','トレーナー編集')
 @section('pageName','Edit Trainer')
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="card-title">Edit Trainer</h3>
+                            <h3 class="card-title">トレーナー編集</h3>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="{{route('purchase.plan.list')}}" class="text-right"><i class="fa fas fa-list"></i> list</a>
@@ -43,30 +43,30 @@
                                             </div>
                                             @endif
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Name</label>
+                                                <label for="exampleInputEmail1">名前</label>
                                                 <input value="{{$plan->name}}" required type="text" class="form-control" name="name" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Objective</label><br>
+                                                <label for="exampleInputEmail1">目標</label><br>
                                                 <select class="custom-select mr-sm-2" name="objective">
                                                     <option value="weight_loss" {{ ($plan->objective == 'weight_loss')? 'selected' :''}}>Weight loss</option>
                                                     <option value="weight_gain" {{ ($plan->objective == 'weight_gain')? 'selected' :''}}>Weight gain</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Times Per Week</label>
+                                                <label for="exampleInputEmail1">トレーニング回数(週)</label>
                                                 <input value="{{$plan->times_per_week}}" required type="number" class="form-control" name="times_per_week" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Cost Per Month</label>
+                                                <label for="exampleInputEmail1">費用</label>
                                                 <input value="{{$plan->cost_per_month}}" required type="number" class="form-control" name="cost_per_month" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Percentage 1 Month</label>
+                                                <label for="exampleInputEmail1">1か月辺り%</label>
                                                 <input value="{{$plan->percentage_1mo}}" type="number" class="form-control" name="percentage_1mo" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Percentage 3 Month</label>
+                                                <label for="exampleInputEmail1">3か月辺り%</label>
                                                 <input value="{{$plan->percentage_3mo}}" type="number" class="form-control" name="percentage_3mo" placeholder="Enter ...">
                                             </div>
                                             <input value="{{$plan->id}}" type="hidden" name="id">
@@ -75,7 +75,7 @@
                                            
                      
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Status</label><br>
+                                                <label for="exampleInputEmail1">ステータス</label><br>
                                                 <input type="checkbox" {{ ($plan->status ==1)? 'checked' :''}} name="status" class="form-control" data-toggle="toggle" data-on="Active" data-off="Inactive">
                                                 <!-- <input type="checkbox" id="toggle-two"> -->
                                             </div>
@@ -83,7 +83,7 @@
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">送信</button>
                                         </div>
                                     </form>
                                 </div>
