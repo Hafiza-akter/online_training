@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="card-title">Setup Data</h3>
+                            <h3 class="card-title">セットアップデータ</h3>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="{{route('admin.setting')}}" class="text-right"><i class="fa fas fa-eye"></i>View</a>
@@ -27,13 +27,13 @@
                             <div class="col-sm-6">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label>Last Edited Date</label>
+                                    <label>最終編集日時</label>
                                     <input type="text" readonly value="{{$setupData->updated_at}}" class="form-control" placeholder="Enter ...">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Reminder Mail Info</label>
+                                    <label>リマインドメール情報</label>
                                     <input type="text" value="{{$setupData->reminder_mail_info}}" name="reminder_mail_info" class="form-control" placeholder="Enter ...">
                                 </div>
                             </div>
@@ -42,13 +42,13 @@
                             <div class="col-sm-6">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label>Reminder Mail Time</label>
+                                    <label>リマインドメール時間</label>
                                     <input type="number" value="{{$setupData->reminder_mail_time}}" name="reminder_mail_time" class="form-control" placeholder="Enter ...">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Cancellation Time</label>
+                                    <label>キャンセル期限</label>
                                     <input type="number" value="{{$setupData->cancellation_time}}" name="cancellation_time" class="form-control" placeholder="Enter ...">
                                 </div>
                             </div>

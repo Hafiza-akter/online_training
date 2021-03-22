@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Edit Schedule')
+@section('title','スケジュール編集')
 @section('pageName','Edit Schedule')
 @section('content')
 <div class="container-fluid">
@@ -10,10 +10,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="card-title">Edit Schedule</h3>
+                            <h3 class="card-title">スケジュール編集</h3>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <a href="{{route('admin.schedule.management.view')}}" class="text-right"><i class="fa fas fa-list"></i> list</a>
+                            <a href="{{route('admin.schedule.management.view')}}" class="text-right"><i class="fa fas fa-list"></i>リスト</a>
                         </div>
                     </div>
                 </div>
@@ -56,17 +56,17 @@
                                             </div>
                                             @endif
                                             <div class="form-group">
-                                                <label>Date:</label>
+                                                <label>日付:</label>
                                                 <input type="date" id="myDate" name="date" value="{{$dd}}" class="form-control">
 
                                             </div>
                                             <div class="form-group">
-                                                <label>Date:</label>
+                                                <label>時間:</label>
                                                 <input type="time" id="myTime" value="{{$schedule->time}}" name="time" class="form-control">
 
                                             </div>
                                             <div class="form-group">
-                                                <label>User:</label>
+                                                <label>ユーザー名:</label>
                                                 <select name="user" class="form-control">
                                                     @foreach($users as $user)
                                                     <option {{($user->id == $schedule->user_id ) ? 'selected': ''}} value="{{$user->id}}">{{$user->name}}</option>
@@ -74,7 +74,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>Trainer:</label>
+                                                <label>トレーナー名:</label>
                                                 <select name="trainer" class="form-control">
                                                     @foreach($trainers as $trainer)
                                                     <option {{($trainer->id == $schedule->trainer_id ) ? 'selected': ''}} value="{{$trainer->id}}">{{$trainer->first_name}}</option>
@@ -82,7 +82,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>Course:</label>
+                                                <label>コース名:</label>
                                                 <select name="course[]" class="form-control select2" multiple="multiple">
                                                     <option value="">Select Course</option>
                                                     @foreach($courses as $course)
@@ -99,7 +99,7 @@
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">送信</button>
                                         </div>
                                     </form>
                                 </div>

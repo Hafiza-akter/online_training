@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Admin List')
+@section('title','管理者リスト')
 @section('pageName','Admin list')
 @section('content')
 <div class="container-fluid">
@@ -10,8 +10,8 @@
                 <div class="card-header">
                 <div class="row">
                 
-                <div class="col-sm-6"><h3 class="card-title">Admin List</h3></div>
-                <div class="col-sm-6 text-right"><a href="{{route('admin.add')}}"><i class="fas fa-plus"></i> Add</a></div>
+                <div class="col-sm-6"><h3 class="card-title">管理者リスト</h3></div>
+                <div class="col-sm-6 text-right"><a href="{{route('admin.add')}}"><i class="fas fa-plus"></i> 追加</a></div>
                 </div>
                 </div>
                 <!-- /.card-header -->
@@ -23,10 +23,10 @@
                         <thead>
                             <tr>
                                 <th>#sl</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>メールアドレス</th>
+                                <th>権限</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,10 +57,10 @@
                         <tfoot>
                         <tr>
                                 <th>#sl</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>メールアドレス</th>
+                                <th>権限</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </tfoot>
                     </table>

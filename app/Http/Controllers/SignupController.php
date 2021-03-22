@@ -443,7 +443,7 @@ class SignupController extends Controller
                 \Mail::to($user->email)->send(new \App\Mail\ForgetPasswordSuccess($details));
 
                 session(['user' => $user,'user_type'=>'trainee']);
-                return redirect()->route('traineeCalendar.view')->with('message','研修生ダッシュボードへようこそ');
+                return redirect()->route('traineeCalendar.view')->with('message','ユーザーダッシュボードへようこそ');
             }
         }
     }

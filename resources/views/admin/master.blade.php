@@ -120,8 +120,7 @@
               <a href="{{route('admin.dashboard')}}" class="nav-link {{($page == 'dashboard') ? 'active': ''}}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
-                  <!-- Dashboard -->
-                  ダッシュボード
+                  購入履歴
                 </p>
               </a>
 
@@ -151,7 +150,7 @@
                   <a href="{{route('purchase.plan.list')}}"  class="nav-link {{($page == 'plan_purchase') ? 'active': ''}}">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
-                      購入を計画する
+                      プラン一覧
                       <!-- Plan Purchase -->
                     </p>
                   </a>
@@ -245,7 +244,7 @@
                 <i class=" nav-icon fas fa-tasks"></i>
                 <p>
                   <!-- Admin Trainer Manage -->
-                  管理トレーナー管理
+                  トレーナー管理
                 </p>
               </a>
             </li>
@@ -255,7 +254,7 @@
                 <i class=" nav-icon fas fa-tasks"></i>
                 <p>
                   <!-- User Trainer Manage -->
-                  ユーザートレーナー管理
+                  ユーザートレーニング管理
                 </p>
               </a>
             </li>
@@ -275,7 +274,7 @@
                 <i class=" nav-icon fas fa-question"></i>
                 <p>
                   <!-- User Inquery -->
-                  ユーザーのお問い合わせ
+                  お問い合わせ
                 </p>
               </a>
             </li>

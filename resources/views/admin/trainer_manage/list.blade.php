@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Trainer List')
+@section('title','トレーナーリスト')
 @section('pageName','Trainer list')
 @section('content')
 <div class="container-fluid">
@@ -11,7 +11,7 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3 class="card-title">Trainer List</h3>
+                            <h3 class="card-title">トレーナーリスト</h3>
                         </div>
                     </div>
                 </div>
@@ -24,15 +24,15 @@
                         <thead>
                             <tr>
                                 <th>#sl</th>
-                                <th>First Name</th>
-                                <th>Email</th>
-                                <th>City</th>
-                                <th>Phone</th>
-                                <th>Photo</th>
-                                <th>Unit Price</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>都市</th>
+                                <th>携帯番号</th>
+                                <th>プロフィール写真</th>
+                                <th>希望単価</th>
                                 <!-- <th>Certification</th> -->
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,15 +71,16 @@
                         <tfoot>
                             <tr>
                                 <th>#sl</th>
-                                <th>First Name</th>
-                                <th>Email</th>
-                                <th>City</th>
-                                <th>Phone</th>
-                                <th>Photo</th>
-                                <th>Unit Price</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>都市</th>
+                                <th>携帯番号</th>
+                                <th>プロフィール写真</th>
+                                <th>希望単価</th>
                                 <!-- <th>Certification</th> -->
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
+
                             </tr>
                         </tfoot>
                     </table>

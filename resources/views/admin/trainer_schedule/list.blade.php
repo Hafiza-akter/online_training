@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Schedule Management')
+@section('title','スケジュール管理')
 @section('pageName','Schedule Management')
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="col-sm">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Schedule Management</h3>
+                    <h3 class="card-title">スケジュール管理</h3>
                 </div>
                 <div class="card-header">
                     <form class="form-inline" method="post" action="{{route('admin.schedule.management.search.submit')}}">
@@ -34,12 +34,12 @@
                         <thead>
                             <tr>
                                 <th>Sl.</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>User</th>
-                                <th>Trainer</th>
-                                <th>Course</th>
-                                <th>Action</th>
+                                <th>日付</th>
+                                <th>時間</th>
+                                <th>ユーザー名</th>
+                                <th>トレーナー名</th>
+                                <th>コース名</th>
+                                <th>詳細</th>
                             </tr>
                         </thead>
                         <tbody>

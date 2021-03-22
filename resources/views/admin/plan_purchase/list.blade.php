@@ -11,7 +11,7 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3 class="card-title">Purchased Plan List</h3>
+                            <h3 class="card-title">プラン一覧</h3>
                         </div>
                     </div>
                 </div>
@@ -24,15 +24,15 @@
                         <thead>
                             <tr>
                                 <th>#sl</th>
-                                <th> Name</th>
-                                <th> Objective</th>
-                                <th> Times Per Week</th>
-                                <th> Cost Per Month</th>
-                                <th> Percentage One Month</th>
-                                <th> Percentage Two Month</th>
+                                <th> プラン名</th>
+                                <th> 目標</th>
+                                <th> トレーニングの回数(週)</th>
+                                <th> 費用</th>
+                                <th> 1か月辺り%</th>
+                                <th> 2か月辺り%</th>
                                 
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,15 +67,15 @@
                         <tfoot>
                             <tr>
                             <th>#sl</th>
-                                <th> Name</th>
-                                <th> Objective</th>
-                                <th> Times Per Week</th>
-                                <th> Cost Per Month</th>
-                                <th> Percentage One Month</th>
-                                <th> Percentage Two Month</th>
+                                <th> プラン名</th>
+                                <th> 目標</th>
+                                <th> トレーニングの回数(週)</th>
+                                <th> 費用</th>
+                                <th> 1か月辺り%</th>
+                                <th> 2か月辺り%</th>
                                 
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </tfoot>
                     </table>
