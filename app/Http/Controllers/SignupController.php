@@ -32,10 +32,10 @@ class SignupController extends Controller
        if($data['type'] == 'trainee'){
             $user = Trainee::find($data['id']);
 
-            // if($user->password != NULL){
-            //         session(['user' => $user,'user_type'=>'trainee','message'=>'ログインに成功しました。']);
-            // return redirect()->route('traineeCalendar.view')->with('message','ログインに成功しました。');
-            // }
+            if($user->password != NULL){
+                    session(['user' => $user,'user_type'=>'trainee','message'=>'ログインに成功しました。']);
+            return redirect()->route('traineeCalendar.view')->with('message','ログインに成功しました。');
+            }
            
 
             return view('auth.update_trainee')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type','trainee');            
@@ -44,11 +44,11 @@ class SignupController extends Controller
         if($data['type'] == 'trainer'){
             $user = Trainer::find($data['id']);
 
-            // if($user->password != NULL){
+            if($user->password != NULL){
               
-            //      session(['user' => $user,'user_type'=>'trainer','message'=>'ログインに成功しました。']);
-            // return redirect()->route('calendar.view','month')->with('message','ログインに成功しました。');
-            // }
+                 session(['user' => $user,'user_type'=>'trainer','message'=>'ログインに成功しました。']);
+            return redirect()->route('calendar.view','month')->with('message','ログインに成功しました。');
+            }
            
 
             return view('auth.update_trainer')->with('user',$user)->with('equipment',Equipment::get())->with('token','1234')->with('type','trainer');
