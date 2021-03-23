@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','course List')
+@section('title','コース一覧')
 @section('pageName','course list')
 @section('content')
 <div class="container-fluid">
@@ -11,9 +11,9 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3 class="card-title">Course List</h3>
+                            <h3 class="card-title">コース一覧</h3>
                         </div>
-                        <div class="col-sm-6 text-right"><a href="{{route('course.add')}}"><i class="fas fa-plus"></i> Add</a></div>
+                        <div class="col-sm-6 text-right"><a href="{{route('course.add')}}"><i class="fas fa-plus"></i> 追加</a></div>
 
                     </div>
                 </div>
@@ -26,17 +26,17 @@
                         <thead>
                             <tr>
                                 <th>#sl</th>
-                                <th>Course Name</th>
-                                <th>Course Type</th>
-                                <th>Equipment</th>
+                                <th>コース名</th>
+                                <th>コースタイプ</th>
+                                <th>設備</th>
                                 <th>Set 1</th>
                                 <th>Set 2</th>
                                 <th>Set 3</th>
                                 <!-- <th>Certification</th> -->
-                                <th>Summary</th>
-                                <th>Image</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>サマリ</th>
+                                <th>画像</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,17 +107,17 @@
                         <tfoot>
                             <tr>
                                 <th>#sl</th>
-                                <th>Course Name</th>
-                                <th>Course Type</th>
-                                <th>Equipment</th>
+                                <th>コース名</th>
+                                <th>コースタイプ</th>
+                                <th>設備</th>
                                 <th>Set 1</th>
                                 <th>Set 2</th>
                                 <th>Set 3</th>
                                 <!-- <th>Certification</th> -->
-                                <th>Summary</th>
-                                <th>Image</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>サマリ</th>
+                                <th>画像</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </tfoot>
                     </table>

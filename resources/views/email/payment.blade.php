@@ -12,7 +12,7 @@
 *<br>
 ***-------------------------------------------------------***<br>
 
-様 {{ $details['user_name']}}<br>
+{{ $details['user_name']}}様 <br>
 
  {{getenv('APP_NAME')}}をご利用いただきありがとうございます。<br>
 
@@ -20,6 +20,7 @@
 <br>
 ■ 商品情報
 オーダーID : {{ $details['transaction_id'] }}<br>
+
 コース名     : {{ $details['plan'] }}<br>
 支払金額   : {{ $details['price'] }}円<br>
 レッスン受講可能期間 : {{ $details['period_month'] }} 月<br>
@@ -29,7 +30,6 @@
 
 <br>
 <br>
-
 	<br>
 </div>
 </body>

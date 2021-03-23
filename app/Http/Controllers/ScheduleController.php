@@ -418,7 +418,7 @@ class ScheduleController extends Controller
                     $scheduleUn->save();
                   return redirect()->back()
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Reschedule time rescheduled succesfully!! ')
+                    ->with('message','リスケジュールが完了しました')
                     ->with('gridView',$request->gridView);
             }
 
@@ -427,7 +427,7 @@ class ScheduleController extends Controller
             
             if($time == $existingTime){
                 return redirect()->route('traineeCalendar.view')
-                ->with('message','Your rescheduled time is same as previous one !');
+                ->with('message','指定されたスケジュールは前回予約されたスケジュールと同じです。');
             }
         	$id = $request->db_schedule_id;
         	$found=TrainerSchedule::where('date',$request->db_date)
@@ -437,7 +437,7 @@ class ScheduleController extends Controller
         					->get()->first();
         	if($found){
                 return redirect()->back()
-                ->with('errors_m','Time slot is not avaliable for '.$request->start_time)
+                ->with('errors_m','予約可能な時間は'.$request->start_time."です。")
                 ->with('dayGridspecific',$initialDate)
                 ->with('gridView',$request->gridView);
             }else{
@@ -459,7 +459,7 @@ class ScheduleController extends Controller
             
             return redirect()->back()
                     ->with('dayGridspecific',$initialDate)
-                    ->with('message','Reschedule time rescheduled succesfully!! ')
+                    ->with('message','リスケジュールが完了しました')
                     ->with('gridView',$request->gridView);
         }
 
@@ -469,7 +469,7 @@ class ScheduleController extends Controller
 
             if(checkPastDate($request->db_date)){
                 return redirect()->back()
-                 ->with('errors_m','The schedule date has been passed');
+                 ->with('errors_m','スケジュールされた日時が過ぎています。');
             }
           
 
@@ -498,7 +498,7 @@ class ScheduleController extends Controller
                     if($scheduleU->is_occupied == 1){
                         if(checkLimitValidation($scheduleU->time,$request->db_date)){
                             return redirect()->back()
-                                    ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+                                    ->with('errors_m','キャンセル可能時間を超過しているため、スケジュール変更が出来ません。');
       
                         }
                     }
@@ -519,7 +519,7 @@ class ScheduleController extends Controller
             
             if(checkPastDate($request->db_date)){
                 return redirect()->back()
-                 ->with('errors_m','The schedule date has been passed');
+                 ->with('errors_m','スケジュールされた日時が過ぎています。');
             }
 
             if($request->event_type == 'recurring'){
@@ -543,7 +543,7 @@ class ScheduleController extends Controller
                     if($scheduleU->is_occupied == 1){
                         if(checkLimitValidation($scheduleU->time,$request->db_date)){
                             return redirect()->back()
-                            ->with('errors_m','You will not able to modify the schedule, because the cacncelation time limit exceed');
+                            ->with('errors_m','キャンセル可能時間を超過しているため、スケジュール変更が出来ません。');
           
                         }
                     }

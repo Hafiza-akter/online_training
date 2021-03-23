@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','User List')
+@section('title','ユーザー一覧')
 @section('pageName','User list')
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
                 <div class="card-header">
                 <div class="row">
                 
-                <div class="col-sm-6"><h3 class="card-title">User List</h3></div>
+                <div class="col-sm-6"><h3 class="card-title">ユーザー一覧</h3></div>
                 </div>
                 </div>
                 <!-- /.card-header -->
@@ -22,11 +22,11 @@
                         <thead>
                             <tr>
                                 <th>#sl</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>電話番号</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,11 +59,11 @@
                         <tfoot>
                         <tr>
                                 <th>#sl</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>電話番号</th>
+                                <th>ステータス</th>
+                                <th>詳細</th>
                             </tr>
                         </tfoot>
                     </table>

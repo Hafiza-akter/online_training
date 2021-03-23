@@ -8,7 +8,7 @@
         <div class="col-sm">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Admin Payment Manage</h3>
+                    <h3 class="card-title">支払い管理</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -16,11 +16,11 @@
                         <thead>
                             <tr>
                                 <th>Sl.</th>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Plan</th>
-                                <th>Payment status</th>
+                                <th>日付</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>プラン</th>
+                                <th>購入ステータス</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,9 +36,9 @@
                                 <td>
                                     <?php 
                                     if($plan->status == 1){ ?>
-                                        <input type="button"  readonly  class="btn btn-primary"  value="Paid ">
+                                        <input type="button"  readonly  class="btn btn-primary"  value="支払済">
                                     <?php }else{?>
-                                        <input type="button"  readonly  class="btn btn-warning"  value="Unpaid">
+                                        <input type="button"  readonly  class="btn btn-warning"  value="未支払い">
                                   <?php  } ?>
                                 </td> 
                                 
@@ -49,11 +49,11 @@
                         <tfoot>
                             <tr>
                                 <th>Sl.</th>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Plan</th>
-                                <th>Payment status</th>
+                                <th>日付</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>プラン</th>
+                                <th>支払いステータス</th>
                             </tr>
                         </tfoot>
                     </table>

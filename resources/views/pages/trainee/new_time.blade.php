@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                            {
                                Swal.fire({
                                   icon: 'success',
-                                  title: 'Schedule time set successfully! ',
+                                  title: 'スケジュール予約が完了しました',
                                   showConfirmButton:false
                                 })
                                 location.reload();
@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
                            {
                                Swal.fire({
                                   icon: 'success',
-                                  title: 'Schedule time set successfully! ',
+                                  title: 'スケジュール予約が完了しました',
                                   showConfirmButton:false
                                 })
                                 // location.reload();
@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if($('#checkPenalty').val() == 'found'){
           Swal.fire({
             icon: 'error',
-            title: 'You got penalty in this week, and unable to reschedule ',
+            title: 'ペナルティがあるため、今週はリスケジュールが出来ません。',
             showConfirmButton:false
           })
            return false;

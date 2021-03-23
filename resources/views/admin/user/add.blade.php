@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Add Admin')
+@section('title','管理者追加')
 @section('pageName','Add Admin')
 @section('content')
 <div class="container-fluid">
@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="card-title">Add New Admin</h3>
+                            <h3 class="card-title">管理者追加</h3>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="{{route('admin.list')}}" class="text-right"><i class="fa fas fa-list"></i> list</a>
@@ -42,19 +42,19 @@
                                     <form role="form">
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Email</label>
+                                                <label for="exampleInputEmail1">メールアドレス</label>
                                                 <input required type="text" class="form-control" name="email" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Role</label>
+                                                <label for="exampleInputEmail1">権限</label>
                                                 <input required type="text" class="form-control" name="role" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Password</label>
+                                                <label for="exampleInputEmail1">パスワード</label>
                                                 <input required type="password" class="form-control" name="password" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Status</label><br>
+                                                <label for="exampleInputEmail1">ステータス</label><br>
                                                 <input type="checkbox" name="status" class="form-control" data-toggle="toggle" data-on="Active" data-off="Inactive">
                                                 <!-- <input required type="checkbox" id="toggle-two"> -->
                                             </div>
@@ -63,14 +63,12 @@
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">送信</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
                 <!-- /.card-body -->

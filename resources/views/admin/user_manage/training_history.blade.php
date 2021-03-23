@@ -1,5 +1,5 @@
 @extends('admin/master')
-@section('title','Training History')
+@section('title','トレーニング履歴')
 @section('pageName','Training History')
 @section('content')
 <div class="container-fluid">
@@ -11,7 +11,7 @@
                     <div class="row">
 
                         <div class="col-sm-6">
-                            <h3 class="card-title">Training History</h3>
+                            <h3 class="card-title">トレーニング履歴</h3>
                         </div>
 
                         <div class="col-sm-6 text-right">
@@ -28,11 +28,11 @@
                         <thead>
                             <tr>
                                 <th>#sl</th>
-                                <th>User Id</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Course</th>
-                                <th>Item</th>
+                                <th>ユーザーID</th>
+                                <th>日付</th>
+                                <th>時間</th>
+                                <th>コース</th>
+                                <th>アイテム</th>
                                 <th>Set 1</th>
                                 <th>Set 2</th>
                                 <th>Set 3</th>
@@ -57,11 +57,11 @@
                         <tfoot>
                             <tr>
                                 <th>#sl</th>
-                                <th>User Id</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Course</th>
-                                <th>Item</th>
+                                <th>ユーザーID</th>
+                                <th>日付</th>
+                                <th>時間</th>
+                                <th>コース</th>
+                                <th>アイテム</th>
                                 <th>Set 1</th>
                                 <th>Set 2</th>
                                 <th>Set 3</th>
