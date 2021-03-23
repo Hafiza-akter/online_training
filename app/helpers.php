@@ -342,6 +342,19 @@ function number_formate($data){
     }
     return false;
  }
+ function checkPastTIme1($time,$date){
+
+    $end= new \Carbon\Carbon($date." ".$time);
+    $start = \Carbon\Carbon::now();
+    $totalDuration = $start->diffInMinutes($end,false); 
+    // dump($start);
+    // dump($end);
+    // dd($totalDuration);
+    if($totalDuration <= -60){
+        return true ; 
+    }
+    return false;
+ }
  function checkLimitValidation($time,$date){
     $setUpData = \App\Model\Setting::get()->first();
   // not to modify the past date and if limit time exceed

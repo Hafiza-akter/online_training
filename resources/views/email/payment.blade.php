@@ -20,9 +20,10 @@
 <br>
 ■ 商品情報
 オーダーID : {{ $details['transaction_id'] }}<br>
-コース名     : yyyyy<br><!-- input course name here -->
-支払金額   : zzzzz円<br><!-- input purchased price here  -->
-レッスン受講可能期間 : xyz~zyx<br><!-- input lesson avarilable period here  -->
+
+コース名     : {{ $details['plan'] }}<br>
+支払金額   : {{ $details['price'] }}円<br>
+レッスン受講可能期間 : {{ $details['period_month'] }} 月<br>
 
 ■レッスンスケジュールの予約について
 レッスンのスケジュール予約については、以下をご確認ください。

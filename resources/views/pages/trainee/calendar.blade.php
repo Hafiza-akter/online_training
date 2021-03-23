@@ -107,7 +107,7 @@
            
             @endphp
 
-
+            @if(!checkPastTIme1(\Carbon\Carbon::parse($val->time)->format('H:i'),\Carbon\Carbon::parse($val->date)->format('Y-m-d')))
               <tr>
                 <td scope="row">{{ ++$key}}</td>
                 <td>
@@ -155,13 +155,14 @@
                   @if($val->status === NULL)
 
                   <a href="{{ route('trainingtrainee',$parameter)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
-                  
+
                   @endif
                   {{-- @endif --}}
                   {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
                   {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
                 </td>
               </tr>
+              @endif
         @endforeach
       @endif
       

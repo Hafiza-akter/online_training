@@ -46,13 +46,17 @@ class TrainingController extends Controller
         	$startTime = Carbon::parse($schedule->time)->format("H:i:s");
         	$endTime = Carbon::parse($schedule->time)->addMinutes(60)->format("H:i:s");
 
+            if($endTime = "00:00:00"){
+                $endTime ="24:00:00";
+            }
         	// dd($endTime);
         	$start = $startTime;
 			$end   = $endTime;
 			$now   = Carbon::now();
 			$time  = $now->format('H:i:s');
 
-			if ($time >= $start && $time <= $end) {
+            // dd($end);
+			if ($time >= $start && $time <= $endTime) {
 			  // meeting  time
 				// dd('meeting time');
 			}else{
@@ -308,6 +312,7 @@ class TrainingController extends Controller
             $date = '';
             $list = Training::orderBy('id','DESC')->get();
         }
+        // dd($list);
         // dd($request->id);
         // dd($exerciseData->getExerciseData);
         return view('pages.trainee.trainer_history')
@@ -333,7 +338,7 @@ class TrainingController extends Controller
             $date = '';
             $list = Training::orderBy('id','DESC')->get();
         }
-        // dd($request->id);
+        // dd($list);
         // dd($exerciseData->getExerciseData);
     	return view('pages.trainer.traininglist')
     	->with('course',$course)

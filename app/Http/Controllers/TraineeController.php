@@ -211,8 +211,8 @@ class TraineeController extends Controller
         $details['user_name'] = Session::get('user.name');
         $details['user_email'] = Session::get('user.email');
         $details['date'] = $request->date;
-        $details['month'] = Carbon::parse()->format('F');
-        $details['day'] =  Carbon::parse()->format('D');
+        $details['month'] = Carbon::parse($request->date)->format('F j');
+        $details['day'] =  Carbon::parse($request->date)->format('l');
         $details['time'] = $request->time;
         $details['address'] = route('traineeCalendar.view');
         $details['trainer_name'] = $tinfo->first_name;
@@ -240,19 +240,20 @@ class TraineeController extends Controller
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();
         // branch page 
-        if($user->phone === null || $user->address === null){
-                    // return view('pages.trainee.dummyview');
-
-            return redirect()->route('quickview');
-        }
         // if($user->dob == null || $user->weight == null ||  $user->sex == null ||  $user->pal == null){
         //     return view('auth.branch');
         // }
-        //
+        
+        if($user->phone === null || $user->address === null){
+                    // return view('pages.trainee.dummyview');
+
+                    return view('auth.branch');
+        }
+
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
-        if(!$puchasePlan){
-            return redirect()->route('purchaseplan')->with('message','はじめにレッスンを購入してください。');
+         if(!$puchasePlan){
+                return redirect()->route('traineeCalendar.view')->with('message','はじめにプランを購入してください。');
         }
         
         $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
@@ -268,7 +269,16 @@ class TraineeController extends Controller
   
         $isActive = "schedule";
         if($request->trainer_id){
+             $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
+            if($user->phone === null || $user->address === null){
+                return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+            }
 
+            $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
+            
+            if(!$puchasePlan){
+                return redirect()->route('traineeCalendar.view')->with('message','はじめにプランを購入してください。');
+            }
             $schedule =TrainerSchedule::where('trainer_id',$request->trainer_id)->where('status',NULL)->get();
             $recurring =TrainerRecurringSchedule::where('trainer_id',$request->trainer_id)
                     ->where('status',NULL)
@@ -315,7 +325,7 @@ class TraineeController extends Controller
                         // $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
                         // $parsedArray[$count]['exclude']=$value->exclude;
                         $parsedArray[$count]['startRecur']=date('Y-m-d',strtotime($puchasePlan->created_at));
-                        $parsedArray[$count]['endRecur']=$endDay;
+                        $parsedArray[$count]['endRecur']=$endDay ? $endDay : '';
 
                         $parsedArray[$count]['allDay'] = true;
 
@@ -382,7 +392,7 @@ class TraineeController extends Controller
         //     }
         // }
         $listSchedule =TrainerSchedule::where('user_id',Session::get('user')->id)->orderBy('date','DESC')->get();
-        $trainingDay= \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+        // $trainingDay= \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
         
         return view('pages.trainee.calendar')
         // ->with('datePlan',$datePlan)
@@ -397,6 +407,11 @@ class TraineeController extends Controller
         $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
         if($user->phone === null || $user->address === null){
             return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+        }
+        $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
+        
+        if(!$puchasePlan){
+            return redirect()->route('purchaseplan')->with('message','はじめにプランを購入してください。');
         }
         $checkPenalty = "";
 
@@ -885,6 +900,28 @@ class TraineeController extends Controller
             $scheduleU->time =Carbon::parse($request->start_time)->format('H:i:s');
             $scheduleU->save();
 
+
+        // $details=array();
+        // $details['user_name'] = Session::get('user.name');
+        // $details['date'] = $request->db_date;
+        // $details['month'] = Carbon::parse()->format('F');
+        // $details['day'] =  Carbon::parse($request->db_date)->format('D');
+        // $details['time'] = $request->start_time;
+        // $details['trainer_name'] = $tinfo->first_name;
+        // $details['trainer_email'] = $tinfo->email;
+        // $details['type'] = Session::get('user_type');
+        // $details['trainer_name'] = Trainer::find($request->trainer_id)->first_name;
+        // $details['user_name'] = Session::get('user.name');
+
+        // $details['mail_type'] = 'cancel_by_user_to_user';
+        // $details['address'] = route('traineeCalendar.view');
+        // \Mail::to(Session::get('user.email'))->send(new \App\Mail\Cancel($details));
+        
+        // $details['mail_type'] = 'cancel_by_user_to_trainer';
+        // $details['address'] = route('calendar.view','month');
+        // \Mail::to($tinfo->email)->send(new \App\Mail\Cancel($details));
+
+
             return redirect()->route('traineeCalendar.view')
             ->with('message','キャンセルを正常にスケジュールする');
           
@@ -920,7 +957,7 @@ class TraineeController extends Controller
 
     public function trainerlist(){
 
-        $user = \App\Model\User::where('id',$user_id)->get()->first();
+        $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
         if($user->phone === null || $user->address === null){
             return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
         }
@@ -1308,7 +1345,7 @@ class TraineeController extends Controller
                 }
             }
         }
-                    return redirect()->route('purchaseplan')->with('success','Training information added successfully');
+                    return redirect()->route('traineeCalendar.view')->with('message','Training information added successfully');
     }
     
     public function dailydata(Request $request){
