@@ -252,24 +252,23 @@ class TraineeController extends Controller
 
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
-         if(!$puchasePlan){
-                return redirect()->route('traineeCalendar.view')->with('message','はじめにプランを購入してください。');
+        if($puchasePlan){
+            $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
+            $now = Carbon::parse(date('Y-m-d'));
+
+            $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
+            $startDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
+            $endDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)))->addDays(90)->format('Y-m-d');;
         }
         
-        $datePlan = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
-        $now = Carbon::parse(date('Y-m-d'));
-
-        $allTraingingArray = \Config::get('statics.'.$puchasePlan->purchase_plan_id.'day_per_week');
-        $startDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)));
-        $endDay = Carbon::parse(date('Y-m-d',strtotime($puchasePlan->created_at)))->addDays(90)->format('Y-m-d');;
-
+       
         $count=0;
         $parsedArray = array();
 
   
         $isActive = "schedule";
         if($request->trainer_id){
-             $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
+            $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
             if($user->phone === null || $user->address === null){
                 return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
             }
@@ -325,7 +324,7 @@ class TraineeController extends Controller
                         // $parsedArray[$count]['endTime']=Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
                         // $parsedArray[$count]['exclude']=$value->exclude;
                         $parsedArray[$count]['startRecur']=date('Y-m-d',strtotime($puchasePlan->created_at));
-                        $parsedArray[$count]['endRecur']=$endDay ? $endDay : '';
+                        $parsedArray[$count]['endRecur']= isset($endDay) ? $endDay : '';
 
                         $parsedArray[$count]['allDay'] = true;
 
