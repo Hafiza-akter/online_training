@@ -244,11 +244,11 @@ class TraineeController extends Controller
         //     return view('auth.branch');
         // }
         
-        if($user->phone === null || $user->address === null){
-                    // return view('pages.trainee.dummyview');
+        // if($user->phone === null || $user->address === null){
+        //             // return view('pages.trainee.dummyview');
 
-                    return view('auth.branch');
-        }
+        //             return view('auth.branch');
+        // }
 
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         

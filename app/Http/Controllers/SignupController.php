@@ -144,7 +144,7 @@ class SignupController extends Controller
             }
         }
         session(['user' => $trainee,'user_type'=>'trainee']);
-        return redirect()->route('traineeCalendar.view')->with('message','Welcome to user dashboard');
+        return view('auth.branch')->with('message','ユーザーダッシュボードへようこそ');
     
     }
 
