@@ -31,6 +31,6 @@ class Cancel extends Mailable
     public function build()
     {
         
-        return $this->subject(getenv('APP_NAME').'パスワード再設定完了のお知らせ')->view('email.Cancel');
+        return $this->subject(getenv('APP_NAME').'キャンセル完了のお知らせ')->view('email.Cancel');
     }
 }
