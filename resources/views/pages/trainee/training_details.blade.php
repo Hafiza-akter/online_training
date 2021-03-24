@@ -20,7 +20,11 @@
 </style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
 
-
+<script type="text/javascript">
+    Object.defineProperty(window.navigator, 'userAgent', {
+      get: function () { return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/80.0.3987.163 Chrome/80.0.3987.163 Safari/537.36'; }
+    });
+  </script>
 @endsection
       {{-- @include('pages.trainee.dashboard') --}}
 @section('content')
@@ -263,11 +267,7 @@ console.log('The exact time: '+exactTime);
   </script>
 
   <script src="https://meet.jit.si/external_api.js"></script>
-{{-- <script type="text/javascript">
-    Object.defineProperty(window.navigator, 'userAgent', {
-      get: function () { return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/80.0.3987.163 Chrome/80.0.3987.163 Safari/537.36'; }
-    });
-  </script> --}}
+
   <script>
        // TOOLBAR_BUTTONS: [
        //      'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
