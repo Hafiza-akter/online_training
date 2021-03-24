@@ -24,8 +24,8 @@
 }
  #clock {
     position: absolute;
-    top: 20%;
-    left: 5%;
+    top: 40%;
+    left: 8%;
     transform: translateX(-50%) translateY(-50%);
     color: red;
     font-size: 2rem;
@@ -35,14 +35,14 @@
 }
 
 </style>
-<section class="review_part gray_bg section_padding" style="margin-top:-74px">
-{{--     <div class="row justify-content-center">
+<section class="review_part gray_bg section_padding">
+    <div class="row justify-content-center">
         <div class="col-md-8 col-xl-6">
             <div class="section_tittle">
-                <h3>トレーニングページ</h3>
+                {{-- <h3>トレーニングページ</h3> --}}
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <div class="row justify-content-center">
         <div class="col-md-12">
