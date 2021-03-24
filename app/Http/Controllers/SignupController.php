@@ -243,7 +243,7 @@ class SignupController extends Controller
 
         $validateData = $request->validate([
             'email' => 'required',
-            'password' => 'required',
+            'password' => 'required|confirmed|min:6',
         ]);
 
         $date= new DateTime();
