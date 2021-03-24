@@ -409,11 +409,12 @@ console.log('The exact time: '+exactTime);
   $('#clock').countdown(exactTime)
     .on('update.countdown', function(e) {
   // $(this).html(event.strftime('%D days %H:%M:%S'));
-        $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));
+        $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%H:%M:%S</div></div>'));
     })
     .on('finish.countdown', function(e) {
         console.log('hello');
-        alert(e.strftime('%M:%S'));
+        // alert(e.strftime('%M:%S'));
+        alert('Your course time has finished');
         window.location.href = "{{ route('traineelist') }}";
 
 
