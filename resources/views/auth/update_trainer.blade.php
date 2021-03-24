@@ -211,7 +211,7 @@
                         <h4 class="mx-auto _photo_path_">写真のアップロード</h4>
                       </div>
                       <div class="row pt-3 pb-3">
-                          <input type="file" name="image" >
+                          <input type="file" name="image" id="photo_path" >
 
                       </div>
 
@@ -257,3 +257,20 @@
     <div class="row"></div>
 
 @endsection
+@section('footer_css_js')
+<script>
+ 
+    $(function () {
+    $('#photo_path').change(function () {
+        var val = $(this).val().toLowerCase(),
+            regex = new RegExp("(.*?)\.(jpg|jpeg|png)$");
+        if (!(regex.test(val))) {
+            $(this).val('');
+            alert(' Image file is not valid !!');
+        }
+    });
+
+});
+
+</script>
+@endsection 
