@@ -255,7 +255,7 @@ console.log('The exact time: '+exactTime);
     })
     .on('finish.countdown', function(e) {
         console.log('hello');
-        alert(e.strftime('%M:%S'));
+        // alert(e.strftime('%M:%S'));
         alert('Your course time has finished');
         window.location.href = "{{ route('traineelist') }}";
 
