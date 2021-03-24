@@ -249,7 +249,7 @@
 
       events: dateData
     });
-
+    calendar.setOption('locale', 'ja');
     calendar.render();
   });
 

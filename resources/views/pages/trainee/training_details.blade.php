@@ -157,7 +157,7 @@
     </div>
     @php
       $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
-      $hour = Carbon\Carbon::parse($schedule->time)->format('H:i:s');
+      $hour = Carbon\Carbon::parse($schedule->time)->addHours(1)->format('H:i:s');
 
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
@@ -241,8 +241,8 @@ function getdayFromNow() {
 
 console.log("----server provided time :-----"+ $("#clock_value").val());
 
-var localtime =   moment.tz($("#clock_value").val(), "Asia/Tokyo");
-console.log("----local  time :-----"+ localtime.toDate());
+var localtime =   moment.tz(new Date($("#clock_value").val()), "Asia/Tokyo");
+console.log("----local  time :-----"+ localtime.toDate('ja', { timeZone: 'Asia/Tokyo' }));
 var exactTime = moment(localtime.toDate()).format('YYYY/MM/DD HH:mm:ss');
 
 
@@ -251,11 +251,12 @@ console.log('The exact time: '+exactTime);
   $('#clock').countdown(exactTime)
     .on('update.countdown', function(e) {
   // $(this).html(event.strftime('%D days %H:%M:%S'));
-        $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%M:%S</div></div>'));
+        $(this).html(e.strftime('<div id="countdown_container"><div class="countdown_wrap hours">%H:%M:%S</div></div>'));
     })
     .on('finish.countdown', function(e) {
         console.log('hello');
         alert(e.strftime('%M:%S'));
+        alert('Your course time has finished');
         window.location.href = "{{ route('traineelist') }}";
 
 
