@@ -325,7 +325,7 @@
     </div>
     @php
       $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
-      $hour = Carbon\Carbon::parse($schedule->time)->format('H:i:s');
+      $hour = Carbon\Carbon::parse($schedule->time)->addHours(1)->format('H:i:s');
 
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
@@ -398,8 +398,9 @@ function getdayFromNow() {
   // });
 console.log("----server provided time :-----"+ $("#clock_value").val());
 
-var localtime =   moment.tz($("#clock_value").val(), "Asia/Tokyo");
-console.log("----local  time :-----"+ localtime.toDate());
+
+var localtime =   moment.tz(new Date($("#clock_value").val()), "Asia/Tokyo");
+console.log("----local  time :-----"+ localtime.toDate('ja', { timeZone: 'Asia/Tokyo' }));
 var exactTime = moment(localtime.toDate()).format('YYYY/MM/DD HH:mm:ss');
 
 
