@@ -27,7 +27,7 @@
             <!-- Card header --> 
             <div class="card-header success" >
                 <h3 class="mb-0">
-                  <i class="fas fa-check-circle"></i> 現在選択中のプランは <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>です。
+                  <i class="fas fa-check-circle"></i> 現在利用中のプランは <span style="color: green !important"> {{ \App\Model\PlanPurchase::where('id',$userPurchasePlan->purchase_plan_id)->get()->first()->name}} </span>です。
                 </h3>
             </div>
           </div>

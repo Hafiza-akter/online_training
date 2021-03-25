@@ -270,7 +270,7 @@ class TraineeController extends Controller
         if($request->trainer_id){
             $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
             if($user->phone === null || $user->address === null){
-                return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+                return redirect()->route('traininginfo')->with('success','はじめにユーザー情報を入力してください');
             }
 
             $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
@@ -405,7 +405,7 @@ class TraineeController extends Controller
     public function scheduleCalendarSubmit(Request $request){ // when calendar date submit
         $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
         if($user->phone === null || $user->address === null){
-            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+            return redirect()->route('traininginfo')->with('success','はじめにユーザー情報を入力してください');
         }
         $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
         
@@ -958,7 +958,7 @@ class TraineeController extends Controller
 
         $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
         if($user->phone === null || $user->address === null){
-            return redirect()->route('traininginfo')->with('success','最初にトレーニングを入力してください');
+            return redirect()->route('traininginfo')->with('success','はじめにユーザー情報を入力してください');
         }
 
         $trainerList = Trainer::get();
@@ -1344,7 +1344,7 @@ class TraineeController extends Controller
                 }
             }
         }
-                    return redirect()->route('traineeCalendar.view')->with('message','Training information added successfully');
+                    return redirect()->route('traineeCalendar.view')->with('message','ユーザー情報の登録が完了しました');
     }
     
     public function dailydata(Request $request){
