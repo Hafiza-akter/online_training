@@ -259,9 +259,9 @@ class TrainingController extends Controller
     	}
         
         if(Session::get('user_type') == 'trainee'){
-                return redirect()->route('traineelist')->with('message','Training information added successfully! ');
+                return redirect()->route('traineelist')->with('message','ユーザー情報の登録が完了しました');
             }else{
-                return redirect()->route('traininglist')->with('message','Training information added successfully! ');
+                return redirect()->route('traininglist')->with('message','ユーザー情報の登録が完了しました ');
             }
     	
     }

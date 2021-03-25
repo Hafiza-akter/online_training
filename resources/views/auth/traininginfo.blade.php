@@ -23,7 +23,7 @@
                
                 <div class="col-md-8 col-xl-6">
                     <div class="section_tittle">
-                       <h2>研修情報登録</h2>
+                       <h2>ユーザー情報登録</h2>
                     </div>
                 </div>
             </div>
