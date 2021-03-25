@@ -188,6 +188,9 @@
     console.log(dateData);
     var calendar = new FullCalendar.Calendar(calendarEl, {
       selectable: false,
+      showNonCurrentDates: false,
+      fixedWeekCount:false,            
+
       firstDay: 0,
 
        customButtons: {

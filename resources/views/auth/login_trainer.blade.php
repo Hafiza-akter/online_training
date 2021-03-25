@@ -6,7 +6,7 @@
      .login_button{
         border-radius: 1px !important;
         font-size: 18px;
-        width:400px;
+        /*width:auto;*/
         color: #a506a4;
         border: 2px solid #bb07bb;
         }
@@ -99,8 +99,8 @@
                     <!-- /.card-body -->
                      <div class="card-footer">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-lg login_button"> 次へ</button>
-                            <a  class="btn btn-lg login_button" href="{{route('trainerSignup')}}" style="border:none !important;font-size:13px;"> アカウントの作成はこちら</a>
+                            <button type="submit" class="btn btn-lg login_button btn-block"> 次へ</button>
+                            <a  class="btn btn-lg login_button " href="{{route('trainerSignup')}}" style="border:none !important;font-size:13px;"> アカウントの作成はこちら</a>
                          </div>
                     </div>
                     <!-- /.card-footer -->

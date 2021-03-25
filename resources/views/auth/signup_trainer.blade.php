@@ -8,7 +8,7 @@
      .login_button{
         border-radius: 1px !important;
         font-size: 18px;
-        width:400px;
+        /*width:auto;*/
         color: #a506a4;
         border: 2px solid #bb07bb;
         }
@@ -75,7 +75,7 @@
                             <div class="card-footer">
                                 {{-- Registration --}}
                                 <div class="col text-center">
-                                <button type="submit" class="btn  btn_lg login_button"><i class="fas fa-user-check"></i>  登録</button>
+                                <button type="submit" class="btn  btn_lg login_button btn-block"><i class="fas fa-user-check"></i>  登録</button>
                                  <a  class="btn btn-lg login_button" style="border:none !important;font-size:13px;" href="{{ route('trainerLogin') }}" style="font-size: 14px;color: #007bff;">  すでにアカウントをお持ちですか？ ログイン
                                  </a>
                                 </div>

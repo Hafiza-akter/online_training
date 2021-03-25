@@ -6,7 +6,7 @@
      .login_button{
         border-radius: 1px !important;
         font-size: 18px;
-        width:400px;
+        /*width:auto;*/
         color: #a506a4;
         border: 2px solid #bb07bb;
         }
@@ -90,7 +90,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <div class="col text-center">
-                    <button type="submit" class="btn btn-lg login_button"> 次へ</button>
+                    <button type="submit" class="btn btn-lg login_button btn-block"> 次へ</button>
                 </div>
             </div>
             <!-- /.card-footer -->

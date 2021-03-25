@@ -234,7 +234,8 @@ $(".tblue").click(function(){
 
       selectable: true,
       allDaySlot: false,
-   
+         showNonCurrentDates: false,
+      fixedWeekCount:false,   
       contentHeight:"auto",
       initialView: '{{Session::get('gridView') ? Session::get('gridView') : $gridView}}',
       displayEventTime : false,
