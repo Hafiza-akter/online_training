@@ -411,6 +411,13 @@ $(".tblue").click(function(){
 
           let startDate = moment(info.startStr, "YYYY-MM-DD");
           let endDate = moment(info.endStr, "YYYY-MM-DD");
+
+          if(moment(info.endStr).format('HH:mm:ss') == '00:00:00'){
+            endT = moment(info.endStr, "YYYY-MM-DD").add(-1, 'day').format("YYYY-MM-DD");
+            endDate = moment(endT, "YYYY-MM-DD");
+          }
+          console.log("Ami end date"+endDate);
+
           let dateDiff = moment.duration(endDate.diff(startDate)).asDays();
           console.log('Date diff '+dateDiff);
 

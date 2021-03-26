@@ -29,7 +29,7 @@
         
             <div class="col-sm middle">
                 @if($trainerData->photo_path != NULL)
-                    <img class="img-fluid"  src="{{asset('images').'/'.$trainerData->photo_path}}" width="300">
+                    <img class="img-fluid"  src="{{asset('images').'/'.$trainerData->photo_path}}" width="200">
                 @else 
                   <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
 

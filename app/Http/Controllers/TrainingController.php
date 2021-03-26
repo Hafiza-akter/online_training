@@ -335,8 +335,11 @@ class TrainingController extends Controller
                             ->whereYear('created_at',$date->year)
                             ->orderBy('id','DESC')->get();
         }else{
+            // dd(date('m'));
             $date = '';
-            $list = Training::orderBy('id','DESC')->get();
+            $list = Training::whereMonth('created_at',date('m'))
+                            ->whereYear('created_at',date('Y'))
+                            ->orderBy('id','DESC')->get();
         }
         // dd($list);
         // dd($exerciseData->getExerciseData);
