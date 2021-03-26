@@ -93,6 +93,12 @@
     </script>
     @yield('footer_css_js')
 <style type="text/css">
+    .alert{
+        margin-top: 28px !important;
+    }
+    #calendar{
+        margin-top:31px !important;
+    }
 .alert-info{
     background-color:#d4edda !important;
     border-color:#c3e6cb;
