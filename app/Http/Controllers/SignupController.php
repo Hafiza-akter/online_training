@@ -201,7 +201,7 @@ class SignupController extends Controller
 
             $details['url'] =  route('trainerLogin') ;
 
-             \Mail::to($user->email)->send(new \App\Mail\RegistrationVerificationSuccess($details));
+             //\Mail::to($user->email)->send(new \App\Mail\RegistrationVerificationSuccess($details));
 
             return view('auth.update_trainer')->with('user',$user)->with('equipment',Equipment::get())->with('token',$token)->with('type',$request->type);
         }
@@ -243,7 +243,7 @@ class SignupController extends Controller
 
         $validateData = $request->validate([
             'email' => 'required',
-            'password' => 'required|password_confirmation|min:6',
+            'password' => 'required|confirmed|min:6',
         ]);
 
         $date= new DateTime();
