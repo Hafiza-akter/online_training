@@ -59,7 +59,7 @@
                   </div>
               @endif
 
-            <form action="{{route('trainerSignupUpdate.submit')}}" method="post" enctype="multipart/form-data">>
+            <form action="{{route('trainerSignupUpdate.submit')}}" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
               <input type="hidden" name="email" class="form-control" value="{{ $user->email}}">
                   <input type="hidden" name="user_id" class="form-control" value="{{ $user->id}}">   
