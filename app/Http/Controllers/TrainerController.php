@@ -432,13 +432,14 @@ class TrainerController extends Controller
             $trainer->city = $request->input('city');
             $trainer->phone = $request->input('phone');
             $trainer->intro = $request->input('intro');
-            $trainer->photo_path = $request->input('photo_path');
+            // $trainer->photo_path = $request->input('photo_path');
             $trainer->unit_price = $request->input('unit_price');
             $trainer->certification = $request->input('certification');
             $trainer->interface = $request->input('interface');
 
-            // dd($request->hasFile('image'));
             if ($request->hasFile('image')) {
+                            // dd($request->hasFile('image'));
+
                 $file = $request->file('image');
                 $filename = rand(1, 9000).strtotime("now");
                 $file->move(public_path() . '/images/', $filename . '_trainer_image' . '.' . $file->getClientOriginalExtension());
