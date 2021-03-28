@@ -7,12 +7,11 @@
   #clock {
     position: absolute;
     top: 40%;
-    left: 8%;
-    transform: translateX(-50%) translateY(-50%);
+    left: 1%;
+    /*transform: translateX(-50%) translateY(-50%);*/
     color: red;
     font-size: 2rem;
    
-
 
 }
   
