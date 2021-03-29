@@ -230,7 +230,7 @@
                                   <select class="form-control" name="equipment[{{$key}}][is_available]">
                                       {{-- <option> 持ってる</option> --}}
                                       <option value="1"> はい</option>
-                                      <option value="0"> 番号</option>
+                                      <option value="0"> いいえ</option>
 
 
                                   </select>

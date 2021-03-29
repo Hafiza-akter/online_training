@@ -5,7 +5,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 @if(Session::get('user_type') == 'trainee' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 24px;font-weight: bolder;"> 
-                    ユーザー管理画面
+                    メディカルジムオンライン
                 </a>
                 @endif
 

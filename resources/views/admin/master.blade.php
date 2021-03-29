@@ -141,7 +141,7 @@
                 <i class="nav-icon fas fa-money-bill-alt"></i>
                 <p>
                   <!-- User Management -->
-                  ユーザー管理
+                  プラン管理
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
