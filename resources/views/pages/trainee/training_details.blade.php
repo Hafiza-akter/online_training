@@ -146,7 +146,7 @@
             </div>
              <div class=" row justify-content-center">
           <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
-          <a id="f_btn" href="#" class="nav-link active__ m-1" style="color: white;">送信する</a>
+          <a id="f_btn" href="#" class="nav-link active__ m-1" style="color: white;">更新する</a>
         </div>
           </form>
         </div>
