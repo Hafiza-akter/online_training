@@ -129,7 +129,7 @@
                     </div>
             <div class=" row justify-content-center m-1 p-1">
               <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
-              <a  class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">送信する</a>
+              <a  class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">更新する</a>
             
             </div>
             </form>
@@ -221,7 +221,7 @@
                     <br>
               <div class=" row justify-content-center m-1 p-1">
                 <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
-                <a  href="#" class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">送信する</a>
+                <a  href="#" class="nav-link active__ m-1 submit_performance" id="submit_performance" style="color: white;">更新する</a>
               
               </div>
             </form>
@@ -278,7 +278,7 @@
           </div>
          {{--  <div class="modal-footer row justify-content-center">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <button type="button" class="nav-link active__" style="color: white;">送信する</button>
+            <button type="button" class="nav-link active__" style="color: white;">更新する</button>
           </div> --}}
         </div>
       </div>
