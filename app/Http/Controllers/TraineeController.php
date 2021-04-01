@@ -1236,6 +1236,9 @@ class TraineeController extends Controller
 
             'name' => 'required',
             'birthday' => 'required',
+            'height' => 'required',
+            'phonetic' => 'required',
+            
             'email1' => 'unique:tbl_users,email,'.$request->user_id,
             // 'password' => 'required|confirmed|min:6',
             'weight' => 'required',
