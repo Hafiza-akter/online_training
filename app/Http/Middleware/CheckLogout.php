@@ -17,7 +17,9 @@ class CheckLogout
     public function handle($request, Closure $next)
     {
         if(Session::get('user')){
-            // dd(Session::get('user_type'));
+            if(Session::get('user_type') == 'admin'){
+                return redirect()->route('admin.dashboard');
+            }
             if(Session::get('user_type') === 'trainer'){
                 return redirect()->route('calendar.view','month');
             }

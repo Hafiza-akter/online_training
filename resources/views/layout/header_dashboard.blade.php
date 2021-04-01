@@ -3,15 +3,24 @@
     <div class="row align-items-center">
         <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg navbar-light">
+               
                 @if(Session::get('user_type') == 'trainee' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 24px;font-weight: bolder;"> 
-                    ユーザー管理画面
+                    @if(\App\Model\Trainee::find(Session::get('user.id'))->name != NULL)
+                        {{ \App\Model\Trainee::find(Session::get('user.id'))->name }} ページ
+                    @else 
+                    ユーザー管理画面 
+                    @endif
                 </a>
                 @endif
 
                 @if(Session::get('user_type') == 'trainer' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
+                    @if(\App\Model\Trainer::find(Session::get('user.id'))->first_name != NULL)
+                        {{ \App\Model\Trainer::find(Session::get('user.id'))->first_name }}  ページ
+                    @else 
                     トレーナー管理画面
+                    @endif
                 </a>
                 @endif
 
