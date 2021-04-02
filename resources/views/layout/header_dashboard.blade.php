@@ -6,7 +6,7 @@
                 @if(Session::get('user_type') == 'trainee' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 24px;font-weight: bolder;"> 
                     @if(\App\Model\Trainee::find(Session::get('user.id'))->name != NULL)
-                        {{ \App\Model\Trainee::find(Session::get('user.id'))->name }} ページ
+                        {{ \App\Model\Trainee::find(Session::get('user.id'))->name }} 様
                     @else 
                     メディカルジムオンライン 
                     @endif
