@@ -9,7 +9,12 @@
                         <div class="banner_text_iner">
                             <!-- <h2>Join <span>now</span> </h2> -->
                             {{-- <p>get in shape today</p> --}}
-                        <h2><span> オンライン</span>トレーニング<span>マッチング</span> </h2>
+                        <h2>
+                            <span></span>
+                            <span>
+                             メディカルジムオンライン
+                         </span>
+                         </h2>
                         @if(Session::get('user_type') === 'trainer' || Session::get('user_type') === 'trainee')
 
                         @else
