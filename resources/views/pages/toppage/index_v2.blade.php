@@ -23,8 +23,42 @@
                 </div>
             </div>
         </div>
-    </section>
+</section>
+    <section class="review_part gray_bg section_padding">
+        <div class="container-fluid">
+               <div class="row justify-content-center">
+                <div class="col-md-12 col-xl-12">
+                    <div class="section_tittle">
+                        <h2>こんなことでお悩みではないでしょうか？</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                
+                <div class="col-lg-10 offset-lg-2">
+                    <div class="extends_member_text">
 
+
+              
+                        <ul>
+                           
+                            <li><span class="btn-secondary ti-check success p-1"></span> ダイエットをしたいけど何をしていいかわからない </li> <br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> 今までダイエットをしてきたけど、うまくいかなかった </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> ジムに行くのは感染リスクが心配 </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> スポーツクラブでマスクをしながら運動するのがしんどい </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> 好きな時間にトレーニングがしたい </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> 健康診断の結果が気になった </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> 自己流でトレーニングしてもうまくいかない </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> 誰にも知られずにトレーニングをしたい </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> ダイエットをしてもリバウンドしてしまう </li><br>
+                            <li><span class="btn-secondary ti-check success p-1"></span> 従来のパーソナルトレーニングは高くて手が出ない </li><br>
+                        </ul>
+                        {{-- <a href="#" class="btn_2">続きを読む</a> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="about_us section_padding">
         <div class="container">
@@ -44,15 +78,19 @@
                                     <div class="feature_item_icon">
                                         <span class="flaticon-footwear"></span>
                                     </div>
-                                    <h3><a href="#">医師監修!科学的根拠に基づいた効果的トレーニング</a></h3>
-                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
+                                    <h3><a href="#">自宅で安心してトレーニング </a></h3>
+                                    <p> 
+                                        自宅でのトレーニングであれば、他の人の目を気にする必要も、マスクをする必要もありません。感染リスクの少ない自宅で、安心してトレーニングをしませんか？
+                                    </p>
                                 </div>
                                 <div class="single_feature_item">
                                     <div class="feature_item_icon">
                                         <span> <img src="{{asset('asset_v2/img/icon/icon.svg')}}" alt="icon"> </span>
                                     </div>
-                                    <h3><a href="#">厳選されたトレーナー陣</a></h3>
-                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
+                                    <h3><a href="#">ダイエットの成果を予測</a></h3>
+                                    <p>
+                                        これから行うトレーニングの頻度によって、減少していく体重の推移をコンピュータが計算。自分の将来の姿をイメージしながらトレーニングをすることで、高いモチベーションを維持できます。
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -71,15 +109,19 @@
                                     <div class="feature_item_icon">
                                         <span class="flaticon-gym-1"></span>
                                     </div>
-                                    <h3> <a href="#">自宅からいつでもアクセス可能！</a></h3>
-                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
+                                    <h3> <a href="#">自宅にいながらジムレベルのトレーニング！</a></h3>
+                                    <p>
+                                        可変式ダンベルを使ったフリーウエイトトレーニングとプロのトレーナーのサポートで、自宅でもジムレベルの質のトレーニングができます。
+                                    </p>
                                 </div>
                                 <div class="single_feature_item">
                                     <div class="feature_item_icon">
                                         <span class="flaticon-strong"></span>
                                     </div>
-                                    <h3><a href="#">追加料金一切なし!</a></h3>
-                                    <p>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</p>
+                                    <h3><a href="#">追加料金なし！</a></h3>
+                                    <p>
+                                        必要なのは道具(可変式ダンベル・ベンチ)とセッションフィーのみ。入会金やその他費用はいただきません。
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -114,19 +156,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 offset-lg-2">
+                <div class="col-lg-5 offset-lg-2">
                     <div class="extends_member_text">
-                        <h2>サービスについて <br>
+                        <h2>サービスについて  <br>
                             </h2>
 
               
                         <ul>
-                            <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
-                            <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
-                             <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
-                              <li><span class="ti-pencil-alt"></span>(ここに文章が入ります)テストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテストテスト</li>
+                            <li>
+                                <span class="ti-pencil-alt"></span>
+                                全てのコースに含まれるサービス
+                                <br><br>
+                                 <span class="fas fa-square p-1"></span> カウンセリング <br>
+                                 <span class="fas fa-square p-1"></span> メニュー作成 <br>
+                                 <span class="fas fa-square p-1"></span>  セッション <br>
+                                 <span class="fas fa-square p-1"></span> 体重推移の記録 <br>
+                                <span class="fas fa-square p-1"></span>入会金・初期費用：0円<br>
+                                <span class="fas fa-square p-1"></span>週1回コース：24000円/月<br>
+                                <span class="fas fa-square p-1"></span>週2回コース：48000円/月<br>
+                                <span class="fas fa-square p-1"></span>週3回コース：72000円/月
+                            </li>
+                            
+                            
                         </ul>
-                        <a href="#" class="btn_2">続きを読む</a>
                     </div>
                 </div>
             </div>
@@ -195,9 +247,9 @@
      <section class="team_member_section section_padding" style="padding: 260px 0 130px;">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-8 col-xl-6">
+                <div class="col-md-12 col-xl-12">
                     <div class="section_tittle">
-                        <h2>トレーナー紹介</h2>
+                        <h2>トレーナーがそろってきたら追加？</h2>
                     </div>
                 </div>
             </div>
@@ -216,7 +268,7 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">田中直樹</a></h3>
+                            <h3><a href="#">田中直樹</a></h3>
                             <p>パーソナルトレーナー</p>
                         </div>
                     </div>
@@ -235,7 +287,7 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">丸山健二</a></h3>
+                            <h3><a href="#">丸山健二</a></h3>
                             <p>パーソナルトレーナー</p>
                         </div>
                     </div>
@@ -254,7 +306,7 @@
                             </div>
                         </div>
                         <div class="single_blog_text">
-                            <h3><a href="blog.html">林隆二</a></h3>
+                            <h3><a href="#">林隆二</a></h3>
                             <p>パーソナルトレーナー</p>
                         </div>
                     </div>
@@ -266,9 +318,9 @@
     <section class="review_part gray_bg section_padding">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-8 col-xl-6">
+                <div class="col-md-12 col-xl-12">
                     <div class="section_tittle">
-                        <h2>お客様の声</h2>
+                        <h2>β版でコメント集めてみてから追加？</h2>
                     </div>
                 </div>
             </div>
