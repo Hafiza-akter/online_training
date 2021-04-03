@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Online Training</title>
+    <title>メディカルジムオンライン</title>
     <link rel="icon" href="img/favicon.png')}}">
 
     <link rel="stylesheet" href="{{asset('asset_v2/css/bootstrap.min.css')}}">
