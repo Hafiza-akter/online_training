@@ -17,7 +17,7 @@
                 @if(Session::get('user_type') == 'trainer' )
                 <a class="navbar-brand " href="#" style="color: #fff0ff;font-size: 28px;font-weight: bolder;"> 
                     @if(\App\Model\Trainer::find(Session::get('user.id'))->first_name != NULL)
-                        {{ \App\Model\Trainer::find(Session::get('user.id'))->first_name }}  ページ
+                        {{ \App\Model\Trainer::find(Session::get('user.id'))->first_name }}  様
                     @else 
                     トレーナー管理画面
                     @endif
