@@ -53,7 +53,7 @@
                                         <!-- /.card-body -->
 
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">送信</button>
                                         </div>
                                     </form>
                                 </div>

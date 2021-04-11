@@ -24,11 +24,11 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>#sl</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Title</th>
-                                <th>Message</th>
+                                <th>問い合わせ番号</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>タイトル</th>
+                                <th>メッセージ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,11 +47,11 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>#sl</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Title</th>
-                                <th>Message</th>
+                                <th>問い合わせ番号</th>
+                                <th>名前</th>
+                                <th>メールアドレス</th>
+                                <th>タイトル</th>
+                                <th>メッセージ</th>
                             </tr>
                         </tfoot>
                     </table>
