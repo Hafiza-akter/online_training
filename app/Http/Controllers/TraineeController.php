@@ -431,6 +431,11 @@ class TraineeController extends Controller
                return redirect()->back()
                     ->with('errors_m','選択されえ日付はプランの購入日~終了日の範囲外です。');
         }
+        if($rval == 'count_exceed'){
+            return redirect()->back()
+            ->with('errors_m','プラン制限を超えました');
+        }
+         
 
         // end date selection conditions //
         // end date selection conditions //
@@ -453,7 +458,6 @@ class TraineeController extends Controller
         // }
         $parsedArray=array();
         $count = 0;
-
         if($request->event_type== null){ // when date is clicked first rather then select the trainer
             
             $schedule =TrainerSchedule::whereDate('date',$request->selected_date)
@@ -493,7 +497,7 @@ class TraineeController extends Controller
                              $parsedArray[$count]['className'] = 'tblue';
 
                         }
-                    
+                        $parsedArray[$count]['display'] = 'background';
                     $count++;
                 }
             }
@@ -537,6 +541,7 @@ class TraineeController extends Controller
                                 $parsedArray[$count]['className'] = 'tblue';
 
                             }
+                        $parsedArray[$count]['display'] = 'background';
                             $count++;
                         }
                         
@@ -802,7 +807,12 @@ class TraineeController extends Controller
     // }
 
     public function scheduleSubmit(Request $request){
-    
+        if(checkMultipleSchedule($request->db_date,$request->start_time)){
+            return response()->json([
+                'message' => 'error_multiple_date',
+                'type' => 'error'
+            ], 400);
+        }
         if(checkPastDate($request->db_date)){
             return redirect()->route('traineeCalendar.view')
             ->with('errors_m','スケジュールされた日時が過ぎています。');
@@ -1238,7 +1248,7 @@ class TraineeController extends Controller
             'birthday' => 'required',
             'height' => 'required',
             'phonetic' => 'required',
-            
+
             'email1' => 'unique:tbl_users,email,'.$request->user_id,
             // 'password' => 'required|confirmed|min:6',
             'weight' => 'required',

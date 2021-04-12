@@ -329,6 +329,17 @@ function number_formate($data){
     }
     return false;
  }
+ function checkMultipleSchedule($date,$time){
+ 	 	$schedule = \App\Model\TrainerSchedule::whereDate('date',$date)
+ 	 				// ->where('time',$time)
+ 	 				->where('user_id',Session::get('user.id'))
+ 	 				->where('is_occupied',1)->first();
+
+ 	 	if($schedule ){
+ 	 		return true ; 
+ 	 	}
+ 	 	return false;
+ }
  function checkPastTIme($time,$date){
 
     $end= new \Carbon\Carbon($date." ".$time);

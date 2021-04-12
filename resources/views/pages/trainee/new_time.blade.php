@@ -382,7 +382,12 @@ document.addEventListener('DOMContentLoaded', function() {
           })
         }else{
           
-        
+        $("#selected_time").val(moment(info.event.start).format('hh:mm A')); // form value
+                $("#db_start_time").val(moment(info.event.start).format('hh:mm A')); // form value
+                $("#event_type").val(info.event.extendedProps.type); // form value
+                $("#db_schedule_id").val(info.event.id); // form value
+                $("#db_date").val(moment(info.event.start).format('YYYY-MM-DD')); // form value
+                $("#trainer_id").val(info.event.extendedProps.trainer_id); // form 
          Swal.fire({
               title: "予約を確定します。よろしいでしょうか？", //"Are you sure ?",
               showDenyButton: false,
@@ -423,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('submit');
 
                     // e.preventDefault(); // avoid to execute the actual submit of the form.
-                    $('#dateform').submit();
+                    // $('#dateform').submit();
                     var form = $("#dateform");
                     var url = form.attr('action');
                     
@@ -441,8 +446,20 @@ document.addEventListener('DOMContentLoaded', function() {
                                   title: 'スケジュール予約が完了しました',
                                   showConfirmButton:false
                                 })
-                                // location.reload();
-                           }
+                                location.reload();
+                           },
+                          error: function(xhr, status, error) {
+                            // console.log(xhr.responseText.message);
+                            var json = JSON.parse(xhr.responseText);
+                            if(json.message == 'error_multiple_date'){
+                               Swal.fire({
+                                  icon: 'error',
+                                  title: '日付と時刻はすでに占有されています',
+                                  showConfirmButton:false
+                                })
+                          }
+                            }
+                           
                     });
 
                     
