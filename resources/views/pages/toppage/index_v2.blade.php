@@ -8,7 +8,7 @@
                     <div class="banner_text text-center">
                         <div class="banner_text_iner">
                             <!-- <h2>Join <span>now</span> </h2> -->
-                        <p style="font-size:40px; padding-bottom:25px;padding-top:10px">    事前登録受付中</p>
+                        <p style="font-size:39px; padding-bottom:25px;padding-top:10px">事前登録受付中</p>
                         <p style="padding-bottom:15px">現在サービスは利用できませんが、サービス開始前のテストユーザーとトレーナーを募集中です。</p>
                         <p style="padding-bottom:15px">時期によって無償対応や割引がございますが抽選によります。また、正式開始時にはメールでご連絡致します。</p>
                         <p style="padding-bottom:10px">ご希望の方は下のボタンよりご登録ください。</p>
