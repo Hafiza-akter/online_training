@@ -249,7 +249,7 @@
             </div>
         </div>
     </section> --}}
-     <section class="team_member_section section_padding" style="padding: 260px 0 130px;">
+     {{-- <section class="team_member_section section_padding" style="padding: 260px 0 130px;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12 col-xl-12">
@@ -408,7 +408,7 @@
         <div class="overlay_icon">
             <img src="{{asset('asset_v2/img/animate_icon/icon_6.png')}}" class="amitated_icon_6" alt="animate_icon">
         </div>
-    </section>
+    </section>--}}
 
 
     {{-- <section class="calculate_part section_padding">
@@ -517,7 +517,7 @@
     <script type="text/javascript">
           Swal.fire({
             icon: 'success',
-            title: 'メッセージありがとうございます。すぐにご連絡いたします',
+            title: 'メッセージありがとうございます。担当者よりご連絡いたします',
             showConfirmButton:false
           })
     </script>

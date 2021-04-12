@@ -32,7 +32,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-info login_admin btn-block mx-auto">Submit</button>
+                        <button type="submit" class="btn btn-info login_admin btn-block mx-auto">送信</button>
 
                     </div>
                     <!-- /.card-footer -->

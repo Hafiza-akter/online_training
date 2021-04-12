@@ -3,7 +3,7 @@
 @section('title','token reset')
 @section('content')
     <div class="row pb-5 pt-5">
-      <h2 class="mx-auto">オンライントレーニング</h2>
+      <h2 class="mx-auto">メディカルジムオンライン</h2>
     </div>
     
 
@@ -12,7 +12,7 @@
     <div class="offset-sm-3 col-sm-6 mb-4">
       <div class="row mb-3">
         <div class="col-4">
-          <label class="col-form-label">ニングマ</label>
+          <label class="col-form-label">メディカルジムオンライン</label>
         </div>
         <div class="col-8">
           <input type="email" class="form-control" name="email"> 
@@ -22,7 +22,7 @@
       </div>
       
       <div class="row pt-3 pb-3">
-        <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg">オンラグマ</button>
+        <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg">メディカルジムオンライン</button>
       </div>
      
     </div>

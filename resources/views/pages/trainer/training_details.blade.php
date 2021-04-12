@@ -229,8 +229,8 @@
             <!-- // end edit mode -->
           </div>
          {{--  <div class="modal-footer row justify-content-center">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="nav-link active__ submit_performance" style="color: white;">Submit</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            <button type="submit" class="nav-link active__ submit_performance" style="color: white;">送信</button>
           
           </div> --}}
         </div>
@@ -314,8 +314,8 @@
                 </div>
             </div>
              <div class=" row justify-content-center">
-          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">Close</button>
-          <a type="submit" href="#" class="nav-link active__ m-1" id="f_btn" style="color: white;">Submit</a>
+          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
+          <a type="submit" href="#" class="nav-link active__ m-1" id="f_btn" style="color: white;">送信</a>
         </div>
           </form>
         </div>
