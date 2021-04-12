@@ -8,7 +8,10 @@
                     <div class="banner_text text-center">
                         <div class="banner_text_iner">
                             <!-- <h2>Join <span>now</span> </h2> -->
-                            {{-- <p>get in shape today</p> --}}
+                            <p>現在テスト運用中です。
+サービスは利用できませんが
+テスター（ユーザー）ご希望の方は
+「ユーザー登録」から登録願います。</p>
                         <h2>
                             <span></span>
                             <span>
