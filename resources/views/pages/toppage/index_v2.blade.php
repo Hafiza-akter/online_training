@@ -8,7 +8,7 @@
                     <div class="banner_text text-center">
                         <div class="banner_text_iner">
                             <!-- <h2>Join <span>now</span> </h2> -->
-                        <p style="font-size:39px; padding-bottom:25px;padding-top:10px">事前登録受付中</p>
+                        <p style="font-size:38px; padding-bottom:25px;padding-top:10px">事前登録受付中</p>
                         <p style="padding-bottom:15px;font-size: 16px;">現在サービスは利用できませんが、サービス開始前のテストユーザーとトレーナーを募集中です。</p>
                         <p style="padding-bottom:15px;font-size: 16px;">時期によって無償対応や割引がございますが抽選によります。また、正式開始時にはメールでご連絡致します。</p>
                         <p style="padding-bottom:10px;font-size: 16px;">ご希望の方は下のボタンよりご登録ください。</p>
@@ -48,7 +48,7 @@
 
 
               
-                        <ul>
+                        <ul style="font-size: 16px;">
                            
                             <li><span class="btn-secondary ti-check success p-1"></span> ダイエットをしたいけど何をしていいかわからない </li> <br>
                             <li><span class="btn-secondary ti-check success p-1"></span> 今までダイエットをしてきたけど、うまくいかなかった </li><br>
