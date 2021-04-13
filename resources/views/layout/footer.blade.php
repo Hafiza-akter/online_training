@@ -2,15 +2,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-sm-6 col-md-4">
-                    <div class="single-footer-widget footer_1">
+{{--                    <div class="single-footer-widget footer_1">
                         <h4>About Us</h4>
                         <p>Heaven fruitful doesn't over for these theheaven fruitful doe over days
                             appear creeping seasons sad behold beari ath of it fly signs bearing
                             be one blessed.</p>
-                    </div>
+                    </div>--}}
                 </div>
                 <div class="col-xl-3 col-sm-6 col-md-4">
-                    <div class="single-footer-widget footer_2">
+{{--                   <div class="single-footer-widget footer_2">
                         <h4>Important Link</h4>
                         <div class="contact_info">
                             <ul>
@@ -19,15 +19,15 @@
                                 <li><a href="#">link 1</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
                 <div class="col-xl-3 col-sm-6 col-md-4">
                     <div class="single-footer-widget footer_2">
                         <h4>Contact us</h4>
                         <div class="contact_info">
-                            <p><span> Address :</span> Hath of it fly signs bear be one blessed after </p>
-                            <p><span> Phone :</span> +2 36 265 (8060)</p>
-                            <p><span> Email : testinfo@gmail.com</span>
+{{--                           <p><span> Address :</span> Hath of it fly signs bear be one blessed after </p>--}}
+                            <p><span> Phone :</span>0859-21-7787</p>
+                            <p><span> Email : info@rzero.jp</span>
                             </p>
                         </div>
                     </div>
