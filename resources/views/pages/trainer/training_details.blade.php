@@ -13,7 +13,7 @@
       {{-- @include('pages.trainee.dashboard') --}}
 @section('content')
 <style>
-    .premeeting-screen .content .copy-meeting .copy-meeting-text,
+.premeeting-screen .content .copy-meeting .copy-meeting-text,
 .premeeting-screen .content .copy-meeting .url .jitsi-icon {
     display: none;
 }
@@ -32,6 +32,9 @@
    
 
 
+}
+.modal-backdrop {
+   background: none !important;
 }
 
 </style>
@@ -76,7 +79,7 @@
                     <div class="container performance" id="performance">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">メイン</label>
+                        <label class="col-form-label">メイン</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
                                 <option value="">--select-- </option>
                                 @if($main)
@@ -87,13 +90,13 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">コース</label>
+                        <label class="col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required">
                                 <option value="">--select--</option>
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">備品</label>
+                        <label class="col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
                                 <option value="">--select--</option>
                             </select>
@@ -162,7 +165,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">メイン</label>
+                        <label class="col-form-label">メイン</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
                                 @if($main)
                                   @foreach($main as $val)
@@ -172,7 +175,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">コース</label>
+                        <label class="col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required">
                                 @foreach(getCourseDataMain($coursesData->main) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
@@ -180,7 +183,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4">
-                        <label class="col-sm-2 col-form-label">備品</label>
+                        <label class="col-form-label">備品</label>
                             <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
                                    <option value="{{$v->equipment_id}}" >{{ getEquipment($coursesData->equipment_id)->name }}</option>
                             </select>
@@ -261,7 +264,7 @@
                 @foreach( $course as $key=>$val)
                   <tr>
                     <td>
-                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showExplanation(`{{ $val->summary}}`,`{{ $val->sub}}`,`{{ $val->way}}`,`{{ $val->motion}}`)">  
+                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showExplanation(`{{ $val->summary}}`,`{{ $val->body_part}}`,`{{ $val->main}}`,`{{ $val->sub}}`,`{{ $val->way}}`,`{{ $val->motion}}`)">  
                       <label for="course_list_{{ $val->id}}"> {{ $val->course_name}} </label>
                     </td>
                   </tr>
@@ -379,6 +382,9 @@
 .modal.right.fade.show .modal-dialog {
   right: 0;
 }
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation{
+  background:none !important;
+}
 </style>
 <script>
 function getdayFromNow() {
@@ -470,8 +476,8 @@ console.log('The exact time: '+exactTime);
             window.location.href = "{{ route('trainingfinished',$schedule->id) }}";
     
     });
-    // api.executeCommand('subject', '');
-    // api.executeCommand('displayName', '');
+    api.executeCommand('subject', '');
+    api.executeCommand('displayName', '{{ isset($display_name) ? $display_name : ''}}');
        // jitsi end
        // jitsi end
 
@@ -648,11 +654,14 @@ console.log('The exact time: '+exactTime);
        $(this).parent().remove(); 
 });
 
-  function showExplanation(text,sub,way,motion){
+  function showExplanation(text,body_part,main,sub,way,motion){
         Swal.fire({
            icon: '',
            title: '説明',
-           html: " <br> <b> サマリ:</b> "+text+" <br> <br> サブ: "+sub
+           html: " <br> <b> サマリ:</b> "+text
+           +" <br> <br> 体の部分: "+body_part
+           +" <br> <br> メイン: "+main
+           +" <br> <br> サブ: "+sub
           + " <br> <br> <b>方法:</b> "+way
           + " <br> <br> <b>モーション:</b> "+motion,
            showConfirmButton:false

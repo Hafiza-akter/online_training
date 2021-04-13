@@ -93,9 +93,11 @@ Route::group(['middleware' => 'checkLogout'], function () {
 });
 
 Route::group(['middleware' => 'checkLogin'], function () {
-
-	Route::get("/trainer/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('training'));
-	Route::get("/trainee/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('trainingtrainee'));
+	
+	// when join user to training / jitsi entrance link
+	Route::post("/trainer/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('training'));
+	Route::post("/trainee/trainingdetails/{id}", "TrainingController@trainingDetails")->name(('trainingtrainee'));
+	
 	Route::post("/trainer/training_performance", "TrainingController@training_performance")->name(('training_performance'));
 	Route::post("/trainer/training_feedback", "TrainingController@training_feedback")->name(('training_feedback'));
 	Route::post("/trainee/feedback", "TrainingController@training_feedback")->name(('trainee_training_feedback'));

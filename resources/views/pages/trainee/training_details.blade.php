@@ -14,7 +14,9 @@
    
 
 }
-  
+.modal-backdrop {
+   background: none !important;
+}
 
 </style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
@@ -208,6 +210,9 @@
 .modal.right.fade.show .modal-dialog {
   right: 0;
 }
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation{
+  background:none !important;
+}
 </style>
 <script>
 function getdayFromNow() {
@@ -311,7 +316,7 @@ console.log('The exact time: '+exactTime);
     
     });
     // api.executeCommand('subject', '');
-    // api.executeCommand('displayName', '');
+    api.executeCommand('displayName', '{{ isset($display_name) ? $display_name : ''}}');
        // jitsi end
        // jitsi end
 
