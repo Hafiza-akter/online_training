@@ -210,6 +210,9 @@
 .modal.right.fade.show .modal-dialog {
   right: 0;
 }
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation{
+  background:none !important;
+}
 </style>
 <script>
 function getdayFromNow() {
