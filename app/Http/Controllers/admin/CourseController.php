@@ -45,6 +45,7 @@ class CourseController extends Controller
         $course->reference_url = $request->input('reference_url');
         $course->mets = $request->input('mets');
         $course->main = $request->input('main');
+        $course->body_part = $request->input('body_part');
         $course->sub = $request->input('sub');
         $course->motion = $request->input('motion');
         $course->way = $request->input('way');
@@ -97,6 +98,7 @@ class CourseController extends Controller
         $course->reference_url = $request->input('reference_url');
         $course->mets = $request->input('mets');
         $course->main = $request->input('main');
+        $course->body_part = $request->input('body_part');
         $course->sub = $request->input('sub');
         $course->motion = $request->input('motion');
         $course->way = $request->input('way');

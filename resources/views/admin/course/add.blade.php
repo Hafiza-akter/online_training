@@ -99,6 +99,10 @@
                                                 <input  type="text" class="form-control" name="mets" placeholder="Enter ...">
                                             </div>
                                             <div class="form-group">
+                                                <label for="exampleInputEmail1">体の部分</label>
+                                                <input  type="text" class="form-control" name="body_part" placeholder="Enter ...">
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="exampleInputEmail1">メイン</label>
                                                 <input  type="text" class="form-control" name="main" placeholder="Enter ...">
                                             </div>

@@ -139,6 +139,11 @@
                                                 <label for="exampleInputEmail1">メッツ</label>
                                                 <input  type="text" class="form-control" value="{{$course->mets}}"  name="mets" placeholder="Enter ...">
                                             </div>
+                
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">体の部分</label>
+                                                <input  type="text" class="form-control" value="{{$course->body_part}}"  name="main" placeholder="Enter ...">
+                                            </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">メイン</label>
                                                 <input  type="text" class="form-control" value="{{$course->main}}"  name="main" placeholder="Enter ...">
