@@ -14,7 +14,9 @@
    
 
 }
-  
+.modal-backdrop {
+   background: none !important;
+}
 
 </style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
@@ -311,7 +313,7 @@ console.log('The exact time: '+exactTime);
     
     });
     // api.executeCommand('subject', '');
-    // api.executeCommand('displayName', '');
+    api.executeCommand('displayName', '{{ isset($display_name) ? $display_name : ''}}');
        // jitsi end
        // jitsi end
 

@@ -28,7 +28,10 @@ class TrainingController extends Controller
 {
 
     public function trainingDetails(Request $request){
-            $data = Crypt::decrypt($request->id);
+        if($request->isMethod('get')){
+            dd('error');
+        }
+        $data = Crypt::decrypt($request->id);
 
         $course = Course::where('status',1)->get();
         $main=Course::where('status',1)->groupBy('main')->get();
@@ -72,13 +75,15 @@ class TrainingController extends Controller
 
          if(Session::get('user_type') == 'trainee'){
             $view = 'pages.trainee.training_details';
+            $display_name= Session::get('user.name');
          }else{
             $view = 'pages.trainer.training_details';
+            $display_name= Session::get('user.first_name');
          }
-
 
         // dd('dd');
     	return view($view)
+        ->with('display_name',$display_name)
     	->with('course',$course)
     	->with('main',$main)
     	->with('exerciseData',$exerciseData)

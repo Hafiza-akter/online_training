@@ -153,8 +153,11 @@
                   {{-- @if(!checkPastTIme(\Carbon\Carbon::parse($val->start_date)->format('Y-m-d'),\Carbon\Carbon::parse($val->time)->format('H:i:s'))) --}}
 
                   @if($val->status === NULL)
-
-                  <a href="{{ route('trainingtrainee',$parameter)}}" class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</a>
+                <form action="{{ route('trainingtrainee',$parameter)}}" method="post" >
+          
+                   {{ csrf_field() }}
+                  <button type="submit"  class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</button>
+                </form>
 
                   @endif
                   {{-- @endif --}}
