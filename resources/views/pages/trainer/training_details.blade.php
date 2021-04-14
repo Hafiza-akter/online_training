@@ -165,7 +165,7 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class="col-form-label">メイン</label>
+                        <label class="col-form-label">体の部分</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
                                 @if($body_part)
                                   @foreach($body_part as $val)
