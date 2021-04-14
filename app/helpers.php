@@ -288,7 +288,7 @@ function number_formate($data){
         return \App\Model\Course::find($id);
  }
  function getCourseDataMain($main){
-        return \App\Model\Course::where('main',$main)->get();
+        return \App\Model\Course::where('body_part',$main)->get();
  }
  function getEquipment($id){
         return \App\Model\Equipment::find($id);

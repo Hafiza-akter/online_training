@@ -49,12 +49,12 @@
                     <div class="container performance" id="performance">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class=" col-form-label">メイン</label>
+                        <label class=" col-form-label">体の部分</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
                                 <option value="">--select--</option>
-                                @if($main)
-                                  @foreach($main as $val)
-                                    <option id="{{ $val->main}}">{{ $val->main}}</option>
+                                @if($body_part)
+                                  @foreach($body_part as $val)
+                                    <option id="{{ $val->body_part}}">{{ $val->body_part}}</option>
                                   @endforeach
                                 @endif
                             </select>
@@ -140,11 +140,11 @@
                     <div class="container performance" id="performance{{$key > 0 ? $key : ''}}">
                       <div class="row" >
                         <div class="col-sm-4">
-                        <label class=" col-form-label">メイン </label>
+                        <label class=" col-form-label">体の部分</label>
                             <select class="form-control main" style="width: 100%;" name="main[]" >
-                                @if($main)
-                                  @foreach($main as $val)
-                                    <option id="{{ $val->main}}" {{$val->main ==  $coursesData->main ? 'selected' : '' }}>{{ $val->main}}</option>
+                                @if($body_part)
+                                  @foreach($body_part as $val)
+                                    <option id="{{ $val->body_part}}" {{$val->body_part ==  $coursesData->body_part ? 'selected' : '' }}>{{ $val->body_part}}</option>
                                   @endforeach
                                 @endif
                             </select>
@@ -152,7 +152,7 @@
                         <div class="col-sm-4">
                         <label class=" col-form-label">コース</label>
                             <select class="form-control course" style="width: 100%;" name="course[]" required="required">
-                                @foreach(getCourseDataMain($coursesData->main) as $v)
+                                @foreach(getCourseDataMain($coursesData->body_part) as $v)
                                    <option value="{{$v->id}}" {{ $value->course_id == $v->id ? 'selected' : ''}}>{{ $v->course_name}}</option>
                                 @endforeach
                             </select>
@@ -238,8 +238,8 @@
 
   // $('.main').on('change', function() {
     // console.log($(this option:selected).text());
-    var main =  $(this).find('option:selected').text();
-    // console.log(main);
+    var body_part =  $(this).find('option:selected').text();
+    // console.log(body_part);
     var id = $(this).parent().closest('.performance').attr('id');
     // console.log(id);
     $.ajax
@@ -249,7 +249,7 @@
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        data: { 'main': main },
+        data: { 'body_part': body_part },
         cache: false,
         success: function (data) {
           // console.log(data.location);

@@ -34,7 +34,7 @@ class TrainingController extends Controller
         $data = Crypt::decrypt($request->id);
 
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         $schedule = TrainerSchedule::where('id',$data['id'])->whereDate('date',Carbon::now()->format('Y-m-d'))->get()->first();
         $exerciseData = Training::where('trainer_schedule_id',$data['id'])->first();
@@ -85,7 +85,7 @@ class TrainingController extends Controller
     	return view($view)
         ->with('display_name',$display_name)
     	->with('course',$course)
-    	->with('main',$main)
+    	->with('body_part',$body_part)
     	->with('exerciseData',$exerciseData)
     	->with('schedule',$schedule);
     }
@@ -125,14 +125,14 @@ class TrainingController extends Controller
         // dd($data['id']);
         $id = $request->id;
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         $schedule = TrainerSchedule::where('id',$id)->get()->first();
         $exerciseData = Training::where('trainer_schedule_id',$id)->first();
 
         $returnHTML = view('pages.trainee.ajax_modal')
         ->with('course',$course)
-        ->with('main',$main)
+        ->with('body_part',$body_part)
         ->with('exerciseData',$exerciseData)
         ->with('schedule',$schedule)->render();
 
@@ -145,14 +145,14 @@ class TrainingController extends Controller
          // dd($request->id);
         $id = $request->id;
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         $schedule = TrainerSchedule::where('id',$id)->get()->first();
         $exerciseData = Training::where('trainer_schedule_id',$id)->first();
 
         $returnHTML = view('pages.trainee.ajax_modal_comment')
         ->with('course',$course)
-        ->with('main',$main)
+        ->with('body_part',$body_part)
         ->with('exerciseData',$exerciseData)
         ->with('schedule',$schedule)->render();
 
@@ -192,7 +192,7 @@ class TrainingController extends Controller
     public function trainingfinished(Request $request){
  
     	$course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         $schedule = TrainerSchedule::find($request->id);
         $exerciseData = Training::where('trainer_schedule_id',$request->id)->first();
@@ -200,14 +200,14 @@ class TrainingController extends Controller
         // dd($exerciseData->getExerciseData);
     	return view('pages.trainer.trainingfinished')
     	->with('course',$course)
-    	->with('main',$main)
+    	->with('body_part',$body_part)
     	->with('exerciseData',$exerciseData)
     	->with('schedule',$schedule);
     }
     public function traineefinished(Request $request){
  
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         $schedule = TrainerSchedule::find($request->id);
         $exerciseData = Training::where('trainer_schedule_id',$request->id)->first();
@@ -215,7 +215,7 @@ class TrainingController extends Controller
         // dd($exerciseData->getExerciseData);
         return view('pages.trainee.traineefinished')
         ->with('course',$course)
-        ->with('main',$main)
+        ->with('body_part',$body_part)
         ->with('exerciseData',$exerciseData)
         ->with('schedule',$schedule);
     }
@@ -272,7 +272,7 @@ class TrainingController extends Controller
     }
     public function userhistory(Request $request){
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
         $user=Trainee::find($request->id);
         if(!$user){
             return redirect()->route('calendar.view','month')->with('errors_m','ユーザーは存在しません');
@@ -297,11 +297,11 @@ class TrainingController extends Controller
         ->with('isActive','traininglist')
         ->with('list',$list)
         ->with('date',$date)
-        ->with('main',$main);
+        ->with('body_part',$body_part);
     }
     public function trainerhistory(Request $request){
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
         $user=Trainer::find($request->id);
         if(!$user){
             return redirect()->route('calendar.view','month')->with('errors_m','ユーザーは存在しません');
@@ -326,11 +326,11 @@ class TrainingController extends Controller
         ->with('user',$user)
         ->with('list',$list)
         ->with('date',$date)
-        ->with('main',$main);
+        ->with('body_part',$body_part);
     }
     public function list(Request $request){
     	$course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         // $schedule = TrainerSchedule::find($request->id);
         if($request->birthday){
@@ -353,11 +353,11 @@ class TrainingController extends Controller
         ->with('isActive','traininglist')
     	->with('list',$list)
         ->with('date',$date)
-    	->with('main',$main);
+    	->with('body_part',$body_part);
     }
     public function traineelist(Request $request){
         $course = Course::where('status',1)->get();
-        $main=Course::where('status',1)->groupBy('main')->get();
+        $body_part=Course::where('status',1)->groupBy('body_part')->get();
 
         // $schedule = TrainerSchedule::find($request->id);
         $list = Training::orderBy('id','DESC')->get();
@@ -367,7 +367,7 @@ class TrainingController extends Controller
         ->with('course',$course)
         ->with('isActive','traininglist')
         ->with('list',$list)
-        ->with('main',$main);
+        ->with('body_part',$body_part);
     }
     
 
@@ -375,7 +375,7 @@ class TrainingController extends Controller
 
        
     	 $course = Course::Leftjoin('tbl_equipments', 'tbl_equipments.id', '=', 'tbl_courses.equipment_id')
-        		->where('tbl_courses.main',$request->main)
+        		->where('tbl_courses.body_part',$request->body_part)
         ->select('tbl_equipments.id as equipment_id','tbl_equipments.name as equipment_name','tbl_courses.id','tbl_courses.course_name')->get();
 
         return response()->json($course); 
