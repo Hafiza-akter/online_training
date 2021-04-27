@@ -32,18 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 col-md-6">
-                    <div class="single-footer-widget footer_3">
-                        @if(Session::get('user_type') === 'trainer' || Session::get('user_type') === 'trainee')
-                        @else
-                         <a class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;" href="{{route('trainerLogin')}}">
-                            {{-- click here for trainers --}}
-                            トレーナーはこちら
-                        </a>
-
-                        @endif
-                    </div>
-                </div>
+              
             </div>
             <div class="copyright_part_text">
                 <div class="row">

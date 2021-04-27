@@ -1,4 +1,8 @@
 @import "https://fonts.googleapis.com/css?family=Open+Sans:300, 300i, 400, 600, 700|Teko:400, 500, 600, 700";
+@import "https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700";
+@import "https://fonts.googleapis.com/earlyaccess/mplus1p.css";
+
+
     .submit_btn, .btn_1 {
     background-image: linear-gradient(to right, #861657 1%, #861657 50%, #861657 100%);
     background-size: 200% auto;
@@ -36,6 +40,9 @@ input:hover, input:focus {
 }
 .gray_bg {
     background-color: #f6f5f1;
+}
+.white_bg {
+    background-color: #fff;
 }
 .form-row>.col, .form-row>[class*=col-] {
     padding-right: 10px;
@@ -104,7 +111,7 @@ input:hover, input:focus {
     transition: .5s;
 }
 a:hover {
-    color: #861657!important;
+    color: #fff!important;
     text-decoration: none;
     -webkit-transition: .5s;
     transition: .5s;
@@ -1558,9 +1565,9 @@ ul {
     color: #fff!important;
 }
 .home_menu {
-    background-color: #000000;
-    background-image: linear-gradient(315deg, #000000 25%, #414141 52%);
-    opacity: 0.7;
+    background-color: #333333;
+    /*background-image: linear-gradient(315deg, #000000 25%, #414141 52%);*/
+    /*opacity: 0.7;*/
     position: absolute;
     left: 0;
     top: 0;
@@ -1757,9 +1764,9 @@ ul {
 
 /**************** banner part css start ****************/
 .banner_part {
-  height: 890px;
+  height: 100vh;
   position: relative;
-  background-image: url(../img/banner_bg.jpg);
+  background-image: url(../img/toppage/764_main.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -1768,7 +1775,7 @@ ul {
 
 @media (max-width: 575px) {
   .banner_part {
-    height: 800px;
+    /*height: 700px;*/
   }
 }
 
@@ -4470,4 +4477,235 @@ h1, h2, h3, h4, h5, h6 {
 
     background: #a509a4;
 
+}
+
+.title_text{
+    color:white !important;
+    position: absolute;top: 63vh;left: 11%;color:white;
+}
+.btn_new_2 {
+    background-image: #c30f23;
+    width:40%;
+
+}
+.btn_new_2_d{
+    border-radius: 50px !important;
+    font-size: 18px;
+    background: #c30f23;
+    text-align: center;
+    color: white;
+    padding: 15px;
+}
+.btn_new_3 {
+    background: #fff;
+    width:40%;
+
+}
+.btn_new_3_d{
+    border-radius: 50px !important;
+    font-size: 18px;
+    color: #c30f23;
+    text-align: center;
+    padding: 15px;
+    border:1px solid #c30f23;
+    font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+    font-weight: 300;
+}
+
+
+/***** 01 ***/
+.left_half_top{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 25vw;
+    height: 50%;
+    background: #056fb8;
+    clip-path: polygon(100% 0, 0 0, 0 100%);
+}
+.left_half_bottom{
+    position: absolute;
+    top:50%;
+    left:0;
+    width: 25vw;
+    height: 50%;
+    background: #056fb8;
+    clip-path: polygon(100% 100%, 0 0, 0 100%);
+}
+.right_triangle{
+    position: absolute;
+    top:0;
+    right:0;
+    width: 40vw;
+    height: 100%;
+    background: #c9caca;
+    opacity: 0.5;
+    clip-path: polygon(100% 100%, 100% 0, 50% 50%);
+}
+/** 02 **/
+
+.right_triangle_gray{
+    position: absolute;
+    top:10%;
+    right:0;
+    width: 40vw;
+    height: 90%;
+    background: #c9caca;
+    opacity: 0.5;
+    clip-path: polygon(100% 100%, 100% 0, 50% 50%);
+}
+.right_triangle_red{
+    position: absolute;
+    top:0;
+    right:0;
+    width: 40vw;
+    height: 90%;
+    background: #c30f23;
+    clip-path: polygon(100% 100%, 100% 0, 50% 50%);
+}
+
+.left_triangle_gray{
+    position: absolute;
+    top:0%;
+    left:0;
+    width: 40vw;
+    height: 90%;
+    background: #c9caca;
+    opacity: 0.5;
+    clip-path: polygon(0 100%, 0 0, 50% 50%);
+
+}
+.left_triangle_red{
+    position: absolute;
+    top:10%;
+    left:0;
+    width: 40vw;
+    height: 90%;
+    background: #c30f23;
+    clip-path: polygon(0 100%, 0 0, 50% 50%);
+}
+/***** 03 ***/
+.left_half_top_gray{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 25vw;
+    height: 50%;
+    background: #c9caca;
+    opacity: 0.5;    
+    clip-path: polygon(100% 0, 0 0, 0 100%);
+}
+.left_half_bottom_gray{
+    position: absolute;
+    top:50%;
+    left:0;
+    width: 25vw;
+    height: 50%;
+    background: #c9caca;
+    opacity: 0.5;   
+     clip-path: polygon(100% 100%, 0 0, 0 100%);
+}
+.right_triangle_3_red{
+    position: absolute;
+    top:0;
+    right:0;
+    width: 40vw;
+    height: 100%;
+    background: #c30f23;
+    clip-path: polygon(100% 100%, 100% 0, 50% 50%);
+}
+.mt-60{
+    margin-top:60px;
+}
+
+
+
+.point_1{
+    position: absolute;
+    font-size: 1.1em;
+    color: #c31023;
+    font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+    font-weight: 700;
+}
+.point_1_heading_1{
+
+    left: 40%;
+    top: 36%;
+    
+
+}
+.point_1_heading_2{
+
+    left: 40%;
+    top: 47%;
+
+}
+.point_2_heading_1{
+
+    left: 40%;
+    top: 25%;
+    
+
+}
+.point_2_heading_2{
+
+    left: 40%;
+    top: 38%;
+    
+
+}
+.point_2_heading_3{
+
+    left: 40%;
+    top: 49%;
+    
+
+}
+.point_2_heading_4{
+     left: 40%;
+    top: 38%;
+    
+}
+.p_text{
+        font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+        font-weight: 300;
+        font-size:1.3em;
+        color:#000;
+}
+.p_bold{
+        font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+        font-weight: 700;
+        font-size:1.3em;
+        color:#000;
+}
+.h1_click{
+    font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+    font-weight: 700;
+    font-size:2em;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
+.m_title,.semi_title{
+    font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+    font-weight: 700;
+
+}
+.section_title{
+    font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+    font-weight: 600;
+
+}
+.p_semi_bold{
+    font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+    font-weight: 400;
+
+}
+.p_2_text{
+        font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+        font-weight: 300;
+}
+.p_sub_text{
+        font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
+        font-weight: 200;
 }
