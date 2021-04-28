@@ -111,7 +111,7 @@ input:hover, input:focus {
     transition: .5s;
 }
 a:hover {
-    color: #fff!important;
+    /*color: #fff!important;*/
     text-decoration: none;
     -webkit-transition: .5s;
     transition: .5s;
@@ -4708,4 +4708,9 @@ h1, h2, h3, h4, h5, h6 {
 .p_sub_text{
         font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
         font-weight: 200;
+}
+.@media (min-width: 768px){
+    .{
+
+    }
 }

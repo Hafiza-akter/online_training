@@ -21,10 +21,8 @@
     <section class="review_part white_bg ">
         <div class="container-fluid ">
             <div class="row justify-content-center mt-30">
-                <div class="col-md-8 col-xl-8 mt-30">
-                    <div class="section_tittle">
-                        <h2 style="font-size:2em;color:black;" class="section_title">「メディカルジムオンライン」についてのお知らせ</h2>
-                    </div>
+                <div class="col-md-8 col-xl-8 mt-30 mb-30">
+                        <h2 style="text-align:center;font-size:2em;color:black;" class="section_title">「メディカルジムオンライン」についてのお知らせ</h2>
                 </div>
             </div>
             <div class="row justify-content-center ">
@@ -36,13 +34,13 @@
                             絡致します。ご希望の方は下のボタンよりご登録ください。
                         </p>
                         <p style="text-align: center;margin-top: 60px;">
-                            <a href="{{route('trainerSignup')}}" class="btn_new_2 btn_new_2_d " style="width: 40%;padding: 14px 54px 14px 54px;">
+                            <a href="{{route('traineeSignup')}}" class="btn_new_2 btn_new_2_d " style="width: 40%;padding: 14px 54px 14px 54px;">
                                 ユーザー登録はこちら
                             </a>
                         </p>
                         
                         <p style="text-align: center;margin-top: 32px;">
-                            <a href="{{route('traineeSignup')}}" style=" color: #c31023;font-size: 20px;font-weight: bolder;border-bottom: 1px solid;">トレーナー登録はこちら</a> 
+                            <a href="{{route('trainerSignup')}}" style=" color: #c31023;font-size: 20px;font-weight: bolder;border-bottom: 1px solid;">トレーナー登録はこちら</a> 
                         </p>
                     </div>
 
