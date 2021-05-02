@@ -17,8 +17,8 @@
   }
   .fc-myCustomButton-button{
     background: none !important;
-    color: #a509a4 !important;
-    border: 1px solid #a509a4 !important;
+    color: #056fb8 !important;
+    border: 1px solid #056fb8 !important;
   }
   .fc .fc-bg-event{
     opacity: 1 !important;
