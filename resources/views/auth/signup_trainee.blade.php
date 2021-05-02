@@ -5,16 +5,7 @@
 
 
 <style>
-     .login_button{
-        border-radius: 1px !important;
-        font-size: 18px;
-        /*width:auto;*/
-        color: #a506a4;
-        border: 2px solid #bb07bb;
-        }
-.gradient{
-    background-image:linear-gradient(to left, purple 0%, #c300c3 50%, #7e007e 100%);color: #fff !important;
-}
+
 </style>
 
 <section class="about_us section_padding">

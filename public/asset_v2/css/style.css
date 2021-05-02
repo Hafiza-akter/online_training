@@ -8,7 +8,7 @@
     background-size: 200% auto;
 }
 .btn_2, .extends_part .extends_video .video-play-button, .extends_part .extends_video .video-play-button:before {
-    background-image: linear-gradient(to left, #c604c6 0%, #df04df 50%, #7e007e 100%)
+    background-image:#056fb8
 
 
 }
@@ -118,7 +118,7 @@ a:hover {
 }
 h1, h2, h3, h4, h5, h6 {
     /*color: #2c3033;*/
-    color: #a506a4;
+    color: #056fb8;
     font-family: teko, sans-serif;
 }
 p {
@@ -198,8 +198,8 @@ a:focus, .button:focus, button:focus, .btn:focus {
 }
 }.section_tittle h2 {
     font-size: 40px;
-    /*color: #2c3033;*/
-    color: #a506a4;
+    color: #2c3033;
+    /*color: #a506a4;*/
     line-height: 1.25;
     font-weight: 700;
     position: relative;
@@ -4437,7 +4437,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .breadcrumb .breadcrumb_iner .breadcrumb_iner_item h2 {
     /*color: #fff;*/
-    color: #a506a4;
+    color: #056fb8;
     /*#a506a4*/
     font-size: 45px;
     font-weight: 600;
@@ -4709,8 +4709,19 @@ h1, h2, h3, h4, h5, h6 {
         font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
         font-weight: 200;
 }
-.@media (min-width: 768px){
+/*.@media (min-width: 768px){
     .{
 
     }
+}*/
+.login_button{
+    border-radius: 1px !important;
+    font-size: 18px;
+    /*width:auto;*/
+    color: #056fb8;
+    border: 2px solid #056fb8;
+}
+.gradient{
+    background:#056fb8;
+    color: #fff !important;
 }

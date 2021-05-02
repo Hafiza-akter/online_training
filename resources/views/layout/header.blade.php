@@ -13,7 +13,7 @@
                                 <a class="nav-link" href="{{ route('toppage')}}"><i class="fas fa-home " style="font-size: 21px"></i>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                          {{--   <li class="nav-item">
                                 <a class="nav-link" href="{{ route('trainersList') }}">トレーナー</a>
                             </li>
                             
@@ -24,7 +24,7 @@
 
                             <li class="nav-item ">
                                 <a class="nav-link" href="#service">サービス </a>
-                            </li>
+                            </li> --}}
 
                             @if(Session::get('user_type') === 'trainer')
                                 <li class="nav-item ">
