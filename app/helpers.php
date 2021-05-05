@@ -381,5 +381,15 @@ function number_formate($data){
     // ---------------------------------------------------
     // ---------------------------------------------------
 }
+function encryptionValue($parameter){
+	// data like array('id' => $id )
+	return  \Crypt::encrypt($parameter);
+
+}
+function dycryptionValue($object){
+	// $request->id
+	 return \Crypt::decrypt($object);
+}
+
 
 ?>

@@ -23,3 +23,5 @@ Route::post('confirm-paypal-transaction', 'PaymentController@confirmPayment')->n
 Route::post('api/getcourse', 'TrainingController@getcourse')->name('getcourse');
 Route::post('api/getcoursedetails', 'TrainingController@getcoursedetails')->name('getcoursedetails');
 
+Route::post('api/iconcreation/{user_id}', 'TrainerController@iconCreation')->name('icon_creation');
+

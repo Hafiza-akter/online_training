@@ -2,20 +2,15 @@
 @extends('master_dashboard')
 @section('title','trainee personal settings')
 @section('header_css_js')
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+@php 
+    $param=encryptionValue(['user_id' => $user->id]);
+@endphp
 @endsection
 @section('content')
 <style>
-     .login_button{
-        border-radius: 1px !important;
-        font-size: 18px;
-        width:400px;
-        color: #a506a4;
-        border: 2px solid #bb07bb;
-        }
-.gradient{
-    background-image:linear-gradient(to left, purple 0%, #c300c3 50%, #7e007e 100%);color: #fff !important;
-}
 </style>
 
 
@@ -227,7 +222,7 @@
                         <div class="col-8">
                           @if($user->photo_path != NULL)
 
-                            <img style="width:200px" src="{{asset('images').'/'.$user->photo_path}}" style="height: 200;width: 200" />
+                            <img  style="width:200px" src="{{asset('images').'/'.$user->photo_path}}" style="height: 200;width: 200" />
                           @else 
 
                             <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
@@ -239,6 +234,40 @@
 
                         </div>
                       </div>
+
+                      <!--- icon creation --->
+                    <div class="row pt-3 pb-3">
+                        <h4 class="mx-auto _photo_path_" id="original_icon">アイコン作成</h4>
+                        
+
+
+                    </div>
+                    <div class="row pt-3 pb-3" style="border: 1px solid #ebe7e7">
+                        <div class="col-md-8">
+                           <div id="uploaded_image">
+                                @if($user->icon_image != NULL)
+                                    <img class="rounded-circle" src="{{ url('storage/icons/'.$user->icon_image)}}" />
+                                @else 
+                                <img src="{{asset('images/default.png')}}"  width="200" width="200">
+                                @endif 
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="mx-auto _photo_path_" id="new_icon">アイコンを作成</h4>
+                            <input type="file" class="mx-auto" name="icon_image" id="icon_image" accept="image/*" style="width: 100%" />
+                            <p style="font-size:12px;padding: 5px;">顔が大きく映っている写真を選択してください</p>
+                        </div>
+                        <br>
+
+
+
+
+                    {{-- <button type="button" class="mx-auto btn_2" style="border-radius: 1px !important;border: 2px solid #056fb8;color: #056fb8;font-size: 18px;" data-toggle="modal" data-target="#exampleModal">
+                    アイコン作成
+                    </button> --}}
+
+                    </div>
+                      <!--- ------------- --->
 
 
 
@@ -330,14 +359,123 @@
 </div>
 </section>
 
+<!-- Modal -->
+<div id="uploadimageModal" class="modal" role="dialog" style="z-index: 30032">
+ <div class="modal-dialog">
+  <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">写真加工</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+       <div class="col-md-8 text-center">
+        <div id="image_demo" style="width:350px; margin-top:30px"></div>
+       </div>
+       <div class="col-md-4" style="padding-top:30px;">
+        <br />
+        <br />
+        <br/>
+     </div>
+    </div>
+        </div>
+        <div class="modal-footer">
+            <span class="loading"> 
+               アイコン作成... <i class="fas fa-spinner fa-spin fa-2x " style="display: none;"></i>
+            </span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        <button type="button" class="btn btn-primary crop_image">決定</button>        </div>
+     </div>
+    </div>
+</div>
 
 
 
 @endsection
 @section('footer_css_js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script src="{{asset('asset_v2/js/croppie.min.js')}}"></script>
+
+<link rel="stylesheet" href="{{asset('asset_v2/css/croppie.css')}}">
+
 <script>
     $(document).ready(function() {
+
+
+        $image_crop = $('#image_demo').croppie({
+        enableExif: true,
+        viewport: {
+          width:200,
+          height:200,
+          type:'circle' //circle
+        },
+        boundary:{
+          width:300,
+          height:300
+        },
+        enableOrientation: true,
+            enforceBoundary: true,
+            enableResize: false
+
+
+        });
+      
+
+
+      $('#icon_image').on('change', function(){
+        var reader = new FileReader();
+        reader.onload = function (event) {
+
+          $image_crop.croppie('bind', {
+            url: event.target.result
+          }).then(function(){
+            // $image_crop.croppie('setZoom', 0);
+            console.log('jQuery bind complete');
+          });
+
+         $("#icon_image").val('');
+
+        }
+        reader.readAsDataURL(this.files[0]);
+        $('#uploadimageModal').modal('show');
+      });
+
+
+    $('.crop_image').click(function(event){
+        $('#loading').show();
+        $image_crop.croppie('result', {
+          type: 'canvas',
+          size: 'viewport'
+        }).then(function(response){
+
+            $.ajax({
+                type: "POST",
+                url: '{{ route('icon_creation', $param)}}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: { 'image': response },
+                cache: false,
+                success: function(res) {
+
+                    $('#uploadimageModal').modal('hide');
+                    $('#uploaded_image').html(res.html);
+                    $('#loading').hide();
+
+                },
+                error:function(request, status, error) {
+                    console.log("ajax call went wrong:" + request.responseText);
+                }
+            });
+
+        })
+    });
+
+
+   
 
         $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
             $(".alert-success").slideUp(500);
@@ -356,7 +494,18 @@
         }
     });
 
+
+
 });
+
+
+
+
+  
+
+  
+
+
 
 </script>
 @endsection 

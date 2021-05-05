@@ -27,9 +27,9 @@
 
 
   .fc-week_all-button{
-    background: #a50ca4 !important;
+    background: #056fb8 !important;
     color: #fff !important;
-    border: 1px solid #a509a4 !important;
+    border: 1px solid #056fb8 !important;
   }
 /*  .fc-timegrid-event-harness{
 z-index: 1;inset: 21px -2% -65px !important;
