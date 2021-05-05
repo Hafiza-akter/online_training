@@ -311,9 +311,9 @@
      </div>
     </div>
         </div>
-        <div class="modal-footer">
-            <span class="loading"> 
-               アイコン作成... <i class="fas fa-spinner fa-spin fa-2x " style="display: none;"></i>
+        <div class="modal-footer" >
+            <span class="loading"  style="display: none;"> 
+               アイコン作成... <i class="fas fa-spinner fa-spin fa-2x "></i>
             </span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
         <button type="button" class="btn btn-primary crop_image">決定</button>        </div>
