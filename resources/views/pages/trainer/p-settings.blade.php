@@ -239,8 +239,6 @@
                     <div class="row pt-3 pb-3">
                         <h4 class="mx-auto _photo_path_" id="original_icon">アイコン作成</h4>
                         
-
-
                     </div>
                     <div class="row pt-3 pb-3" style="border: 1px solid #ebe7e7">
                         <div class="col-md-8">
@@ -258,8 +256,6 @@
                             <p style="font-size:12px;padding: 5px;">顔が大きく映っている写真を選択してください</p>
                         </div>
                         <br>
-
-
 
 
                     {{-- <button type="button" class="mx-auto btn_2" style="border-radius: 1px !important;border: 2px solid #056fb8;color: #056fb8;font-size: 18px;" data-toggle="modal" data-target="#exampleModal">
@@ -497,13 +493,6 @@
 
 
 });
-
-
-
-
-  
-
-  
 
 
 
