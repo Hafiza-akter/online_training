@@ -351,23 +351,29 @@
       
 
 
-      $('#icon_image').on('change', function(){
-        var reader = new FileReader();
-        reader.onload = function (event) {
+      var fileTypes = ['jpg', 'jpeg', 'png'];
+        $('#icon_image').on('change', function() {
+          var reader = new FileReader();
+          var file = this.files[0]; // Get your file here
+          var fileExt = file.type.split('/')[1]; // Get the file extension
 
-          $image_crop.croppie('bind', {
-            url: event.target.result
-          }).then(function(){
-            // $image_crop.croppie('setZoom', 0);
-            console.log('jQuery bind complete');
-          });
+          if (fileTypes.indexOf(fileExt) !== -1) {
+            reader.onload = function(event) {
+              $image_crop.croppie('bind', {
+                url: event.target.result
+              }).then(function() {
+                console.log('jQuery bind complete');
+              });
+              
+            }
+            reader.readAsDataURL(file);
+            $('#uploadimageModal').modal('show');
+          } else {
+            alert('File not supported');
+          }
 
-         $("#icon_image").val('');
-
-        }
-        reader.readAsDataURL(this.files[0]);
-        $('#uploadimageModal').modal('show');
-      });
+          $("#icon_image").val('');
+        });
 
 
     $('.crop_image').click(function(event){

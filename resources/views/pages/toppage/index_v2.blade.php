@@ -132,7 +132,7 @@
             </div>
 
              <div class="row justify-content-center mb-5 ">
-                <div class="col-md-4 col-xl-4 mt-60">
+                <div class="col-md-5 col-xl-5 mt-60">
                     <h1 style="font-size:4em;color: #000;font-weight: bold;" class="">
                      <span>Point 1</span>
                     </h1>
@@ -148,9 +148,8 @@
                         自宅でのトレーニングであれば、他の人の目を気にする必要も、マスクをする必要もありません。感染リスクの少ない自宅で、安心してトレーニングをしませんか？
                     </p>
                 </div>
-                <div class="col-md-1 col-xl-1 ">
-                </div>
-                <div class="col-md-4 col-xl-4 mt-60">
+                
+                <div class="col-md-5 col-xl-5 mt-60">
                     <h1 style="font-size:4em;color: #000;font-weight: bold;" class="">
                      <span>Point 2</span>
                     </h1>
@@ -177,7 +176,7 @@
             </div>
             <div class="row justify-content-center mb-5 ">
 
-                <div class="col-md-4 col-xl-4 mt-60">
+                <div class="col-md-5 col-xl-5 mt-60">
                     <h1 style="font-size:4em;color: #000;font-weight: bold;" class="">
                      <span>Point 3</span>
                     </h1>
@@ -193,9 +192,8 @@
                         これから行うトレーニングの頻度によって、減少していく体重の推移をコンピュータが計算。自分の将来の姿をイメージしながらトレーニングをすることで、高いモチベーションを維持できます。                    </p>
                 </div>
 
-                <div class="col-md-1 col-xl-1 ">
-                </div>
-                <div class="col-md-4 col-xl-4 mt-60">
+                
+                <div class="col-md-5 col-xl-5 mt-60">
                     <h1 style="font-size:4em;color: #000;font-weight: bold;" class="">
                      <span>Point 4</span>
                     </h1>

@@ -1539,7 +1539,7 @@ ul {
     padding: .25rem .75rem;
     font-size: 1.25rem;
     line-height: 1;
-    background-color: #861657;
+    background-color: #056fb8;
     border: 1px solid transparent;
     border-radius: .25rem;
 }
@@ -4622,7 +4622,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .point_1{
     position: absolute;
-    font-size: 1.1em;
+    font-size: 1em;
     color: #c31023;
     font-family: 'Montserrat', 'Mplus 1p', 'Hiragino Sans', 'Hiragino Kaku Gothic Pro', '游ゴシック', '游ゴシック体', YuGothic, 'Yu Gothic', 'ＭＳ ゴシック', 'MS Gothic', sans-serif;
     font-weight: 700;
@@ -4630,34 +4630,34 @@ h1, h2, h3, h4, h5, h6 {
 .point_1_heading_1{
 
     left: 40%;
-    top: 36%;
+    top: 32%;
     
 
 }
 .point_1_heading_2{
 
     left: 40%;
-    top: 47%;
+    top: 44%;
 
 }
 .point_2_heading_1{
 
     left: 40%;
-    top: 25%;
+    top: 22%;
     
 
 }
 .point_2_heading_2{
 
     left: 40%;
-    top: 38%;
+    top: 34%;
     
 
 }
 .point_2_heading_3{
 
     left: 40%;
-    top: 49%;
+    top: 45%;
     
 
 }
@@ -4710,8 +4710,8 @@ h1, h2, h3, h4, h5, h6 {
         font-weight: 200;
 }
 /*.@media (min-width: 768px){
-    .{
-
+    .point_1{
+        font-size:;
     }
 }*/
 .login_button{
@@ -4724,4 +4724,46 @@ h1, h2, h3, h4, h5, h6 {
 .gradient{
     background:#056fb8;
     color: #fff !important;
+}
+@media only screen and (min-width:768px) and (max-width:991px) {
+  
+.point_1_heading_1{
+
+    left: 46%;
+    top: 32%;
+    
+
+}
+.point_1_heading_2{
+
+    left: 46%;
+    top: 41%;
+
+}
+.point_2_heading_1{
+
+    left: 46%;
+    top: 22%;
+    
+
+}
+.point_2_heading_2{
+
+    left: 46%;
+    top: 34%;
+    
+
+}
+.point_2_heading_3{
+
+    left: 46%;
+    top: 45%;
+    
+
+}
+.point_2_heading_4{
+    left: 46%;
+    top: 38%;
+    
+}
 }

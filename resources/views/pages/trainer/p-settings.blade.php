@@ -219,7 +219,7 @@
                       </div>
                       <div class="row pt-3 pb-3" style="border: 1px solid #ebe7e7">
                         {{-- <textarea name="photo_path" class="form-control"  rows="5"></textarea> --}}
-                        <div class="col-8">
+                        <div class="col-md-8">
                           @if($user->photo_path != NULL)
 
                             <img  style="width:200px" src="{{asset('images').'/'.$user->photo_path}}" style="height: 200;width: 200" />
@@ -228,7 +228,7 @@
                             <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
                           @endif
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4">
                           <h4 class="mx-auto _photo_path_">写真変更</h4>
                           <input type="file" name="image" id="photo_path" >
 
@@ -250,7 +250,7 @@
                                 @endif 
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 ">
                             <h4 class="mx-auto _photo_path_" id="new_icon">アイコンを作成</h4>
                             <input type="file" class="mx-auto" name="icon_image" id="icon_image" accept="image/*" style="width: 100%" />
                             <p style="font-size:12px;padding: 5px;">顔が大きく映っている写真を選択してください</p>
@@ -420,24 +420,30 @@
         });
       
 
+        var fileTypes = ['jpg', 'jpeg', 'png'];
+        $('#icon_image').on('change', function() {
+          var reader = new FileReader();
+          var file = this.files[0]; // Get your file here
+          var fileExt = file.type.split('/')[1]; // Get the file extension
 
-      $('#icon_image').on('change', function(){
-        var reader = new FileReader();
-        reader.onload = function (event) {
+          if (fileTypes.indexOf(fileExt) !== -1) {
+            reader.onload = function(event) {
+              $image_crop.croppie('bind', {
+                url: event.target.result
+              }).then(function() {
+                console.log('jQuery bind complete');
+              });
+              $("#icon_image").val('');
+            }
+            reader.readAsDataURL(file);
+            $('#uploadimageModal').modal('show');
+          } else {
+            alert('File not supported');
+          }
+        $("#icon_image").val('');
 
-          $image_crop.croppie('bind', {
-            url: event.target.result
-          }).then(function(){
-            // $image_crop.croppie('setZoom', 0);
-            console.log('jQuery bind complete');
-          });
+        });
 
-         $("#icon_image").val('');
-
-        }
-        reader.readAsDataURL(this.files[0]);
-        $('#uploadimageModal').modal('show');
-      });
 
 
     $('.crop_image').click(function(event){
