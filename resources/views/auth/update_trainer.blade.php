@@ -202,7 +202,7 @@
                       </div>
                       <div class="row pt-3 pb-3" style="border: 1px solid #ebe7e7">
                         {{-- <textarea name="photo_path" class="form-control"  rows="5"></textarea> --}}
-                        <div class="col-8">
+                        <div class="col-md-8">
                           @if($user->photo_path != NULL)
 
                             <img  style="width:200px" src="{{asset('images').'/'.$user->photo_path}}" style="height: 200;width: 200" />
@@ -211,7 +211,7 @@
                             <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="200">
                           @endif
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4">
                           <h4 class="mx-auto _photo_path_">写真変更</h4>
                           <input type="file" name="image" id="photo_path" >
 
@@ -312,7 +312,7 @@
     </div>
         </div>
         <div class="modal-footer" >
-            <span class="loading"  style="display: none;"> 
+            <span id="loading"  style="display: none;"> 
                アイコン作成... <i class="fas fa-spinner fa-spin fa-2x "></i>
             </span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>

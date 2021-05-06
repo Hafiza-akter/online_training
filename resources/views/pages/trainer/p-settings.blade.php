@@ -378,7 +378,7 @@
     </div>
         </div>
         <div class="modal-footer">
-            <span class="loading" style="display: none;"> 
+            <span id="loading" style="display: none;"> 
                アイコン作成... <i class="fas fa-spinner fa-spin fa-2x " ></i>
             </span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
