@@ -487,6 +487,16 @@ class TrainerController extends Controller
         $user_id = dycryptionValue($request->user_id);
 
         $image = $request->image;  // your base64 encoded
+
+        
+        if(!$this->base64Validation($image)){
+            return response()->json([
+                'message' => '無効なファイルが提供されました',
+                'type' => 'error'
+            ], 400);
+        }
+          
+
         $image = str_replace('data:image/png;base64,', '', $image);
         $image = str_replace(' ', '+', $image);
         $imageName = str_random(10).'.'.'png';
@@ -501,6 +511,33 @@ class TrainerController extends Controller
 
         return response()->json(array('success' => true, 'html'=>'<img class="rounded-circle" src="'.url('storage/icons').'/'.$imageName.'"  />'));
     }
-  
+    
+    private function base64Validation($value){
+        $explode = explode(',', $value);
+        $allow = ['png', 'jpg'];
+        $format = str_replace(
+            [
+                'data:image/',
+                ';',
+                'base64',
+            ],
+            [
+                '', '', '',
+            ],
+            $explode[0]
+        );
+
+        // check file format
+        if (!in_array($format, $allow)) {
+            return false;
+        }
+
+        // check base64 format
+        if (!preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1])) {
+            return false;
+        }
+
+        return true;
+    }
 
 }

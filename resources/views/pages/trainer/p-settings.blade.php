@@ -459,6 +459,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
+
                 data: { 'image': response },
                 cache: false,
                 success: function(res) {
@@ -469,6 +470,8 @@
 
                 },
                 error:function(request, status, error) {
+                    $('#loading').hide();
+                     alert('無効なファイルが提供されました');
                     console.log("ajax call went wrong:" + request.responseText);
                 }
             });

@@ -391,6 +391,11 @@ class TrainingController extends Controller
         return response()->json($course); 
 
     }
+
+    public function ratings(Request $request){
+
+        return view('pages.trainee.ratings');
+    }
     
     
 }
