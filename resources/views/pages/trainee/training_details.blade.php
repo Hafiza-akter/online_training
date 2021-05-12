@@ -159,6 +159,7 @@
     @php
       $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
       $hour = Carbon\Carbon::parse($schedule->time)->addHours(1)->format('H:i:s');
+      $param=encryptionValue(['schedule_id' => $schedule->id]);
 
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
@@ -261,7 +262,7 @@ console.log('The exact time: '+exactTime);
         console.log('hello');
         // alert(e.strftime('%M:%S'));
         alert('Your course time has finished');
-        window.location.href = "{{ route('traineelist') }}";
+        window.location.href = "{{ route('userRatings',$param) }}";
 
 
     });
@@ -312,7 +313,7 @@ console.log('The exact time: '+exactTime);
     var api = new JitsiMeetExternalAPI(domain, options);
         api.on('videoConferenceLeft', () => {
            console.log('alert');
-            window.location.href = "{{ route('traineelist') }}";
+          window.location.href = "{{ route('userRatings',$param) }}";
     
     });
     // api.executeCommand('subject', '');

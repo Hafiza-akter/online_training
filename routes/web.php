@@ -171,7 +171,8 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::get("/trainerDetails/{id}", "TrainerController@trainerDetails")->name(('trainerDetails'));
 	Route::get("/trainerselect/{id}/{date}/{time}", "TrainerController@trainerselect")->name(('trainerselect'));
 	// user given ratings to trainer
-	Route::get("/trainee/ratings", "TrainingController@ratings")->name(('userRatings'));
+	Route::get("/trainee/ratings/{schedule_id}", "TrainingController@ratings")->name(('userRatings'));
+	Route::post("/trainee/ratings/submit", "TrainingController@ratingsSubmit")->name(('userRatingsSubmit'));
 
 });
 

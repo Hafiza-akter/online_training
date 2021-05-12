@@ -19,6 +19,7 @@ use App\Model\Training;
 use App\Model\Exercise;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\User;
+use App\Model\Ratings;
 
 
 use DateTime;
@@ -393,9 +394,81 @@ class TrainingController extends Controller
     }
 
     public function ratings(Request $request){
+        $id = dycryptionValue($request->schedule_id);
+        $schedule = TrainerSchedule::find($id['schedule_id']);
 
-        return view('pages.trainee.ratings');
+        $ratings=Ratings::where('schedule_id',$id['schedule_id'])->first();
+        
+        return view('pages.trainee.ratings')->with('schedule',$schedule)->with('ratings',$ratings);
     }
+    public function ratingsSubmit(Request $request){
+        $scheduleIdexist=Training::where('trainer_schedule_id',$request->schedule_id)->first();
+
+        if(!$scheduleIdexist){
+            $training = new Training();
+            $training->trainer_schedule_id=$request->schedule_id;
+            $training->save();
+
+            $training_id = $training->id;
+        }else{
+            $training_id = $scheduleIdexist->id;
+        }
+        // Ratings
+
+        $ratings=Ratings::where('training_id',$training_id)->first();
+
+        if(!$ratings){
+                    $ratings = new Ratings();
+
+        }
+
+        $ratings->training_id=$training_id;
+        $ratings->trainer_id=$request->trainer_id;
+        $ratings->user_id=$request->user_id;
+        $ratings->schedule_id=$request->schedule_id;
+        $ratings->smile=$request['data']['smile'];
+        $ratings->passion=$request['data']['passion'];
+        $ratings->experience=$request['data']['experience'];
+        $ratings->muscle=$request['data']['muscle'];
+        $ratings->leadership=$request['data']['leadership'];
+        $ratings->communication=$request['data']['communication'];
+        $ratings->save();
+
+        return response()->json(array('success' => true,'training_id'=>$training_id));
+
+    }
+
+    public function favouritetrainer(Request $request){
+
+        $scheduleIdexist=Training::where('trainer_schedule_id',$request->schedule_id)->first();
+
+        if(!$scheduleIdexist){
+            $training = new Training();
+            $training->trainer_schedule_id=$request->schedule_id;
+            $training->is_favourite=1;
+            $training->save();
+
+            $training_id = $training->id;
+        }else{
+
+            TrainerSchedule::where('id', $request->schedule_id)->update([
+                'is_favourite' => 1]);
+
+            $training_id = $scheduleIdexist->id;
+        }
+        return response()->json(array('success' => true,'training_id'=>$training_id));
+
+    }
+    public function removeFavourite(Request $request){
+
+       
+        TrainerSchedule::where('id', $request->schedule_id)->update([
+                'is_favourite' => 0]);
+         
+        return response()->json(array('success' => true));
+
+    }
+    
     
     
 }
