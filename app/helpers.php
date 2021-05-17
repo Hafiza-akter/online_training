@@ -408,7 +408,8 @@ function activePurchasePlan($user_id){
 			}
 		}
 	}	
-	return $list;
+	// dd($list);
+	return null;
 }
 
 
