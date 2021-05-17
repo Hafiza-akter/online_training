@@ -390,6 +390,26 @@ function dycryptionValue($object){
 	// $request->id
 	 return \Crypt::decrypt($object);
 }
+function activePurchasePlan($user_id){
+
+	$list = \App\Model\UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get();
+	
+	if($list){
+		foreach($list as $val){
+
+			$expiredDate = \Carbon\Carbon::parse($val->created_at)->addMonths($val->period_month);
+
+			$nowDate = \Carbon\Carbon::now();
+
+			$totalDuration = $expiredDate->diffInDays($nowDate,false); 
+
+			if($totalDuration < 0 ){
+				return $val;
+			}
+		}
+	}	
+	return $list;
+}
 
 
 ?>

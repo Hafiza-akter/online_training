@@ -133,7 +133,7 @@ class TraineeController extends Controller
         ->whereBetween('date', [$start." 00:00:00", $end." 00:00:00"])->get()->count();
      
         $count = $count1 + $count2;
-        $purchasePlan = UserPlanPurchase::where('status',1)->where('user_id',$user_id)->orderBy('id','ASC')->get()->first();
+        $purchasePlan = activePurchasePlan(Session::get('user.id'));
         $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
         // 
         if($count >= $dayPerWeek){
@@ -273,7 +273,7 @@ class TraineeController extends Controller
                 return redirect()->route('traininginfo')->with('success','はじめにユーザー情報を入力してください');
             }
 
-            $puchasePlan = UserPlanPurchase::where('user_id',Session::get('user.id'))->get()->first();
+            $puchasePlan = activePurchasePlan(Session::get('user.id'));
             
             if(!$puchasePlan){
                 return redirect()->route('traineeCalendar.view')->with('message','はじめにプランを購入してください。');
@@ -1006,7 +1006,7 @@ class TraineeController extends Controller
         $type=1;
         $dataset = $this->calculation($bmrData*$pal,$weight,$pal,$totalDay,$start,$type);
             // dd($dataset);
-        $userPurchasePlan=UserPlanPurchase::where('status',1)->where('user_id',Session::get('user.id'))->orderBy('id','ASC')->first();
+        $userPurchasePlan=activePurchasePlan(Session::get('user.id'));
         $isactive='purchase';
         $purchase=PlanPurchase::where('status',1)->get();
         $plan=PlanPurchase::where('id',1)->get()->first();
@@ -1198,7 +1198,7 @@ class TraineeController extends Controller
     // ]
 
     public function purchasedetails(Request $request){
-        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        $userPurchasePlan=activePurchasePlan(Session::get('user.id'));
         $isactive='purchase';
         $purchase=PlanPurchase::where('status',1)->get();
         $plan=PlanPurchase::where('id',$request->id)->get()->first();
@@ -1428,7 +1428,7 @@ public function progress(){
         $dataset = $this->calculation2($bmrData,$weight,$pal,$totalDay,$start,$type);
 
 
-        $userPurchasePlan=UserPlanPurchase::where('user_id',Session::get('user.id'))->first();
+        $userPurchasePlan=activePurchasePlan(Session::get('user.id'));
         $isactive='progress';
         $purchase=PlanPurchase::where('status',1)->get();
         $plan=PlanPurchase::where('id',1)->get()->first();
