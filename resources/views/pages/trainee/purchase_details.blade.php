@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div> --}}
-        @if(!$userPurchasePlan->isEmpty())
+        @if(isset($userPurchasePlan))
           <div class="card">
             <!-- Card header --> 
             <div class="card-header success" >
