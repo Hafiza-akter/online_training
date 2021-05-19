@@ -472,6 +472,14 @@ function radarData($trainer_id){
 		}
 	}
 }
+function avgStarValue($trainer_id){
+
+	$data = \App\Model\Ratings::where('trainer_id',$trainer_id)
+   		->groupBy('trainer_id')
+    	->avg('star_ratings');
+
+    	return $data;
+}
 function evaluationValue($ratings_id,$input_ratings_id){
    return \App\Model\TrainerEvaluationRatings::where('trainer_ratings_id',$ratings_id)
    		->where('input_ratings_id',$input_ratings_id)->first();

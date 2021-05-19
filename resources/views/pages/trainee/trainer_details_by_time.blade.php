@@ -1,6 +1,37 @@
 @extends('master_dashboard')
 @section('title','trainee trainerlist')
 @section('header_css_js')
+<style>
+  
+/* Rating Star Widgets Style */
+.rating-stars ul {
+  list-style-type:none;
+  padding:0;
+  
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+.rating-stars ul > li.star {
+  display:inline-block;
+  
+}
+
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+  font-size:1em; /* Change the size of the stars */
+  color:#ccc; /* Color on idle state */
+}
+
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+  color:#FFCC36;
+}
+
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+  color:#FF912C;
+}
+</style>
 <script src='{{ asset('asset_v2/js/Chart.min.js')}}'></script>
 @endsection
 @section('content')
@@ -57,6 +88,26 @@
                         @endif       
                         {{-- <h4 class="mx-auto _introduction_">トレーナー紹介</h4>
                         <p >{{ $trainerData->intro}}</p> --}}
+                        <div class='rating-stars text-center'>
+                            <ul class='stars'>
+                              <li class='star'  data-value='1'>
+                                <i class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li class='star'  data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li class='star' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li class='star'  data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li class='star'  data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                              </li>
+                            </ul>
+                          </div>
+<input type="hidden" id="total" value="{{ avgStarValue($trainerData->id)}}">
 
                     </div>
                     <div class="col-sm middle">
@@ -91,7 +142,14 @@
 @endsection
 @section('footer_css_js')
 <script>
+/* default ratings value */
+   if(parseInt($("#total").val()) > 0){
+        var stars = $('li.star');
 
+      for (i = 0; i < parseInt($("#total").val()); i++) {
+        $(stars[i]).addClass('selected');
+      }
+   }
 var Dataset = JSON.parse($('#datasets').val());
 console.log(Dataset);
 
