@@ -26,12 +26,12 @@ class DashboardController extends Controller
     public function setting(){
         $settingData = Setting::Where('id','!=',null)->first();
         return view('admin.setting')->with('setupData',$settingData)
-                                    ->with('page','equipment');
+                                    ->with('page','setting');
     }
     public function settingForm(){
         $settingData = Setting::Where('id','!=',null)->first();
         return view('admin.setting_edit')->with('setupData',$settingData)
-                                        ->with('page','equipment');
+                                        ->with('page','setting');
     }
     public function settingSubmit(Request $request){
         $settingData = Setting::Where('id','!=',null)->first();

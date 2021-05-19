@@ -411,6 +411,72 @@ function activePurchasePlan($user_id){
 	// dd($list);
 	return null;
 }
+function radarLabel($trainer_id){
+
+// 	{
+//   labels: Label,
+//   datasets: [ {
+//     data: dataset,
+//     fill: true,
+//     backgroundColor: 'rgba(54, 162, 235, 0.2)',
+//     borderColor: 'rgb(54, 162, 235)',
+//     pointBackgroundColor: 'rgb(54, 162, 235)',
+//     pointBorderColor: '#fff',
+//     pointHoverBackgroundColor: '#fff',
+//     pointHoverBorderColor: 'rgb(54, 162, 235)'
+//   }]
+// }
+	$returnArray=array();
+	$data = \App\Model\RatingsSetup::where('status',1)->get();
+	if(isset($data)){
+		foreach ($data as $key => $value) {
+			$returnArray['labels'][]=$value->name;
+			$returnArray['dataset'][]=getAvgValue($trainer_id,$value->id);
+
+
+		}
+	}
+	$array = array(
+		  'labels'=> $returnArray['labels'],
+		  'datasets'=> [ array(
+			    'data'=> $returnArray['dataset'],
+				    'fill'=> true,
+				    'backgroundColor'=> '#056fb8a6',
+				    'borderColor'=> 'rgb(54, 162, 235)',
+				    'pointBackgroundColor'=> 'rgb(54, 162, 235)',
+				    'pointBorderColor'=> '#fff',
+				    'pointHoverBackgroundColor'=> '#fff',
+				    'pointHoverBorderColor'=> 'rgb(54, 162, 235)'
+	 	 		)
+ 	 		]
+		);
+// )
+	// dd($returnArray);
+	return json_encode($array,true);
+}
+function getAvgValue($trainer_id,$input_id){
+	$data = \App\Model\TrainerEvaluationRatings::where('trainer_id',$trainer_id)
+   		->where('input_ratings_id',$input_id)
+   		->groupBy('input_ratings_id')
+    	->avg('input_ratings_value');
+
+    	return $data;
+
+}
+function radarData($trainer_id){
+	$returnArray=array();
+	$data = \App\Model\RatingsSetup::where('status',1)->get();
+	if(isset($data)){
+		foreach ($data as $key => $value) {
+			$returnArray[]=$value->name;
+		}
+	}
+}
+function evaluationValue($ratings_id,$input_ratings_id){
+   return \App\Model\TrainerEvaluationRatings::where('trainer_ratings_id',$ratings_id)
+   		->where('input_ratings_id',$input_ratings_id)->first();
+
+}
 
 
 ?>

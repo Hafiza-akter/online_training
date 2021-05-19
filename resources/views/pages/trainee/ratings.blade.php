@@ -4,7 +4,7 @@
 @section('header_css_js')
 <link rel="stylesheet" href="{{asset('asset_v2/css/range_slider.css')}}">
 <style>
-  .stars-outer {
+  /*.stars-outer {
   display: inline-block;
   position: relative;
   font-family: FontAwesome;
@@ -26,6 +26,37 @@
 .stars-inner::before {
   content: "\f005 \f005 \f005 \f005 \f005";
   color: #f8ce0b;
+}
+*/
+
+
+/* Rating Star Widgets Style */
+.rating-stars ul {
+  list-style-type:none;
+  padding:0;
+  
+  -moz-user-select:none;
+  -webkit-user-select:none;
+}
+.rating-stars ul > li.star {
+  display:inline-block;
+  
+}
+
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+  font-size:1em; /* Change the size of the stars */
+  color:#ccc; /* Color on idle state */
+}
+
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+  color:#FFCC36;
+}
+
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+  color:#FF912C;
 }
 
 </style>
@@ -110,95 +141,55 @@
 
     <div class="card-body">
             
-             
+            @if(isset($ratingsInput))
+              @foreach($ratingsInput as $val)
+                <div class="row mb-3">
+                  <div class="col-3">
+                    <label class="col-form-label float-right " style="font-size:1.3em;margin-top:10px;font-weight: bold"> {{ $val->name }} </label>
+                  </div>
 
-            <div class="row mb-3">
-                <div class="col-3">
-                  <label class="col-form-label float-right " style="font-size:1.3em;margin-top:10px;font-weight: bold"> 笑顔 </label>
+                  <div class="col-8">
+                        <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
+                        data-min="0"
+                        data-max="5"
+                        data-from="{{ $ratings ? (evaluationValue($ratings->id,$val->id)->input_ratings_value ?? 0) : 0 }}"
+                        />
+                  </div>
                 </div>
-                <div class="col-8">
-                      <input type="text" class="js-range-slider" name="smile" value=""
-                      data-min="0"
-                      data-max="5"
-                      data-from="{{ $ratings->smile ?? 0}}"
-                      />
-                </div>
-            </div>
+              @endforeach
+            @endif
 
-            <div class="row mb-3">
-                <div class="col-3">
-                  <label class="col-form-label float-right" style="font-size:1.3em;margin-top:10px;font-weight: bold"> 熱血 </label>
-                </div>
-                <div class="col-8">
-                  <input type="text" class="js-range-slider" name="passion" value=""
-                      data-min="0"
-                      data-max="5"
-                      data-from="{{ $ratings->passion?? 0}}" />
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-3">
-                  <label class="col-form-label float-right" style="font-size:1.3em;margin-top:10px;font-weight: bold">経験</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" class="js-range-slider" name="experience" value="" 
-                      data-min="0"
-                      data-max="5"
-                      data-from="{{ $ratings->experience?? 0}}"
-                    />
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-3">
-                  <label class="col-form-label float-right" style="font-size:1.3em;margin-top:10px;font-weight: bold">マッスル</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" class="js-range-slider" name="muscle" value="" 
-                      data-min="0"
-                      data-max="5"
-                      data-from="{{ $ratings->muscle?? 0}}"
-                  />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-3">
-                  <label class="col-form-label float-right" style="font-size:1.3em;margin-top:10px;font-weight: bold"> 指導力 </label>
-                </div>
-                <div class="col-8">
-                  <input type="text" class="js-range-slider" name="leadership" value="" 
-                      data-min="0"
-                      data-max="5"
-                      data-from="{{ $ratings->leadership?? 0}}"
-                  />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-3">
-                  <label class="col-form-label float-right" style="font-size:1.3em;margin-top:10px;font-weight: bold">コミュニケーション</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" class="js-range-slider" name="communication" value="" 
-                      data-min="0"
-                      data-max="5"
-                      data-from="{{ $ratings->communication?? 0}}"
-                   />
-                </div>
-            </div>
 
             <div class="row " style="text-align: center;font-size:1.7em;">
                 <div class="col">
 
-                    <div class="stars-outer">
-                      <div class="stars-inner"></div>
-                    </div>  &nbsp;
-
+                    <!-- Rating Stars Box -->
+                    <div class='rating-stars text-center'>
+                      <ul class='stars'>
+                        <li class='star'  data-value='1'>
+                          <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star'  data-value='2'>
+                          <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star' data-value='3'>
+                          <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star'  data-value='4'>
+                          <i class='fa fa-star fa-fw'></i>
+                        </li>
+                        <li class='star'  data-value='5'>
+                          <i class='fa fa-star fa-fw'></i>
+                        </li>
+                      </ul>
+                    </div>
                   <span style="font-size: 18px;"> ズバリ評価は</span>
                           &nbsp;
-                    <div class="stars-outer">
+                    
+                       
+                    {{-- <div class="stars-outer">
                       <div class="stars-inner"></div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
@@ -206,7 +197,7 @@
                 <div class="col">
 
                   <span style="font-size: 18px;"> 星</span>
-                       <input type="text" id="total" name="total" value="5" style="text-align:center; width:50px" readonly disabled="true" />
+                       <input type="text" id="total" name="total" value="{{ $ratings->star_ratings ?? 0}}" style="text-align:center; width:50px" readonly disabled="true" />
                   <span style="font-size: 18px;"> 個!</span>
 
 
@@ -247,6 +238,58 @@
 
 <script>
     $(document).ready(function() {
+
+   /* default ratings value */
+   if(parseInt($("#total").val()) > 0){
+        var stars = $('li.star');
+
+      for (i = 0; i < parseInt($("#total").val()); i++) {
+        $(stars[i]).addClass('selected');
+      }
+   }   
+  /* 1. Visualizing things on Hover - See next part for action on click */
+  $('.stars li').on('mouseover', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+   
+    // Now highlight all the stars that's not after the current hovered star
+    $(this).parent().children('li.star').each(function(e){
+      if (e < onStar) {
+        $(this).addClass('hover');
+      }
+      else {
+        $(this).removeClass('hover');
+      }
+    });
+    
+  }).on('mouseout', function(){
+    $(this).parent().children('li.star').each(function(e){
+      $(this).removeClass('hover');
+    });
+  });
+  
+  
+  /* 2. Action to perform on click */
+  $('.stars li').on('click', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+    var stars = $(this).parent().children('li.star');
+    
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass('selected');
+    }
+    
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass('selected');
+    }
+    
+    // JUST RESPONSE (Not needed)
+    var ratingValue = parseInt($('.stars li.selected').last().data('value'), 10);
+    $("#total").val(ratingValue);
+
+    // responseMessage(msg);
+    
+  });
+  
+  
       function wait(ms){
    var start = new Date().getTime();
    var end = start;
@@ -270,12 +313,6 @@
 
 
       var ratingsArray = {
-        'smile':5,
-        'passion':5,
-        'experience':5,
-        'muscle':5,
-        'leadership':5,
-        'communication':5
       };
 
       $(".js-range-slider").ionRangeSlider({
@@ -285,32 +322,25 @@
         onStart: function (data) {
             // Called right after range slider instance initialised
     
-            updateArray(data.input.attr('name'),$("input[name^="+data.input.attr('name')+"]").val());
+            updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
           
-            let total = Object.values(ratingsArray).reduce((t, n) => parseInt(t) + parseInt(n))
-            setRatings(total);
-            console.log('On start '+total);
         },
     
         onChange: function (data) {
             // Called every time handle position is changed
-    
-            updateArray(data.input.attr('name'),$("input[name^="+data.input.attr('name')+"]").val());
+            updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
 
-            let total = Object.values(ratingsArray).reduce((t, n) => parseInt(t) + parseInt(n))
-            setRatings(total);
-            console.log('On change '+total);
 
         },
     
         onFinish: function (data) {
             // Called then action is done and mouse is released
     
-              updateArray(data.input.attr('name'),$("input[name^="+data.input.attr('name')+"]").val());
+            updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
 
-              let total = Object.values(ratingsArray).reduce((t, n) => parseInt(t) + parseInt(n))
-              setRatings(total);
-            console.log('On finish '+total);
+            //   let total = Object.values(ratingsArray).reduce((t, n) => parseInt(t) + parseInt(n))
+            //   setRatings(total);
+            // console.log('On finish '+total);
         },
         onUpdate: function (data) {
             // Called then slider is changed using Update public method
@@ -333,7 +363,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
 
-                data: { 'data': ratingsArray,'user_id':{{ $user_id}},'trainer_id':{{ $trainer_id}},'schedule_id': {{ $schedule->id}}  },
+                data: { 'data': ratingsArray,'star_ratings':$("#total").val(),'user_id':{{ $user_id}},'trainer_id':{{ $trainer_id}},'schedule_id': {{ $schedule->id}}  },
                 cache: false,
                 success: function(res) {
                       $('#loading').hide();

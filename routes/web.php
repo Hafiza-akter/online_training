@@ -179,6 +179,8 @@ Route::group(['middleware' => 'checkLogin'], function () {
 
 Route::prefix('admin')->group(function () {
 	Route::group(['middleware' => 'checkAdmin'], function () {
+		Route::get('/logout', 'Admin\LoginController@logout')->name('admin.logout');
+
 		Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
 
 		Route::get('/setting', 'Admin\DashboardController@setting')->name('admin.setting');
@@ -246,9 +248,27 @@ Route::prefix('admin')->group(function () {
 		Route::get('/user/inquery/view/{id}', 'Admin\InquiryController@view')->name('inquery.view');
 
 
+		Route::get('/ratings', 'Admin\RatingsController@index')->name('admin.ratings');
+		Route::get('/ratings/add', 'Admin\RatingsController@ratingsAdd')->name('admin.ratings.add');
+		Route::post('/ratings/add', 'Admin\RatingsController@ratingsAddSubmit')->name('admin.ratings.submit');
+		Route::get('/ratings/edit/{id}', 'Admin\RatingsController@ratingsEdit')->name('admin.ratings.edit');
+		Route::post('/ratings/edit', 'Admin\RatingsController@ratingsEditSubmit')->name('admin.ratings.edit.submit');
+
+		Route::get('/trainersetupdata', 'Admin\TrainersetupdataController@index')->name('admin.trainersetupdata');
+		Route::get('/trainersetupdata/add', 'Admin\TrainersetupdataController@trainersetupdataAdd')->name('admin.trainersetupdata.add');
+		Route::post('/trainersetupdata/add', 'Admin\TrainersetupdataController@trainersetupdataAddSubmit')->name('admin.trainersetupdata.submit');
+		Route::get('/trainersetupdata/edit/{id}', 'Admin\TrainersetupdataController@trainersetupdataEdit')->name('admin.trainersetupdata.edit');
+		Route::post('/trainersetupdata/edit', 'Admin\TrainersetupdataController@trainersetupdataEditSubmit')->name('admin.trainersetupdata.edit.submit');
+
+
+
+
 	});
+
+Route::group(['middleware' => 'checkLogout'], function () {
 		Route::get('/login', 'Admin\LoginController@index')->name('admin.login');
 		Route::post('/login', 'Admin\LoginController@adminLoginSubmit')->name('admin.Login.submit');
-		Route::get('/logout', 'Admin\LoginController@logout')->name('admin.logout');
+});
+
 
 	});

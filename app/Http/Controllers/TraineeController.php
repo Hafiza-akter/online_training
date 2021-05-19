@@ -1411,7 +1411,7 @@ class TraineeController extends Controller
 
     }   
 
-public function progress(){
+    public function progress(){
          // calculation test //
         $user_id = Session::get('user.id');
         $user = \App\Model\User::where('id',$user_id)->get()->first();

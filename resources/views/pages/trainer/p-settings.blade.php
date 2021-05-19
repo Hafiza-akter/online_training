@@ -191,6 +191,47 @@
                         </div>
                     </div>
 
+                    @if(isset($instructionSetupData))
+
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label class="col-form-label interface">指導分野</label>
+                        </div>
+                        <div class="col-8">
+
+                          @foreach($instructionSetupData as $val)
+                            <div class="form-check form-check-inline" >
+                                <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckbox_{{ $val->id}}" name="instruction[]" value="{{ $val->name}}" @if($user->instructions && in_array($val->name,unserialize( $user->instructions))) checked @endif>
+                                <label class="form-check-label" for="inlineCheckbox_{{ $val->id}}">{{ $val->name }}</label>
+                              </div>
+                           @endforeach   
+                        </div>
+                    </div>
+                    @endif
+                    {{--  <div class="row mb-3">
+                        <div class="col-4">
+                            <label class="col-form-label interface">経歴</label>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-check form-check-inline" >
+                                <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckboxx1" name="career[]" value="大学体育" @if($user->career && in_array('大学体育',unserialize( $user->career))) checked @endif>
+                                <label class="form-check-label" for="inlineCheckboxx1">大学体育</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckboxx2" name="career[]" value="卒業" @if($user->career && in_array('卒業',unserialize( $user->career))) checked @endif>
+                                <label class="form-check-label" for="inlineCheckboxx2">卒業</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckboxx3" name="career[]" value="ジム勤務" @if($user->career && in_array('ジム勤務',unserialize( $user->career))) checked @endif>
+                                <label class="form-check-label" for="inlineCheckboxx3">ジム勤務</label>
+                              </div>
+                             
+                        </div>
+                    </div> --}}
+                    
+
+                    
+
                       <div class="row pt-3 pb-3">
                         <h2 class="mx-auto _prefecture_">都道府県</h2>
                       </div>

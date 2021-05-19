@@ -29,9 +29,9 @@
                             <tr>
                                 <td>{{$i++}}</td>
                                 <td>{{$plan->created_at}}</td>
-                                <td>{{$plan->getUser->name}}</td>
-                                <td>{{$plan->getUser->email}}</td>
-                                <td>{{$plan->getPlan->name}}</td>
+                                <td>{{$plan->getUser->name ?? ''}}</td>
+                                <td>{{$plan->getUser->email ?? ''}}</td>
+                                <td>{{$plan->getPlan->name ?? ''}}</td>
                                 
                                 <td>
                                     <?php 

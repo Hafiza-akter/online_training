@@ -20,6 +20,8 @@ use App\Model\Exercise;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\User;
 use App\Model\Ratings;
+use App\Model\RatingsSetup;
+use App\Model\TrainerEvaluationRatings;
 
 
 use DateTime;
@@ -398,10 +400,17 @@ class TrainingController extends Controller
         $schedule = TrainerSchedule::find($id['schedule_id']);
 
         $ratings=Ratings::where('schedule_id',$id['schedule_id'])->first();
-        
-        return view('pages.trainee.ratings')->with('schedule',$schedule)->with('ratings',$ratings);
+
+        $ratingsInput = RatingsSetup::where('status',1)->get();
+
+
+        return view('pages.trainee.ratings')
+            ->with('schedule',$schedule)
+            ->with('ratingsInput',$ratingsInput)
+            ->with('ratings',$ratings);
     }
     public function ratingsSubmit(Request $request){
+        // dd($request->data);
         $scheduleIdexist=Training::where('trainer_schedule_id',$request->schedule_id)->first();
 
         if(!$scheduleIdexist){
@@ -426,13 +435,25 @@ class TrainingController extends Controller
         $ratings->trainer_id=$request->trainer_id;
         $ratings->user_id=$request->user_id;
         $ratings->schedule_id=$request->schedule_id;
-        $ratings->smile=$request['data']['smile'];
-        $ratings->passion=$request['data']['passion'];
-        $ratings->experience=$request['data']['experience'];
-        $ratings->muscle=$request['data']['muscle'];
-        $ratings->leadership=$request['data']['leadership'];
-        $ratings->communication=$request['data']['communication'];
+        $ratings->star_ratings=$request->star_ratings;
+
         $ratings->save();
+
+        $ratings_id = $ratings->id;
+
+
+        if(isset($request['data'])){
+            TrainerEvaluationRatings::where('trainer_ratings_id',$ratings_id)->delete();
+            foreach ($request['data'] as $key => $value) {
+                    $evaluationRatings = new TrainerEvaluationRatings();
+
+                     $evaluationRatings->input_ratings_id   = $key;
+                     $evaluationRatings->trainer_id   = $request->trainer_id;
+                     $evaluationRatings->input_ratings_value   = $value;
+                     $evaluationRatings->trainer_ratings_id   = $ratings_id;
+                     $evaluationRatings->save();
+            }
+        }
 
         return response()->json(array('success' => true,'training_id'=>$training_id));
 

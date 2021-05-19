@@ -14,6 +14,7 @@ use App\Model\UserEquipment;
 use App\Model\UserHistory;
 use App\Model\TrainerSchedule;
 use App\Model\TrainerEquipment;
+use App\Model\TrainerSetupData;
 
 
 use DateTime;
@@ -365,6 +366,9 @@ class TrainerController extends Controller
     }
     public function trainerDetails(Request $request){
     	$trainerData = Trainer::find($request->id);
+
+        // radar graph of trainer //
+        // $radarData = TrainerRadarGraph($request->id);
     	return view('pages.trainee.trainer_details')->with('trainerData',$trainerData);
     }
      public function trainerselect(Request $request){
@@ -385,9 +389,10 @@ class TrainerController extends Controller
     public function psettings(Request $request){
 
         $user = Trainer::where('id',Session::get('user.id'))->first();
-
+        $instructionSetupData = TrainerSetupData::where('status',1)->where('type','instruction')->get();
         return view('pages.trainer.p-settings')
         ->with('user',$user)
+        ->with('instructionSetupData',$instructionSetupData)
         ->with('equipment',Equipment::get())->with('isActive','p-settings');
 
     }
@@ -447,7 +452,12 @@ class TrainerController extends Controller
                 $imgfullPath = $path;
                 $trainer->photo_path = $imgfullPath;
             }
-
+            if(isset($request->instruction)){
+                $trainer->instructions=serialize($request->instruction);
+            }
+            if(isset($request->career)){
+                $trainer->career=serialize($request->career);
+            }
             
             if($trainer->save()){
                 //  EVENT TRIGGERED
@@ -488,7 +498,7 @@ class TrainerController extends Controller
 
         $image = $request->image;  // your base64 encoded
 
-        
+
         if(!$this->base64Validation($image)){
             return response()->json([
                 'message' => '無効なファイルが提供されました',

@@ -213,31 +213,7 @@
               </ul>
             </li>
 
-            <li class="nav-item">
-              <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
-                <i class="nav-icon far fas fa-cog"></i>
-                <p>
-                  <!-- Setting/ Master Data -->
-                  設定
-                </p>
-                <i class="right fas fa-angle-left"></i>
-
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>セットアップデータ</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{route('admin.equipment.list')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>設備</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+            
             <li class="nav-item">
               <a href="{{route('trainer.list')}}"  class="nav-link {{isset($page) && ($page == 'trainer') ? 'active': ''}}">
                 <!-- <i class="nav-icon far fa-image"></i> -->
@@ -267,6 +243,49 @@
                   コース
                 </p>
               </a>
+            </li>
+
+            <li class="nav-item {{isset($page) && (($page == 'equipment') || ($page == 'ratings') || ($page == 'setting') || ($page == 'trainersetupdata'))? 'menu-open': ''}}">
+              <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && (($page == 'equipment') || ($page == 'ratings') || ($page == 'trainersetupdata') || ($page == 'setting'))? 'active': ''}}">
+                <i class="nav-icon far fas fa-cog"></i>
+                <p>
+                  <!-- Setting/ Master Data -->
+                  設定
+                </p>
+                <i class="right fas fa-angle-left"></i>
+
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item ">
+                  <a href="{{route('admin.setting')}}"  class="nav-link {{isset($page) && ($page == 'setting') ? 'active': ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>セットアップデータ</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{route('admin.equipment.list')}}"  class="nav-link {{isset($page) && ($page == 'equipment') ? 'active': ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>設備</p>
+                  </a>
+                </li>
+
+                 <li class="nav-item">
+                  <a href="{{route('admin.ratings')}}"  class="nav-link {{isset($page) && ($page == 'ratings') ? 'active': ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> 評価</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="{{route('admin.trainersetupdata')}}"  class="nav-link {{isset($page) && ($page == 'trainersetupdata') ? 'active': ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> トレーナーデータ</p>
+                  </a>
+                </li>
+
+                
+
+              </ul>
             </li>
             <li class="nav-item">
               <a href="{{route('inquery.list')}}"  class="nav-link {{isset($page) && ($page == 'inquery') ? 'active': ''}}">
