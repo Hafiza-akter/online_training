@@ -254,11 +254,11 @@ Route::prefix('admin')->group(function () {
 		Route::get('/ratings/edit/{id}', 'Admin\RatingsController@ratingsEdit')->name('admin.ratings.edit');
 		Route::post('/ratings/edit', 'Admin\RatingsController@ratingsEditSubmit')->name('admin.ratings.edit.submit');
 
-		Route::get('/trainersetupdata', 'Admin\TrainerSetupdataController@index')->name('admin.trainersetupdata');
-		Route::get('/trainersetupdata/add', 'Admin\TrainerSetupdataController@trainersetupdataAdd')->name('admin.trainersetupdata.add');
-		Route::post('/trainersetupdata/add', 'Admin\TrainerSetupdataController@trainersetupdataAddSubmit')->name('admin.trainersetupdata.submit');
-		Route::get('/trainersetupdata/edit/{id}', 'Admin\TrainerSetupdataController@trainersetupdataEdit')->name('admin.trainersetupdata.edit');
-		Route::post('/trainersetupdata/edit', 'Admin\TrainerSetupdataController@trainersetupdataEditSubmit')->name('admin.trainersetupdata.edit.submit');
+		Route::get('/trainersetupdata', 'Admin\TrainerSetupDataController@index')->name('admin.trainersetupdata');
+		Route::get('/trainersetupdata/add', 'Admin\TrainerSetupDataController@trainersetupdataAdd')->name('admin.trainersetupdata.add');
+		Route::post('/trainersetupdata/add', 'Admin\TrainerSetupDataController@trainersetupdataAddSubmit')->name('admin.trainersetupdata.submit');
+		Route::get('/trainersetupdata/edit/{id}', 'Admin\TrainerSetupDataController@trainersetupdataEdit')->name('admin.trainersetupdata.edit');
+		Route::post('/trainersetupdata/edit', 'Admin\TrainerSetupDataController@trainersetupdataEditSubmit')->name('admin.trainersetupdata.edit.submit');
 
 
 
