@@ -413,6 +413,7 @@ class TrainingController extends Controller
         // dd($request->data);
         $scheduleIdexist=Training::where('trainer_schedule_id',$request->schedule_id)->first();
 
+
         if(!$scheduleIdexist){
             $training = new Training();
             $training->trainer_schedule_id=$request->schedule_id;
@@ -466,17 +467,16 @@ class TrainingController extends Controller
         if(!$scheduleIdexist){
             $training = new Training();
             $training->trainer_schedule_id=$request->schedule_id;
-            $training->is_favourite=1;
+            // $training->is_favourite=1;
             $training->save();
 
             $training_id = $training->id;
         }else{
 
-            TrainerSchedule::where('id', $request->schedule_id)->update([
-                'is_favourite' => 1]);
-
             $training_id = $scheduleIdexist->id;
         }
+        TrainerSchedule::where('id', $request->schedule_id)->update([
+                'is_favourite' => 1]);
         return response()->json(array('success' => true,'training_id'=>$training_id));
 
     }
