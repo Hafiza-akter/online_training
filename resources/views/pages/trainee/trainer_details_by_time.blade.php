@@ -38,12 +38,18 @@
        {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
 
-  <div class="container col-md-12">
-  
-        <div class="row pb-5">
-          <div class="col-sm middle">
+    <div class="container col-md-12  my-4">
+     <h2 style="text-align: center;color:#c30f23">{{ $trainerData->first_name }}</h2>
 
-                  <form action="{{route('trainerSubmitBytime')}}" method="post" id="dateform" style="display: inline-block;">
+
+                 <div class="card-group">
+          <div class="card ">
+            <div class="card-body text-left">
+
+               <div class="row pb-5">
+            <div class="col-sm middle">
+
+                      <form action="{{route('trainerSubmitBytime')}}" method="post" id="dateform" style="display: inline-block;">
                     {{ csrf_field() }}
 
                     <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
@@ -65,54 +71,35 @@
                 </form>
 
 
-          </div>
-        </div>
-
-
-         <div class="card">
-            <div class="card-header">
-              <h2 style="text-align: center;color:#c30f23">{{ $trainerData->first_name }}</h2>
             </div>
-          <div class="card-body">
-             <div class="row justify-content-center">
-                <div class="row pb-5">
-                   <div class="col-lg middle">
-                       <canvas id="line-chart" width="500" ></canvas>
-                    </div>
-                    <div class="col-sm middle">
-                        @if($trainerData->photo_path != NULL)
-                            <img class="img-fluid"  src="{{asset('images').'/'.$trainerData->photo_path}}" width="300">
-                        @else 
-                          <img src="{{asset('images/user-thumb.jpg')}}"  width="200" width="300">
+          </div>
+               <canvas id="line-chart"  ></canvas>
 
-                        @endif       
-                        {{-- <h4 class="mx-auto _introduction_">トレーナー紹介</h4>
-                        <p >{{ $trainerData->intro}}</p> --}}
-                        <div class='rating-stars text-center'>
-                            <ul class='stars'>
-                              <li class='star'  data-value='1'>
-                                <i class='fa fa-star fa-fw'></i>
-                              </li>
-                              <li class='star'  data-value='2'>
-                                <i class='fa fa-star fa-fw'></i>
-                              </li>
-                              <li class='star' data-value='3'>
-                                <i class='fa fa-star fa-fw'></i>
-                              </li>
-                              <li class='star'  data-value='4'>
-                                <i class='fa fa-star fa-fw'></i>
-                              </li>
-                              <li class='star'  data-value='5'>
-                                <i class='fa fa-star fa-fw'></i>
-                              </li>
-                            </ul>
-                          </div>
-<input type="hidden" id="total" value="{{ avgStarValue($trainerData->id)}}">
+             
+            </div>
+          </div>
+          <div class="card ">
 
+            <div class="card-body text-left">
+                  @if($trainerData->photo_path != NULL)
+                      <img class="card-img-top"  src="{{asset('images').'/'.$trainerData->photo_path}}" style="width:400px">
+                    @else 
+                      <img class="card-img-top" src="{{asset('images/user-thumb.jpg')}}"   alt="Card image" style="width:400px" >
+                    @endif
+
+
+                    <div class='rating-stars text-left mt-3 mb-2' >
+                      <ul class='stars'>
+                        <li class='star selected'  data-value='1'>
+                          <i class='fa fa-star fa-fw'></i> ( {{ totalStar($trainerData->id) }} )
+                        </li>
+                        
+                        
+                       
+                      </ul>
                     </div>
-                    <div class="col-sm middle">
-                      【 指導分野 】<br>
-                      @php 
+                    【 指導分野 】<br>
+                     @php 
                         $arr=unserialize($trainerData->instructions);
                         $string="";
                         if(!empty($arr)){
@@ -121,17 +108,15 @@
                       @endphp
                         <br>
                       <h4 style="color:#c30f23">{!! $string !!}</h4>
-
                       <br>
 
                       【 経歴 】<br><br>
                      
                       <p style="color:#c30f23">{{ $trainerData->intro}}</p>
-                   </div>
-                </div>
-                </div>
+
             </div>
-          </div>
+          </div>       
+        </div>
 
         </div>
 
@@ -143,13 +128,7 @@
 @section('footer_css_js')
 <script>
 /* default ratings value */
-   if(parseInt($("#total").val()) > 0){
-        var stars = $('li.star');
-
-      for (i = 0; i < parseInt($("#total").val()); i++) {
-        $(stars[i]).addClass('selected');
-      }
-   }
+  
 var Dataset = JSON.parse($('#datasets').val());
 console.log(Dataset);
 
