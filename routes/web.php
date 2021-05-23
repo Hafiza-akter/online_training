@@ -44,7 +44,7 @@ Route::post('/inquery/submit', 'InquiryController@inquirysubmittoppage')->name('
 | For trainer and trainee
 |
 */
-Route::group(['middleware' => 'checkLogout'], function () {
+Route::group(['middleware' => 'basicAuth','checkLogout'], function () {
 	Route::get('/login/trainee', 'LoginController@loginTrainee')->name('traineeLogin');
 	Route::post('/login/trainee', 'LoginController@loginTraineeSubmit')->name('traineeLogin.submit');
 	Route::get('/login/trainer', 'LoginController@loginTrainer')->name('trainerLogin');
@@ -63,7 +63,7 @@ Route::group(['middleware' => 'checkLogout'], function () {
 | For trainer and trainee
 |
 */
-Route::group(['middleware' => 'checkLogout'], function () {
+Route::group(['middleware' =>   'basicAuth','checkLogout'], function () {
 
 	Route::get('/signup/trainee', 'SignupController@signupTrainee')->name('traineeSignup');
 	Route::post('/signup/trainee', 'SignupController@signupTraineeSubmit')->name('traineeSignup.submit');
@@ -173,6 +173,11 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	// user given ratings to trainer
 	Route::get("/trainee/ratings/{schedule_id}", "TrainingController@ratings")->name(('userRatings'));
 	Route::post("/trainee/ratings/submit", "TrainingController@ratingsSubmit")->name(('userRatingsSubmit'));
+
+	Route::get("/trainee/reservation", "ReservationController@index")->name(('reservation'));
+	Route::get("/trainee/reservation/{sorting}", "ReservationController@sorting")->name(('sorting'));
+	Route::get("/trainee/datereservation/{date}", "ReservationController@reservationBydate")->name('datereservation');
+
 
 });
 

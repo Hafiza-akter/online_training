@@ -29,9 +29,9 @@
                 <div class="col-md-8 col-xl-8">
                     <div class="">
                         <p style="font-size:1.3em;color:#c30f23;font-weight: bold;" class="p_semi_bold">
-                            現在サービスは利用できませんが、サービス開始前のテストユーザーとトレーナーを募集中です。
-                            時期によって無償対応や割引がございますが抽選によります。また、正式開始時にはメールでご連
-                            絡致します。ご希望の方は下のボタンよりご登録ください。
+                           
+
+                            現在、ユーザー、トレーナーともに新規募集を行っておりません。ご興味のある方はお問い合わせフォームよりお問い合わせいただけるようお願いいたします。
                         </p>
                         <p style="text-align: center;margin-top: 60px;">
                             <a href="{{route('traineeSignup')}}" class="btn_new_2 btn_new_2_d " style="width: 40%;padding: 14px 54px 14px 54px;">

@@ -4725,6 +4725,40 @@ h1, h2, h3, h4, h5, h6 {
     background:#056fb8;
     color: #fff !important;
 }
+.sorting-button{
+
+    display: block;
+    font-weight: bold;
+    font-size: 1.3em;
+
+    text-align: center;
+    border: 1px solid #6c757d;
+    padding: 10px;
+    color: #056fb8;
+}
+.active-sorting{
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    background: #c30f23;
+}
+.hour-list{
+    cursor: pointer;
+    color:black;
+    border-bottom: 1px solid black;
+    font-size: 2.4em;
+    font-family: open sans, sans-serif;
+}
+.red-background{
+        background: #c30f23;
+        color: #fff;
+
+}
+.selected-background{
+        background: #007bfe;
+        color: #fff;
+
+}
 @media only screen and (min-width:768px) and (max-width:991px) {
   
 .point_1_heading_1{

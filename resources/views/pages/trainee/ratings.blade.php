@@ -367,7 +367,8 @@
                 cache: false,
                 success: function(res) {
                       $('#loading').hide();
-                     location.reload();
+                      window.location.href = "{{ route('traineeCalendar.view') }}";
+
 
                 },
                 error:function(request, status, error) {

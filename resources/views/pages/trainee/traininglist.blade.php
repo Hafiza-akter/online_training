@@ -48,7 +48,7 @@
                     @if($list)
                       @foreach($list as $val)
 
-                        @if(getUserName($val->trainer_schedule_id)->id == Session::get('user.id'))
+                        @if(getUserName($val->trainer_schedule_id) && getUserName($val->trainer_schedule_id)->id == Session::get('user.id'))
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>
                               {{-- <td>{{$val->comment}}</td> --}}
