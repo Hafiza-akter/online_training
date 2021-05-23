@@ -496,7 +496,7 @@ function totalStar($trainer_id){
 
 	$data = \App\Model\Ratings::where('trainer_id',$trainer_id)
    		->groupBy('trainer_id')
-    	->avg('star_ratings');
+    	->sum('star_ratings');
 
     	return (int) $data;
 }
