@@ -431,7 +431,7 @@ class TrainerController extends Controller
             $trainer->family_phonetic = $request->input('family_phonetic');
             
             $trainer->prefecture = $request->input('prefecture');
-
+            $trainer->sex = $request->input('sex');
             $trainer->address_line = $request->input('address');
             $trainer->zip_code = $request->input('zip_code');
             $trainer->city = $request->input('city');

@@ -555,7 +555,7 @@ class TraineeController extends Controller
 
             }
 
-            // return redirect()->route('datereservation',$request->selected_date);
+            return redirect()->route('datereservation',$request->selected_date);
 
             // dd($parsedArray);
             return view('pages.trainee.trainer_new_time')
@@ -970,15 +970,32 @@ class TraineeController extends Controller
 
     }
 
-    public function trainerlist(){
+    public function trainerlist(Request $request){
 
         $user = \App\Model\User::where('id',Session::get('user.id'))->get()->first();
         if($user->phone === null || $user->address === null){
             return redirect()->route('traininginfo')->with('success','はじめにユーザー情報を入力してください');
         }
 
-        $trainerList = Trainer::get();
-        return view('pages.trainee.trainerlist')->with('trainerList',$trainerList);
+        $query = Trainer::where('status',1);
+
+        if($request->sex == 'male'){
+            $query->where('sex','male');
+        }
+        if($request->sex == 'female'){
+            $query->where('sex','female');
+        }
+        if($request->sex == 'both'){
+            $query->whereIn('sex',['male','female']);
+        }
+        if($request->instructions){
+            $query->where('instructions', 'like', '%' . $request->instructions . '%');
+        }
+        $trainerList=$query->get();
+
+        return view('pages.trainee.trainerlist')
+                ->with('request',$request)
+                ->with('trainerList',$trainerList);
     }
 
     public function logout(){

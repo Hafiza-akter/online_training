@@ -92,6 +92,21 @@
                         <input type="text" name="first_name" class="form-control" value="{{ $user->first_name }}">
                       </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                          <label class="col-form-label sex">性別</label>
+                        </div>
+                         <div class="col-8">
+                            <select class="form-control" name="sex">
+                                {{-- 1 male, 0 女性  --}}
+                                <option value=""> 性別をお選びください</option> 
+                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
+                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
+
+
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="row mb-3">
                       <div class="col-4">

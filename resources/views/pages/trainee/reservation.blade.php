@@ -43,6 +43,9 @@
     color:white !important;
   }
   .fc-daygrid-event-harness{display:inline-flex; }
+  .fc-daygrid-more-link{
+    display:none;
+  }
 
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
@@ -128,7 +131,7 @@
       selectable: false,
       showNonCurrentDates: false,
       fixedWeekCount:false,            
-
+      dayMaxEvents:4,
       firstDay: 0,
 
        customButtons: {
@@ -142,7 +145,7 @@
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'myCustomButton'
+        right: ''
       },
       eventDidMount: function(info) {
 
@@ -156,7 +159,7 @@
       eventContent: function(arg) {
         console.log(arg.event.extendedProps);
         return {
-          html: ' <span> <img class="rounded-circle" src="'+arg.event.extendedProps.imageurl+'" height="27" width="27" style="border:1px solid #007bff;" /></span>   '
+          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.trainer_id+'" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
         }
       },
       eventClick:function(info){

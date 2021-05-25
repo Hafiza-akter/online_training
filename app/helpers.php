@@ -303,7 +303,7 @@ function number_formate($data){
  }
  function getTrainerImage($trainer_id){
 	$data= \App\Model\Trainer::find($trainer_id);
-	if($data->icon_image){
+	if(isset($data) && $data->icon_image ){
 		return  url('storage/icons/'.$data->icon_image);
 	}else{
 		return  asset('images/default.png');
@@ -543,6 +543,7 @@ function getTrainerList(){
                     ->where('status',NULL)
                     ->whereDate('date', '>=',  \Carbon\Carbon::now())
                     ->groupBy('day','trainer_id')
+                    ->take(4)
                     ->get();
 
     	if(isset($schedule)){
@@ -554,9 +555,9 @@ function getTrainerList(){
 	            			'color' => 'transparent',
 							'start' =>  $vals->day, // purchase plan start day
 							'extendedProps' => array(
-								'type' =>  'normal',
+								// 'type' =>  'normal',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
-	                            'type' => 'recurring',
+	                            // 'type' => 'recurring',
 								'trainer_id' =>  $vals->trainer_id
 	                            
 							)
@@ -584,6 +585,7 @@ function getTrainerList(){
 				$recurring = \App\Model\TrainerRecurringSchedule::where('status',NULL)
 	                    ->where('dow',$date->dayOfWeek)
 	                    ->groupBy('dow','trainer_id')
+	                    ->take(4)
 	                    ->get();
 	             // dd($recurring);
 	            if(isset($recurring)){
@@ -595,7 +597,7 @@ function getTrainerList(){
 	            			'color' => 'transparent',
 							'start' =>  $date->format('Y-m-d'), // purchase plan start day
 							'extendedProps' => array(
-								'type' =>  'recurring',
+								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id
 	                            
@@ -654,6 +656,7 @@ function getSortedTrainerList($param){
          	$query->where('user_id', '=', Session::get('user.id'));
          }
          
+         
          if($param == '00:00:00-06:00:00'){
          	$query->whereBetween('time', ['00:00:00','06:00:00']);
          }
@@ -690,7 +693,12 @@ function getSortedTrainerList($param){
 						$count++;
 	            	}
 	            }
-
+if($param == 'recommended'){
+	    $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
+// dd($data );
+//     return $data;
+	// return $periodArray;
+}
 // recurring event //
 		$expiredDate = \Carbon\Carbon::parse($purchasePlan->created_at)
 						->addMonths($purchasePlan->period_month)
@@ -759,11 +767,11 @@ function getSortedTrainerList($param){
 
 	
 		// return $periodArray;
-		$data = null;
-	        
-        $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
+	$data = null;
+        
+    $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
 
-         return $data;
+    return $data;
         
 }
 function getTrainerListByDate($param){	
@@ -788,6 +796,7 @@ function getTrainerListByDate($param){
                         )
                     ->where('status',NULL)
                     ->whereDate('date',$param)
+                    ->take(4)
                     ->groupBy('day','trainer_id');
 
 
@@ -795,15 +804,20 @@ function getTrainerListByDate($param){
 
     	if(isset($schedule)){
         	foreach($schedule as $key=>$vals){
-        		$trainerSorted[$count]= $vals->trainer_id;
-        		$periodArray[$count] = array(
 
-					'imageurl'=> getTrainer($vals->trainer_id)->photo_path,
-					'trainer_id' =>  $vals->trainer_id,
-					'name' =>  getTrainer($vals->trainer_id)->first_name,
-					'instructions' =>  getTrainer($vals->trainer_id)->instructions
-        		);
-				$count++;
+        		 if($vals->trainer_id){
+
+	        		$trainerSorted[$count]= $vals->trainer_id;
+
+	        		$periodArray[$count] = array(
+
+						'imageurl'=>  getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
+						'trainer_id' =>  $vals->trainer_id,
+						'name' =>  getTrainer($vals->trainer_id)->first_name,
+						'instructions' =>  getTrainer($vals->trainer_id)->instructions
+	        		);
+					$count++;
+        		}
         	}
 	    }
 
@@ -813,22 +827,25 @@ function getTrainerListByDate($param){
 		$date = \Carbon\Carbon::parse($param);
 		$query2 = \App\Model\TrainerRecurringSchedule::where('status',NULL)
                 ->where('dow',$date->dayOfWeek)
+                ->take(4)
                 ->groupBy('dow','trainer_id');
 
         $recurring = $query2->get();
 
         if(isset($recurring)){
         	foreach($recurring as $key=>$vals){
-
-        		$periodArray[$count] = array(
+        		if($vals->trainer_id){
+        			$periodArray[$count] = array(
 					// 'display' => 'list-item',
-					'imageurl'=> getTrainer($vals->trainer_id)->photo_path,
+					'imageurl'=> getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
 					'trainer_id' =>  $vals->trainer_id,
-					'name' =>  getTrainer($vals->trainer_id)->first_name,
-					'instructions' =>  getTrainer($vals->trainer_id)->instructions
+					'name' =>  getTrainer($vals->trainer_id)? getTrainer($vals->trainer_id)->first_name : NULL,
+					'instructions' => getTrainer($vals->trainer_id) ?  getTrainer($vals->trainer_id)->instructions : NULL
  
-        		);
-				$count++;
+        			);
+					$count++;
+        		}
+        		
         	}
 
 		}
@@ -840,11 +857,37 @@ function getTrainerListByDate($param){
 		$data = null;
 	        
         $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
-
-
-         return $data;
+        return $data;
         
 }
+function timeslot($trainer_id,$date,$time){
+
+
+		$query = \DB::table('tbl_trainer_schedules as w')
+                    ->where('status',NULL)
+                    ->whereDate('date',$date)
+                    ->where('time',$time)
+                    ->where('trainer_id',$trainer_id)->first();
+                    // ->groupBy('trainer_id');
+        if($query){
+        	return $query;
+        }
+
+
+		$date = \Carbon\Carbon::parse($date);
+		$query2 = \App\Model\TrainerRecurringSchedule::where('status',NULL)
+                ->where('dow',$date->dayOfWeek)
+                ->where('time',$time)
+                ->where('trainer_id',$trainer_id)->first();
+                // ->groupBy('trainer_id');
+
+        if($query2){
+        	return $query2;
+        }
+	    
+	   return 'not_found';   
+}
+
 function getTime($trainer_id,$date){	
 
 	$count = 0;
@@ -866,12 +909,12 @@ function getTime($trainer_id,$date){
                         )
                     ->where('status',NULL)
                     ->whereDate('date',$date)
-                    ->where('trainer_id',$trainer_id)
-                    ->groupBy('trainer_id');
+                    ->where('trainer_id',$trainer_id);
+                    // ->groupBy('trainer_id');
 
 
          $schedule= $query->get();
-
+// dd($schedule);
     	if(isset($schedule)){
         	foreach($schedule as $key=>$vals){
         		$trainerSorted[$count]= $vals->trainer_id;
@@ -893,7 +936,8 @@ function getTime($trainer_id,$date){
 		$date = \Carbon\Carbon::parse($date);
 		$query2 = \App\Model\TrainerRecurringSchedule::where('status',NULL)
                 ->where('dow',$date->dayOfWeek)
-                ->groupBy('trainer_id');
+                ->where('trainer_id',$trainer_id);
+                // ->groupBy('trainer_id');
 
         $recurring = $query2->get();
 
@@ -921,9 +965,39 @@ function getTime($trainer_id,$date){
 		$data = null;
 	        
         $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
-
          return $data;
         
+}
+function checkTimeExist($time_array,$key){
+
+    $val = array_search($key, array_column($time_array, 'time'));
+    if($val > -1){
+    	return $val;
+    }
+    return false;
+}
+function checkIsoccupied($time_array,$key){
+    $val = array_search($key, array_column($time_array, 'is_occupied'));
+    
+    if($val != false){
+
+    	return true;
+    }
+    return false;
+}
+function array_key_exists_r($needle, $haystack)
+{
+    $result = array_key_exists($needle, $haystack);
+    if ($result) return $result;
+    foreach ($haystack as $v) {
+        if (is_array($v)) {
+            $result = array_key_exists_r($needle, $v);
+        }
+        if ($result) return $result;
+    }
+
+    dd($result->toArray());
+    return $result;
 }
 
 ?>
