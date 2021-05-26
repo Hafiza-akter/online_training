@@ -56,7 +56,7 @@
                         @if($instructions)
                         @foreach($instructions as $key=>$val)
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckboxss_{{ $key }}" name="instructions[]" value="{{ $val->name}}" {{ isset($$request->instructions) && in_array($val->name,$request->instructions ) ? 'checked' :''}}>
+                            <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckboxss_{{ $key }}" name="instructions[]" value="{{ $val->name}}" {{ isset($request->instructions) && in_array($val->name,$request->instructions ) ? 'checked' :''}}>
                             <label class="form-check-label" for="inlineCheckboxss_{{ $key }}"> {{$val->name }}</label>
                         </div>
                         @endforeach
