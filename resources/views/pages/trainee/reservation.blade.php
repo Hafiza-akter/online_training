@@ -46,7 +46,21 @@
   .fc-daygrid-more-link{
     display:none;
   }
+.radios .radio {
+    background-color: #c5e043;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+}
 
+.radios input[type=radio] {
+    display: none;
+}
+
+.radios input[type=radio]:checked + .radio {
+    background-color: #241009;
+}
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
@@ -59,24 +73,28 @@
         <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
         @endif
         @php
-            $param1=encryptionValue(['sorting' => 'favourite']);
-            $param2=encryptionValue(['sorting' => 'history']);
-            $param3=encryptionValue(['sorting' => 'recommended']);
-            $param4=encryptionValue(['sorting' => '00:00:00-06:00:00']);
-            $param5=encryptionValue(['sorting' => '06:00:00-12:00:00']);
-            $param6=encryptionValue(['sorting' => '12:00:00-18:00:00']);
-            $param7=encryptionValue(['sorting' => '18:00:00-24:00:00']);
+            // $param1=encryptionValue(['sorting' => 'favourite']);
+            // $param2=encryptionValue(['sorting' => 'history']);
+            // $param3=encryptionValue(['sorting' => 'recommended']);
+            // $param4=encryptionValue(['sorting' => '00:00:00-06:00:00']);
+            // $param5=encryptionValue(['sorting' => '06:00:00-12:00:00']);
+            // $param6=encryptionValue(['sorting' => '12:00:00-18:00:00']);
+            // $param7=encryptionValue(['sorting' => '18:00:00-24:00:00']);   
 
-            // $urlArray = explode('reservation/', url()->previous()) ;
-            // print_r($urlArray);
-            // if(isset($urlArray[1])){
-            //   $param = dycryptionValue($urlArray[1]);
-            //   $parm = $param['sorting'];
-            //   echo $parm;
-            // }
+            $param1= 'favourite';
+            $param2= 'history';
+            $param3= 'recommended';
+            $param4= '00:00:00-06:00:00';
+            $param5= '06:00:00-12:00:00';
+            $param6= '12:00:00-18:00:00';
+            $param7= '18:00:00-24:00:00';
+
+        
         @endphp
 <div class="row content-justify-center ">
-  <div class="col mb-3">
+
+
+  {{-- <div class="col mb-3">
     <a  href="{{ route('sorting',$param1)}}" class="sorting-button p-3 {{ !empty($sorting) &&  $sorting == 'favourite' ? 'active-sorting' : ''}}  "> お気に入り </a>
   </div>
 
@@ -86,26 +104,45 @@
 
   <div class="col">
       <a  href="{{ route('sorting',$param3)}}" class="sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> 勧める </a>
+  </div> --}}
+
+  <div class="col mb-3" >
+    <p   data-sort="{{ $param1 }}"  style="cursor: pointer" class=" sort sorting-button p-3 {{ !empty($sorting) &&  $sorting == 'favourite' ? 'active-sorting' : ''}}  "> お気に入り </p>
+  </div>
+
+  <div class="col" >
+      <p  data-sort="{{ $param2 }}" style="cursor: pointer" class=" sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'history' ? 'active-sorting' : ''}} "> 歴史 </p>
+  </div>
+
+  <div class="col" >
+      <p  data-sort="{{ $param3 }}" style="cursor: pointer" class=" sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> 勧める </p>
   </div>
 </div>
 
 <div class="row content-justify-center ">
   <div class="col">
-    <a  href="{{ route('sorting',$param4)}}" class="sorting-button {{ !empty($sorting) &&  $sorting == '00:00:00-06:00:00' ? 'active-sorting' : ''}} "> 0.00 - 6.00 </a>
+    <p  data-sort="{{ $param4 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '00:00:00-06:00:00' ? 'active-sorting' : ''}} "> 0.00 - 6.00 </p>
   </div>
 
-  <div class="col">
-      <a  href="{{ route('sorting',$param5)}}" class="sorting-button {{ !empty($sorting) &&  $sorting == '06:00:00-12:00:00' ? 'active-sorting' : ''}}"> 6.00 - 12.00  </a>
+  <div class="col" >
+      <p  data-sort="{{ $param5 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '06:00:00-12:00:00' ? 'active-sorting' : ''}}"> 6.00 - 12.00  </p>
   </div>
 
-  <div class="col">
-      <a  href="{{ route('sorting',$param6)}}" class="sorting-button {{ !empty($sorting) &&  $sorting == '12:00:00-18:00:00' ? 'active-sorting' : ''}}"> 12.00 - 18.00 </a>
+  <div class="col" >
+      <p   data-sort="{{ $param6 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '12:00:00-18:00:00' ? 'active-sorting' : ''}}"> 12.00 - 18.00 </p>
   </div>
-    <div class="col">
-      <a  href="{{ route('sorting',$param7)}}" class="sorting-button {{ !empty($sorting) &&  $sorting == '18:00:00-24:00:00' ? 'active-sorting' : ''}}"> 18.00 - 24.00 </a>
+    <div class="col" >
+      <p   data-sort="{{ $param7 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '18:00:00-24:00:00' ? 'active-sorting' : ''}}"> 18.00 - 24.00 </p>
   </div>
 </div>
-  
+<form action="{{route('sorting')}}" method="post" id="sortform">
+      {{ csrf_field() }}
+
+  <input type="hidden" name="sorting" id="active_sort" value="{{ isset($sorting) &&  $sorting ? $sorting : ''}}">
+  <input type="hidden" name="sorting2" id="active_sort2" value="{{ isset($sorting2) &&  $sorting2 ? $sorting2 :''}}">
+
+</form>
+
   <form action="{{route('traineeCalendar.submit')}}" method="post" id="dateform">
       {{ csrf_field() }}
 
@@ -165,7 +202,7 @@
       },
 
       eventContent: function(arg) {
-        console.log(arg.event.extendedProps);
+        // console.log(arg.event.extendedProps);
         return {
           html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.trainer_id+'" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
         }
@@ -214,5 +251,44 @@
 
   //   }
   // ]
+  $(".sort").click(function(){
+
+    $('.sort')
+    .removeClass("active-sorting");
+
+    $(this)
+    .addClass('active-sorting');
+
+    let string="";
+    string=$(this)
+    .attr('data-sort');
+
+
+    $('#active_sort').val();
+    $('#active_sort').val(string);
+
+      // var d = $('.mumu').map((_,el) => el.value).get();
+      // console.log(d);
+      $("#sortform").submit();
+  });
+
+  $(".sort2").click(function(){
+
+    $('.sort2')
+    .removeClass("active-sorting");
+
+    $(this)
+    .addClass('active-sorting');
+
+    let string="";
+    string=$(this)
+    .attr('data-sort');
+
+    $('#active_sort2').val();
+    $('#active_sort2').val(string);
+    $("#sortform").submit();
+
+  });
+
 </script>
 @endsection

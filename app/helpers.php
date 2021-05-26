@@ -343,8 +343,8 @@ function number_formate($data){
  }
  function checkMultipleSchedule($date,$time){
  	 	$schedule = \App\Model\TrainerSchedule::whereDate('date',$date)
- 	 				// ->where('time',$time)
- 	 				->where('user_id',Session::get('user.id'))
+ 	 				->where('time',$time)
+ 	 				// ->where('user_id',Session::get('user.id'))
  	 				->where('is_occupied',1)->first();
 
  	 	if($schedule ){
@@ -562,9 +562,9 @@ function getTrainerList(){
 	            	foreach($schedule as $key=>$vals){
 
 	            		$periodArray[$count] = array(
-	            			// 'display' => 'list-item',
+	            			// 'display' => 'background',
 	            			'allDay' => true,
-	            			'color' => 'transparent',
+	            			'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
 							'start' =>  $vals->day, // purchase plan start day
 							'extendedProps' => array(
 								// 'type' =>  'normal',
@@ -633,7 +633,7 @@ function getTrainerList(){
         
 }
 
-function getSortedTrainerList($param){	
+function getSortedTrainerList($param,$param2){	
 
 
 	$purchasePlan = activePurchasePlan(Session::get('user.id'));
@@ -669,16 +669,16 @@ function getSortedTrainerList($param){
          }
          
          
-         if($param == '00:00:00-06:00:00'){
+         if($param2 == '00:00:00-06:00:00'){
          	$query->whereBetween('time', ['00:00:00','06:00:00']);
          }
-         if($param == '06:00:00-12:00:00'){
+         if($param2 == '06:00:00-12:00:00'){
          	$query->whereBetween('time', ['06:00:00','12:00:00']);
          }
-         if($param == '12:00:00-18:00:00'){
+         if($param2 == '12:00:00-18:00:00'){
          	$query->whereBetween('time', ['12:00:00','18:00:00']);
          }
-         if($param == '18:00:00-24:00:00'){
+         if($param2 == '18:00:00-24:00:00'){
          	$query->whereBetween('time', ['18:00:00','24:00:00']);
          }
 
@@ -690,14 +690,14 @@ function getSortedTrainerList($param){
 	            		$trainerSorted[$count]= $vals->trainer_id;
 	            		$periodArray[$count] = array(
 
-	            			// 'display' => 'list-item',
+	            			// 'display' => 'background',
 	            			'allDay' => true,
-	            			'color' => 'transparent',
+	            			'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
 							'start' =>  $vals->day, // purchase plan start day
 							'extendedProps' => array(
-								'type' =>  'normal',
+								// 'type' =>  'normal',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
-	                            'type' => 'recurring',
+	                            // 'type' => 'recurring',
 								'trainer_id' =>  $vals->trainer_id
 	                            
 							)
@@ -757,12 +757,12 @@ if($param == 'recommended'){
 	            	foreach($recurring as $key=>$vals){
 
 	            		$periodArray[$count] = array(
-	            			// 'display' => 'list-item',
+	            			// 'display' => 'background',
 	            			'allDay' => true,
 	            			'color' => 'transparent',
 							'start' =>  $date->format('Y-m-d'), // purchase plan start day
 							'extendedProps' => array(
-								'type' =>  'recurring',
+								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id
 	                            
@@ -821,13 +821,36 @@ function getTrainerListByDate($param){
 
 	        		$trainerSorted[$count]= $vals->trainer_id;
 
-	        		$periodArray[$count] = array(
+	     //    		$periodArray[$count] = array(
 
-						'imageurl'=>  getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
-						'trainer_id' =>  $vals->trainer_id,
-						'name' =>  getTrainer($vals->trainer_id)->first_name,
-						'instructions' =>  getTrainer($vals->trainer_id)->instructions
-	        		);
+						// 'imageurl'=>  getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
+						// 'trainer_id' =>  $vals->trainer_id,
+						// 'name' =>  getTrainer($vals->trainer_id)->first_name,
+						// 'instructions' =>  getTrainer($vals->trainer_id)->instructions
+	     //    		);
+
+	        		$periodArray[$count] = array(
+	        				// for time view slot
+							'imagesurl'=>  getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
+							'trainer_id' =>  $vals->trainer_id,
+							'name' =>  getTrainer($vals->trainer_id)->first_name,
+							'instructions' =>  getTrainer($vals->trainer_id)->instructions,
+	        				// for time view slot
+
+	            			// 'display' => 'background',
+	            			'allDay' => true,
+	            			'color' => 'transparent',
+	            			// 'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
+							'start' =>  $vals->day, // purchase plan start day
+							'extendedProps' => array(
+								// 'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
+								// 'type' =>  'normal',
+								'imageurl'=> getTrainerImage($vals->trainer_id),
+	                            // 'type' => 'recurring',
+								'trainer_id' =>  $vals->trainer_id
+	                            
+							)
+	            		);
 					$count++;
         		}
         	}
@@ -847,14 +870,26 @@ function getTrainerListByDate($param){
         if(isset($recurring)){
         	foreach($recurring as $key=>$vals){
         		if($vals->trainer_id){
+        			
+
         			$periodArray[$count] = array(
-					// 'display' => 'list-item',
-					'imageurl'=> getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
-					'trainer_id' =>  $vals->trainer_id,
-					'name' =>  getTrainer($vals->trainer_id)? getTrainer($vals->trainer_id)->first_name : NULL,
-					'instructions' => getTrainer($vals->trainer_id) ?  getTrainer($vals->trainer_id)->instructions : NULL
- 
-        			);
+        					 // for time view slot
+							'imagesurl'=> getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
+							'trainer_id' =>  $vals->trainer_id,
+							'name' =>  getTrainer($vals->trainer_id)? getTrainer($vals->trainer_id)->first_name : NULL,
+							'instructions' => getTrainer($vals->trainer_id) ?  getTrainer($vals->trainer_id)->instructions : NULL,
+        					 // for time view slot
+	            			// 'display' => 'background',
+	            			'allDay' => true,
+	            			'color' => 'transparent',
+							'start' =>  $param, // purchase plan start day
+							'extendedProps' => array(
+								// 'type' =>  'recurring',
+								'imageurl'=> getTrainerImage($vals->trainer_id),
+								'trainer_id' =>  $vals->trainer_id
+	                            
+							)
+	            		);
 					$count++;
         		}
         		

@@ -436,10 +436,10 @@ class TraineeController extends Controller
                return redirect()->back()
                     ->with('errors_m','選択されえ日付はプランの購入日~終了日の範囲外です。');
         }
-        if($rval == 'count_exceed'){
-            return redirect()->back()
-            ->with('errors_m','プラン制限を超えました');
-        }
+        // if($rval == 'count_exceed'){
+        //     return redirect()->back()
+        //     ->with('errors_m','プラン制限を超えました');
+        // }
          
 
         // end date selection conditions //
@@ -813,22 +813,39 @@ class TraineeController extends Controller
     // }
 
     public function scheduleSubmit(Request $request){
-        if(checkMultipleSchedule($request->db_date,$request->start_time)){
-            return response()->json([
-                'message' => 'error_multiple_date',
-                'type' => 'error'
-            ], 400);
-        }
-        if(checkPastDate($request->db_date)){
-            return redirect()->route('traineeCalendar.view')
-            ->with('errors_m','スケジュールされた日時が過ぎています。');
-        }
-        if(checkPastTIme(Carbon::parse($request->start_time)->format('H:i:s'),$request->db_date)){
-                return redirect()->route('traineeCalendar.view')
-                 ->with('errors_m','スケジュールされた日時が過ぎています。');
-        }
+        // dd($request->all());
+        // if(checkMultipleSchedule($request->db_date,$request->start_time)){
+        //     return response()->json([
+        //         'message' => 'error_multiple_date',
+        //         'type' => 'error'
+        //     ], 400);
+        // }
+        // if(checkPastDate($request->db_date)){
+        //     return redirect()->route('traineeCalendar.view')
+        //     ->with('errors_m','スケジュールされた日時が過ぎています。');
+        // }
+        // if(checkPastTIme(Carbon::parse($request->start_time)->format('H:i:s'),$request->db_date)){
+        //         return redirect()->route('traineeCalendar.view')
+        //          ->with('errors_m','スケジュールされた日時が過ぎています。');
+        // }
 
         if($request->type == 'reschedule'){
+
+            if(checkMultipleSchedule($request->db_date,$request->start_time)){
+           
+                return redirect()->route('traineeCalendar.view')
+                ->with('errors_m','Already occupied');
+            }
+
+            if(checkPastTIme(Carbon::parse($request->start_time)->format('H:i:s'),$request->db_date)){
+                return redirect()->route('traineeCalendar.view')
+                 ->with('errors_m','スケジュールされた日時が過ぎています。');
+            }
+
+            if(checkPastDate($request->db_date)){
+                return redirect()->route('traineeCalendar.view')
+                ->with('errors_m','スケジュールされた日時が過ぎています。');
+            }
 
             if(checkLimitValidation($request->db_start_time,$request->db_date)){
                 return redirect()->route('traineeCalendar.view')

@@ -3,11 +3,50 @@
 @section('header_css_js')
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"/>
-
+<link href='{{ asset('asset_v2/css/fullcalendar_main.min.css')}}' rel='stylesheet' />
+<script src='{{ asset('asset_v2/js/fullcalendar_main.min.js')}}'></script>
 @endsection
 @section('content')
 
 <style>
+.table td,
+  .table th {
+    border: none !important;
+  }
+  .fc-theme-standard td{
+    background: #fff;
+  }
+  .fc-myCustomButton-button{
+    background: none !important;
+    color: #056fb8 !important;
+    border: 1px solid #056fb8 !important;
+  }
+  .fc .fc-bg-event{
+    opacity: 1 !important;
+  }
+  .disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+ .tblue{
+    background: blue !important;
+    opacity: 1 !important;
+    color:white !important;
+    border: 1px solid #ddd;
+  }
+  .tred{
+    background: red !important;
+    color:white !important;
+
+  }
+  .green{
+    background: green !important;
+    color:white !important;
+  }
+  .fc-daygrid-event-harness{display:inline-flex; }
+  .fc-daygrid-more-link{
+    display:none;
+  }
   .table td,
   .table th {
     border: none !important;
@@ -79,6 +118,8 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
+
+
     <form action="{{route('trainerSubmitBytime')}}" method="post" id="dateform" style="display: inline-block;">
         {{ csrf_field() }}
         <input type="hidden" name="trainer_id" id="trainer_id">
@@ -86,9 +127,15 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
         <input type="hidden" name="time" id="time">
     </form>
   <div class="container my-4">
-   
+      <div id='calendar'></div>
+  <input type="hidden" id="schedule" value="{{ json_encode($data,true)}}">
+  <input type="hidden" id="date_value" value="{{ $date }}">
+
+
         <div class="row justify-content-center">
           <div class="container">
+
+
             <div class="parent">
 
               <div class="div1 timeboxd">
@@ -106,9 +153,9 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
                 <div class="div{{ $i}} text-center imgd">
                   <input type="hidden" value="{{ 'trainer_id:'.$val['trainer_id'] }}">
                     
-                   @if($val['imageurl'] != NULL)
+                   @if($val['imagesurl'] != NULL)
 
-                      <img  style="width:200px" src="{{asset('images').'/'.$val['imageurl']}}" style="height: 200;width: 200" />
+                      <img  style="width:200px" src="{{asset('images').'/'.$val['imagesurl']}}" style="height: 200;width: 200" />
                     @else 
 
                       <img src="{{asset('images/user-thumb.jpg')}}" style="height: 200;width: 200">
@@ -176,18 +223,87 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 @endsection
 
 @section('footer_css_js')
-<script>
-//   function assignValue(d){
+<script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 
-// $('h3').attr(
-//   'class',
-//   $('element').attr('class').replace(/\bclass-\d+\b/g, '')
-// );
-//     $('#'+d).addClass('red-background');
-//     console.log(d);
-//     $("#schedule_info").val('');
-//     $("#schedule_info").val(d);
-//   }
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var dateData = JSON.parse($(schedule).val());
+    // var trainingDay = JSON.parse($('#trainingDay').val());
+    // var datePlan = $('#datePlan').val();
+
+
+    console.log(dateData);
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      selectable: false,
+      showNonCurrentDates: false,
+      fixedWeekCount:false,            
+      dayMaxEvents:4,
+      firstDay: 0,
+      initialDate: $("#date_value").val(),
+
+       customButtons: {
+        myCustomButton: {
+          text: 'トレーナー一覧',
+          click: function() {
+             window.location.href ='{{ route('reservation') }}';
+          }
+        }
+      },
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      eventDidMount: function(info) {
+
+
+          if( info.event.extendedProps.type === 'disabled'){
+           info.el.disabled = "true";
+        }
+   
+      },
+
+      eventContent: function(arg) {
+        // console.log(arg.event.extendedProps);
+        return {
+          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.trainer_id+'" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
+        }
+      },
+      eventClick:function(info){
+        console.log('hello me');
+
+      },
+      dateClick: function(info) {
+        $("#selected_date").val('');
+        $("#selected_date").val(info.dateStr);
+        console.log(info);
+        $('#dateform').submit();
+     
+      },
+      // select: function(info) {
+      //   // alert('selected ' + info.startStr + ' to ' + info.endStr);
+      // },
+      eventDidMount: function(info){
+        // console.log(info);
+          info.el.setAttribute("data-type",info.event.extendedProps.type );
+          // info.el.setAttribute("class",'tblue' );
+
+  
+
+
+      },
+
+      select: function (start, end, jsEvent, view) {
+            
+          
+        },
+
+      events: dateData
+    });
+    calendar.setOption('locale', 'ja');
+    calendar.render();
+  });
 $(".blue").click(function(){
   let trainer_id = $(this).attr("data-trainer"); 
   let time = $(this).attr("data-time");

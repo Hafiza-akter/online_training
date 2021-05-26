@@ -39,14 +39,20 @@ class ReservationController extends Controller
     }
 
     public function sorting(Request $request){
-        $isActive = "schedule";
-        $param = dycryptionValue($request->sorting);
-        $sorting = $param['sorting'];
 
-        $returnVal = getSortedTrainerList($sorting);
+        // dd($request->sorting);
+        $isActive = "schedule";
+        // $param = dycryptionValue($request->sorting);
+        // dd($param);
+        // $sorting = $param['sorting'];
+        $sorting=$request->sorting;
+        $sorting2=$request->sorting2;
+
+        $returnVal = getSortedTrainerList($sorting,$sorting2);
 
         return view('pages.trainee.reservation')
             ->with('sorting',$sorting)
+            ->with('sorting2',$sorting2)
             ->with('isActive',$isActive)
             ->with('schedule',json_encode($returnVal,true));
     }
