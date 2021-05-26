@@ -988,8 +988,11 @@ class TraineeController extends Controller
         if($request->sex == 'both'){
             $query->whereIn('sex',['male','female']);
         }
-        if($request->instructions){
-            $query->where('instructions', 'like', '%' . $request->instructions . '%');
+        if(isset($request->instructions)){
+            $var=$request->instructions;
+            foreach($var as $name){
+               $query->Where('instructions', 'like', '%' . $name . '%');
+            }
         }
         $trainerList=$query->get();
 

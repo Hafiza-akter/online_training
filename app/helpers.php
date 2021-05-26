@@ -506,6 +506,18 @@ function evaluationValue($ratings_id,$input_ratings_id){
    		->where('input_ratings_id',$input_ratings_id)->first();
 
 }
+function evalInitial($array,$id){
+	if($array){
+      foreach ($array as $key => $value) {
+        # code...
+        if($key == $id){
+            return $value;
+        }
+      }
+    }
+   return "0";
+}
+
 function dateIsnotPast($date){
 	$isToday=\Carbon\Carbon::parse($date)->isToday();
     $isPast=\Carbon\Carbon::parse($date)->isPast();

@@ -66,6 +66,14 @@
             $param5=encryptionValue(['sorting' => '06:00:00-12:00:00']);
             $param6=encryptionValue(['sorting' => '12:00:00-18:00:00']);
             $param7=encryptionValue(['sorting' => '18:00:00-24:00:00']);
+
+            // $urlArray = explode('reservation/', url()->previous()) ;
+            // print_r($urlArray);
+            // if(isset($urlArray[1])){
+            //   $param = dycryptionValue($urlArray[1]);
+            //   $parm = $param['sorting'];
+            //   echo $parm;
+            // }
         @endphp
 <div class="row content-justify-center ">
   <div class="col mb-3">

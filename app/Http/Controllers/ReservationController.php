@@ -55,9 +55,6 @@ class ReservationController extends Controller
     public function reservationBydate(Request $request){
         $isActive = "schedule";
         $data = getTrainerListByDate($request->date);
-        if(count($data) > 4){
-
-        }
         $date=$request->date;
         return view('pages.trainee.reservationbydate')
             ->with('data',$data)

@@ -56,8 +56,8 @@
                         @if($instructions)
                         @foreach($instructions as $key=>$val)
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" style="transform: scale(1.5)" type="radio" id="inlineCheckboxss_{{ $key }}" name="instructions" value="{{ $val->name}}" {{ isset($request) && $request->instructions == $val->name ? 'checked' :''}}>
-                            <label class="form-check-label" for="inlineCheckboxss_{{ $key }}"> {!! $val->name !!}</label>
+                            <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckboxss_{{ $key }}" name="instructions[]" value="{{ $val->name}}" {{ isset($$request->instructions) && in_array($val->name,$request->instructions ) ? 'checked' :''}}>
+                            <label class="form-check-label" for="inlineCheckboxss_{{ $key }}"> {{$val->name }}</label>
                         </div>
                         @endforeach
                         @endif
@@ -80,6 +80,7 @@
             @foreach($trainerList as $val)
                 <div class="col-md-4">
                     <div class="card m-2">
+                        <a href="{{ route('trainerDetails',$val->id)}} ">
                       <div class="card-body">
                          @if($val->photo_path != NULL)
                         <img class=""  src="{{asset('images').'/'.$val->photo_path}}"  style="width:250px;height: 200px">
@@ -99,6 +100,7 @@
                           <h4 style="color:#c30f23">{!! $string ?? '&nbsp;' !!}</h4>
                        
                       </div>
+                  </a>
                     </div>
 
                                  

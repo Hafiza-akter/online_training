@@ -458,7 +458,10 @@ class TrainerController extends Controller
             if(isset($request->career)){
                 $trainer->career=serialize($request->career);
             }
-            
+             $evaluation = json_decode($request->total,true);
+            if(isset($evaluation)){
+                $trainer->self_evaluation = $evaluation;
+            }
             if($trainer->save()){
                 //  EVENT TRIGGERED
                 // NOW SAVE DATA TO TBL_USER_HISTORY TABLE
