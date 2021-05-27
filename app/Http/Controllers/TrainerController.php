@@ -418,6 +418,7 @@ class TrainerController extends Controller
 
             'first_name' => 'required',
             'image' => 'max:5120',
+            'sex' => 'required',
 
             // 'fat' => 'required',
         ]);

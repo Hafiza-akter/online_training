@@ -245,6 +245,8 @@ class SignupController extends Controller
             'email' => 'required',
             'first_name' => 'required|max:150',
             'password' => 'required|confirmed|min:6',
+            'sex' => 'required',
+            
         ]);
 
         $date= new DateTime();
