@@ -26,7 +26,7 @@
           </div>
       </div>
     </div>
-        <div class="offset-sm-2 col-sm-8 mb-4">
+        <div class="offset-sm-1 col-sm-10 mb-4">
           <div class="card card-info">
             <div class="card-header">
                   {{-- Add more information --}}
@@ -54,18 +54,18 @@
                         <label class="col-form-label _first_name_">名字 <span style="color:red">*</span> </label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="first_name" class="form-control" value="{{ old('first_name')}}">
+                        <input type="text" name="first_name" class="form-control" value="{{ old('first_name')}}" required="required">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-4">
-                          <label class="col-form-label sex">性別</label>
+                          <label class="col-form-label sex">性別 <span style="color:red">*</span> </label>
                         </div>
                          <div class="col-8">
-                            <select class="form-control" name="sex">
+                            <select class="form-control" name="sex" required="required">
                                 {{-- 1 male, 0 女性  --}}
-                                <option value=""> 性別をお選びください</option> 
+                                <option value="" > 性別をお選びください  </option> 
                                 <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
                                 <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
 
@@ -313,7 +313,7 @@
                     </div>
                     @endif 
 
-                    
+
                      <div class="row pt-3 pb-3">
                         <h4 class="mx-auto">自己評価</h4>
                     </div>
