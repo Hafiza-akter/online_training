@@ -463,16 +463,33 @@ function radarLabel($trainer_id){
  	 		]
 		);
 // )
-	// dd($returnArray);
 	return json_encode($array,true);
 }
 function getAvgValue($trainer_id,$input_id){
-	$data = \App\Model\TrainerEvaluationRatings::where('trainer_id',$trainer_id)
-   		->where('input_ratings_id',$input_id)
-   		->groupBy('input_ratings_id')
-    	->avg('input_ratings_value');
-
+	$count=0;
+	$find_trainer = \App\Model\TrainerEvaluationRatings::where('trainer_id',$trainer_id)->first();
+	if(isset($find_trainer)){
+		$data = \App\Model\TrainerEvaluationRatings::where('trainer_id',$trainer_id)
+		   		->where('input_ratings_id',$input_id)
+		   		->groupBy('input_ratings_id')
+		    	->avg('input_ratings_value');
     	return $data;
+
+	}else{
+
+    	$return_arr=array();
+    	$data = \App\Model\Trainer::find($trainer_id);
+
+    	$arr =  json_decode( $data->self_evaluation,true);
+    	
+    	foreach($arr as $key=>$val){
+    		if($key == $input_id){
+    			$return_arr[$count] = $val;
+    			$count++;
+    		}
+    	}
+    	return $return_arr;
+    }
 
 }
 function radarData($trainer_id){
