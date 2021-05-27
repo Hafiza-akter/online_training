@@ -191,7 +191,7 @@
                         <h2 class="mx-auto _prefecture_">都道府県</h2>
                       </div>
                       <div class="row pt-3 pb-3">
-                        <textarea name="prefecture" class="form-control"  rows="3"></textarea>
+                        <textarea name="prefecture" class="form-control"  rows="3">{{ old('prefecture')}}</textarea>
                       </div>
 
                       <div class="row pt-3 pb-3">
@@ -204,7 +204,7 @@
                         <h4 class="mx-auto certification">資格や実績など</h4>
                       </div>
                       <div class="row pt-3 pb-3">
-                        <textarea name="certification" class="form-control" rows="5">{{ old('intro')}}</textarea>
+                        <textarea name="certification" class="form-control" rows="5">{{ old('certification')}}</textarea>
                       </div>
 
                       {{-- <div class="row pt-3 pb-3">
@@ -302,12 +302,28 @@
                             <label class="col-form-label interface">指導分野</label>
                         </div>
                         <div class="col-8">
-
-                          @foreach($instructionSetupData as $val)
+                          @php 
+                          $count=0;
+                          @endphp
+                          @foreach($instructionSetupData as $key=>$val)
+                          @php 
+                              $old="";
+                              if($user->instructions && in_array($val->name,unserialize( $user->instructions))){
+                                $old ='checked';
+                              }   
+                              if(is_array(old('instruction')) && in_array($val->name,old('instruction'))){ 
+                                $old ='checked';
+                              } 
+                          @endphp 
                             <div class="form-check form-check-inline" >
-                                <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckbox_{{ $val->id}}" name="instruction[]" value="{{ $val->name}}" @if($user->instructions && in_array($val->name,unserialize( $user->instructions))) checked @endif>
+                                <input class="form-check-input" style="transform: scale(1.5)" type="checkbox" id="inlineCheckbox_{{ $val->id}}" name="instruction[]" value="{{ $val->name}}"  {{ $old}}>
                                 <label class="form-check-label" for="inlineCheckbox_{{ $val->id}}">{{ $val->name }}</label>
-                              </div>
+                            </div>
+
+                            @php 
+                              $count++;
+                            @endphp
+
                            @endforeach   
                         </div>
                     </div>
@@ -330,14 +346,14 @@
 
                             @php 
                             $eval_value = json_decode( $user->self_evaluation,true);
-
-
+                            $old_val = "ratings_".$val->id;
+                            
                             @endphp
                             <div class="col-8">
                                   <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
                                   data-min="0"
                                   data-max="5"
-                                  data-from="{{ evalInitial($eval_value,$val->id) }}"
+                                  data-from="{{ $eval_value ? evalInitial($eval_value,$val->id) : (old($old_val) ? old($old_val) : 0) }}"
                                   />
                             </div>
                           </div>
