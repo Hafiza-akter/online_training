@@ -482,12 +482,15 @@ function getAvgValue($trainer_id,$input_id){
 
     	$arr =  json_decode( $data->self_evaluation,true);
     	
-    	foreach($arr as $key=>$val){
-    		if($key == $input_id){
-    			$return_arr[$count] = $val;
-    			$count++;
-    		}
+    	if(!empty($arr)){
+    		foreach($arr as $key=>$val){
+	    		if($key == $input_id){
+	    			$return_arr[$count] = $val;
+	    			$count++;
+	    		}
+	    	}
     	}
+    	
     	return $return_arr;
     }
 
