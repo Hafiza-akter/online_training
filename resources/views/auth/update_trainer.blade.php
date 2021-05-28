@@ -353,7 +353,7 @@
                                   <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
                                   data-min="0"
                                   data-max="5"
-                                  data-from="{{ $eval_value ? evalInitial($eval_value,$val->id) : (old($old_val) ? old($old_val) : 0) }}"
+                                  data-from="{{ $eval_value ? evalInitial($eval_value,$val->id) : (old($old_val) ? old($old_val) : 1) }}"
                                   />
                             </div>
                           </div>
@@ -523,8 +523,8 @@
       };
       $(".js-range-slider").ionRangeSlider({
         min: 0,
-        max: 10,
-        from: 5,
+        max: 5,
+        from: 1,
         onStart: function (data) {
             // Called right after range slider instance initialised
     
