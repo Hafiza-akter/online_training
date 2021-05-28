@@ -120,11 +120,13 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 <section class="review_part gray_bg section_padding">
 
 
-    <form action="{{route('trainerSubmitBytime')}}" method="post" id="dateform" style="display: inline-block;">
-        {{ csrf_field() }}
-        <input type="hidden" name="trainer_id" id="trainer_id">
-        <input type="hidden" name="date" value="{{ $date}}">
-        <input type="hidden" name="time" id="time">
+      <form action="{{route('traineeCalendar.submit')}}" method="post" id="dateform">
+      {{ csrf_field() }}
+
+
+      <input type="hidden" name="user_id" value="{{ Session::get('user')->id }}">
+
+      <input type="hidden" name="selected_date" id="selected_date" value="">
     </form>
   <div class="container my-4">
       <div id='calendar'></div>
