@@ -120,7 +120,14 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 <section class="review_part gray_bg section_padding">
 
 
-      <form action="{{route('traineeCalendar.submit')}}" method="post" id="dateform">
+    <form action="{{route('trainerSubmitBytime')}}" method="post" id="timesbmit" style="display: inline-block;">
+        {{ csrf_field() }}
+        <input type="hidden" name="trainer_id" id="trainer_id">
+        <input type="hidden" name="date" value="{{ $date}}">
+        <input type="hidden" name="time" id="time">
+    </form>
+
+     <form action="{{route('traineeCalendar.submit')}}" method="post" id="dateform">
       {{ csrf_field() }}
 
 
@@ -128,6 +135,7 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 
       <input type="hidden" name="selected_date" id="selected_date" value="">
     </form>
+    
   <div class="container my-4">
       <div id='calendar'></div>
   <input type="hidden" id="schedule" value="{{ json_encode($data,true)}}">
@@ -311,7 +319,7 @@ $(".blue").click(function(){
   let time = $(this).attr("data-time");
   $("#trainer_id").val(trainer_id);
   $("#time").val(time);
-  $("#dateform").submit();
+  $("#timesbmit").submit();
 
 });
   $(".hour-list").click(function() {
