@@ -305,8 +305,8 @@ class TrainingController extends Controller
     public function trainerhistory(Request $request){
         $course = Course::where('status',1)->get();
         $body_part=Course::where('status',1)->groupBy('body_part')->get();
-        $user=Trainer::find($request->id);
-        if(!$user){
+        $trainerData=Trainer::find($request->id);
+        if(!$trainerData){
             return redirect()->route('calendar.view','month')->with('errors_m','ユーザーは存在しません');
         }
         // $schedule = TrainerSchedule::find($request->id);
@@ -326,7 +326,7 @@ class TrainingController extends Controller
         return view('pages.trainee.trainer_history')
         ->with('course',$course)
         ->with('userId',$request->id)
-        ->with('user',$user)
+        ->with('trainerData',$trainerData)
         ->with('list',$list)
         ->with('date',$date)
         ->with('body_part',$body_part);
