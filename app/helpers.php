@@ -688,7 +688,10 @@ function getSortedTrainerList($param,$param2){
          	$query->where('user_id', '=', Session::get('user.id'));
          }
          
-         
+        if($param == 'recommended'){
+			$list=trainerRatingsOrder();
+         	$query->whereIn('trainer_id', $list);
+		}
          if($param2 == '00:00:00-06:00:00'){
          	$query->whereBetween('time', ['00:00:00','06:00:00']);
          }
@@ -701,9 +704,7 @@ function getSortedTrainerList($param,$param2){
          if($param2 == '18:00:00-24:00:00'){
          	$query->whereBetween('time', ['18:00:00','24:00:00']);
          }
-
-
-         $schedule= $query->get();
+        $schedule= $query->get();
 
     	if(isset($schedule)){
 	            	foreach($schedule as $key=>$vals){
@@ -725,12 +726,7 @@ function getSortedTrainerList($param,$param2){
 						$count++;
 	            	}
 	            }
-if($param == 'recommended'){
-	    $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
-// dd($data );
-//     return $data;
-	// return $periodArray;
-}
+
 // recurring event //
 		$expiredDate = \Carbon\Carbon::parse($purchasePlan->created_at)
 						->addMonths($purchasePlan->period_month)
@@ -758,6 +754,10 @@ if($param == 'recommended'){
 		         if($param == 'history'){
 		         	$query2->whereIn('trainer_id',$trainerSorted);
 		         }
+		         if($param == 'recommended'){
+					$list=trainerRatingsOrder();
+		         	$query2->whereIn('trainer_id', $list);
+				}
 		         if($param == '00:00:00-06:00:00'){
 		         	$query2->whereBetween('time', ['00:00:00','06:00:00']);
 		         }
@@ -1065,6 +1065,22 @@ function array_key_exists_r($needle, $haystack)
 
     dd($result->toArray());
     return $result;
+}
+function trainerRatingsOrder(){
+	$rearrangeArray=array();
+	$order=\DB::table('tbl_trainer_ratings as r')
+                    ->select(['trainer_id'])
+                    ->groupBy('trainer_id')
+                	->havingRaw('SUM(star_ratings) > ?', [3])
+                    ->get()
+                    ->toArray();
+    if(isset($order)){
+    	foreach ($order as $key => $value) {
+    		$rearrangeArray[$key] = $value->trainer_id;
+    	}
+    }
+
+    return $rearrangeArray;                
 }
 
 ?>
