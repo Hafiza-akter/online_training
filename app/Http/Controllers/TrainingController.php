@@ -22,6 +22,7 @@ use App\Model\User;
 use App\Model\Ratings;
 use App\Model\RatingsSetup;
 use App\Model\TrainerEvaluationRatings;
+use App\Model\Favourite;
 
 
 use DateTime;
@@ -465,31 +466,23 @@ class TrainingController extends Controller
 
     public function favouritetrainer(Request $request){
 
-        $scheduleIdexist=Training::where('trainer_schedule_id',$request->schedule_id)->first();
+       $data = new Favourite();
+       $data->user_id=$request->user_id;
+       $data->trainer_id = $request->trainer_id;
+       $data->save();
 
-        if(!$scheduleIdexist){
-            $training = new Training();
-            $training->trainer_schedule_id=$request->schedule_id;
-            // $training->is_favourite=1;
-            $training->save();
-
-            $training_id = $training->id;
-        }else{
-
-            $training_id = $scheduleIdexist->id;
-        }
-        TrainerSchedule::where('id', $request->schedule_id)->update([
-                'is_favourite' => 1]);
-        return response()->json(array('success' => true,'training_id'=>$training_id));
+        return redirect()->back();
 
     }
     public function removeFavourite(Request $request){
 
        
-        TrainerSchedule::where('id', $request->schedule_id)->update([
-                'is_favourite' => 0]);
-         
-        return response()->json(array('success' => true));
+        $data = Favourite::where('user_id',$request->user_id)
+                ->where('trainer_id',$request->trainer_id)
+                ->first()->delete();
+              
+        return redirect()->back();
+
 
     }
     

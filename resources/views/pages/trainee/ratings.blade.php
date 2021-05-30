@@ -102,7 +102,7 @@
      <div class="row justify-content-center">
        <div id="uploaded_image" style="border:1px solid #eee;padding:10px">
 
-        @if($schedule->is_favourite == 1)
+        @if(is_favourite(Session::get('user.id'),$schedule->trainer_id))
           <i class="fas fa-heart fa-2x"  id="icon_fav"  style="color:red"></i>
         @endif
 
@@ -114,11 +114,26 @@
         
           <p style="text-align: center;font-color:#000;font-size:16px;font-weight: bold;">  {{ $trainer_name }} 様     </p>
           
-          @if($schedule->is_favourite == 1)
-                    <p style="text-align: center;font-color:#000;font-size:16px;font-weight: bold;" class="btn-primary remove_fav mb-3"  > お気に入りリストから削除 </p>
+          @if(!is_favourite(Session::get('user.id'),$trainer_id))
+
+              <form action="{{route('favouritetrainer')}}" method="post" >
+                  {{ csrf_field() }}
+                  <input type="hidden" name="user_id" value="{{ Session::get('user.id') }}">
+                  <input type="hidden" name="trainer_id" value="{{ $schedule->trainer_id }}">
+                  <button type="submit" class="btn border-round btn-primary btn-block" >お気に入りに追加   </button> 
+              </form>
+
+
             @else 
-                    <p style="text-align: center;font-color:#000;font-size:16px;font-weight: bold;" class="btn-primary add_fav mb-3"> お気に入りに追加 </p>.
-          @endif
+
+            <form action="{{route('removeFavourite')}}" method="post" >
+                  {{ csrf_field() }}
+                  <input type="hidden" name="user_id" value="{{ Session::get('user.id') }}">
+                  <input type="hidden" name="trainer_id" value="{{ $schedule->trainer_id }}">
+                  <button type="submit" class="btn border-round btn-primary btn-block " > お気に入りリストから削除 </button> 
+              </form>
+
+            @endif
       
       </div> 
       
@@ -150,7 +165,7 @@
 
                   <div class="col-8">
                         <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
-                        data-min="0"
+                        data-min="1"
                         data-max="5"
                         data-from="{{ $ratings ? (evaluationValue($ratings->id,$val->id)->input_ratings_value ?? 0) : 1 }}"
                         />

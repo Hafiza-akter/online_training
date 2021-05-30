@@ -60,21 +60,7 @@
             </div>
           </div>
                <canvas id="line-chart"  ></canvas>
-
-             
-            </div>
-          </div>
-          <div class="card ">
-
-            <div class="card-body text-left">
-                  @if($trainerData->photo_path != NULL)
-                      <img class="card-img-top"  src="{{asset('images').'/'.$trainerData->photo_path}}" style="width:400px">
-                    @else 
-                      <img class="card-img-top" src="{{asset('images/user-thumb.jpg')}}"   alt="Card image" style="width:400px" >
-                    @endif
-
-
-                    <div class='rating-stars text-left mt-3 mb-2' >
+                <div class='rating-stars text-center mt-4 mb-2' >
                       <ul class='stars'>
                         <li class='star selected'  data-value='1'>
                           <i class='fa fa-star fa-fw'></i> ( {{ totalStar($trainerData->id) }} )
@@ -84,6 +70,44 @@
                        
                       </ul>
                     </div>
+             
+            </div>
+          </div>
+          <div class="card ">
+
+            <div class="card-body text-left">
+              @if(is_favourite(Session::get('user.id'),$trainerData->id))
+                <i class="fas fa-heart fa-2x"  id="icon_fav"  style="position:absolute;color:red"></i>
+              @endif
+              
+                  @if($trainerData->photo_path != NULL)
+                      <img class="card-img-top"  src="{{asset('images').'/'.$trainerData->photo_path}}" style="width:400px">
+                    @else 
+                      <img class="card-img-top" src="{{asset('images/user-thumb.jpg')}}"   alt="Card image" style="width:400px" >
+                    @endif
+
+                @if(!is_favourite(Session::get('user.id'),$trainerData->id))
+
+                  <form action="{{route('favouritetrainer')}}" method="post" >
+                      {{ csrf_field() }}
+                      <input type="hidden" name="user_id" value="{{ Session::get('user.id') }}">
+                      <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
+                      <button type="submit" class="btn border-round btn-primary" >お気に入りリストから削除  </button> 
+                  </form>
+
+
+                @else 
+
+                <form action="{{route('removeFavourite')}}" method="post" >
+                      {{ csrf_field() }}
+                      <input type="hidden" name="user_id" value="{{ Session::get('user.id') }}">
+                      <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
+                      <button type="submit" class="btn border-round btn-primary" >お気に入りに追加  </button> 
+                  </form>
+
+                @endif
+                    <br>
+                    
                     【 指導分野 】<br>
                      @php 
                         $arr=unserialize($trainerData->instructions);
