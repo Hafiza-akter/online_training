@@ -11,6 +11,9 @@
     -webkit-box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08); 
     box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 }
+.btn-border{
+    border: 1px solid #000;
+}
 </style>
 
 @endsection
@@ -29,7 +32,7 @@
                          
             <div class="row mb-3 text-left">
                
-                    <div class="col-6">
+                    <div class="col-5">
                         <label class="col-form-label interface" style="font-size: 20px;font-weight: bold;"> - 性別 - </label>
                         <br>
                         <div class="form-check form-check-inline">
@@ -47,7 +50,7 @@
                         </div>                
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-5">
                         <label class="col-form-label interface" style="font-size: 20px;font-weight: bold;"> - 指導分野 - </label>
                         <br>
                         @php 
@@ -62,6 +65,10 @@
                         @endforeach
                         @endif
                             
+                    </div>
+                    <div class="col-md-2">
+                        <input type="hidden" name="favourite" id="favourite">
+                        <a href="#" class="btn btn-md  btn-outline {{ isset($request) && $request->favourite == 1 ? 'btn-primary' : 'btn-border' }}" onclick="$('#favourite').val(1);$('#dateform').submit();"> 私のお気に入り </a>
                     </div>
                         
                 </div>

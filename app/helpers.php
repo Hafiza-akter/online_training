@@ -703,8 +703,9 @@ function getSortedTrainerList($param,$param2){
                     // ->whereDate('date', '>=',  \Carbon\Carbon::now())
                     ->groupBy('day','trainer_id');
 
-         if($param == 'favourite'){
-         	$query->where('is_favourite', '=', 1);
+         if($param == 'favourite'){         	
+         	$favList = getTrainerFavouriteList();
+            $query->whereIn('trainer_id',$favList);
          }
          if($param == 'history'){
          	$query->where('user_id', '=', Session::get('user.id'));
@@ -771,7 +772,8 @@ function getSortedTrainerList($param,$param2){
 	             // dd($recurring);
 
 	             if($param == 'favourite'){
-		         	$query2->whereIn('trainer_id',$trainerSorted);
+		         	$favList = getTrainerFavouriteList();
+            		$query2->whereIn('trainer_id',$favList);
 		         }
 		         if($param == 'history'){
 		         	$query2->whereIn('trainer_id',$trainerSorted);
@@ -780,16 +782,16 @@ function getSortedTrainerList($param,$param2){
 					$list=trainerRatingsOrder();
 		         	$query2->whereIn('trainer_id', $list);
 				}
-		         if($param == '00:00:00-06:00:00'){
+		         if($param2 == '00:00:00-06:00:00'){
 		         	$query2->whereBetween('time', ['00:00:00','06:00:00']);
 		         }
-		         if($param == '06:00:00-12:00:00'){
+		         if($param2 == '06:00:00-12:00:00'){
 		         	$query2->whereBetween('time', ['06:00:00','12:00:00']);
 		         }
-		         if($param == '12:00:00-18:00:00'){
+		         if($param2 == '12:00:00-18:00:00'){
 		         	$query2->whereBetween('time', ['12:00:00','18:00:00']);
 		         }
-		         if($param == '18:00:00-24:00:00'){
+		         if($param2 == '18:00:00-24:00:00'){
 		         	$query2->whereBetween('time', ['18:00:00','24:00:00']);
 		         }
 
@@ -1113,6 +1115,21 @@ function is_favourite($user_id,$trainer_id){
     	return true;
     }   
     return false;         	
+}
+function getTrainerFavouriteList(){
+	$rearrangeArray=array();
+	$order=\DB::table('tbl_favourite_trainers')
+                    ->select(['trainer_id'])
+                    ->where('user_id',Session::get('user.id'))
+                    ->get()
+                    ->toArray();
+    if(isset($order)){
+    	foreach ($order as $key => $value) {
+    		$rearrangeArray[$key] = $value->trainer_id;
+    	}
+    }
+
+    return $rearrangeArray; 
 }
 
 ?>

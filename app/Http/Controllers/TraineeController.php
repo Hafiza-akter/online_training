@@ -1011,6 +1011,12 @@ class TraineeController extends Controller
                $query->Where('instructions', 'like', '%' . $name . '%');
             }
         }
+        if($request->favourite){
+            $request->sex="";
+            $request->instructions=null;
+            $favList = getTrainerFavouriteList();
+            $query->whereIn('id',$favList);
+        }
         $trainerList=$query->get();
 
         return view('pages.trainee.trainerlist')
