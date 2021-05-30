@@ -136,7 +136,7 @@ const config = {
             callback: function() {return ""},
             beginAtZero: true,
             max: 5,
-            min: 1
+            min: 0
         },
       gridLines: {
         color: 'black'
