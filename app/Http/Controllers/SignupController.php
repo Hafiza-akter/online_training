@@ -243,7 +243,10 @@ class SignupController extends Controller
 
         $validateData = $request->validate([
             'email' => 'required',
+            'first_name' => 'required|max:150',
             'password' => 'required|confirmed|min:6',
+            'sex' => 'required',
+
         ]);
 
         $date= new DateTime();
@@ -279,7 +282,17 @@ class SignupController extends Controller
 
         $trainer->token = \Str::random(60).time();
         $trainer->expired_at = $date->add(new DateInterval('PT24H00S'));
-        
+
+        $trainer->sex = $request->input('sex');
+        $evaluation = json_decode($request->total,true);
+        if(isset($evaluation)){
+            $trainer->self_evaluation = $evaluation;
+        }
+
+        if(isset($request->instruction)){
+                $trainer->instructions=serialize($request->instruction);
+        }
+
         if($trainer->save()){
             //  EVENT TRIGGERED
             // NOW SAVE DATA TO TBL_USER_HISTORY TABLE

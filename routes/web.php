@@ -175,7 +175,7 @@ Route::group(['middleware' => 'checkLogin'], function () {
 	Route::post("/trainee/ratings/submit", "TrainingController@ratingsSubmit")->name(('userRatingsSubmit'));
 
 	Route::get("/trainee/reservation", "ReservationController@index")->name(('reservation'));
-	Route::get("/trainee/reservation/{sorting}", "ReservationController@sorting")->name(('sorting'));
+	Route::match(['GET','POST'],"/trainee/reservation/sorting", "ReservationController@sorting")->name(('sorting'));
 	Route::get("/trainee/datereservation/{date}", "ReservationController@reservationBydate")->name('datereservation');
 
 

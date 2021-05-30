@@ -20,6 +20,11 @@
     color: #056fb8 !important;
     border: 1px solid #056fb8 !important;
   }
+  .fc-myCustomButton2-button{
+    background: none !important;
+    color: #c30f23 !important;
+    border: 1px solid #c30f23 !important;
+  }
   .fc .fc-bg-event{
     opacity: 1 !important;
   }
@@ -202,12 +207,18 @@
           click: function() {
              window.location.href ='{{ route('trainerlist') }}';
           }
+        },
+        myCustomButton2: {
+          text: 'トレーナー一予約',
+          click: function() {
+             window.location.href ='{{ route('reservation') }}';
+          }
         }
       },
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'myCustomButton'
+        right: 'myCustomButton2,myCustomButton'
       },
       eventDidMount: function(info) {
 

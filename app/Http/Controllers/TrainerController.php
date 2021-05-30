@@ -418,6 +418,7 @@ class TrainerController extends Controller
 
             'first_name' => 'required',
             'image' => 'max:5120',
+            'sex' => 'required',
 
             // 'fat' => 'required',
         ]);
@@ -431,7 +432,7 @@ class TrainerController extends Controller
             $trainer->family_phonetic = $request->input('family_phonetic');
             
             $trainer->prefecture = $request->input('prefecture');
-
+            $trainer->sex = $request->input('sex');
             $trainer->address_line = $request->input('address');
             $trainer->zip_code = $request->input('zip_code');
             $trainer->city = $request->input('city');
@@ -458,7 +459,10 @@ class TrainerController extends Controller
             if(isset($request->career)){
                 $trainer->career=serialize($request->career);
             }
-            
+            //  $evaluation = json_decode($request->total,true);
+            // if(isset($evaluation)){
+            //     $trainer->self_evaluation = $evaluation;
+            // }
             if($trainer->save()){
                 //  EVENT TRIGGERED
                 // NOW SAVE DATA TO TBL_USER_HISTORY TABLE

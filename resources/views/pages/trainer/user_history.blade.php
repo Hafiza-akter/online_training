@@ -43,7 +43,7 @@
                     @if($list)
                       @foreach($list as $val)
 
-                        @if(getUserName($val->trainer_schedule_id)->id == $userId)
+                        @if(getUserName($val->trainer_schedule_id) && getUserName($val->trainer_schedule_id)->id == $userId)
                           <tr>
                               <td>{{ date('Y-m-d',strtotime($val->created_at)) }}</td>
                               {{-- <td>{{$val->comment}}</td> --}}

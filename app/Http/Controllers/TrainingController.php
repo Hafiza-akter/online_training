@@ -303,6 +303,7 @@ class TrainingController extends Controller
         ->with('body_part',$body_part);
     }
     public function trainerhistory(Request $request){
+        $trainerData = Trainer::find($request->id);
         $course = Course::where('status',1)->get();
         $body_part=Course::where('status',1)->groupBy('body_part')->get();
         $user=Trainer::find($request->id);
@@ -327,6 +328,8 @@ class TrainingController extends Controller
         ->with('course',$course)
         ->with('userId',$request->id)
         ->with('user',$user)
+        ->with('trainerData',$trainerData)
+        
         ->with('list',$list)
         ->with('date',$date)
         ->with('body_part',$body_part);

@@ -48,7 +48,7 @@
 
 
 
-<div class="offset-sm-2 col-sm-8 mb-4">
+<div class="offset-sm-1 col-sm-10 mb-4">
 
     
 
@@ -86,11 +86,26 @@
 
                     <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _first_name_">名字</label>
+                        <label class="col-form-label _first_name_">名字 <span style="color:red">*</span></label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="first_name" class="form-control" value="{{ $user->first_name }}">
+                        <input type="text" name="first_name" class="form-control" value="{{ $user->first_name }}" required="required">
                       </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                          <label class="col-form-label sex">性別 <span style="color:red">*</span></label>
+                        </div>
+                         <div class="col-8">
+                            <select class="form-control" name="sex" required="required">
+                                {{-- 1 male, 0 女性  --}}
+                                <option value=""> 性別をお選びください</option> 
+                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
+                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
+
+
+                            </select>
+                        </div>
                     </div>
 
                     <div class="row mb-3">
@@ -331,7 +346,7 @@
                           </div>
                           @endforeach
                       @endif 
-                
+                                      
               </div>
               <div class="card-footer">
                       <div class="row pt-3 pb-3">
@@ -543,6 +558,7 @@
 
 
 });
+   
 
 
 
