@@ -70,11 +70,11 @@
   </div>
 
   <div class="col">
-      <a  href="{{ route('sorting',$param2)}}" class="sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'history' ? 'active-sorting' : ''}} "> 歴史 </a>
+      <a  href="{{ route('sorting',$param2)}}" class="sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'history' ? 'active-sorting' : ''}} "> 履歴 </a>
   </div>
 
   <div class="col">
-      <a  href="{{ route('sorting',$param3)}}" class="sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> 勧める </a>
+      <a  href="{{ route('sorting',$param3)}}" class="sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> おすすめ </a>
   </div>
 </div>
 

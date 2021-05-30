@@ -374,7 +374,7 @@
                 error:function(request, status, error) {
                       $('#loading').hide();
 
-                   alert('something went wrong');
+                   alert('エラーが発生しました。');
                     console.log("ajax call went wrong:" + request.responseText);
                 }
             });
@@ -404,7 +404,7 @@ $('.add_fav').click(function(){
            
         },
         error:function(request, status, error) {
-              alert('something went wrong');
+              alert('エラーが発生しました。');
             console.log("ajax call went wrong:" + request.responseText);
         }
      });
@@ -429,7 +429,7 @@ $('.remove_fav').click(function(){
          
       },
       error:function(request, status, error) {
-            alert('something went wrong');
+            alert('エラーが発生しました。');
           console.log("ajax call went wrong:" + request.responseText);
       }
    });
