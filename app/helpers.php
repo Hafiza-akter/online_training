@@ -476,7 +476,7 @@ function getAvgValue($trainer_id,$input_id){
 		    	->avg('input_ratings_value');
 
 		if($data > 1){
-			return $data;  	
+			return (int) $data;  	
 		}else{
 				$return_arr=array();
 		    	$data = \App\Model\Trainer::find($trainer_id);
