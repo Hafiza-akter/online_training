@@ -4,7 +4,6 @@
 @section('header_css_js')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-<link rel="stylesheet" href="{{asset('asset_v2/css/range_slider.css')}}">
 
 @php 
     $param=encryptionValue(['user_id' => $user->id]);
@@ -347,34 +346,7 @@
                           </div>
                           @endforeach
                       @endif 
-                      @php 
-                      $ratingsInput = \App\Model\RatingsSetup::where('status',1)->get();
-                      $trainerEvalData = \App\Model\TrainerEvaluationRatings::where('trainer_id',Session::get('user.id'))->first();
-                    @endphp
-                      @if(isset($ratingsInput) && !$trainerEvalData)
-                        @foreach($ratingsInput as $val)
-                          <div class="row mb-3">
-                            <div class="col-4">
-                              <label class="col-form-label float-left " style="font-size:1.3em;margin-top:10px;font-weight: bold"> {{ $val->name }} </label>
-                            </div>
-
-                            @php 
-                            $eval_value = json_decode( $user->self_evaluation,true);
-
-
-                            @endphp
-                            <div class="col-8">
-                                  <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
-                                  data-min="0"
-                                  data-max="5"
-                                  data-from="{{ evalInitial($eval_value,$val->id) }}"
-                                  />
-                            </div>
-                          </div>
-                        @endforeach
-                      @endif 
-                <input type="hidden" id="total" name="total">
-                
+                                      
               </div>
               <div class="card-footer">
                       <div class="row pt-3 pb-3">
@@ -480,7 +452,6 @@
 <script src="{{asset('asset_v2/js/croppie.min.js')}}"></script>
 
 <link rel="stylesheet" href="{{asset('asset_v2/css/croppie.css')}}">
-<script src="{{asset('asset_v2/js/range_slider.js')}}"></script>
 
 <script>
     $(document).ready(function() {
@@ -587,54 +558,7 @@
 
 
 });
-    function setRatings(val){
-          
-          $("#total").val(val);
-
-      }
-      function updateArray(key,val){
-        ratingsArray[key] = val;
-        $("#total").val('');
-        $("#total").val(JSON.stringify(ratingsArray));
-      }
-
-
-      var ratingsArray = {
-      };
-      $(".js-range-slider").ionRangeSlider({
-        min: 0,
-        max: 10,
-        from: 5,
-        onStart: function (data) {
-            // Called right after range slider instance initialised
-    
-            updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
-          
-        },
-    
-        onChange: function (data) {
-            // Called every time handle position is changed
-            updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
-
-
-        },
-    
-        onFinish: function (data) {
-            // Called then action is done and mouse is released
-    
-            updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
-            // console.log(ratingsArray);
-            //   let total = Object.values(ratingsArray).reduce((t, n) => parseInt(t) + parseInt(n))
-              // setRatings(total);
-            // console.log('On finish '+total);
-        },
-        onUpdate: function (data) {
-            // Called then slider is changed using Update public method
-    
-          console.log.log('update'); 
-
-        }
-    });
+   
 
 
 

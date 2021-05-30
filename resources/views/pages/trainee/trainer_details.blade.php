@@ -133,14 +133,17 @@ const config = {
     },
     scale: {
         ticks: {
-            callback: function() {return ""}
+            callback: function() {return ""},
+            beginAtZero: true,
+            max: 5,
+            min: 1
         },
-      gridLines: {
-        color: 'black'
-      },
-      angleLines: {
-        color: 'black'
-      }
+        gridLines: {
+          color: 'black'
+        },
+        angleLines: {
+          color: 'black'
+        }
     },
     tooltips: {
             callbacks: {

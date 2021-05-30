@@ -133,7 +133,10 @@ const config = {
     },
     scale: {
         ticks: {
-            callback: function() {return ""}
+            callback: function() {return ""},
+            beginAtZero: true,
+            max: 5,
+            min: 1
         },
       gridLines: {
         color: 'black'
