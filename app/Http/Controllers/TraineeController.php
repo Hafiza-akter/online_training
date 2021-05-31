@@ -434,7 +434,7 @@ class TraineeController extends Controller
         }
         if($rval == 'past_future'){
                return redirect()->back()
-                    ->with('errors_m','選択されえ日付はプランの購入日~終了日の範囲外です。');
+                    ->with('errors_m','選択された日付はプランの購入日~終了日の範囲外です。');
         }
         // if($rval == 'count_exceed'){
         //     return redirect()->back()
