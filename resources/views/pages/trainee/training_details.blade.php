@@ -159,6 +159,7 @@
     @php
       $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
       $hour = Carbon\Carbon::parse($schedule->time)->addHours(1)->format('H:i:s');
+      $param=encryptionValue(['schedule_id' => $schedule->id]);
 
       if($hour == "00:00:00"){
         $hour = "24:00:00";
