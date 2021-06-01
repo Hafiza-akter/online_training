@@ -139,6 +139,9 @@
       <input type="hidden" name="user_id" value="{{ Session::get('user')->id }}">
 
       <input type="hidden" name="selected_date" id="selected_date" value="">
+      <input type="hidden" name="sorting"  value="{{ isset($sorting) &&  $sorting ? $sorting : ''}}">
+      <input type="hidden" name="sorting2" value="{{ isset($sorting2) &&  $sorting2 ? $sorting2 :''}}">
+
     </form>
 
   <div id='calendar'></div>
@@ -242,15 +245,26 @@
   // ]
   $(".sort").click(function(){
 
-    $('.sort')
-    .removeClass("active-sorting");
-
-    $(this)
-    .addClass('active-sorting');
-
     let string="";
-    string=$(this)
-    .attr('data-sort');
+    if($(this).hasClass( "active-sorting" )){
+
+      $('.sort')
+      .removeClass("active-sorting");
+
+    }else{
+
+      $(this)
+      .addClass('active-sorting');
+       string=$(this)
+      .attr('data-sort');
+
+    }
+
+    
+
+    
+
+   
 
 
     $('#active_sort').val();
@@ -262,16 +276,23 @@
   });
 
   $(".sort2").click(function(){
-
-    $('.sort2')
-    .removeClass("active-sorting");
-
-    $(this)
-    .addClass('active-sorting');
-
     let string="";
-    string=$(this)
-    .attr('data-sort');
+
+    if($(this).hasClass( "active-sorting" )){
+
+      $('.sort2')
+      .removeClass("active-sorting");
+
+    }else{
+
+      $(this)
+      .addClass('active-sorting');
+       string=$(this)
+      .attr('data-sort');
+
+    }
+
+    
 
     $('#active_sort2').val();
     $('#active_sort2').val(string);

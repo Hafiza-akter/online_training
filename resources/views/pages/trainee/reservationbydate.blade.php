@@ -179,6 +179,8 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
               @endif
  
             </div>
+
+
             @for($i=0;$i<24;$i++)
             <div class="parent">
                 <div class="div1 timeboxd "> 
@@ -196,7 +198,7 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
                     // echo(json_encode($time_array));
                   @endphp
 
-                <div data-trainer="{{$value['trainer_id']}}" data-time="{{$time}}" class="div{{ $k}} boxd {{ $time_array == 'not_found' ?  '' : (isset($time_array->is_occupied) && $time_array->is_occupied == 1 ? 'red' : 'blue') }} "> 
+                <div data-trainer="{{$value['trainer_id']}}" data-time="{{$time}}" class="div{{ $key+2 }} boxd {{ $time_array == 'not_found' ?  '' : (isset($time_array->is_occupied) && $time_array->is_occupied == 1 ? 'red' : 'blue') }} "> 
                      {{-- <p style="color:white">{{ 'trainer_id:'.$value['trainer_id'] }}</p> --}}
                     @if($time_array != 'not_found')
                      {{-- {{ array_key_exists_r($key,$time_array) }} --}}

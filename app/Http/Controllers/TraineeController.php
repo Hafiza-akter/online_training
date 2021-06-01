@@ -555,7 +555,7 @@ class TraineeController extends Controller
 
             }
 
-            return redirect()->route('datereservation',$request->selected_date);
+            return redirect()->route('datereservation',['date'=>$request->selected_date,'sorting'=>$request->sorting,'sorting2'=>$request->sorting2]);
 
             // dd($parsedArray);
             return view('pages.trainee.trainer_new_time')

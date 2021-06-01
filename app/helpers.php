@@ -831,8 +831,7 @@ function getSortedTrainerList($param,$param2){
     return $data;
         
 }
-function getTrainerListByDate($param){	
-
+function getTrainerListByDate($param,$request){	
 
 	$count = 0;
 	$periodArray=array();
@@ -856,7 +855,30 @@ function getTrainerListByDate($param){
                     ->take(4)
                     ->groupBy('day','trainer_id');
 
-
+        if($request->sorting == 'favourite'){         	
+         	$favList = getTrainerFavouriteList();
+            $query->whereIn('trainer_id',$favList);
+         }
+         if($request->sorting == 'history'){
+         	$query->where('user_id', '=', Session::get('user.id'));
+         }
+         
+        if($request->sorting == 'recommended'){
+			$list=trainerRatingsOrder();
+         	$query->whereIn('trainer_id', $list);
+		}
+         if($request->sorting2 == '00:00:00-06:00:00'){
+         	$query->whereBetween('time', ['00:00:00','06:00:00']);
+         }
+         if($request->sorting2 == '06:00:00-12:00:00'){
+         	$query->whereBetween('time', ['06:00:00','12:00:00']);
+         }
+         if($request->sorting2 == '12:00:00-18:00:00'){
+         	$query->whereBetween('time', ['12:00:00','18:00:00']);
+         }
+         if($request->sorting2 == '18:00:00-24:00:00'){
+         	$query->whereBetween('time', ['18:00:00','24:00:00']);
+         }
          $schedule= $query->get();
 
     	if(isset($schedule)){
@@ -909,7 +931,30 @@ function getTrainerListByDate($param){
                 ->where('dow',$date->dayOfWeek)
                 ->take(4)
                 ->groupBy('dow','trainer_id');
-
+        if($request->sorting == 'favourite'){         	
+         	$favList = getTrainerFavouriteList();
+            $query2->whereIn('trainer_id',$favList);
+         }
+         if($request->sorting == 'history'){
+         	$query2->where('user_id', '=', Session::get('user.id'));
+         }
+         
+        if($request->sorting == 'recommended'){
+			$list=trainerRatingsOrder();
+         	$query2->whereIn('trainer_id', $list);
+		}
+         if($request->sorting2 == '00:00:00-06:00:00'){
+         	$query2->whereBetween('time', ['00:00:00','06:00:00']);
+         }
+         if($request->sorting2 == '06:00:00-12:00:00'){
+         	$query2->whereBetween('time', ['06:00:00','12:00:00']);
+         }
+         if($request->sorting2 == '12:00:00-18:00:00'){
+         	$query2->whereBetween('time', ['12:00:00','18:00:00']);
+         }
+         if($request->sorting2 == '18:00:00-24:00:00'){
+         	$query2->whereBetween('time', ['18:00:00','24:00:00']);
+         }
         $recurring = $query2->get();
 
         if(isset($recurring)){
