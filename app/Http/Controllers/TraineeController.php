@@ -433,6 +433,7 @@ class TraineeController extends Controller
             return redirect()->route('traineeCalendar.view')->with('errors_m','はじめにプランを購入してください。');
         }
         if($rval == 'past_future'){
+
                return redirect()->back()
                     ->with('errors_m','選択されえ日付はプランの購入日~終了日の範囲外です。');
         }

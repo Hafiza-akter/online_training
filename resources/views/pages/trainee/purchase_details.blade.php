@@ -166,17 +166,19 @@
         <th scope="col">購入プラン</th>
         <th scope="col">目標</th>
         <th scope="col">目標カロリー</th>
+        <th scope="col">月の期間</th>
         <th scope="col">登録日</th>
       </tr>
     </thead>
     <tbody>
       @if($purchasePlaneList)
         @foreach($purchasePlaneList as $key=>$val)
-          <tr>
+          <tr class="{{ isset($userPurchasePlan) && $userPurchasePlan->id == $val->id ? 'text-primary' : ''}}">
             <th scope="row">{{ ++$key}}</th>
             <td>{{ \App\Model\PlanPurchase::where('id',$val->purchase_plan_id)->get()->first()->name}}</td>
             <td>{{ $val->objective}}</td>
             <td>{{ $val->target_calory_gained}}</td>
+            <td>{{ $val->period_month}}</td>
             <td>{{ $val->created_at}}</td>
           
           

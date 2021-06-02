@@ -137,6 +137,14 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
     </form>
     
   <div class="container my-4">
+    @if(Session::has('message'))
+    <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{!! Session::get('message') !!}</p>
+    @endif
+
+    @if(Session::has('errors_m'))
+    <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
+  @endif
+  
       <div id='calendar'></div>
   <input type="hidden" id="schedule" value="{{ json_encode($data,true)}}">
   <input type="hidden" id="date_value" value="{{ $date }}">
