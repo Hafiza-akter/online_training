@@ -16,7 +16,7 @@ use App\Model\TrainerSchedule;
 use App\Model\UserPlanPurchase;
 use App\Model\PlanPurchase;
 use App\Model\TrainerRecurringSchedule;
-
+use App\Model\Favourite;
 
 use DateTime;
 use DateInterval;
@@ -1013,16 +1013,42 @@ class TraineeController extends Controller
             }
         }
         if($request->favourite){
+
             $request->sex="";
             $request->instructions=null;
             $favList = getTrainerFavouriteList();
             $query->whereIn('id',$favList);
+
+            $trainerList = \DB::table('tbl_trainers')
+            ->leftJoin('tbl_favourite_trainers','tbl_favourite_trainers.trainer_id', '=', 'tbl_trainers.id')
+            ->select('tbl_trainers.*')
+            ->where('tbl_favourite_trainers.user_id',Session::get('user.id'))
+            ->orderBy('tbl_favourite_trainers.serial_order', 'asc')
+            ->get();
+
+        }else{
+            $trainerList=$query->get();
         }
-        $trainerList=$query->get();
 
         return view('pages.trainee.trainerlist')
                 ->with('request',$request)
                 ->with('trainerList',$trainerList);
+    }
+    public function favouritesorting(Request $request){
+
+        if(isset($request->order_list)){
+            $array=$request->order_list;
+            foreach ($array as $key => $value) {
+                Favourite::where('user_id', $request->user_id)
+                        ->where('trainer_id',$value)
+                        ->update([
+                     'serial_order' => $key]);
+            }
+        }
+        return response()->json(array('success' => true));
+
+
+
     }
 
     public function logout(){

@@ -471,8 +471,10 @@ class TrainingController extends Controller
        $data = new Favourite();
        $data->user_id=$request->user_id;
        $data->trainer_id = $request->trainer_id;
+       $data->serial_order = Favourite::where('user_id',$request->user_id)->max('serial_order')+1;
        $data->save();
 
+      
         return redirect()->back();
 
     }
@@ -488,6 +490,6 @@ class TrainingController extends Controller
 
     }
     
-    
+
     
 }

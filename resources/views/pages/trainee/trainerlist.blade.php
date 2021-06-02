@@ -68,7 +68,7 @@
                     </div>
                     <div class="col-md-2">
                         <input type="hidden" name="favourite" id="favourite">
-                        <a href="#" class="btn btn-md  btn-outline {{ isset($request) && $request->favourite == 1 ? 'btn-primary' : 'btn-border' }}" onclick="$('#favourite').val(1);$('#dateform').submit();"> 私のお気に入り </a>
+                        <a href="#" class="btn btn-md  btn-outline {{ isset($request) && $request->favourite == 1 ? 'btn-primary' : 'btn-border' }}" id="button_clicked"> 私のお気に入り </a>
                     </div>
                         
                 </div>
@@ -83,12 +83,15 @@
              
         </div>
 
-        <div class="row text-center">
+        <div class="row text-center " id="{{ isset($request) && $request->favourite == 1 ? 'sortable' : '' }}">
             @foreach($trainerList as $val)
-                <div class="col-md-4">
+                <div class="col-md-4 ui-state-default" id="{{ $val->id}}">
                     <div class="card m-2">
                         <a href="{{ route('trainerDetails',$val->id)}} ">
                       <div class="card-body">
+                         @if(is_favourite(Session::get('user.id'),$val->id))
+                            <i class="fas fa-heart fa-2x"  id="icon_fav"  style="position:absolute;color:red"></i>
+                          @endif
                          @if($val->photo_path != NULL)
                         <img class=""  src="{{asset('images').'/'.$val->photo_path}}"  style="width:250px;height: 200px">
                     @else 
@@ -120,8 +123,59 @@
 </section>
 @endsection
 @section('footer_css_js')
+  {{-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> --}}
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
+    
+    $( function() {
+        $( "#sortable" ).sortable({
+        stop: function(event, ui) {
+          var itemOrder = $('#sortable').sortable("toArray");
+          for (var i = 0; i < itemOrder.length; i++) {
+            console.log("Position: " + i + " ID: " + itemOrder[i]);
+          }
+
+          $.ajax({
+              type: "POST",
+              url: '{{ route('favouritesorting')}}',
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+
+              data: { 'order_list': itemOrder,'user_id':{{Session::get('user.id')}}  },
+              cache: false,
+              success: function(res) {
+             
+                     // wait(3000);
+
+                     // location.reload();
+
+                 
+              },
+              error:function(request, status, error) {
+                    alert('エラーが発生しました。');
+                  console.log("ajax call went wrong:" + request.responseText);
+              }
+           });
+        }
+      });
+
+    });
+
+     $("#button_clicked").click(function(){
+        if($(this).hasClass('btn-primary')){
+            $('#favourite').val('');
+            $('#dateform').submit();
+            $(this).removeClass('btn-primary');
+            $(this).addClass('btn-border');
+        }else{
+            $(this).removeClass('btn-border');
+            $(this).addClass('btn-primary');
+            $('#favourite').val(1);
+            $('#dateform').submit();
+        }
+     });
 
 </script>
 @endsection

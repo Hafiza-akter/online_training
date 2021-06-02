@@ -1167,6 +1167,7 @@ function getTrainerFavouriteList(){
 	$order=\DB::table('tbl_favourite_trainers')
                     ->select(['trainer_id'])
                     ->where('user_id',Session::get('user.id'))
+                    ->orderBy('serial_order','ASC')
                     ->get()
                     ->toArray();
     if(isset($order)){
