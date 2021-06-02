@@ -86,9 +86,9 @@
                       <img class="card-img-top" src="{{asset('images/user-thumb.jpg')}}"   alt="Card image" style="width:400px" >
                     @endif
 
-                @if(!is_favourite(Session::get('user.id'),$trainerData->id))
+                @if(is_favourite(Session::get('user.id'),$trainerData->id))
 
-                  <form action="{{route('favouritetrainer')}}" method="post" >
+                  <form action="{{route('removeFavourite')}}" method="post" >
                       {{ csrf_field() }}
                       <input type="hidden" name="user_id" value="{{ Session::get('user.id') }}">
                       <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
@@ -98,7 +98,7 @@
 
                 @else 
 
-                <form action="{{route('removeFavourite')}}" method="post" >
+                <form action="{{route('favouritetrainer')}}" method="post" >
                       {{ csrf_field() }}
                       <input type="hidden" name="user_id" value="{{ Session::get('user.id') }}">
                       <input type="hidden" name="trainer_id" value="{{ $trainerData->id }}">
