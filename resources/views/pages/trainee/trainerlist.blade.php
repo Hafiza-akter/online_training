@@ -89,7 +89,7 @@
         <div class="row text-center " id="{{ isset($request) && $request->favourite == 1 ? 'sortable' : '' }}">
             
             @foreach($trainerList as $key=>$val)
-                <div class="col-sm-4 col-md-3 ui-state-default" id="{{ $val->id}}">
+                <div class="col-6 col-md-3 ui-state-default" id="{{ $val->id}}">
                     <div class="card m-2">
                         <a href="{{ route('trainerDetails',$val->id)}} ">
                       <div class="card-body">
