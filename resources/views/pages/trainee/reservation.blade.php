@@ -196,7 +196,7 @@
       eventContent: function(arg) {
         // console.log(arg.event.extendedProps);
         return {
-          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.trainer_id+'" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
+          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.name+" ("+arg.event.extendedProps.trainer_id+')" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
         }
       },
       eventClick:function(info){

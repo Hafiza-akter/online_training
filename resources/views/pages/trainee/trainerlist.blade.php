@@ -83,19 +83,28 @@
              
         </div>
 
+    </div>
+     <div class="container col-md-12  my-4" id="meran" style="overflow: overlay">
+
         <div class="row text-center " id="{{ isset($request) && $request->favourite == 1 ? 'sortable' : '' }}">
-            @foreach($trainerList as $val)
-                <div class="col-md-4 ui-state-default" id="{{ $val->id}}">
+            
+            @foreach($trainerList as $key=>$val)
+                <div class="col-sm-4 col-md-3 ui-state-default" id="{{ $val->id}}">
                     <div class="card m-2">
                         <a href="{{ route('trainerDetails',$val->id)}} ">
                       <div class="card-body">
+
+                        @if(isset($request) && $request->favourite == 1 )
+                            <i class="fas fa-box{{ $val->id }} fa-2x"  id="icon_fav"  style="position:absolute;color:red;top:5px;left:5px;font-size: 20px;">{{$key+1}} </i>
+                        @endif
+
                          @if(is_favourite(Session::get('user.id'),$val->id))
-                            <i class="fas fa-heart fa-2x"  id="icon_fav"  style="position:absolute;color:red"></i>
+                            <i class="fas fa-heart fa-2x"  id="icon_fav"  style="position:absolute;color:red;top:5px;right:5px;font-size: 20px;"></i>
                           @endif
                          @if($val->photo_path != NULL)
-                        <img class=""  src="{{asset('images').'/'.$val->photo_path}}"  style="width:250px;height: 200px">
+                        <img class=""  src="{{asset('images').'/'.$val->photo_path}}"  style="width:200px;height: 200px">
                     @else 
-                         <img class="" src="{{asset('images/user-thumb.jpg')}}"   style="width:250px;height: 200px">
+                         <img class="" src="{{asset('images/user-thumb.jpg')}}"   style="width:200px;height: 200px">
 
                     @endif 
                         <h5 class="card-title">{{ $val->first_name ?? '  ' }}</h5>
@@ -118,7 +127,7 @@
         @endforeach
         </div>
 
-</div>
+    </div>
 
 </section>
 @endsection
@@ -132,10 +141,22 @@
 <script>
     
     $( function() {
+
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+
         $( "#sortable" ).sortable({
-        stop: function(event, ui) {
+             // axis: "x",
+             // revert:true,
+             cursor: "move",
+        containmentWith: "#meran",
+        dropOnEmpty: true,
+      
+        update: function(event, ui) {
           var itemOrder = $('#sortable').sortable("toArray");
           for (var i = 0; i < itemOrder.length; i++) {
+            $(".fa-box"+itemOrder[i]).html('');
+            $(".fa-box"+itemOrder[i]).html(i+1);
             console.log("Position: " + i + " ID: " + itemOrder[i]);
           }
 
@@ -161,10 +182,12 @@
                   console.log("ajax call went wrong:" + request.responseText);
               }
            });
+
+            
         }
       });
         // $('#sortable').draggable();
-        $("#sortable").disableSelection();
+        // $("#sortable").disableSelection();
 
     });
 

@@ -613,7 +613,8 @@ function getTrainerList(){
 								// 'type' =>  'normal',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
-								'trainer_id' =>  $vals->trainer_id
+								'trainer_id' =>  $vals->trainer_id,
+								'name' =>  getTrainer($vals->trainer_id)->first_name
 	                            
 							)
 	            		);
@@ -654,7 +655,8 @@ function getTrainerList(){
 							'extendedProps' => array(
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
-								'trainer_id' =>  $vals->trainer_id
+								'trainer_id' =>  $vals->trainer_id,
+								'name' =>  getTrainer($vals->trainer_id)->first_name
 	                            
 							)
 	            		);
@@ -743,7 +745,8 @@ function getSortedTrainerList($param,$param2){
 								// 'type' =>  'normal',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
-								'trainer_id' =>  $vals->trainer_id
+								'trainer_id' =>  $vals->trainer_id,
+								'name' =>  getTrainer($vals->trainer_id)->first_name
 	                            
 							)
 	            		);
@@ -809,7 +812,8 @@ function getSortedTrainerList($param,$param2){
 							'extendedProps' => array(
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
-								'trainer_id' =>  $vals->trainer_id
+								'trainer_id' =>  $vals->trainer_id,
+								'name' =>  getTrainer($vals->trainer_id)->first_name
 	                            
 							)
 	            		);
@@ -828,6 +832,20 @@ function getSortedTrainerList($param,$param2){
         
     $data = array_values(array_intersect_key( $periodArray , array_unique( array_map('serialize' , $periodArray ) ) ));
 
+    if($param == 'favourite'){
+
+    	$list=getTrainerFavouriteList();
+    	return orderTrainer($data,$list);
+    	// return orderArrayFavouriteTrainer($data);
+    }
+    if($param == 'history'){
+    	$list=mostRecentTrainerList();
+    	return orderTrainer($data,$list);
+    }
+    if($param == 'recommended'){
+     	$list=trainerRatingsOrder();
+    	return orderTrainer($data,$list);
+	}
     return $data;
         
 }
@@ -914,7 +932,9 @@ function getTrainerListByDate($param,$request){
 								// 'type' =>  'normal',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
-								'trainer_id' =>  $vals->trainer_id
+								'trainer_id' =>  $vals->trainer_id,
+								'name' =>  getTrainer($vals->trainer_id)->first_name
+ 
 	                            
 							)
 	            		);
@@ -976,7 +996,8 @@ function getTrainerListByDate($param,$request){
 							'extendedProps' => array(
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
-								'trainer_id' =>  $vals->trainer_id
+								'trainer_id' =>  $vals->trainer_id,
+								'name' =>  getTrainer($vals->trainer_id)->first_name
 	                            
 							)
 	            		);
@@ -1139,9 +1160,9 @@ function array_key_exists_r($needle, $haystack)
 function trainerRatingsOrder(){
 	$rearrangeArray=array();
 	$order=\DB::table('tbl_trainer_ratings as r')
-                    ->select(['trainer_id'])
+                    ->select(['trainer_id',  DB::raw("SUM(star_ratings) w"),])
                     ->groupBy('trainer_id')
-                	->havingRaw('SUM(star_ratings) > ?', [3])
+                	->orderBy('w')
                     ->get()
                     ->toArray();
     if(isset($order)){
@@ -1179,4 +1200,37 @@ function getTrainerFavouriteList(){
     return $rearrangeArray; 
 }
 
+function mostRecentTrainerList(){
+	$rearrangeArray=array();
+	$order=\DB::table('tbl_trainer_schedules')
+                    ->select(['trainer_id'])
+                    ->where('user_id',Session::get('user.id'))
+                    ->where('status','completed')
+                    ->orderBy('date','desc')
+                    ->get()
+                    ->toArray();
+    if(isset($order)){
+    	foreach ($order as $key => $value) {
+    		$rearrangeArray[$key] = $value->trainer_id;
+    	}
+    }
+
+
+    return array_unique($rearrangeArray); 
+}
+
+function orderTrainer($data,$list){
+	$returnArray = array();
+	if(isset($list)){
+		foreach($list as $key=>$val){
+			foreach ($data as $k => $value) {
+				if($value['extendedProps']['trainer_id'] == $val){
+					$returnArray[]=$value;
+				}
+			}
+		}
+	}
+
+	return $returnArray;
+}
 ?>
