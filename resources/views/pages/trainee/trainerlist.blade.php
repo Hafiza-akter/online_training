@@ -87,7 +87,7 @@
 
     <div class="container  my-4 p-4" >
 
-        <div class="col-md-12 col-sm-12 mb-4" style="overflow: overlay;margin:0px !important;padding:0px !important;"  id="meran" >
+        <div class="col-md-12 col-sm-12 mb-4" style="overflow: overlay;margin:0px !important;"  id="meran" >
 
             <div class="row   text-center " id="{{ isset($request) && $request->favourite == 1 ? 'sortable' : '' }}">
                 

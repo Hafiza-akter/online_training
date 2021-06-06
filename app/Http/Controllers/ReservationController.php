@@ -63,10 +63,36 @@ class ReservationController extends Controller
         $isActive = "schedule";
         $data = getTrainerListByDate($request->date,$request);
         $date=$request->date;
+        $sorting=$request->sorting;
+        $sorting2=$request->sorting2;
+        $returnVal = getSortedTrainerList($sorting,$sorting2);
+
         return view('pages.trainee.reservationbydate')
+
+            ->with('sorting',$sorting)
+            ->with('sorting2',$sorting2)
             ->with('data',$data)
+            ->with('schedule',json_encode($returnVal,true))
             ->with('date',$date)
             ->with('isActive',$isActive);
+
+    }
+    public function ajaxReservationBydate(Request $request){
+
+       
+        $isActive = "schedule";
+        dd(Session::get('user.id'));
+        $data = getTrainerListByDate($request->selected_date,$request);
+        dd($data);
+        $date=$request->selected_date;
+        
+        // dd($data);
+        $returnHTML = view('pages.trainee.ajax_time_list')
+            ->with('data',$data)
+            ->with('date',$date)
+            ->with('isActive',$isActive)->render();
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
 
     }
 

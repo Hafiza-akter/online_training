@@ -75,6 +75,9 @@ grid-row-gap: 0px;
   text-align: right;
   margin-top:-10px;
 }
+.fc .fc-daygrid-day.fc-day-today{
+ background:none !important;
+}
 .imgd{
 
 background: #fff;
@@ -118,7 +121,74 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
+<div class="container my-4 offset-md-1 col-md-10">
 
+      @if(Session::has('message'))
+        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{!! Session::get('message') !!}</p>
+        @endif
+
+        @if(Session::has('errors_m'))
+        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
+        @endif
+        @php
+            // $param1=encryptionValue(['sorting' => 'favourite']);
+            // $param2=encryptionValue(['sorting' => 'history']);
+            // $param3=encryptionValue(['sorting' => 'recommended']);
+            // $param4=encryptionValue(['sorting' => '00:00:00-06:00:00']);
+            // $param5=encryptionValue(['sorting' => '06:00:00-12:00:00']);
+            // $param6=encryptionValue(['sorting' => '12:00:00-18:00:00']);
+            // $param7=encryptionValue(['sorting' => '18:00:00-24:00:00']);   
+
+            $param1= 'favourite';
+            $param2= 'history';
+            $param3= 'recommended';
+            $param4= '00:00:00-06:00:00';
+            $param5= '06:00:00-12:00:00';
+            $param6= '12:00:00-18:00:00';
+            $param7= '18:00:00-24:00:00';
+
+        
+        @endphp
+<div class="row content-justify-center ">
+
+
+
+  <div class="col mb-3" >
+    <p   data-sort="{{ $param1 }}"  style="cursor: pointer" class=" sort sorting-button p-3 {{ !empty($sorting) &&  $sorting == 'favourite' ? 'active-sorting' : ''}}  "> お気に入り </p>
+  </div>
+
+  <div class="col" >
+      <p  data-sort="{{ $param2 }}" style="cursor: pointer" class=" sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'history' ? 'active-sorting' : ''}} "> 履歴 </p>
+  </div>
+
+  <div class="col" >
+      <p  data-sort="{{ $param3 }}" style="cursor: pointer" class=" sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> おすすめ </p>
+  </div>
+</div>
+
+<div class="row content-justify-center ">
+  <div class="col">
+    <p  data-sort="{{ $param4 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '00:00:00-06:00:00' ? 'active-sorting' : ''}} "> 0.00 - 6.00 </p>
+  </div>
+
+  <div class="col" >
+      <p  data-sort="{{ $param5 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '06:00:00-12:00:00' ? 'active-sorting' : ''}}"> 6.00 - 12.00  </p>
+  </div>
+
+  <div class="col" >
+      <p   data-sort="{{ $param6 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '12:00:00-18:00:00' ? 'active-sorting' : ''}}"> 12.00 - 18.00 </p>
+  </div>
+    <div class="col" >
+      <p   data-sort="{{ $param7 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '18:00:00-24:00:00' ? 'active-sorting' : ''}}"> 18.00 - 24.00 </p>
+  </div>
+</div>
+    <form action="{{route('sorting')}}" method="post" id="sortform">
+      {{ csrf_field() }}
+
+    <input type="hidden" name="sorting" id="active_sort" value="{{ isset($sorting) &&  $sorting ? $sorting : ''}}">
+    <input type="hidden" name="sorting2" id="active_sort2" value="{{ isset($sorting2) &&  $sorting2 ? $sorting2 :''}}">
+
+  </form>
 
     <form action="{{route('trainerSubmitBytime')}}" method="post" id="timesbmit" style="display: inline-block;">
         {{ csrf_field() }}
@@ -132,21 +202,16 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 
 
       <input type="hidden" name="user_id" value="{{ Session::get('user')->id }}">
+      <input type="hidden" name="sorting"  value="{{ isset($sorting) &&  $sorting ? $sorting : ''}}">
+      <input type="hidden" name="sorting2" value="{{ isset($sorting2) &&  $sorting2 ? $sorting2 :''}}">
 
       <input type="hidden" name="selected_date" id="selected_date" value="">
     </form>
     
-  <div class="container my-4">
-    @if(Session::has('message'))
-    <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{!! Session::get('message') !!}</p>
-    @endif
+   
 
-    @if(Session::has('errors_m'))
-    <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
-  @endif
-  
       <div id='calendar'></div>
-  <input type="hidden" id="schedule" value="{{ json_encode($data,true)}}">
+  <input type="hidden" id="schedule" value="{{ $schedule}}">
   <input type="hidden" id="date_value" value="{{ $date }}">
 
 
@@ -261,6 +326,7 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
       dayMaxEvents:4,
       firstDay: 0,
       initialDate: $("#date_value").val(),
+          defaultDate: $("#date_value").val(),
 
        customButtons: {
         myCustomButton: {
@@ -277,7 +343,6 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
       },
       eventDidMount: function(info) {
 
-
           if( info.event.extendedProps.type === 'disabled'){
            info.el.disabled = "true";
         }
@@ -287,7 +352,7 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
       eventContent: function(arg) {
         // console.log(arg.event.extendedProps);
         return {
-          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.name+" ("+arg.event.extendedProps.trainer_id+')" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
+          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.name+" (id:"+arg.event.extendedProps.trainer_id+')" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
         }
       },
       eventClick:function(info){
@@ -305,7 +370,14 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
       //   // alert('selected ' + info.startStr + ' to ' + info.endStr);
       // },
       eventDidMount: function(info){
-        // console.log(info);
+      
+         if(moment(info.event.start).format('YYYY-MM-DD')  == $("#date_value").val()){
+              
+       
+                // $(".day-highlight").removeClass("day-highlight");
+
+              $("td[data-date='" + $("#date_value").val() + "']").css("background", "rgba(255,220,40,.15)");
+         }
           info.el.setAttribute("data-type",info.event.extendedProps.type );
           // info.el.setAttribute("class",'tblue' );
 
@@ -342,6 +414,63 @@ $(".blue").click(function(){
     $("#schedule_info").val('');
     $("#schedule_info").val(this.id);
     $(this).siblings('button').prop( "disabled", false );
+
+  });
+
+  $(".sort").click(function(){
+
+    let string="";
+    if($(this).hasClass( "active-sorting" )){
+
+      $('.sort')
+      .removeClass("active-sorting");
+
+    }else{
+
+      $(this)
+      .addClass('active-sorting');
+       string=$(this)
+      .attr('data-sort');
+
+    }
+
+    
+
+    
+
+   
+
+
+    $('#active_sort').val();
+    $('#active_sort').val(string);
+
+      // var d = $('.mumu').map((_,el) => el.value).get();
+      // console.log(d);
+      $("#sortform").submit();
+  });
+
+  $(".sort2").click(function(){
+    let string="";
+
+    if($(this).hasClass( "active-sorting" )){
+
+      $('.sort2')
+      .removeClass("active-sorting");
+
+    }else{
+
+      $(this)
+      .addClass('active-sorting');
+       string=$(this)
+      .attr('data-sort');
+
+    }
+
+    
+
+    $('#active_sort2').val();
+    $('#active_sort2').val(string);
+    $("#sortform").submit();
 
   });
 </script>
