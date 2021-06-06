@@ -5,7 +5,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="{{asset('asset_v2/css/range_slider.css')}}">
-
+<style>
+ .irs-min{
+  display: none;
+ }
+</style>
 @php 
     $param=encryptionValue(['user_id' => $user->id]);
 @endphp
