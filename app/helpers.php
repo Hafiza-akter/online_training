@@ -475,7 +475,7 @@ function getAvgValue($trainer_id,$input_id){
 		   		->groupBy('input_ratings_id')
 		    	->avg('input_ratings_value');
 
-		if($data > 1){
+		if($data > 0){
 			
 			return number_format((float)$data, 2, '.', '');	
 		}else{
