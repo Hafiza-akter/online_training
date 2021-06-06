@@ -84,49 +84,53 @@
         </div>
 
     </div>
-     <div class="container col-md-12  my-4" id="meran" style="overflow: overlay">
 
-        <div class="row text-center " id="{{ isset($request) && $request->favourite == 1 ? 'sortable' : '' }}">
-            
-            @foreach($trainerList as $key=>$val)
-                <div class="col-6 col-md-3 ui-state-default" id="{{ $val->id}}">
-                    <div class="card m-2">
-                        <a href="{{ route('trainerDetails',$val->id)}} ">
-                      <div class="card-body">
+    <div class="container  my-4" >
 
-                        @if(isset($request) && $request->favourite == 1 )
-                            <i class="fas fa-box{{ $val->id }} fa-2x"  id="icon_fav"  style="position:absolute;color:red;top:5px;left:5px;font-size: 20px;">{{$key+1}} </i>
-                        @endif
+        <div class="col-md-12 col-sm-12 mb-4" style="overflow: overlay"  id="meran" >
 
-                         @if(is_favourite(Session::get('user.id'),$val->id))
-                            <i class="fas fa-heart fa-2x"  id="icon_fav"  style="position:absolute;color:red;top:5px;right:5px;font-size: 20px;"></i>
-                          @endif
-                         @if($val->photo_path != NULL)
-                        <img class=""  src="{{asset('images').'/'.$val->photo_path}}"  style="width:200px;height: 200px">
-                    @else 
-                         <img class="" src="{{asset('images/user-thumb.jpg')}}"   style="width:200px;height: 200px">
+            <div class="row   text-center " id="{{ isset($request) && $request->favourite == 1 ? 'sortable' : '' }}">
+                
+                @foreach($trainerList as $key=>$val)
+                    <div class=" col-md-3 ui-state-default" id="{{ $val->id}}">
+                        <div class="card m-2">
+                            <a href="{{ route('trainerDetails',$val->id)}} ">
+                          <div class="card-body cd" >
 
-                    @endif 
-                        <h5 class="card-title">{{ $val->first_name ?? '  ' }}</h5>
-                        <h5 class="card-title">【 指導分野 】</h5>
-                        @php 
-                            $arr=unserialize($val->instructions);
-                            $string="";
-                            if(!empty($arr)){
-                              $string = implode('<span class="p-2"> / </span>',$arr);
-                            }
-                        @endphp
-                          <h4 style="color:#c30f23">{!! $string ?? '&nbsp;' !!}</h4>
-                       
-                      </div>
-                  </a>
+                            @if(isset($request) && $request->favourite == 1 )
+                                <i class="fas fa-box{{ $val->id }} fa-2x"  id="icon_fav"  style="position:absolute;color:red;top:5px;left:5px;font-size: 20px;">{{$key+1}} </i>
+                            @endif
+
+                             @if(is_favourite(Session::get('user.id'),$val->id))
+                                <i class="fas fa-heart fa-2x"  id="icon_fav"  style="position:absolute;color:red;top:5px;right:5px;font-size: 20px;"></i>
+                              @endif
+                             @if($val->photo_path != NULL)
+                            <img class=""  src="{{asset('images').'/'.$val->photo_path}}"  style="width:200px;height: 200px">
+                        @else 
+                             <img class="" src="{{asset('images/user-thumb.jpg')}}"   style="width:200px;height: 200px">
+
+                        @endif 
+                            <h5 class="card-title">{{ $val->first_name ?? '  ' }}</h5>
+                            <h5 class="card-title">【 指導分野 】</h5>
+                            @php 
+                                $arr=unserialize($val->instructions);
+                                $string="";
+                                if(!empty($arr)){
+                                  $string = implode('<span class="p-2"> / </span>',$arr);
+                                }
+                            @endphp
+                              <h4 style="color:#c30f23">{!! $string ?? '&nbsp;' !!}</h4>
+                           
+                          </div>
+                      </a>
+                        </div>
+
+                                     
                     </div>
+            @endforeach
+            </div>
 
-                                 
-                </div>
-        @endforeach
         </div>
-
     </div>
 
 </section>

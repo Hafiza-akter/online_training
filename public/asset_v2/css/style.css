@@ -4759,6 +4759,21 @@ h1, h2, h3, h4, h5, h6 {
         color: #fff;
 
 }
+.cd{
+    height:332px ;
+}
+@media only screen and (max-width: 768px) {
+    .cd{
+            height:120px;
+
+    }
+  .cd img{
+    float: left;
+    width: 120px !important;
+    height: 120px !important;
+ }
+}
+
 @media only screen and (min-width:768px) and (max-width:991px) {
   
 .point_1_heading_1{
