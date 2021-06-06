@@ -450,7 +450,7 @@ class TrainingController extends Controller
         if(isset($request['data'])){
             TrainerEvaluationRatings::where('trainer_ratings_id',$ratings_id)->delete();
             foreach ($request['data'] as $key => $value) {
-                    if((int) $value >1){
+                    if((int) $value >0){
                         $evaluationRatings = new TrainerEvaluationRatings();
                         $evaluationRatings->input_ratings_id   = $key;
                         $evaluationRatings->trainer_id   = $request->trainer_id;
