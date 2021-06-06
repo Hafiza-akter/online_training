@@ -1410,4 +1410,19 @@ function orderTrainer($data,$list){
 	
 	return $returnArray;
 }
+function generateTimeSlot($sorting2){
+		$returnArray = array();
+	 	if($sorting2 == '00:00:00-06:00:00'){
+         	return $returnArray=array(0,1,2,3,4,5);
+         }
+         if($sorting2 == '06:00:00-12:00:00'){
+         	return $returnArray=array(6,7,8,9,10,11,12);
+         }
+         if($sorting2 == '12:00:00-18:00:00'){
+         	return $returnArray=array(13,14,15,16,17,18);
+         }
+         if($sorting2 == '18:00:00-24:00:00'){
+         	return $returnArray=array(19,20,21,22,23,24);
+         }
+}
 ?>
