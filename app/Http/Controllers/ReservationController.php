@@ -65,6 +65,7 @@ class ReservationController extends Controller
         $date=$request->date;
         $sorting=$request->sorting;
         $sorting2=$request->sorting2;
+
         $returnVal = getSortedTrainerList($sorting,$sorting2);
 
         return view('pages.trainee.reservationbydate')

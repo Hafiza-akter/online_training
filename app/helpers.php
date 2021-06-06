@@ -958,7 +958,9 @@ function getTrainerListByDate($param,$request){
             $query2->whereIn('trainer_id',$favList);
          }
          if($request->sorting == 'history'){
-		        $query2->whereIn('trainer_id',$trainerSorted);
+         	$list=mostRecentTrainerList();
+         	$query2->whereIn('trainer_id',$list);
+		        // $query2->whereIn('trainer_id',$trainerSorted);
 
          }
          
