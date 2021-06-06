@@ -351,9 +351,9 @@
                             @endphp
                             <div class="col-8">
                                   <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
-                                  data-min="1"
+                                  data-min="0"
                                   data-max="5"
-                                  data-from="{{ $eval_value ? evalInitial($eval_value,$val->id) : (old($old_val) ? old($old_val) : 1) }}"
+                                  data-from="{{ $eval_value ? evalInitial($eval_value,$val->id) : (old($old_val) ? old($old_val) : 0) }}"
                                   />
                             </div>
                           </div>
@@ -522,17 +522,25 @@
       var ratingsArray = {
       };
       $(".js-range-slider").ionRangeSlider({
-        min: 1,
+        min: 0,
         max: 5,
-        from: 1,
+        from: 0,
+        skin:'big',
         onStart: function (data) {
-            // Called right after range slider instance initialised
+           if(data.from == 0){
+              $(".irs-single").hide();
+            }
     
             updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
           
         },
     
         onChange: function (data) {
+            if ($("#"+data.input.attr('id')).val() > 0){
+                  $("#"+data.input.attr('id')).siblings('span').find('.irs-single').show();
+            }else{
+                  $("#"+data.input.attr('id')).siblings('span').find('.irs-single').hide();
+            }
             // Called every time handle position is changed
             updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
 

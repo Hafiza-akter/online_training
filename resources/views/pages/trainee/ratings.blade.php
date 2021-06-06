@@ -4,31 +4,9 @@
 @section('header_css_js')
 <link rel="stylesheet" href="{{asset('asset_v2/css/range_slider.css')}}">
 <style>
-  /*.stars-outer {
-  display: inline-block;
-  position: relative;
-  font-family: FontAwesome;
-}
-
-.stars-outer::before {
-  content: "\f006 \f006 \f006 \f006 \f006";
-}
-
-.stars-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 0;
-}
-
-.stars-inner::before {
-  content: "\f005 \f005 \f005 \f005 \f005";
-  color: #f8ce0b;
-}
-*/
-
+ .irs-min{
+  display: none;
+ }
 
 /* Rating Star Widgets Style */
 .rating-stars ul {
@@ -165,10 +143,15 @@
 
                   <div class="col-8">
                         <input type="text" class="js-range-slider" id="{{$val->id}}" name="ratings_{{ $val->id}}" value=""
-                        data-min="1"
+                        data-min="0"
                         data-max="5"
-                        data-from="{{ $ratings ? (evaluationValue($ratings->id,$val->id)->input_ratings_value ?? 0) : 1 }}"
+                        data-from="{{ $ratings ? (evaluationValue($ratings->id,$val->id)->input_ratings_value ?? 0) : 0 }}"
                         />
+
+                       {{--  <input type="range" name="ageInputName" id="ageInputId" value="" min="1" max="5" oninput="ageOutputId.value = ageInputId.value">
+                        <output name="ageOutputName" id="ageOutputId"></output> --}}
+
+       
                   </div>
                 </div>
               @endforeach
@@ -333,15 +316,24 @@
       $(".js-range-slider").ionRangeSlider({
         min: 0,
         max: 5,
-        from: 1,
+        from: 0,
+        skin:'big',
         onStart: function (data) {
-            // Called right after range slider instance initialised
-    
+            if(data.from == 0){
+              $(".irs-single").hide();
+            }
             updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
           
         },
     
         onChange: function (data) {
+            // console.log($("#"+data.input.attr('id')).val());
+
+            if ($("#"+data.input.attr('id')).val() > 0){
+                  $("#"+data.input.attr('id')).siblings('span').find('.irs-single').show();
+            }else{
+                  $("#"+data.input.attr('id')).siblings('span').find('.irs-single').hide();
+            }
             // Called every time handle position is changed
             updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
 
@@ -350,7 +342,7 @@
     
         onFinish: function (data) {
             // Called then action is done and mouse is released
-    
+
             updateArray(data.input.attr('id'),$("input[name^="+data.input.attr('name')+"]").val());
 
             //   let total = Object.values(ratingsArray).reduce((t, n) => parseInt(t) + parseInt(n))
