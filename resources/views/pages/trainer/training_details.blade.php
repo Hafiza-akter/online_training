@@ -39,19 +39,45 @@
 
 </style>
 <section class="review_part gray_bg section_padding">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-xl-6">
-            <div class="section_tittle">
-                {{-- <h3>トレーニングページ</h3> --}}
-            </div>
-        </div>
-    </div>
+
 
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div id="meet"></div>
         </div>   
     </div>
+    <div class="col-md-12 col-sm-12 mb-4">
+        <div class="row justify-content-center">
+        
+          <div class="col text-center">
+            <div class="card m-1 user" style="display:inline-flex;height: 80px;width:80px">
+              <div class="card-body" >
+                 <span><img src="{{ asset('images/user_camera.png')}}"></span>
+              </div>
+            </div>
+            <div class="card m-1 trainer" style="display:inline-flex;height: 80px;width:80px">
+              <div class="card-body" >
+                <span><img src="{{ asset('images/camera.png')}}"></span>
+              </div>
+            </div>
+            <div class="card m-1 screenshare" style="display:inline-flex;height: 80px;width:80px">
+              <div class="card-body" >
+                  <span><img src="{{ asset('images/share.png')}}"></span>
+              </div>
+            </div>
+            <div class="card m-1" style="display:inline-flex;height: 80px;width:80px">
+              <div class="card-body" >
+                  <span><img src="{{ asset('images/gif.png')}}"></span>
+
+              </div>
+            </div>
+            
+          </div>
+
+
+      </div>
+    </div>
+
 </section>
 
     <div class="modal fade left" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -335,6 +361,8 @@
       }
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
+    <input type="hidden" id="local_user" >
+    <input type="hidden" id="remote_user" >
 
 <button type="button" class="nav-link active__" data-toggle="modal" data-target="#exampleModalScrollable" style="color:white;position: absolute;top: 35%;right: 0;"> 実績 </button>
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
@@ -480,7 +508,36 @@ console.log('The exact time: '+exactTime);
     api.executeCommand('displayName', '{{ isset($display_name) ? $display_name : ''}}');
        // jitsi end
        // jitsi end
+        var x=api.getParticipantsInfo();
+        console.log("pparticipants: " +JSON.stringify(x));
+        api.addEventListener('videoConferenceJoined' , function(abcd){
 
+        $("#local_user").val(abcd.id );
+        
+
+        console.log("pparticipants: " +JSON.stringify(abcd));
+        });
+        api.addEventListener('participantJoined' , function(abcd){
+          // var x=api.getParticipantsInfo();
+          $("#remote_user").val(abcd.id );
+        });
+        $(document).on('click', '.user', function() {
+          console.log('user interface');
+          api.setLargeVideoParticipant($("#remote_user").val());
+
+          // api.executeCommand('setLargeVideoParticipant',$("#remote_user").val());
+
+        });
+        $(document).on('click', '.trainer', function() {
+          console.log('trainer interface');
+          api.setLargeVideoParticipant($("#local_user").val());
+          // api.executeCommand('setLargeVideoParticipant',$("#local_user").val());
+        });
+        $(document).on('click', '.screenshare', function() {
+          api.executeCommand('toggleShareScreen');
+
+        });
+        
       // for upazila
   $(document).on('change', '.main', function() {
 
@@ -578,6 +635,12 @@ console.log('The exact time: '+exactTime);
       });
   });
   $(document).ready(function(){
+
+      $(window).scroll(function () {
+        $('.dashboard_menu').removeClass('menu_fixed');
+            $('.dashboard_menu').removeClass('animated');
+            $('.dashboard_menu').removeClass('fadeInDown');
+    });
 
     var cloneCount = parseInt($('#counter').val());
     // let r= $('<input type="button" value="削除" class="m-1 remove btn btn-danger"/>');
