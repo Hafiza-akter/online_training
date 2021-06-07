@@ -51,6 +51,10 @@ class CourseController extends Controller
         $course->way = $request->input('way');
         $course->session_time = $request->input('session_time');
         if ($request->hasFile('image')) {
+
+            $validateData = $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ]);
             $file = $request->file('image');
             $filename = rand(1, 9000) . strtotime("now");
             $file->move(public_path() . '/images/', $filename . '_course_image' . '.' . $file->getClientOriginalExtension());

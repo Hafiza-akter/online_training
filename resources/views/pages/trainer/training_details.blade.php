@@ -65,7 +65,7 @@
                   <span><img src="{{ asset('images/share.png')}}"></span>
               </div>
             </div>
-            <div class="card m-1" style="display:inline-flex;height: 80px;width:80px">
+            <div class="card m-1" onclick="$('.bd-example-modal-lg4').modal()" style="display:inline-flex;height: 80px;width:80px">
               <div class="card-body" >
                   <span><img src="{{ asset('images/gif.png')}}"></span>
 
@@ -267,7 +267,7 @@
       </div>
      <input type="hidden" value="{{ $exerciseData ? count($exerciseData->getExerciseData) : 1}}" id="counter">
   
-
+<!-- simple course modal with explanation -->
     <div class="modal fade left bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
@@ -312,6 +312,57 @@
         </div>
       </div>
     </div>
+<!-- ///////////////-->
+<!-- simple course modal with gif -->
+    <div class="modal fade left bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background: #a331a3;">
+            <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
+            Course List
+            </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              {{ csrf_field() }}
+
+               <table class="table table-striped" style="background: #f9f9ff;">
+                
+                <tbody>
+                  @if($course)
+                @foreach( $course as $key=>$val)
+                @php 
+                  if($val->image_path != ''){
+                   $image= asset('images').'/'.$val->image_path;
+                  }else{
+                   $image= asset('images').'/no_image.png';
+                  }
+                @endphp
+                  <tr>
+                    <td>
+                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showGif(`{{ $image}}`)">  
+                      <label for="course_list_{{ $val->id}}"> {{ $val->course_name}} </label>
+                    </td>
+                  </tr>
+                @endforeach
+
+              @endif
+                 
+                </tbody>
+              </table>
+              
+
+                            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- ///////////////-->
+
 
     <div class="modal fade left bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg">
@@ -727,6 +778,15 @@ console.log('The exact time: '+exactTime);
            +" <br> <br> サブ: "+sub
           + " <br> <br> <b>方法:</b> "+way
           + " <br> <br> <b>モーション:</b> "+motion,
+           showConfirmButton:false
+         })
+  }
+  function showGif(image){
+        Swal.fire({
+           icon: '',
+           title: 'コースイメージ',
+           html: " <img alt='Image loading...' src='"+image
+                 +"' >",
            showConfirmButton:false
          })
   }

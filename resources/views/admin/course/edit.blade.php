@@ -66,7 +66,13 @@
                                              </div>
                                              <div class="form-group">
                                                 <label for="exampleInputEmail1">画像</label>
-                                                <input type="file"  name="image" accept="image/jpeg,image/png" class="form-control">
+                                                <?php if($course->image_path != ''){ ?>
+                                                <img style="width:100px" src="{{asset('images').'/'.$course->image_path}}" />
+                                                <?php }?>
+                                               
+                                               
+
+                                                <input type="file"  name="image" accept="image/jpeg,image/png,image/gif" class="form-control">
                                              </div>
                                              {{-- <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 1</label>

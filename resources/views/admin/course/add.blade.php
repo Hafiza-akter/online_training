@@ -64,7 +64,7 @@
                                              </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">画像</label>
-                                                <input type="file"  name="image" accept="image/jpeg,image/png" class="form-control">
+                                                <input type="file"  name="image" class="form-control">
                                              </div>
                                              <div class="form-group">
                                                 <label for="exampleInputEmail1">Set 1</label>
