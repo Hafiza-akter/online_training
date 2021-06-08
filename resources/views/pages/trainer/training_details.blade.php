@@ -806,11 +806,11 @@ console.log('The exact time: '+exactTime);
       interfaceConfigOverwrite: {
      TOOLBAR_BUTTONS: [
             'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-            'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-            'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
-            'e2ee', 'security'
+            'fodeviceselection', 'hangup', '', 'chat', '',
+            '', '', '', '', '',
+            '', 'filmstrip', '', '', '',
+            'tileview', '', '', '', '',
+            '', ''
         ],
         filmStripOnly: true
       }
