@@ -36,16 +36,24 @@
 .modal-backdrop {
    background: none !important;
 }
+.column{
+  float: left;
+  /*width: 50%;*/
+  padding: 5px;
+}
+
+.mnt::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 
 </style>
 <section class="review_part gray_bg section_padding">
 
 
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div id="meet"></div>
-        </div>   
-    </div>
+    <div id="meet" style="height: 86vh;width: 100%;"></div>
+
     <div class="col-md-12 col-sm-12 mb-4">
         <div class="row justify-content-center">
         
@@ -68,6 +76,12 @@
             <div class="card m-1" onclick="$('.bd-example-modal-lg4').modal()" style="display:inline-flex;height: 80px;width:80px">
               <div class="card-body" >
                   <span><img src="{{ asset('images/gif.png')}}"></span>
+
+              </div>
+            </div>
+            <div class="card m-1"  style="display:inline-flex;height: 80px;width:80px">
+              <div class="card-body" >
+                  <span><img src="{{ asset('images/cl.png')}}"></span>
 
               </div>
             </div>
@@ -363,46 +377,242 @@
     </div>
 <!-- ///////////////-->
 
-
+<!-- feedback -->
     <div class="modal fade left bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-lg">
-      <div class="modal-content">
-        <div class="modal-header" style="background: #a331a3;">
-          <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
-          コメント
-          </h3>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background: #a331a3;">
+            <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
+            コメント
+            </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-        <div class="modal-body">
-            <form action="{{route('training_feedback')}}" method="post" id="feed_back_form">
-            <!-- edit mode form-->
+          <div class="modal-body">
+              <form action="{{route('training_feedback')}}" method="post" id="feed_back_form">
+              <!-- edit mode form-->
 
-              <input type="hidden" name="schedule_id" value="{{ $schedule->id}}">
-              <input type="hidden" name="trainer_id" value="{{ $schedule->trainer_id}}">
-            {{ csrf_field() }}
-              <div class="form-group  row justify-content-center">
-                <div class="col-sm-10">
-                <label class="col-form-label">コメントの入力</label>
-                    @if(Session::get('user_type') == 'trainee'){
-                    <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
-                    @else 
-                     <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment: ''}}</textarea>
-                    @endif
-                </div>
-            </div>
-             <div class=" row justify-content-center">
-          <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
-          <a type="submit" href="#" class="nav-link active__ m-1" id="f_btn" style="color: white;">送信</a>
+                <input type="hidden" name="schedule_id" value="{{ $schedule->id}}">
+                <input type="hidden" name="trainer_id" value="{{ $schedule->trainer_id}}">
+              {{ csrf_field() }}
+                <div class="form-group  row justify-content-center">
+                  <div class="col-sm-10">
+                  <label class="col-form-label">コメントの入力</label>
+                      @if(Session::get('user_type') == 'trainee'){
+                      <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment : ''}}</textarea>
+                      @else 
+                       <textarea class="form-control customEditor"  name="user_feedback" style="width: 400px; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $exerciseData ? $exerciseData->comment: ''}}</textarea>
+                      @endif
+                  </div>
+              </div>
+               <div class=" row justify-content-center">
+            <button type="button" class="btn btn-secondary m-1" data-dismiss="modal">閉じる</button>
+            <a type="submit" href="#" class="nav-link active__ m-1" id="f_btn" style="color: white;">送信</a>
+          </div>
+            </form>
+          </div>
+         
         </div>
-          </form>
-        </div>
-       
       </div>
     </div>
+<!-- //////////////-->
+
+<!-- monitor modal -->
+    <div class="modal fade" id="rightModal" tabindex="-1" role="dialog" aria-labelledby="rightModalLabel" aria-hidden="true" >
+      <div class="modal-dialog  modal-lg modal-dialog-slideout" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rightModalLabel"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body" style="overflow: scroll;">
+            
+
+          <div class="row mnt">
+            <div class="column">
+              <table style="border:1px solid #eee;">
+                
+                <tr>
+                  <td  class="p-1">
+                     <button class="btn btn-md btn-primary btn-outline btn-block">前回のリストをコピー</button>
+                  </td>
+                 
+                </tr>
+                <tr>
+                  <td  class="p-1">
+                     <button class="btn btn-md btn-secondary btn-outline btn-block">セットメニューからコピー</button>
+                  </td>
+                 
+                </tr>
+                <tr>
+                  <td class="p-3">
+                      <a href="#" class="previous" style="display:inline-block;">&laquo; Previous</a>
+                       <a style="display:inline-block;"> 〇年〇月〇日 </a>
+                      <a href="#" class="next" style="display:inline-block">Next &raquo;</a>
+                  </td>
+                </tr>
+
+                <tr>
+
+                <td class="p-3" style=" max-width: 200px;font-size: 12px;padding: 4px; font-weight: bold;border: 1px solid #bcbcbc;
+                  ">
+                  <span>
+                  1) インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+
+                  </span>
+                </td>
+
+                </tr>
+                <tr>
+
+                <td class="p-3" style=" max-width: 200px;font-size: 12px;padding: 4px; font-weight: bold;border: 1px solid #bcbcbc;
+                  ">
+                  <span>
+                  2) インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+
+                  </span>
+                </td>
+
+                </tr>
+                <tr>
+
+                <td class="p-3" style=" max-width: 200px;font-size: 12px;padding: 4px; font-weight: bold;border: 1px solid #bcbcbc;
+                  ">
+                  <span>
+                  3) インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+
+                  </span>
+                </td>
+
+                </tr>
+                <tr>
+
+                <td class="p-3" style=" max-width: 200px;font-size: 12px;padding: 4px; font-weight: bold;border: 1px solid #bcbcbc;
+                  ">
+                  <span>
+                  4) インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+
+                  </span>
+                </td>
+
+                </tr>
+               
+
+              </table>
+            </div>
+            <div class="column">
+                <table style="border:1px solid #eee;">
+                  <tr>
+                    <th>メイン</th>
+                    <th>コース</th>
+                    <th>備品</th>
+                  </tr>
+                  <tr>
+                    <td style="width: 150px" class="p-1">
+                        <select class="main"  name="main[]" style="width: 100%;">
+                            <option value="">--select-- </option>
+                            @if($body_part)
+                              @foreach($body_part as $val)
+                                <option value="{{ $val->body_part}}" id="{{ $val->body_part}}">{{ $val->body_part}}</option>
+                              @endforeach
+                            @endif
+                        </select>
+                    </td>
+                    <td style="width: 150px" class="p-1">
+                      <select class=" course" style="width: 100%;" name="course[]" required="required">
+                          <option value="">--select--</option>
+                      </select>
+                    </td>
+                    <td style="width: 150px" class="p-1">
+                        <select class=" equipment" style="width: 100%;" name="equipment[]" >
+                            <option value="">--select--</option>
+                        </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 150px">
+                      <p class="" style="font-size: 12px;font-weight: bold;color: black;">Set 1</p>
+                      <input style="width: 40px;height: 19px;" name="set1_kg[]" class="set1_kg kg  m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+                      <input style="width: 40px;height: 19px;" name="set1_times[]" class="set1_times times kg m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+
+                    </td>
+                    <td style="width: 150px">
+
+                      <p style="font-size: 12px;font-weight: bold;color: black;">Set 2</p>
+                      <input style="width: 40px;height: 19px;" name="set2_kg[]" class="set2_kg set1  kg  m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+                      <input style="width: 40px;height: 19px;" name="set2_times[]" class="set2_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required"/><span>回</span>
+                   
+                      
+                    </td>
+                    <td>
+                      <p style="font-size: 12px;font-weight: bold;color: black;">Set 3</p>
+                      <input style="width: 40px;height: 19px;" name="set3_kg[]" class="set3_kg kg  m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+                      <input style="width: 40px;height: 19px;" name="set3_times[]" class="set3_times times kg  m-1"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>回</span>
+
+                    </td>
+                  </tr>
+                  <tr>
+                      <td>
+                        
+                      </td>
+                      <td>
+                        
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="cloneList()"> メニューに追加</button>
+                      </td>
+                  </tr>
+                  <tr>
+                    <table>
+                      <tr>
+                          <ul id="sortable">
+                          <li class="ui-state-default m-2" id="list1" style="display:none">
+                            
+                            <span style="border: 1px solid #c8c6c6;padding: 2px;margin: 3px;">
+                           インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+                            </span>
+                          </li>
+                          <li class="ui-state-default m-2" id="list2" style="display:none">
+                            
+                            <span style="border: 1px solid #c8c6c6;padding: 2px;margin: 3px;">
+                           インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+                            </span>
+                          </li>
+                          <li class="ui-state-default m-2" id="list3" style="display:none">
+                            
+                            <span style="border: 1px solid #c8c6c6;padding: 2px;margin: 3px;">
+                           インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+                            </span>
+                          </li>
+                          <li class="ui-state-default m-2" id="list4" style="display:none">
+                            
+                            <span style="border: 1px solid #c8c6c6;padding: 2px;margin: 3px;">
+                           インクラインダンベルベンチプレス( 背中 )    備品: ダンベル ( 〇kg 〇回 〇 % )
+                            </span>
+                          </li>
+
+                          </ul>
+                      </tr>
+                    </table>
+                  </tr>
+
+                </table>
+            </div>
+  
+          </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
+  <!--- //////////// ---->
     @php
       $date = Carbon\Carbon::parse($schedule->date)->format('Y/m/d');
       $hour = Carbon\Carbon::parse($schedule->time)->addHours(1)->format('H:i:s');
@@ -419,12 +629,19 @@
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg3" style="color:white;position: absolute;top: 55%;right: 0"> コメント </button>
 
+<div class="card monitor_modal" style="height: 70px;width:70px;position: fixed;bottom:0px;right:0px;">
+  <div class="card-body" >
+      <span><img src="{{ asset('images/open.png')}}"></span>
+  </div>
+</div>
+
 <div id="clock"></div>
 
 @endsection
 @section('footer_css_js')
 <script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
 <script src='{{ asset('asset_v2/js/jquery.countdown.min.js')}}'></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 <style>
   
@@ -464,6 +681,56 @@
 .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation{
   background:none !important;
 }
+#rightModal .modal-dialog-slideout {
+  min-height: 100%;
+  margin: 0 0 0 auto;
+  background: #fff;
+}
+
+.modal.fade .modal-dialog.modal-dialog-slideout {
+  -webkit-transform: translate(100%, 0)scale(1);
+  transform: translate(100%, 0)scale(1);
+}
+
+.modal.fade.show .modal-dialog.modal-dialog-slideout {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+  display: flex;
+  align-items: stretch;
+  -webkit-box-align: stretch;
+  height: 100%;
+}
+
+.modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+/*html {
+  overflow: hidden;
+  height: 100%;
+}
+body {
+  overflow: auto;
+  height: 100%;
+}
+
+.modal-open {
+ overflow: auto; 
+}*/
+body.modal-open {
+    overflow: auto;
+}
+body.modal-open[style] {
+    padding-right: 0px !important;
+}
+
+.modal::-webkit-scrollbar {
+    width: 0 !important; 
+}
+
+
+
+
 </style>
 <script>
 function getdayFromNow() {
@@ -527,8 +794,8 @@ console.log('The exact time: '+exactTime);
 
     var options = {
       roomName: "training_{{ $schedule->id}}",
-      width: '100%',
-      height: 640,
+      // width: '%',
+      // height: 100%,
       parentNode: document.querySelector('#meet'),
       interfaceConfigOverwrite:{requireDisplayName: false},
       configOverwrite: {
@@ -686,6 +953,8 @@ console.log('The exact time: '+exactTime);
       });
   });
   $(document).ready(function(){
+      $( "#sortable" ).sortable();
+      $( "#sortable" ).disableSelection();
 
       $(window).scroll(function () {
         $('.dashboard_menu').removeClass('menu_fixed');
@@ -703,7 +972,7 @@ console.log('The exact time: '+exactTime);
         $("#"+id).append(r);
    }); 
 
-   
+
    $("#f_btn").click(function(){
         
          var form = $("#feed_back_form");
@@ -763,6 +1032,10 @@ console.log('The exact time: '+exactTime);
     
    }); 
 
+   $(".monitor_modal").click(function(){
+      $("#rightModal").modal();
+   });
+
 });
   $(document).on("click", ".remove", function() {
        $(this).parent().remove(); 
@@ -780,6 +1053,11 @@ console.log('The exact time: '+exactTime);
           + " <br> <br> <b>モーション:</b> "+motion,
            showConfirmButton:false
          })
+  }
+  var incr=1;
+  function cloneList(){
+    $("#list"+incr).show();
+    incr++;
   }
   function showGif(image){
         Swal.fire({
