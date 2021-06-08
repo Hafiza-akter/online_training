@@ -615,7 +615,7 @@ function getTrainerList(){
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
 	                            
 							)
 	            		);
@@ -748,7 +748,7 @@ function getSortedTrainerList($param,$param2){
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
 	                            
 							)
 	            		);
@@ -815,7 +815,7 @@ function getSortedTrainerList($param,$param2){
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
 	                            
 							)
 	            		);
@@ -920,7 +920,7 @@ function getTrainerListByDate($param,$request){
 	        				// for time view slot
 							'imagesurl'=>  getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
 							'trainer_id' =>  $vals->trainer_id,
-							'name' =>  getTrainer($vals->trainer_id)->first_name,
+							'name' =>  getTrainer($vals->trainer_id)->first_name ?? '',
 							'instructions' =>  getTrainer($vals->trainer_id)->instructions,
 	        				// for time view slot
 
@@ -935,7 +935,7 @@ function getTrainerListByDate($param,$request){
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
  
 	                            
 							)
@@ -1002,7 +1002,7 @@ function getTrainerListByDate($param,$request){
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
 	                            
 							)
 	            		);
@@ -1092,7 +1092,7 @@ function getTrainerListByDateAjax($param,$request){
 	        				// for time view slot
 							'imagesurl'=>  getTrainer($vals->trainer_id) ? getTrainer($vals->trainer_id)->photo_path : NULL,
 							'trainer_id' =>  $vals->trainer_id,
-							'name' =>  getTrainer($vals->trainer_id)->first_name,
+							'name' =>  getTrainer($vals->trainer_id)->first_name ?? '',
 							'instructions' =>  getTrainer($vals->trainer_id)->instructions,
 	        				// for time view slot
 
@@ -1107,7 +1107,7 @@ function getTrainerListByDateAjax($param,$request){
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 	                            // 'type' => 'recurring',
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
  
 	                            
 							)
@@ -1172,7 +1172,7 @@ function getTrainerListByDateAjax($param,$request){
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
 	                            
 							)
 	            		);
