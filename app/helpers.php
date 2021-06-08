@@ -657,7 +657,7 @@ function getTrainerList(){
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name
+								'name' => getTrainer($vals->trainer_id)->first_name ?? ''
 	                            
 							)
 	            		);
