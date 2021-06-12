@@ -881,7 +881,7 @@ function check_disable_add_menu_button(){
         right: ''
       },
       dateClick: function(info) {
-                     window.location.href ='{{ route('traininginfo')}}';
+                     // window.location.href ='{{ route('traininginfo')}}';
 
       }
     });

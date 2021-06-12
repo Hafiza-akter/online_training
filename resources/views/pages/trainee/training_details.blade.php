@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
         right: ''
       },
       dateClick: function(info) {
-                     window.location.href ='{{ route('traininginfo')}}';
+                     // window.location.href ='{{ route('traininginfo')}}';
 
       }
     });
