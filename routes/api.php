@@ -27,3 +27,5 @@ Route::post('api/iconcreation/{user_id}', 'TrainerController@iconCreation')->nam
 Route::post('api/favouritetrainer/', 'TrainingController@favouritetrainer')->name('favouritetrainer');
 Route::post('api/removefavouritetrainer/', 'TrainingController@removeFavourite')->name('removeFavourite');
 Route::post('api/favouritesorting/', 'TraineeController@favouritesorting')->name('favouritesorting');
+Route::post('api/previoustraininglist/', 'TrainingController@previoustraininglist')->name('previoustraininglist');
+Route::post('api/trainerreservation/', 'TrainingController@trainerreservation')->name('trainerreservation');

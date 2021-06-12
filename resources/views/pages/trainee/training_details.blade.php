@@ -1,6 +1,9 @@
 @extends('master_dashboard')
 @section('title','trainee training')
 @section('header_css_js')
+<link href='{{ asset('asset_v2/css/fullcalendar_main.min.css')}}' rel='stylesheet' />
+<script src='{{ asset('asset_v2/js/fullcalendar_main.min.js')}}'></script>
+
 <script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 <script  src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
 <style>
@@ -167,6 +170,25 @@
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
 
+
+
+    <div class="modal fade left bd-example-modal-lg5"  >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width:500px">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div id='calendar'></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
 <button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
 
 <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
@@ -326,7 +348,31 @@ console.log('The exact time: '+exactTime);
 
       // for upazila
   
+    api.addEventListener('incomingMessage' , function(abcd){
+          // var x=api.getParticipantsInfo();
+          alert();
+        });
+     api.addEventListener('endpointTextMessageReceived' , function(abcd){
+          // var x=api.getParticipantsInfo();
+          let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
+          console.log(received_data);
+          console.log(received_data.type);
+          alert(received_data.type);
+          if(received_data.type == 'set_large_vedio_open'){
+            api.setLargeVideoParticipant(received_data.id);
+          }
 
+           if(received_data.type == 'show_gif'){
+            showGif(received_data.img);
+          }
+          if(received_data.type == 'show_calendar'){
+            $('.bd-example-modal-lg5').modal();
+          }
+
+          
+
+          
+        });
   
  // Remove element
 
@@ -384,12 +430,60 @@ $("#f_btn").click(function(){
     
    });
 
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      selectable: true,
+       views: {
+        timeGridWeek: { // name of view
+          dayHeaderFormat:{ weekday:'short', month: 'short', day: '2-digit' }
+        }
+      },
+
+          customButtons: {
+        myCustomButton: {
+          text: 'トレーナー一覧',
+          click: function() {
+             window.location.href ='{{ route('trainerlist') }}';
+          }
+        }
+      },
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
+      dateClick: function(info) {
+                     window.location.href ='{{ route('traininginfo')}}';
+
+      }
+    });
+
+          calendar.render();
+          calendar.setOption('locale', 'ja');
+
+$('.bd-example-modal-lg5').on('shown.bs.modal', function () {
+calendar.render();
+calendar.setOption('locale', 'ja');
+})
+
+  });
 
   function showExplanation(text,sub,way,motion){
         Swal.fire({
            icon: '',
            title: '説明',
            html: " <br> <b> サマリ:</b> "+text,
+           showConfirmButton:false
+         })
+  }
+  function showGif(image){
+        Swal.fire({
+           icon: '',
+           title: 'コースイメージ',
+           html: " <img alt='Image loading...' src='"+image
+                 +"' >",
            showConfirmButton:false
          })
   }

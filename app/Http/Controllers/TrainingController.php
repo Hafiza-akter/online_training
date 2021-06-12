@@ -23,7 +23,7 @@ use App\Model\Ratings;
 use App\Model\RatingsSetup;
 use App\Model\TrainerEvaluationRatings;
 use App\Model\Favourite;
-
+use DB;
 
 use DateTime;
 use DateInterval;
@@ -489,6 +489,40 @@ class TrainingController extends Controller
 
 
     }
+
+    public function previoustraininglist(Request $request){
+
+
+        $query = DB::table('tbl_trainer_schedules')
+            ->join('tbl_trainings', 'tbl_trainer_schedules.id', '=', 'tbl_trainings.trainer_schedule_id')
+            ->join('tbl_exercise_data', 'tbl_trainings.id', '=', 'tbl_exercise_data.training_id')
+            
+            ->select('tbl_exercise_data.*', 'tbl_trainer_schedules.trainer_id', 'tbl_trainer_schedules.user_id','tbl_trainer_schedules.date','tbl_trainings.trainer_feedback');
+        if($request->date){
+            $query->WhereDate('tbl_trainer_schedules.date',$request->date);
+        }  
+        if($request->user_id){
+            $query->where('tbl_trainer_schedules.user_id',$request->user_id);
+        } 
+        if($request->trainer_id){
+            $query->where('tbl_trainer_schedules.trainer_id',$request->trainer_id);
+        } 
+        $data=$query->get();
+
+        $returnHTML = view('pages.ajax.ajax_previous_list')
+                ->with('data',$data)->render();
+
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
+    }
+    
+
+    public function trainerreservation(Request $request){
+        
+    }
+
+
+    
     
 
     
