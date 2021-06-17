@@ -84,12 +84,25 @@ class TrainingController extends Controller
             $view = 'pages.trainer.training_details';
             $display_name= Session::get('user.first_name');
          }
+         $lastDate = DB::table('tbl_trainer_schedules')
+            ->join('tbl_trainings', 'tbl_trainer_schedules.id', '=', 'tbl_trainings.trainer_schedule_id')
+            ->join('tbl_exercise_data', 'tbl_trainings.id', '=', 'tbl_exercise_data.training_id')
+            ->where('tbl_trainer_schedules.user_id',$schedule->user_id)
+            ->where('tbl_trainer_schedules.trainer_id',$schedule->trainer_id)
+            ->select(
+                array(
+                        DB::Raw('DATE(tbl_exercise_data.created_at) created_at'))
 
+                )
+            ->groupBy('created_at')
+            ->get()->toArray();
+           
         // dd('dd');
     	return view($view)
         ->with('display_name',$display_name)
     	->with('course',$course)
     	->with('body_part',$body_part)
+        ->with('lastDate',$lastDate)
     	->with('exerciseData',$exerciseData)
     	->with('schedule',$schedule);
     }
@@ -108,20 +121,22 @@ class TrainingController extends Controller
     		$training_id = $scheduleIdexist->id;
     	}
 
-    	exercise::where('training_id',$training_id)->delete();
-    	foreach($course as $key=>$val){
+    	// exercise::where('training_id',$training_id)->delete();
 
     		$exercise = new Exercise();
     		$exercise->training_id = $training_id;
-    		$exercise->course_id = $val;
-    		$exercise->set_1 = $request->set1_kg[$key]."_".$request->set1_times[$key];
-    		$exercise->set_2 = $request->set2_kg[$key]."_".$request->set2_times[$key];
-    		$exercise->set_3 = $request->set3_kg[$key]."_".$request->set3_times[$key];
+    		$exercise->course_id = $course;
+            $exercise->set_1 = $request->set1_kg."_".$request->set1_times;
+            $exercise->exercise_comment = $request->exercise_comment;
+            $exercise->efficiency = $request->efficiency;
+    		
     		$exercise->save();
 
-    	}
 
-    	return response()->json(array('success' => true));
+    	$returnHTML='<p  class="alert alert-success"> 
+            Exercise data save successfully</p>';
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
 
 
     }
@@ -146,7 +161,6 @@ class TrainingController extends Controller
         
     }
     public function ajax_training_get_comment(Request $request){
-         // dd($request->id);
         $id = $request->id;
         $course = Course::where('status',1)->get();
         $body_part=Course::where('status',1)->groupBy('body_part')->get();
@@ -395,7 +409,15 @@ class TrainingController extends Controller
         		->where('tbl_courses.id',$request->course)
         ->select('tbl_equipments.id as equipment_id','tbl_equipments.name as equipment_name','tbl_courses.*')->get();
 
+
+        if($request->ajax_with_view){
+            $returnHTML = view('pages.ajax.ajax_exercise_form')
+                ->with('data',$course)->render();
+
+            return response()->json(array('success' => true, 'html'=>$returnHTML));
+        }else{
         return response()->json($course); 
+        }
 
     }
 
@@ -499,7 +521,7 @@ class TrainingController extends Controller
             
             ->select('tbl_exercise_data.*', 'tbl_trainer_schedules.trainer_id', 'tbl_trainer_schedules.user_id','tbl_trainer_schedules.date','tbl_trainings.trainer_feedback');
         if($request->date){
-            $query->WhereDate('tbl_trainer_schedules.date',$request->date);
+            $query->WhereDate('tbl_exercise_data.created_at',$request->date);
         }  
         if($request->user_id){
             $query->where('tbl_trainer_schedules.user_id',$request->user_id);

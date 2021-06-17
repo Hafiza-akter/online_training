@@ -20,7 +20,13 @@
 .premeeting-screen .content .copy-meeting .url .jitsi-icon {
     display: none;
 }
-
+.table td{
+  border:none;
+}
+.static{
+  background: green !important;
+}
+.remove{cursor: pointer;}
  #clock {
     position: absolute;
     top: 40%;
@@ -28,6 +34,7 @@
     /*transform: translateX(-50%) translateY(-50%);*/
     color: red;
     font-size: 2rem;
+}
    
 
 
@@ -147,7 +154,7 @@
                 <label class="col-form-label">Set</label><br>
               <input  style="width:30px" name="set1_kg[]" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
               <input  style="width:30px" name="set1_times[]" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
-              <input  style="width:30px" name="efficiency[]" class="set1_efficiency times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
+              {{-- <input  style="width:30px" name="efficiency[]" class="set1_efficiency times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span> --}}
             </div>
           </div>
 
@@ -162,6 +169,11 @@
 
               <div class="table-responsive">
                 <table class="table table-striped">
+                  <tbody id="menue_finished">
+                  </tbody>
+                </table>
+
+                <table class="table table-striped">
                   <tbody id="menue_add">
                   </tbody>
                 </table>
@@ -175,52 +187,48 @@
 <div class="row">
     <div class="col-sm-12 col-md-8  col-lg-8 col-xl-8  card mt-2 border border-primary">
         <div class="p-4">
-          <div class="row ml-2 mb-1">
-              <div class="col-sm-6 ">
-                  <label class="col-form-label">メイン</label>
-                  <select class="form-control main" style="width: 100%;" name="main[]" >
-                      <option value="">--select-- </option>
-                      @if($body_part)
-                        @foreach($body_part as $val)
-                          <option value="{{ $val->body_part}}" id="{{ $val->body_part}}">{{ $val->body_part}}</option>
-                        @endforeach
-                      @endif
-                  </select>
-              </div>
-              <div class="col-sm-6 ">
-                  <label class="col-form-label">コース</label>
-                  <select class="form-control course" style="width: 100%;" name="course[]" required="required">
-                      <option value="">--select--</option>
-                  </select>
-              </div>
-          </div>
+          
+        <div class="row ml-2 mb-1 " id="exercise_form_2">
+        </div>
+          <div class="row ml-2 mb-1 " id="exercise_form">
 
-          <div class="row ml-2 mb-1">
-            <div class="col-sm-6">
+            <div class="col-sm-4 " data-course_id="{{$val->id}}">
+                <label class="col-form-label">コース</label>
+                <p id="_label_course"></p>
+            </div>
+            {{--  <div class="col-sm-4 ">
+                <label class="col-form-label">メイン</label>
+                <p id="_label_body_part"></p>
+            </div> --}}
+             <div class="col-sm-4 ">
                 <label class="col-form-label">備品</label>
-                    <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
-                        <option value="">--select--</option>
-                    </select>
+                <p id="_label_equipment"></p>
             </div>
-            <div class="col-sm-6">
+
+          </div>
+
+          <div class="row ml-2 mb-1">
+            <div class="col-md-8">
+                <label class="col-form-label">コメント</label><br>
+                <textarea class="form-control" id="exercise_comment"></textarea>
+            </div>
+
+            <div class="col-sm-4">
                 <label class="col-form-label">Set</label><br>
-              <input  style="width:30px" name="set1_kg[]" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-              <input  style="width:30px" name="set1_times[]" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
-              <input  style="width:30px" name="efficiency[]" class="set1_efficiency times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
+              <input  style="width:30px" id="set1_kg" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+              <input  style="width:30px" id="set1_times" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+              <input  style="width:30px" id="efficiency" class="set1_efficiency times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
             </div>
           </div>
 
           <div class="row ml-2 mb-1">
-             <div class="col-md-8">
-                <label class="col-form-label">コメント</label><br>
-                <textarea class="form-control"></textarea>
-            </div>
+             
            
           </div>
           <div class="row ml-2 mb-1">
             <div class="col">
-              <button class="float-right btn btn-primary ml-2"  > スタート</button>
-              <button class="float-right btn btn-danger "  > 記録して次へ</button>
+              <button class="float-right btn btn-primary ml-2 fetchExerciseData"  > スタート</button>
+              <button class="float-right btn btn-danger save_start" disabled="disabled"  > 記録して次へ</button>
             </div>
            
           </div>
@@ -315,10 +323,16 @@
       if($hour == "00:00:00"){
         $hour = "24:00:00";
       }
+      $lastDateNode=0;
+      if(isset($lastDate)){
+        $lastDateNode = count($lastDate);
+      }
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
     <input type="hidden" id="local_user" >
     <input type="hidden" id="remote_user" >
+    <input type="hidden" id="lastDateNode" value="{{ $lastDateNode}}" >
+    <input type="hidden" id="exerciseDateList" value="{{ json_encode($lastDate,true)}}" >
 
 
 
@@ -448,24 +462,53 @@ console.log('The exact time: '+exactTime);
 <script src="https://meet.jit.si/external_api.js"></script>
 <script>
 // showing previous exercise data//
-
-
 $(function(){
-var initialDate = moment().format("YYYY-MM-DD");
-calling_ajax_previous_data(initialDate);
+  var allExercise = JSON.parse($('#exerciseDateList').val());
+  var totalCount = allExercise.length;
+  var counterD = totalCount;
+
+  if(totalCount == 0){
+    var initialDate = moment().format("YYYY-MM-DD");
+  }else{
+  var initialDate = moment(allExercise[totalCount-1]['created_at']).format("YYYY-MM-DD");
+  }
+  calling_ajax_previous_data(initialDate);
 
 $('#list_date').combodate('setValue',initialDate);
   $('.prev').click(function(){
 
-    curent_val=$('#list_date').combodate('getValue');
-    prev_val=moment(curent_val, "YYYY-MM-DD").add(-1, 'days').format('YYYY-MM-DD');
+    console.log("Counter:" +  counterD);
+
+
+    counterD--;
+    console.log("index:" +  counterD);
+
+    if(counterD < 0 ){
+          counterD=-1;
+          prev_val=moment($('#list_date').combodate('getValue'), "YYYY-MM-DD").add(-1, 'days').format('YYYY-MM-DD');
+    }else{
+        prev_val=moment(allExercise[counterD]['created_at']).format('YYYY-MM-DD');
+    }
+
+    console.log("Previous val"+prev_val);
+
     $('#list_date').combodate('setValue',prev_val);
     calling_ajax_previous_data(prev_val);
 
   });
   $('.next').click(function(){
-    curent_val=$('#list_date').combodate('getValue');
-    nex_val=moment(curent_val, "YYYY-MM-DD").add(1, 'days').format('YYYY-MM-DD');
+      console.log("Counter:" +  counterD);
+      counterD++;
+      console.log("index:" +  counterD);
+
+  
+     if(counterD >= totalCount ){
+          counterD=totalCount;
+          nex_val=moment($('#list_date').combodate('getValue'), "YYYY-MM-DD").add(1, 'days').format('YYYY-MM-DD');
+    }else{
+        nex_val=moment(allExercise[counterD]['created_at']).format('YYYY-MM-DD');
+    }
+    console.log("nexT val"+nex_val);
     $('#list_date').combodate('setValue',nex_val);
     calling_ajax_previous_data(nex_val);
 
@@ -696,6 +739,7 @@ function check_disable_add_menu_button(){
       });
   });
   $(document).ready(function(){
+      var menueArray = [];
       $( "#menue_add" ).sortable();
       $( "#menue_add" ).disableSelection();
 
@@ -713,32 +757,52 @@ function check_disable_add_menu_button(){
 
       let main=$('.main').find('option:selected').text();
       let course=$('.course').find('option:selected').text();
-      console.log(course);
+
+      let id=$('.course').find('option:selected').val();
+      // console.log(course);
       let equipment=$('.equipment').find('option:selected').text();
       let set1_times = $('.set1_times').val();
       let set1_kg = $('.set1_kg').val();
-      let set1_efficiency = $('.set1_efficiency').val();
-      let r= $('<input type="button" value="削除" class="m-1 remove btn btn-danger"/>');
-      let html="<tr>"+
-              "<td>コース: " + course +" <br> "+
-              " 備品: " +equipment +
-              " <td>"+set1_kg+" KG "+set1_times+" 回 "+set1_efficiency +' % <span aria-hidden="true" class="remove float-right fa-2x text-danger" style="cursoer:pointr">×</span> '+ "</td>"
-              "</tr>";
-      
+      // let set1_efficiency = $('.set1_efficiency').val();
+      // <span class='fa-box"+id+"'></span>
+      let html="<tr id='menue_"+id+"' data-course_id='"+id+"'>"+
+        "<td> <span class='course_name'>" + course +" </span> <br> "+
+        " 備品: <span class='equp'>" +equipment +
+        "</span> <td> <span class='kg'>"+set1_kg+"</span> KG <span class='times'>"+set1_times+"</span> 回 " + "<span aria-hidden='true' class='remove float-right fa-2x text-danger' style='cursor:pointer'>×</span> </td>  "
+        "</tr>";
+
       // let id = 'performance'+ cloneCount++;
       // $("#performance").clone().attr('id',id).insertAfter($('[id^=performance]:last'));
       //   $("#"+id).append(r);
-        $('#menue_add').append(html);
+      $('.course').val('');
+      $('.main').val('');
+      $('.equipment').val('');
+      $('.set1_times').val('');
+      $('.set1_kg').val('');
+      $('.add_button').prop('disabled', true);
+
+      $('#menue_add').prepend(html);
+      removeBorder();
+      menueUpdate();
 
    }); 
 
    $(".copy_list").click(function(){
 
-    $("#previous_data  table > tbody > tr").each(function () {
+    $("#previous_data  table > tbody > tr").each(function(index, tr){
+      // console.log(tr);
+      let clone = $(tr).clone()
+      $(clone).find("td:eq(1)").prepend('<span aria-hidden="true"  class=" remove float-right fa-2x text-danger" style="cursor:pointer">×</span> ');
+      // .append('<span aria-hidden="true"  class=" remove float-right fa-2x text-danger" style="cursor:pointer">×</span> ');
+              $('#menue_add').append(clone);
 
+      // alert($(this).find('tr').html());
       // alert($(this).find('td').eq(0).text() + " " + $(this).find('td').eq(1).text() );
     });
+    menueUpdate();
  });
+   
+ 
 
    $("#f_btn").click(function(){
         
@@ -767,7 +831,7 @@ function check_disable_add_menu_button(){
 
     $("#submit_performance").click(function(){
         
-         var form = $("#performance_form");
+          var form = $("#performance_form");
           var url = form.attr('action');
           
           $.ajax({
@@ -805,10 +869,232 @@ function check_disable_add_menu_button(){
 
 });
   $(document).on("click", ".remove", function() {
+        
         $(this).closest('tr').remove();
+         arrayRemove(menueArray, $(this).closest('tr').attr('id'));
+         menueUpdate();
 
-});
+  });
 
+  $(document).on("click", ".fetchExerciseData", function() {
+    let courseId = $("#menue_add tr:first").data('course_id');
+
+    if(!courseId){
+      alert('Please create your menue first');
+      return false;
+    }
+
+    console.log("CourseId:"+courseId);
+   
+
+    // var action="{{ route('getcoursedetails')}}";
+    // var method="POST";
+    // var data={
+    //   'course' : courseId,
+    //   'ajax_with_view' : 1
+    // };
+    // var div="exercise_form";
+    // ajax_request(action,method,data,div);
+
+    // arrayRemove(menueArray, $("#menue_add tr:first").attr('id'));
+
+    // $("#"+trId).addClass('static');
+    $('#menue_finished').append($("#menue_add tr:first"));
+    $("#menue_finished tr:last").css('opacity','0.5');
+    $("#menue_finished tr:last").find("td:eq(0)").css('border','none');
+    $("#menue_finished tr:last").find("td:eq(1)").css('border','none');
+    $("#menue_finished tr:last").css("background",'#fff');
+
+    $("#menue_finished tr:last").addClass('border');
+    $("#menue_finished tr:last").addClass('border-primary');
+    // $("#menue_finished").find("span").remove();
+    // $("#menue_finished tr:last").find("td:eq(0)").prepend('');
+    // initialCall();
+      setLastRowData();
+
+
+    $(this).prop('disabled', true);
+    $(".save_start").attr('disabled', false);
+
+  });
+
+  $(document).on("click", ".save_start", function() {
+
+    if(!$('#set1_kg').val()){
+        alert('Please insert your set values');
+        $('#set1_kg').addClass('border border-danger');
+        return false;
+    }
+    if(!$('#set1_times').val()){
+        
+        alert('Please insert your set values');
+        $('#efficiency').addClass('border border-danger');
+        return false;
+    }
+    if(!$('#efficiency').val()){
+        alert('Please insert your set values');
+        $('#efficiency').addClass('border border-danger');
+        return false;
+    }
+    
+      setLastRowData();
+    // let td1="備品:" + $("#_label_equipment").text() + " " +$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
+    // let td= $("#_label_course").text() + ' \n' 
+    // +" ダンベルカール: "+$("#exercise_comment").val(); 
+
+
+    // $("#menue_finished tr:last").find("td:eq(0)").text(td);
+    // $("#menue_finished tr:last").find("td:eq(1)").text(td1);
+
+
+    // let courseId = $("#menue_finished tr").find('fa-circle-notch').data('course_id');
+    let courseId = $("#menue_finished tr:first").data('course_id');
+
+    var action="{{ route('training_performance')}}";
+    var method="POST";
+    var data={
+      'course' : courseId,
+      'schedule_id' : {{ $schedule->id}},
+      'set1_kg':$("#set1_kg").val(),
+      'set1_times':$('#set1_times').val(),
+      'efficiency':$('#efficiency').val(),
+      'exercise_comment':$('#exercise_comment').val(),
+    };
+    var div="exercise_form_2";
+    ajax_request(action,method,data,div);
+
+    
+
+    $("#menue_finished tr").removeClass("border");
+    $("#menue_finished tr").removeClass("border-primary");
+    $("#menue_finished tr").find("i").remove();
+    $("#menue_finished tr").find("td:eq(0)").prepend('<i class="fas fa-check text-success fa-2x"></i>');
+    $("#menue_finished tr").css('opacity','1');
+    $("#menue_finished tr").css("background",'#f2f2f2');
+
+
+   
+    
+
+
+
+    $("#exercise_comment,#efficiency,#set1_times,#set1_kg").val('');
+
+    activeFirstMenue();
+    $(this).prop('disabled', true);
+    $(".fetchExerciseData").prop('disabled', false);
+
+  });
+
+  
+
+  function menueUpdate(){
+        initialCall();
+        $( "#menue_add" ).sortable({
+        cursor: "move",
+        dropOnEmpty: true,
+        start: function( event, ui ) {
+
+         removeBorder();
+          menueArray = $('#menue_add').sortable("toArray");
+          for (var i = 0; i < menueArray.length; i++) {
+            // $("#menue_add .fa-box"+menueArray[i]).html('');
+            // $("#menue_add .fa-box"+menueArray[i]).html(i+1);
+            console.log("Position: " + i + " ID: " + menueArray[i]);
+          }
+
+
+        console.log(" sort start: "+menueArray);
+        },
+        update: function(event, ui) {
+
+          menueArray = $('#menue_add').sortable("toArray");
+          for (var i = 0; i < menueArray.length; i++) {
+            // $("#menue_add .fa-box"+menueArray[i]).html('');
+            // $("#menue_add .fa-box"+menueArray[i]).html(i+1);
+            console.log("Position: " + i + " ID: " + menueArray[i]);
+          }
+
+          console.log(" sort update: "+menueArray);
+          activeFirstMenue();
+        }
+
+        
+      });
+        
+   }
+  function initialCall(){
+              menueArray = $('#menue_add').sortable("toArray");
+
+         for (var i = 0; i < menueArray.length; i++) {
+            // $("#menue_add .fa-box"+menueArray[i]).html('');
+            // $("#menue_add .fa-box"+menueArray[i]).html(i+1);
+            console.log("Position: " + i + " ID: " + menueArray[i]);
+          }
+          activeFirstMenue();
+   }
+
+   function activeFirstMenue(){
+
+      
+
+
+      $("#menue_add tr:first").find("td:eq(0)").css('border','none');
+      $("#menue_add tr:first").find("td:eq(1)").css('border','none');
+      $("#menue_add tr:first").css("background",'#fff');
+
+      $("#menue_add tr:first").addClass('border');
+      $("#menue_add tr:first").addClass('border-primary');
+
+      let c=$("#menue_add tr:first").find('.course_name').text();
+      let f=$("#menue_add tr:first").find('.comment_name').text();
+      let e=$("#menue_add tr:first").find('.equp').text();
+      let k=$("#menue_add tr:first").find('.kg').text();
+      let t=$("#menue_add tr:first").find('.times').text();
+      let effi=$("#menue_add tr:first").find('.effi').text();
+
+      console.log(c);
+      $("#set1_kg").val( parseInt(k) || '');
+      $("#set1_times").val(parseInt(t) || '');
+      $("#efficiency").val(parseInt(effi) || '');
+
+      $("#_label_course").text(c);
+      $("#_label_equipment").text(e);
+      $("#exercise_comment").text(f);
+
+      // let td1=$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
+
+      // $("#menue_finished tr:last").find("td:eq(1)").text(td1);
+
+
+   }
+
+   function setLastRowData(){
+
+    let td1="備品:" + $("#_label_equipment").text() + " " +$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
+    let td= $("#_label_course").text() + ' \n' 
+    +" ダンベルカール: "+$("#exercise_comment").val(); 
+
+    $("#menue_finished tr:last").find("td:eq(1)").prepend('<span aria-hidden="true"  class=" remove float-right fa-2x text-danger" style="cursor:pointer">×</span> ');
+    $("#menue_finished tr:last").find("td:eq(0)").text(td);
+    $("#menue_finished tr:last").find("td:eq(1)").text(td1);
+   }
+
+   function removeBorder(){
+      $("#menue_add tr").removeClass("border");
+      $("#menue_add tr").removeClass("border-primary");
+      $("#menue_add tr").css('opacity','1');
+      $("#menue_add tr").css("background",'#f2f2f2');
+   }
+
+    function arrayRemove(arr, value) { 
+    
+        return arr.filter(function(ele){ 
+            return ele != value; 
+        });
+    }
+    
+   
   function showExplanation(text,body_part,main,sub,way,motion){
         Swal.fire({
            icon: '',
