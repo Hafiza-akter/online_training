@@ -1041,7 +1041,7 @@ function check_disable_add_menu_button(){
 
       
 
-if(!$(".fetchExerciseData").is(":disabled")){
+// if(!$(".fetchExerciseData").prop(":disabled")){
 
     $("#menue_add tr:first").find("td:eq(0)").css('border','none');
     $("#menue_add tr:first").find("td:eq(1)").css('border','none');
@@ -1066,7 +1066,7 @@ if(!$(".fetchExerciseData").is(":disabled")){
     $("#_label_equipment").text(e);
     $("#exercise_comment").text(f);
     
-    }
+    // }
 
       // let td1=$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
 
