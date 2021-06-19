@@ -1041,29 +1041,32 @@ function check_disable_add_menu_button(){
 
       
 
+if(!$(".fetchExerciseData").is(":disabled")){
 
-      $("#menue_add tr:first").find("td:eq(0)").css('border','none');
-      $("#menue_add tr:first").find("td:eq(1)").css('border','none');
-      $("#menue_add tr:first").css("background",'#fff');
+    $("#menue_add tr:first").find("td:eq(0)").css('border','none');
+    $("#menue_add tr:first").find("td:eq(1)").css('border','none');
+    $("#menue_add tr:first").css("background",'#fff');
 
-      $("#menue_add tr:first").addClass('border');
-      $("#menue_add tr:first").addClass('border-primary');
+    $("#menue_add tr:first").addClass('border');
+    $("#menue_add tr:first").addClass('border-primary');
 
-      let c=$("#menue_add tr:first").find('.course_name').text();
-      let f=$("#menue_add tr:first").find('.comment_name').text();
-      let e=$("#menue_add tr:first").find('.equp').text();
-      let k=$("#menue_add tr:first").find('.kg').text();
-      let t=$("#menue_add tr:first").find('.times').text();
-      let effi=$("#menue_add tr:first").find('.effi').text();
+    let c=$("#menue_add tr:first").find('.course_name').text();
+    let f=$("#menue_add tr:first").find('.comment_name').text();
+    let e=$("#menue_add tr:first").find('.equp').text();
+    let k=$("#menue_add tr:first").find('.kg').text();
+    let t=$("#menue_add tr:first").find('.times').text();
+    let effi=$("#menue_add tr:first").find('.effi').text();
 
-      console.log(c);
-      $("#set1_kg").val( parseInt(k) || '');
-      $("#set1_times").val(parseInt(t) || '');
-      $("#efficiency").val(parseInt(effi) || '');
+    console.log(c);
+    $("#set1_kg").val( parseInt(k) || '');
+    $("#set1_times").val(parseInt(t) || '');
+    $("#efficiency").val(parseInt(effi) || '');
 
-      $("#_label_course").text(c);
-      $("#_label_equipment").text(e);
-      $("#exercise_comment").text(f);
+    $("#_label_course").text(c);
+    $("#_label_equipment").text(e);
+    $("#exercise_comment").text(f);
+    
+    }
 
       // let td1=$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
 
