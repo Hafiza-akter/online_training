@@ -982,9 +982,10 @@ function check_disable_add_menu_button(){
 
     $("#exercise_comment,#efficiency,#set1_times,#set1_kg").val('');
 
-    activeFirstMenue();
+    
     $(this).prop('disabled', true);
     $(".fetchExerciseData").prop('disabled', false);
+    activeFirstMenue();
     showExerciseDashboard();
 
   });
@@ -1041,7 +1042,7 @@ function check_disable_add_menu_button(){
 
       
 
-// if(!$(".fetchExerciseData").prop(":disabled")){
+if(!$(".fetchExerciseData").is(":disabled")){
 
     $("#menue_add tr:first").find("td:eq(0)").css('border','none');
     $("#menue_add tr:first").find("td:eq(1)").css('border','none');
@@ -1065,8 +1066,8 @@ function check_disable_add_menu_button(){
     $("#_label_course").text(c);
     $("#_label_equipment").text(e);
     $("#exercise_comment").text(f);
-    
-    // }
+
+    }
 
       // let td1=$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
 
