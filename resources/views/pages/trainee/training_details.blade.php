@@ -7,9 +7,18 @@
 <script src="{{ asset('asset_v2/js/moment_2.29.1.min.js')}}" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>  
 <script  src="https://momentjs.com/downloads/moment-timezone-with-data.js"></script>
 <style>
+  .loads{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display:none;
+}
   #clock {
     position: absolute;
-    top: 40%;
+    top: 30%;
     left: 1%;
     /*transform: translateX(-50%) translateY(-50%);*/
     color: red;
@@ -17,10 +26,37 @@
    
 
 }
+
+@media only screen and (max-width: 768px) {
+    #clock {
+    position: absolute;
+    top: 24%;
+    left: 1%;
+    /*transform: translateX(-50%) translateY(-50%);*/
+    color: red;
+    font-size: 1.5rem;
+   
+
+}
+  .cals{
+    width:100vh;
+  }
+}
+
+.fixedbutton {
+    position: fixed;
+    bottom: 0px;
+    right: 0px; 
+}
 .modal-backdrop {
    background: none !important;
 }
-
+.section_padding{
+    padding: 76px 0;
+}
+.table td{
+  border:none;
+}
 </style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
 
@@ -45,25 +81,66 @@
 
 </style>
 <section class="review_part gray_bg section_padding" >
-    <div class="row justify-content-center">
+    {{-- <div class="row justify-content-center">
         <div class="col-md-8 col-xl-6">
             <div class="section_tittle">
                 <h3>トレーニングページ</h3>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div id="meet" style="height: 86vh"></div>
+    <div class="col justify-content-center px-0">
+        <div class="col-md-12 px-0">
+            <div id="meet" style="height: calc(100vh - 76px);"></div>
         </div>   
     </div>
 </section>
 
+
+<div class="fixedbutton" style="height:50px;">
+    <ul class="list-group list-group-horizontal">
+      <li  class="list-group-item pointer" onclick="$('#dashboard').modal()">
+
+        <img src="{{ asset('images/target.png')}}" height="26">
+        <span> 実績 </span>
+      </li>
+      <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg2').modal()">
+        <img src="{{ asset('images/cours.png')}}" height="26">
+        <span> 説明 </span>
+
+      </li>
+      <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg5').modal()">
+         <img src="{{ asset('images/calendar.png')}}" height="26">
+        <span> 予約 </span>
+      </li>
+    </ul>
+</div>
+
+<div class="modal fade left" id="dashboard" tabindex="-1" role="dialog" aria-labelledby="dashboard" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-slideout modal-lg crs" role="document" style="width:90vw;">
+    <div class="modal-content">
+        <div class="modal-header" style="background: #056fb8;">
+          <h3 class="" style="text-align: center;color: white;">
+          コースリスト
+          </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" id="_ct_">
+        <p class="text-center">No active course found</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="modal  fade left" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header" style="background: #a331a3;">
+        <div class="modal-header" style="background: #056fb8;">
           <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
           トレーニングデータ
           </h3>
@@ -81,7 +158,7 @@
     <div class="modal fade left bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-          <div class="modal-header" style="background: #a331a3;">
+          <div class="modal-header" style="background: #056fb8;">
             <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
             Course List
             </h3>
@@ -98,9 +175,17 @@
                 <tbody>
                   @if($course)
                 @foreach( $course as $key=>$val)
+
+                @php 
+                  if($val->image_path != ''){
+                   $fimages= asset('images').'/'.$val->image_path;
+                  }else{
+                   $fimages= asset('images').'/no_image.png';
+                  }
+                @endphp
                   <tr>
                     <td>
-                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showExplanation(`{{ $val->summary}}`,`{{ $val->sub}}`,`{{ $val->way}}`,`{{ $val->motion}}`)">  
+                      <input type="radio" name="course_list" id="course_list_{{ $val->id}}" onclick="showExplanation(`{{ $fimages}}`,`{{ $val->summary}}`,`{{ $val->sub}}`,`{{ $val->way}}`,`{{ $val->motion}}`)">  
                       <label for="course_list_{{ $val->id}}"> {{ $val->course_name}} </label>
                     </td>
                     
@@ -127,7 +212,7 @@
     <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-lg">
       <div class="modal-content">
-        <div class="modal-header" style="background: #a331a3;">
+        <div class="modal-header" style="background: #056fb8;">
           <h3 class="" style="text-align: center;color: white;">
           コメント
           </h3>
@@ -173,8 +258,8 @@
 
 
     <div class="modal fade left bd-example-modal-lg5"  >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="width:500px">
+      <div class="modal-dialog modal-lg cals" style="width:90vw;">
+        <div class="modal-content" >
 
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -189,11 +274,14 @@
         </div>
       </div>
 
-<button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
+{{-- <button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
 
-<button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button>
+<button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg2" style="color:white;position: absolute;top: 45%;right: 0"> 説明 </button> --}}
 
 {{-- <button type="button" class="nav-link active__" data-toggle="modal" data-target=".bd-example-modal-lg3" style="color:white;position: absolute;top: 55%;right: 0"> コメント </button> --}}
+<div class="loads" >
+    <i class="fas fa-circle-notch fa-spin fa-4x"></i>
+</div>
 <div id="clock"></div>
 @endsection
 @section('footer_css_js')
@@ -325,11 +413,11 @@ console.log('The exact time: '+exactTime);
       interfaceConfigOverwrite: {
      TOOLBAR_BUTTONS: [
             'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-            'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-            'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
-            'e2ee', 'security'
+            'fodeviceselection', 'hangup', '', 'chat', '',
+            '', '', '', '', '',
+            '', 'filmstrip', '', '', '',
+            'tileview', '', '', '', '',
+            '', ''
         ],
         filmStripOnly: true
       }
@@ -357,7 +445,8 @@ console.log('The exact time: '+exactTime);
           let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
           console.log(received_data);
           console.log(received_data.type);
-          alert(received_data.type);
+          $(".loads").show();
+          // alert(received_data.type);
           if(received_data.type == 'set_large_vedio_open'){
             api.setLargeVideoParticipant(received_data.id);
           }
@@ -368,9 +457,20 @@ console.log('The exact time: '+exactTime);
           if(received_data.type == 'show_calendar'){
             $('.bd-example-modal-lg5').modal();
           }
+          if(received_data.type == 'show_dashboard'){
+            $("div#_ct_").html(received_data.content);
+            $('#dashboard').modal();
+            $('#dashboard').find(".remove").remove();
+            $('#dashboard').find(".comment_name").remove();
+            $('#dashboard').find(".comment_name_").remove();
 
+            // $('#menue_finished tr').css("border", "#e3e3e3 solid 1px"); 
+            
+          }
           
 
+          
+           $(".loads").hide();
           
         });
   
@@ -470,16 +570,19 @@ calendar.setOption('locale', 'ja');
 
   });
 
-  function showExplanation(text,sub,way,motion){
+  function showExplanation(img,text,sub,way,motion){
         Swal.fire({
+          showCloseButton: true,
            icon: '',
            title: '説明',
-           html: " <br> <b> サマリ:</b> "+text,
+           html: " <br> "+" <img alt='Image loading...' src='"+img
+                 +"' >"+"<br><b> サマリ:</b> "+text,
            showConfirmButton:false
          })
   }
   function showGif(image){
         Swal.fire({
+          showCloseButton: true,
            icon: '',
            title: 'コースイメージ',
            html: " <img alt='Image loading...' src='"+image

@@ -14,7 +14,7 @@
         <td>
           <span class='fa-box{{ "prev_".$val->id ."_".$val->course_id}}'></span> 
           <span class="course_name">{{ $courseInfo->course_name ?? ''}} </span><br>
-          ダンベルカール: <span class="comment_name">{{$val->exercise_comment}}</span>
+          <span class="comment_name_">ダンベルカール:</span> <span class="comment_name">{{$val->exercise_comment}}</span>
         </td>
         <td>  備品: <span class="equp">{{ getEquipment($courseInfo->equipment_id)->name ?? '' }}</span>
         @if(isset($set1))

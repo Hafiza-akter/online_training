@@ -164,7 +164,7 @@
             </div>
           </div>
 
-          <div class="row mb-1 mt-3">
+          <div class="row mb-1 mt-3" id="dashboard">
             <div class="col-sm-12">
 
               <div class="table-responsive">
@@ -916,6 +916,8 @@ function check_disable_add_menu_button(){
     $(this).prop('disabled', true);
     $(".save_start").attr('disabled', false);
 
+    showExerciseDashboard();
+
   });
 
   $(document).on("click", ".save_start", function() {
@@ -983,6 +985,7 @@ function check_disable_add_menu_button(){
     activeFirstMenue();
     $(this).prop('disabled', true);
     $(".fetchExerciseData").prop('disabled', false);
+    showExerciseDashboard();
 
   });
 
@@ -1073,10 +1076,10 @@ function check_disable_add_menu_button(){
 
     let td1="備品:" + $("#_label_equipment").text() + " " +$("#set1_kg").val()+" KG "+$("#set1_times").val()+" 回 " + $("#efficiency").val()+" %"; 
     let td= $("#_label_course").text() + ' \n' 
-    +" ダンベルカール: "+$("#exercise_comment").val(); 
+    +" <span class='comment_name'>ダンベルカール: "+$("#exercise_comment").val()+"</span>"; 
 
     $("#menue_finished tr:last").find("td:eq(1)").prepend('<span aria-hidden="true"  class=" remove float-right fa-2x text-danger" style="cursor:pointer">×</span> ');
-    $("#menue_finished tr:last").find("td:eq(0)").text(td);
+    $("#menue_finished tr:last").find("td:eq(0)").html(td);
     $("#menue_finished tr:last").find("td:eq(1)").text(td1);
    }
 
@@ -1172,15 +1175,29 @@ function check_disable_add_menu_button(){
       }
     });
 
-          calendar.render();
-          calendar.setOption('locale', 'ja');
+    calendar.render();
+    calendar.setOption('locale', 'ja');
 
-$('.bd-example-modal-lg5').on('shown.bs.modal', function () {
-calendar.render();
-calendar.setOption('locale', 'ja');
-})
+    $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
+      calendar.render();
+      calendar.setOption('locale', 'ja');
+    })
 
   });
+  function showExerciseDashboard(content){
+      
+      let contents=$("#dashboard").html();
+
+
+      let action={
+      'type':'show_dashboard',
+      'id':$("#remote_user").val(),
+      'content':contents
+      };
+      api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+
+
+  }
 
 
 
