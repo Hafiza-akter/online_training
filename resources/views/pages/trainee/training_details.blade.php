@@ -80,24 +80,38 @@
 }
 
 </style>
-<section class="review_part gray_bg section_padding" >
-    {{-- <div class="row justify-content-center">
-        <div class="col-md-8 col-xl-6">
-            <div class="section_tittle">
-                <h3>トレーニングページ</h3>
-            </div>
-        </div>
-    </div> --}}
+<section class="review_part gray_bg section_padding pb-0" style="background:#494747" >
+    <div id="meet" style="height: calc(100vh - 145px);width: 100%;"></div>
+    <div id="clock"></div>
 
-    <div class="col justify-content-center px-0">
-        <div class="col-md-12 px-0">
-            <div id="meet" style="height: calc(100vh - 76px);"></div>
-        </div>   
+    <div class="container">
+
+        <div class="row jsutify-content-center">
+
+
+           <ul class="list-group list-group-horizontal mx-auto user_jitsi_menue">
+            <li  class="list-group-item pointer " onclick="$('#dashboard').modal()">
+
+              <img src="{{ asset('images/target.png')}}">
+              <span> 実績 </span>
+            </li>
+            <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg2').modal()">
+              <img src="{{ asset('images/cours.png')}}" >
+              <span> 説明 </span>
+
+            </li>
+            <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg5').modal()">
+               <img src="{{ asset('images/calendar.png')}}" >
+              <span> 予約 </span>
+            </li>
+          </ul>
+
+        </div>
     </div>
 </section>
 
 
-<div class="fixedbutton" style="height:50px;">
+{{-- <div class="fixedbutton" style="height:50px;">
     <ul class="list-group list-group-horizontal">
       <li  class="list-group-item pointer" onclick="$('#dashboard').modal()">
 
@@ -114,7 +128,7 @@
         <span> 予約 </span>
       </li>
     </ul>
-</div>
+</div> --}}
 
 <div class="modal fade left" id="dashboard" tabindex="-1" role="dialog" aria-labelledby="dashboard" aria-hidden="true">
   <div class="modal-dialog modal-dialog-slideout modal-lg crs" role="document" style="width:90vw;">
@@ -413,7 +427,7 @@ console.log('The exact time: '+exactTime);
       interfaceConfigOverwrite: {
      TOOLBAR_BUTTONS: [
             'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-            'fodeviceselection', 'hangup', '', 'chat', '',
+            'fodeviceselection', 'hangup', '', '', '',
             '', '', '', '', '',
             '', 'filmstrip', '', '', '',
             'tileview', '', '', '', '',

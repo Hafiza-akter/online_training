@@ -4765,7 +4765,9 @@ h1, h2, h3, h4, h5, h6 {
 
 
 @media only screen and (min-width:768px) and (max-width:991px) {
-  
+  .jitsi_trainer_item   .list-group-item{
+   padding:4px !important;
+  }
 .point_1_heading_1{
 
     left: 46%;
@@ -4824,14 +4826,40 @@ h1, h2, h3, h4, h5, h6 {
         width: 29px;
     }
 }
-
+.user_jitsi_menue li>img{
+    height: 45px;
+    margin-top:-15px;
+}
+.user_jitsi_menue li>span{
+    font-size:2em;
+}
 @media only screen and (max-width: 576px) {
-   
+   .jitsi_trainer_item   .list-group-item{
+   padding:4px !important;
+  }
     .rounded-circle{
         height: 17px;
         width: 17px;
     }
+    .user_jitsi_menue li>img{
+        height: 35px;
+    }
+    .user_jitsi_menue li>span{
+     font-size:1.3em;
+    }
+    .fc .fc-toolbar.fc-header-toolbar{
+    font-size: 9px;   
+    }
+
 }
+@media only screen and (max-width: 1024px) {
+   
+    .main_menu .main-menu-item ul li a{
+        font-size: 15px;
+    }
+
+}
+
 
 .pointer{
     cursor: pointer;

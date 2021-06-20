@@ -50,135 +50,138 @@
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
-<div class="offset-md-1 col-md-10">
-          @if(Session::has('message'))
-        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{!! Session::get('message') !!}</p>
-        @endif
-
-        @if(Session::has('errors_m'))
-        <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
-        @endif
-
-  <div class="row pb-5  page-content page-container" id="chart">
-
-    <form action="{{route('traineeCalendar.submit')}}" method="post" id="dateform">
-      {{ csrf_field() }}
-
-
-      @if(isset($_GET['trainer_id']) )
-      <input type="hidden" name="trainer_id" value="{{ $_GET['trainer_id'] }}">
-      @else
-      <input type="hidden" name="user_id" value="{{ Session::get('user')->id }}">
+  <div class="container">
+    <div class="col-md-12 px-0">
+      @if(Session::has('message'))
+      <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-info') }} alert-dismiss">{!! Session::get('message') !!}</p>
       @endif
 
-      <input type="hidden" name="event_type" id="event_type" value="">
-      <input type="hidden" name="selected_date" id="selected_date" value="">
-    </form>
-  </div>
+      @if(Session::has('errors_m'))
+      <p id="flashMessage" class="alert {{ Session::get('alert-class', 'alert-danger') }} alert-dismiss">{!! Session::get('errors_m') !!}</p>
+      @endif
 
-  <div id='calendar'></div>
-  <input type="hidden" id="schedule" value="{{ $schedule}}">
+      <div class="row pb-5  page-content page-container" id="chart">
 
-  <div class="row mb-5 mt-3">
-    {{-- <div class="offset-sm-4 col-sm-4 border-round">
+        <form action="{{route('traineeCalendar.submit')}}" method="post" id="dateform">
+        {{ csrf_field() }}
+
+
+        @if(isset($_GET['trainer_id']) )
+        <input type="hidden" name="trainer_id" value="{{ $_GET['trainer_id'] }}">
+        @else
+        <input type="hidden" name="user_id" value="{{ Session::get('user')->id }}">
+        @endif
+
+        <input type="hidden" name="event_type" id="event_type" value="">
+        <input type="hidden" name="selected_date" id="selected_date" value="">
+        </form>
+      </div>
+
+      <div id='calendar'></div>
+      <input type="hidden" id="schedule" value="{{ $schedule}}">
+
+      <div class="row mb-5 mt-3">
+      {{-- <div class="offset-sm-4 col-sm-4 border-round">
       <a class="btn" href="{{ route('trainerlist') }}">トレーナー一覧</a>
 
-    </div> --}}
-  </div>
+      </div> --}}
+      </div>
 
 
-  <div class="offset-md-1 col-md-10 mt-30" id="scheduleList">
+      <div class="col-md-12 col-lg-12 col-xl-12 mt-30" id="scheduleList">
 
-           <h4 class="" style="text-align: center;">スケジュール詳細</h4>
+      <h4 class="" style="text-align: center;">スケジュール詳細</h4>
 
-    <table class="table table-striped" style="background: #f9f9ff;">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">ステータス</th>
-        <th scope="col">日時</th>
-        <th scope="col">予約時間</th>
-        <th scope="col">トレーナー</th>
-        <th scope="col">コース開始</th>
-      </tr>
-    </thead>
-    <tbody>
-      @if($listSchedule)
-        @foreach($listSchedule as $key=>$val)
-            @php 
-            
+        <table class="table table-striped" style="background: #f9f9ff;">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ステータス</th>
+              <th scope="col">日時</th>
+              <th scope="col">予約時間</th>
+              <th scope="col">トレーナー</th>
+              <th scope="col">コース開始</th>
+            </tr>
+          </thead>
+        <tbody>
+          @if($listSchedule)
+          @foreach($listSchedule as $key=>$val)
+          @php 
+
             $isToday=\Carbon\Carbon::parse($val->start_date)->isToday();
             $isPast=\Carbon\Carbon::parse($val->start_date)->isPast();
-           
+
+          @endphp
+
+          @if(!checkPastTIme1(\Carbon\Carbon::parse($val->time)->format('H:i'),\Carbon\Carbon::parse($val->date)->format('Y-m-d')))
+        <tr>
+          <td scope="row">{{ ++$key}}</td>
+          <td>
+
+            @if($val->is_occupied == 1)
+            @if($val->status === 'rescheduled')
+              <span class="btn-warning p-1"> {{ $val->status }}</span>
+            @endif
+
+            @if($val->status === 'cancelled')
+              <span class="btn-danger p-1"> {{ $val->status }}</span>
+            @endif
+            @if($val->status === 'completed')
+             <span class="btn-success p-1"> {{ $val->status }}</span>
+            @endif
+            @if($val->status === 'cancelled_penalty')
+             <span class="btn-red p-1"> {{ 'cancelled' }}</span>
+            @endif
+            @endif 
+         </td>
+          <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
+          <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
+          <td>
+
+
+            @if($val->is_occupied )
+            <a class="btn btn-info"
+             {{ $val->is_occupied ? '' : 'disabled="disabled"'}} 
+              href="{{ route('trainerhistory',$val->trainer_id)}}" 
+              > トレーナー詳細</a>
+            @else 
+              <span> Not assigned yet </span>
+            @endif
+
+          </td>
+          <td>
+            @php
+            $parameter =[
+            'id' =>$val->id,
+            ];
+            $parameter= \Crypt::encrypt($parameter);
             @endphp
+              {{-- @if(!checkPastTIme(\Carbon\Carbon::parse($val->start_date)->format('Y-m-d'),\Carbon\Carbon::parse($val->time)->format('H:i:s'))) --}}
 
-            @if(!checkPastTIme1(\Carbon\Carbon::parse($val->time)->format('H:i'),\Carbon\Carbon::parse($val->date)->format('Y-m-d')))
-              <tr>
-                <td scope="row">{{ ++$key}}</td>
-                <td>
-                  
-                @if($val->is_occupied == 1)
-                  @if($val->status === 'rescheduled')
-                  <span class="btn-warning p-1"> {{ $val->status }}</span>
-                  @endif
+          @if($val->status === NULL)
+            <form action="{{ route('trainingtrainee',$parameter)}}" method="post" >
 
-                  @if($val->status === 'cancelled')
-                  <span class="btn-danger p-1"> {{ $val->status }}</span>
-                  @endif
-                  @if($val->status === 'completed')
-                  <span class="btn-success p-1"> {{ $val->status }}</span>
-                  @endif
-                  @if($val->status === 'cancelled_penalty')
-                  <span class="btn-red p-1"> {{ 'cancelled' }}</span>
-                  @endif
-                 @endif 
-                </td>
-                <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
-                <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
-                <td>
+              {{ csrf_field() }}
+              <button type="submit"  class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</button>
+            </form>
 
-
-                    @if($val->is_occupied )
-                      <a class="btn btn-info"
-                       {{ $val->is_occupied ? '' : 'disabled="disabled"'}} 
-                       href="{{ route('trainerhistory',$val->trainer_id)}}" 
-                       > トレーナー詳細</a>
-                    @else 
-                      <span> Not assigned yet </span>
-                    @endif
-                  
-                </td>
-                <td>
-                  @php
-                    $parameter =[
-                    'id' =>$val->id,
-                    ];
-                    $parameter= \Crypt::encrypt($parameter);
-                  @endphp
-                  {{-- @if(!checkPastTIme(\Carbon\Carbon::parse($val->start_date)->format('Y-m-d'),\Carbon\Carbon::parse($val->time)->format('H:i:s'))) --}}
-
-                  @if($val->status === NULL)
-                <form action="{{ route('trainingtrainee',$parameter)}}" method="post" >
-          
-                   {{ csrf_field() }}
-                  <button type="submit"  class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</button>
-                </form>
-
-                  @endif
-                  {{-- @endif --}}
-                  {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
-                  {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
-                </td>
-              </tr>
-              @endif
+          @endif
+            {{-- @endif --}}
+            {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
+            {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}
+          </td>
+        </tr>
+        @endif
         @endforeach
-      @endif
-      
-    </tbody>
-  </table>
-</div>
-</div>
+        @endif
 
+        </tbody>
+        </table>
+      </div>
+
+      
+    </div>
+</div>
 </section>
 @endsection
 @section('footer_css_js')

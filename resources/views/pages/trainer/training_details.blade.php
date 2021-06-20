@@ -20,6 +20,9 @@
 .premeeting-screen .content .copy-meeting .url .jitsi-icon {
     display: none;
 }
+.section_padding{
+    padding: 76px 0;
+}
 .table td{
   border:none;
 }
@@ -29,11 +32,11 @@
 .remove{cursor: pointer;}
  #clock {
     position: absolute;
-    top: 40%;
+    top: 20%;
     left: 1%;
     /*transform: translateX(-50%) translateY(-50%);*/
     color: red;
-    font-size: 2rem;
+    font-size: 1rem;
 }
    
 
@@ -57,18 +60,45 @@
   margin:2px;
   padding:2px;
 }
+.row{
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 </style>
-<section class="review_part gray_bg section_padding">
+<section class="review_part gray_bg section_padding pb-0" style="overflow: hidden;">
 
 
-<div class="row justify-content-center">
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4">
-        <div id="meet" style="height:86vh;width: 100%;"></div>
+<div class="row  px-0 mx-0">
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4 px-0 mx-0" style="height:62vh;">
+        <div id="meet" style="height:50vh;width: 100%;"></div>
+        <div id="clock"></div>
+           <ul class="list-group list-group-horizontal mx-auto jitsi_trainer_item">
+            <li  class="list-group-item pointer user" >
 
-          <div class="row justify-content-center card">
+              <span><img src="{{ asset('images/user_camera.png')}}"></span>
+
+            </li>
+            <li class="list-group-item pointer trainer">
+              <span><img src="{{ asset('images/camera.png')}}"></span>
+
+
+            </li>
+            <li class="list-group-item pointer screenshare" >
+              <span><img src="{{ asset('images/share.png')}}"></span>
+
+            </li>
+            <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg4').modal()">
+                    <span><img src="{{ asset('images/gif.png')}}"></span>
+
+            </li>
+            <li class="list-group-item pointer" onclick="show_calendar()">
+                    <span><img src="{{ asset('images/cl.png')}}"></span>
+            </li>
+          </ul>
+          {{-- <div class="row justify-content-center card"> --}}
           
-            <div class="col text-center">
+            {{--<div class="col text-center">
               <div class="card m-1 user" style="display:inline-flex;height: 80px;width:80px">
                 <div class="card-body" >
                    <span><img src="{{ asset('images/user_camera.png')}}"></span>
@@ -97,31 +127,31 @@
                 </div>
               </div>
               
-            </div>
+            </div> --}}
 
 
-        </div>
+        {{-- </div> --}}
       </div>
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4 card text-center pt-3">
-         <button class="btn btn-md btn-primary btn-outline btn-block copy_list">前回のリストをコピー</button>
-         <button class="btn btn-md btn-primary btn-outline btn-block">前回のリストをコピー</button>
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  mx-0 px-0" style="height:62vh;overflow: auto;">
+        <div class="card">
+          <button class="btn btn-md btn-primary btn-outline btn-block copy_list">前回のリストをコピー</button>
+          <button class="btn btn-md btn-secondary btn-outline btn-block">セットメニューからコピー</button>
 
-
-          <div class="row p-2 mx-auto" >
+          <div class="row p-2 mx-auto" style="display:inline-block;text-align:center;">
 
           <span class="prev"><i class="fas fa-chevron-circle-left fa-2x"></i></span>
             <input type="text" id="list_date" data-format="YYYY-MM-DD" data-template="YYYY MMM D" name="list_date" >
           <span class="next"><i class="fas fa-chevron-circle-right fa-2x"></i></span>
 
           </div>
-       
 
-         <div id="previous_data">
+
+          <div id="previous_data">
            
-         </div>
-
+          </div>
+       </div>
       </div>
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  performance px-1" id="performance">
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  performance mx-0 px-0" id="performance" style="height:62vh;overflow: auto;" >
         <div class="card px-1">
           <div class="row">
               <div class="col-sm-6 ">
@@ -183,10 +213,8 @@
           
         </div>
       </div>
-</div>
-<div class="row">
-    <div class="col-sm-12 col-md-8  col-lg-8 col-xl-8  card mt-2 border border-primary">
-        <div class="p-4">
+      <div class="col-sm-12 col-md-8  col-lg-8 col-xl-8 mx-0 px-0  border border-primary">
+        <div class="card p-2">
           
         <div class="row ml-2 mb-1 " id="exercise_form_2">
         </div>
@@ -233,8 +261,6 @@
            
           </div>
 
-         
-          
         </div>
       </div>
 </div>
@@ -337,7 +363,7 @@
 
 
 
-<div id="clock"></div>
+
 
 @endsection
 @section('footer_css_js')
@@ -571,7 +597,7 @@ function check_disable_add_menu_button(){
       interfaceConfigOverwrite: {
      TOOLBAR_BUTTONS: [
             'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-            'fodeviceselection', 'hangup', '', 'chat', '',
+            'fodeviceselection', 'hangup', '', '', '',
             '', '', '', '', '',
             '', 'filmstrip', '', '', '',
             'tileview', '', '', '', '',
