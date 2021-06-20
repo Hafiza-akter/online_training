@@ -370,7 +370,7 @@
 <script src='{{ asset('asset_v2/js/sweetalert2@10.js')}}'></script>
 <script src='{{ asset('asset_v2/js/jquery.countdown.min.js')}}'></script>
 <script src='{{ asset('asset_v2/js/combodate.js')}}'></script>
-<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 <style>
   
