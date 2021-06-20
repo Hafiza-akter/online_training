@@ -133,7 +133,7 @@
         {{-- </div> --}}
       </div>
       <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  card mx-0 px-0 text-center" style="height:62vh;overflow: auto;">
-        <div class="">
+        <div class="p-3">
           <button class="btn btn-md btn-primary btn-outline btn-block copy_list">前回のリストをコピー</button>
           <button class="btn btn-md btn-secondary btn-outline btn-block">セットメニューからコピー</button>
 
@@ -152,7 +152,7 @@
        </div>
       </div>
       <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  performance mx-0 px-0" id="performance" style="height:62vh;overflow: auto;" >
-        <div class="card px-1">
+        <div class="card p-3">
           <div class="row">
               <div class="col-sm-6 ">
                   <label class="col-form-label">メイン</label>
