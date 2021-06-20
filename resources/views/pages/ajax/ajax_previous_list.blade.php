@@ -14,11 +14,12 @@
         <td>
           <span class='fa-box{{ "prev_".$val->id ."_".$val->course_id}}'></span> 
           <span class="course_name">{{ $courseInfo->course_name ?? ''}} </span><br>
-          <span class="comment_name_">ダンベルカール:</span> <span class="comment_name">{{$val->exercise_comment}}</span>
+          <span class="comment_name_"></span>
+          {{-- <span class="comment_name_">ダンベルカール:</span> <span class="comment_name">{{$val->exercise_comment}}</span> --}}
         </td>
         <td>  備品: <span class="equp">{{ getEquipment($courseInfo->equipment_id)->name ?? '' }}</span>
         @if(isset($set1))
-         <span class="kg">{{ $sd1[0]}}</span> kg <span class="times">{{ $sd1[1]}}</span> 回   <span class="effi">{{ $val->efficiency}} </span>%
+         <span class="kg">{{ $sd1[0]}}</span> kg <span class="times">{{ $sd1[1]}}</span> 回   <span class="effi"></span>{{-- <span class="effi">{{ $val->efficiency}} </span>% --}}
         @endif
            </td>
       </tr>
