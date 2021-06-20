@@ -4733,12 +4733,12 @@ h1, h2, h3, h4, h5, h6 {
 
     text-align: center;
     border: 1px solid #6c757d;
-    padding: 10px;
+    /*padding: 10px;*/
     color: #056fb8;
 }
 .active-sorting{
     text-align: center;
-    padding: 10px;
+    /*padding: 10px;*/
     color: #fff;
     background: #c30f23;
 }
@@ -4762,17 +4762,7 @@ h1, h2, h3, h4, h5, h6 {
 .cd{
     height:332px ;
 }
-@media only screen and (max-width: 768px) {
-    .cd{
-            height:120px;
 
-    }
-  .cd img{
-    float: left;
-    width: 120px !important;
-    height: 120px !important;
- }
-}
 
 @media only screen and (min-width:768px) and (max-width:991px) {
   
@@ -4816,6 +4806,33 @@ h1, h2, h3, h4, h5, h6 {
     
 }
 }
+@media only screen and (max-width: 768px) {
+    .cd{
+        height:120px;
+
+    }
+    .cd img{
+        float: left;
+        width: 120px !important;
+        height: 120px !important;
+    }
+    .sorting-button{
+        font-size:12px;
+    }
+    .rounded-circle{
+        height: 29px;
+        width: 29px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+   
+    .rounded-circle{
+        height: 17px;
+        width: 17px;
+    }
+}
+
 .pointer{
     cursor: pointer;
 }

@@ -95,33 +95,33 @@
 
 
 
-  <div class="col mb-3" >
+  <div class="col px-1 mb-3" >
     <p   data-sort="{{ $param1 }}"  style="cursor: pointer" class=" sort sorting-button p-3 {{ !empty($sorting) &&  $sorting == 'favourite' ? 'active-sorting' : ''}}  "> お気に入り </p>
   </div>
 
-  <div class="col" >
-      <p  data-sort="{{ $param2 }}" style="cursor: pointer" class=" sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'history' ? 'active-sorting' : ''}} "> 履歴 </p>
+  <div class="col px-1" >
+      <p  data-sort="{{ $param2 }}"  class="pointer sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'history' ? 'active-sorting' : ''}} "> 履歴 </p>
   </div>
 
-  <div class="col" >
-      <p  data-sort="{{ $param3 }}" style="cursor: pointer" class=" sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> おすすめ </p>
+  <div class="col px-1" >
+      <p  data-sort="{{ $param3 }}"  class="pointer sort sorting-button  p-3 {{ !empty($sorting) &&  $sorting == 'recommended' ? 'active-sorting' : ''}} "> おすすめ </p>
   </div>
 </div>
 
 <div class="row content-justify-center ">
-  <div class="col">
-    <p  data-sort="{{ $param4 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '00:00:00-06:00:00' ? 'active-sorting' : ''}} "> 0.00 - 6.00 </p>
+  <div class="col px-1">
+    <p  data-sort="{{ $param4 }}"  class="pointer sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '00:00:00-06:00:00' ? 'active-sorting' : ''}} "> 0.00 - 6.00 </p>
   </div>
 
-  <div class="col" >
-      <p  data-sort="{{ $param5 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '06:00:00-12:00:00' ? 'active-sorting' : ''}}"> 6.00 - 12.00  </p>
+  <div class="col px-1" >
+      <p  data-sort="{{ $param5 }}"  class="pointer sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '06:00:00-12:00:00' ? 'active-sorting' : ''}}"> 6.00 - 12.00  </p>
   </div>
 
-  <div class="col" >
-      <p   data-sort="{{ $param6 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '12:00:00-18:00:00' ? 'active-sorting' : ''}}"> 12.00 - 18.00 </p>
+  <div class="col px-1" >
+      <p   data-sort="{{ $param6 }}"  class="pointer sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '12:00:00-18:00:00' ? 'active-sorting' : ''}}"> 12.00 - 18.00 </p>
   </div>
-    <div class="col" >
-      <p   data-sort="{{ $param7 }}" style="cursor: pointer" class=" sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '18:00:00-24:00:00' ? 'active-sorting' : ''}}"> 18.00 - 24.00 </p>
+    <div class="col px-1" >
+      <p   data-sort="{{ $param7 }}"  class="pointer sort2 sorting-button {{ !empty($sorting2) &&  $sorting2 == '18:00:00-24:00:00' ? 'active-sorting' : ''}}"> 18.00 - 24.00 </p>
   </div>
 </div>
 <form action="{{route('sorting')}}" method="post" id="sortform">
