@@ -132,8 +132,8 @@
 
         {{-- </div> --}}
       </div>
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  mx-0 px-0" style="height:62vh;overflow: auto;">
-        <div class="card">
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  card mx-0 px-0 text-center" style="height:62vh;overflow: auto;">
+        <div class="">
           <button class="btn btn-md btn-primary btn-outline btn-block copy_list">前回のリストをコピー</button>
           <button class="btn btn-md btn-secondary btn-outline btn-block">セットメニューからコピー</button>
 
