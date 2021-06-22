@@ -171,16 +171,16 @@ z-index: 1;inset: 21px -2% -65px !important;
                     ];
                     $parameter= \Crypt::encrypt($parameter);
                   @endphp
-              @if($val->status === NULL)
           
 
                  <form action="{{ route('training',$parameter)}}" method="post" >
-          
+                        <input type="hidden" name="_schedulelist_" value="{{ $schedule}}">
+
                    {{ csrf_field() }}
                   <button type="submit"  class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > トレーニング開始 </button>
                 </form>
 
-              @endif
+              
 
               @if($val->status != 'cancelled')
               {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}

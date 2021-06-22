@@ -96,6 +96,17 @@ class ReservationController extends Controller
         return response()->json(array('success' => true, 'html'=>$returnHTML));
 
     }
+    public function getTime(Request $request){
+        $data=getTime($request->trainer_id,$request->date);
+        $user_id= $request->user_id;
+        $returnHTML = view('pages.ajax.ajax_jitsi_time_list')
+            ->with('data',$data)
+            ->with('user_id',$user_id)
+            ->with('date',$request->date)
+            ->render();
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
+    }
 
     public function checkPenalty($schedule_date,$user_id){
 
@@ -136,7 +147,7 @@ class ReservationController extends Controller
         ->whereBetween('date', [$start." 00:00:00", $end." 00:00:00"])->get()->count();
      
         $count = $count1 + $count2;
-        $purchasePlan = activePurchasePlan(Session::get('user.id'));
+        $purchasePlan = activePurchasePlan($user_id);
         $dayPerWeek = $purchasePlan->getPlan()->get()->first()->times_per_week;
         // 
         if($count >= $dayPerWeek){
@@ -231,6 +242,85 @@ class ReservationController extends Controller
         return redirect()->route('traineeCalendar.view')->with('message','レッスンの予約が完了しました。');
 
 
+
+    }
+    public function jitsiUserSubmitTime(Request $request){
+        
+        // dd($request->all());
+        $tinfo = Trainer::find($request->trainer_id);
+        $userInfo = Trainee::find($request->user_id);
+        // dd($tinfo);
+        $rval = $this->checkReservation($request->date,$request->user_id);
+        // dd($rval);
+        if($rval == 'count_exceed'){
+
+            $returnHTML='<p  class="alert alert-danger"> 
+            プラン制限を超えました</p>';
+
+            return response()->json(array('success' => false, 'html'=>$returnHTML));
+
+            
+        }
+        if($rval == 'past_future'){
+            $returnHTML='<p  class="alert alert-danger"> 
+            選択した日付がプランの開始日と終了日の間にありません</p>';
+
+            return response()->json(array('success' => false, 'html'=>$returnHTML));
+
+        } 
+        if(checkPastTIme($request->time,$request->date)){
+             $returnHTML='<p  class="alert alert-danger"> 
+            スケジュール時間が過ぎました</p>';
+
+            return response()->json(array('success' => false, 'html'=>$returnHTML));
+
+        }
+       
+
+      
+        $schedule =TrainerSchedule::whereDate('date',$request->date)
+                                    ->where('time',$request->time)
+                                    ->where('trainer_id',$request->trainer_id)
+                                    ->where('status',NULL)
+                                    ->get()->first();
+                                    // dd($schedule);
+        if(!$schedule){
+            // dd('her');
+            $newSchedule = new TrainerSchedule();
+            $newSchedule->date =$request->date;
+            $newSchedule->time =$request->time;
+            $newSchedule->trainer_id =$request->trainer_id;
+            $newSchedule->user_id =$request->user_id;
+            $newSchedule->is_occupied =1;
+            $newSchedule->save();
+
+        }else{
+            $schedule->user_id =$request->user_id;
+            $schedule->is_occupied =1;
+            $schedule->save();
+        }
+
+        $details=array();
+        $details['user_name'] = $userInfo->name;
+        $details['user_email'] = $userInfo->email;
+        $details['date'] = $request->date;
+        $details['month'] = Carbon::parse($request->date)->format('F j');
+        $details['day'] =  Carbon::parse($request->date)->format('l');
+        $details['time'] = $request->time;
+        $details['address'] = route('traineeCalendar.view');
+        $details['trainer_name'] = $tinfo->first_name;
+        $details['trainer_email'] = $tinfo->email;
+        $details['type'] = 'trainee';
+        $details['trainer_name'] = Trainer::find($request->trainer_id)->first_name;
+        $details['user_name'] = $userInfo->name;;
+
+        \Mail::to($userInfo->email)->send(new \App\Mail\Reservation($details));
+        \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
+
+          $returnHTML='<p  class="alert alert-success"> 
+            レッスンの予約が完了しました。</p>';
+
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
 
     }
     

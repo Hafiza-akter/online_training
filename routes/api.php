@@ -29,3 +29,5 @@ Route::post('api/removefavouritetrainer/', 'TrainingController@removeFavourite')
 Route::post('api/favouritesorting/', 'TraineeController@favouritesorting')->name('favouritesorting');
 Route::post('api/previoustraininglist/', 'TrainingController@previoustraininglist')->name('previoustraininglist');
 Route::post('api/trainerreservation/', 'TrainingController@trainerreservation')->name('trainerreservation');
+Route::post('api/getTime/', 'ReservationController@getTime')->name('getTime');
+Route::post('api/jitsiUserSubmitTime/', 'ReservationController@jitsiUserSubmitTime')->name('jitsiUserSubmitTime');

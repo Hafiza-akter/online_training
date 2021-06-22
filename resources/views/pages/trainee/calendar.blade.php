@@ -158,14 +158,13 @@
             @endphp
               {{-- @if(!checkPastTIme(\Carbon\Carbon::parse($val->start_date)->format('Y-m-d'),\Carbon\Carbon::parse($val->time)->format('H:i:s'))) --}}
 
-          @if($val->status === NULL)
+         
             <form action="{{ route('trainingtrainee',$parameter)}}" method="post" >
 
               {{ csrf_field() }}
               <button type="submit"  class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} >トレーニング開始</button>
             </form>
 
-          @endif
             {{-- @endif --}}
             {{-- <a class="btn btn-danger" href="{{ route('trainerScheduleDelete',$val->id) }}">Delete</a> --}}
             {{-- <button class="btn btn-warning" {{ $val->is_occupied ? '' : 'disabled="disabled"'}}>Reschedule</button> --}}

@@ -571,7 +571,7 @@ function dateIsnotPast($date){
 	return true;
 }
 
-function getTrainerList(){
+function getTrainerList($trainer_id=null){
 	
 
 
@@ -582,7 +582,7 @@ function getTrainerList(){
 	if(isset($purchasePlan)){
 
 
-		$schedule = \DB::table('tbl_trainer_schedules as w')
+		$query = \DB::table('tbl_trainer_schedules as w')
                     ->select(
                         array(
                             'time',
@@ -598,27 +598,48 @@ function getTrainerList(){
                     ->where('status',NULL)
                     ->whereDate('date', '>=',  \Carbon\Carbon::now())
                     ->groupBy('day','trainer_id')
-                    ->take(4)
-                    ->get();
+                    ->take(4);
+        if($trainer_id){
+        	$query->where('trainer_id',$trainer_id);
+        }
+        $schedule= $query->get();
 
     	if(isset($schedule)){
 	            	foreach($schedule as $key=>$vals){
-
-	            		$periodArray[$count] = array(
-	            			// 'display' => 'background',
-	            			'allDay' => true,
-	            			'color' =>'transparent',
-	            			// 'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
+	            		if($trainer_id){
+	            			$periodArray[$count] = array(
+							'display' => 'background',
+							'allDay' => true,
+							'color' =>'blue',
+							// 'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
 							'start' =>  $vals->day, // purchase plan start day
 							'extendedProps' => array(
-								// 'type' =>  'normal',
-								'imageurl'=> getTrainerImage($vals->trainer_id),
-	                            // 'type' => 'recurring',
-								'trainer_id' =>  $vals->trainer_id,
-								'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
-	                            
+							// 'type' =>  'normal',
+							'imageurl'=> getTrainerImage($vals->trainer_id),
+							// 'type' => 'recurring',
+							'trainer_id' =>  $vals->trainer_id,
+							'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
+
 							)
-	            		);
+							);
+	            		}else{
+							$periodArray[$count] = array(
+							// 'display' => 'background',
+							'allDay' => true,
+							'color' =>'transparent',
+							// 'color' => $vals->user_id === Session::get('user.id') && $vals->is_occupied == 1 ? 'red' : 'transparent',
+							'start' =>  $vals->day, // purchase plan start day
+							'extendedProps' => array(
+							// 'type' =>  'normal',
+							'imageurl'=> getTrainerImage($vals->trainer_id),
+							// 'type' => 'recurring',
+							'trainer_id' =>  $vals->trainer_id,
+							'name' =>  getTrainer($vals->trainer_id)->first_name ?? ''
+
+							)
+							);
+	            		}
+	            		
 						$count++;
 	            	}
 	            }
@@ -639,28 +660,50 @@ function getTrainerList(){
 			if(dateIsnotPast($date->format('Y-m-d'))){
 
 
-				$recurring = \App\Model\TrainerRecurringSchedule::where('status',NULL)
+				$query2 = \App\Model\TrainerRecurringSchedule::where('status',NULL)
 	                    ->where('dow',$date->dayOfWeek)
 	                    ->groupBy('dow','trainer_id')
-	                    ->take(4)
-	                    ->get();
+	                    ->take(4);
+	            if($trainer_id){
+	            	$query2->where('trainer_id',$trainer_id);
+	            }
+	            $recurring = $query2->get();        
+	                    
 	             // dd($recurring);
 	            if(isset($recurring)){
 	            	foreach($recurring as $key=>$vals){
 
-	            		$periodArray[$count] = array(
-	            			// 'display' => 'list-item',
-	            			'allDay' => true,
-	            			'color' => 'transparent',
-							'start' =>  $date->format('Y-m-d'), // purchase plan start day
-							'extendedProps' => array(
+	            		if($trainer_id){
+
+	            			$periodArray[$count] = array(
+								'display' => 'background',
+								'allDay' => true,
+								'color' => 'blue',
+								'start' =>  $date->format('Y-m-d'), // purchase plan start day
+								'extendedProps' => array(
 								// 'type' =>  'recurring',
 								'imageurl'=> getTrainerImage($vals->trainer_id),
 								'trainer_id' =>  $vals->trainer_id,
 								'name' => getTrainer($vals->trainer_id)->first_name ?? ''
-	                            
-							)
-	            		);
+
+								)
+							);
+	            		}else{
+							$periodArray[$count] = array(
+								// 'display' => 'list-item',
+								'allDay' => true,
+								'color' => 'transparent',
+								'start' =>  $date->format('Y-m-d'), // purchase plan start day
+								'extendedProps' => array(
+								// 'type' =>  'recurring',
+								'imageurl'=> getTrainerImage($vals->trainer_id),
+								'trainer_id' =>  $vals->trainer_id,
+								'name' => getTrainer($vals->trainer_id)->first_name ?? ''
+
+								)
+							);
+	            		}
+	            		
 						$count++;
 	            	}
 	            }
@@ -899,6 +942,9 @@ function getTrainerListByDate($param,$request){
          if($request->sorting2 == '18:00:00-24:00:00'){
          	$query->whereBetween('time', ['18:00:00','24:00:00']);
          }
+         if($request->_trainer_id_){
+         	$query->where('trainer_id',$request->_trainer_id_);
+         }
          $schedule= $query->get();
 
     	if(isset($schedule)){
@@ -979,6 +1025,9 @@ function getTrainerListByDate($param,$request){
          }
          if($request->sorting2 == '18:00:00-24:00:00'){
          	$query2->whereBetween('time', ['18:00:00','24:00:00']);
+         }
+         if($request->_trainer_id_){
+         	$query2->where('trainer_id',$request->_trainer_id_);
          }
         $recurring = $query2->get();
 
@@ -1424,5 +1473,26 @@ function generateTimeSlot($sorting2){
          if($sorting2 == '18:00:00-24:00:00'){
          	return $returnArray=array(19,20,21,22,23,24);
          }
+}
+function getOccupiedList($user_id){
+	$count=0;
+	$periodArray=array();
+	$query = \DB::table('tbl_trainer_schedules as w')
+            ->select(
+                array(
+                	DB::Raw('DATE(w.date) day')
+                ))
+            ->where('user_id',$user_id)->get();
+
+     if(isset($query)){
+    	foreach($query as $key=>$vals){
+
+    		$periodArray[$count] = $vals->day;
+    		$count++;
+    	}
+
+	}
+
+   return $periodArray;
 }
 ?>

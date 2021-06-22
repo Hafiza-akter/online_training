@@ -57,6 +57,30 @@
 .table td{
   border:none;
 }
+.ld{
+  position: absolute;
+  top:50%;
+  left:50%;
+  display:none;
+}
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+.tblue{
+  background: blue !important;
+  opacity: 1 !important;
+  color:white !important;
+  border: 1px solid #ddd;
+}
+.tred{
+  background: red !important;
+  color:white !important;
+
+}
+.fc .fc-bg-event{
+opacity: .8 !important;
+}
 </style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
 
@@ -281,12 +305,32 @@
               </button>
             </div>
             <div class="modal-body">
+                  <div class="spinner-border text-primary ld">
+                  <span class="sr-only">Loading...</span>
+                  </div>
                 <div id='calendar'></div>
+                <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id))}}">
 
             </div>
           </div>
         </div>
       </div>
+      <div class="modal fade left bd-example-modal-lg6"  >
+      <div class="modal-dialog modal-lg cals" style="width:90vw;">
+        <div class="modal-content" >
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="md">
+
+            </div>
+          </div>
+        </div>
+      </div>
+                <input type="hidden" id="occupiedList" value="{{ json_encode(getOccupiedList($schedule->user_id))}}">
 
 {{-- <button type="button" class=" nav-link active__"  style="color:white;position: absolute;top: 35%;right: 0;" id="performance_btn"> 実績 </button>
 
@@ -543,19 +587,34 @@ $("#f_btn").click(function(){
           });
     
    });
+var dateData = JSON.parse($(schedule).val());
+var occupiedList = JSON.parse($("#occupiedList").val());
+// document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+var calendarEl = document.getElementById('calendar');
+// var dateData = JSON.parse($(schedule).val());
+console.log(dateData);
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+      showNonCurrentDates: false,
+      fixedWeekCount:false,            
+      // validRange: {
+      //   start: '2021-06-22'
+      // },
+      firstDay: 0,
       selectable: true,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: ''
+      },
        views: {
         timeGridWeek: { // name of view
           dayHeaderFormat:{ weekday:'short', month: 'short', day: '2-digit' }
         }
       },
 
-          customButtons: {
+      customButtons: {
         myCustomButton: {
           text: 'トレーナー一覧',
           click: function() {
@@ -563,26 +622,63 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }
       },
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      dateClick: function(info) {
-                     // window.location.href ='{{ route('traininginfo')}}';
+      eventDidMount: function(info) {
 
-      }
+        console.log(info.event.start);
+
+        if(occupiedList.indexOf(moment(info.event.start).format("YYYY-MM-DD")) !== -1){
+            info.el.disabled = "true";
+           // info.el.css('background-color', 'green');
+           info.event.setProp('classNames', 'tred');
+        } 
+
+        // if( moment(info.event.start).format("YYYY-MM-DD") === '2021-06-29'){
+          
+        // }
+   
+      },
+      dateClick: function(info,date) {
+
+        // calendar.changeView('timeGridDay', moment(info.startStr, "YYYY-MM-DD"));
+        let da=moment(info.dateStr).format("YYYY-MM-DD");
+        // console.log(da);
+        // calendar.setOption('headerToolbar', {
+        //     left: '',
+        //     center: 'title',
+        //     right: 'prev,next today'
+        //   });
+                
+        // calendar.removeAllEvents();
+        $(".ld").show();
+        var url = '{{ route('getTime')}}';
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: {'date':da, 'user_id':{{$schedule->user_id}},'trainer_id':{{$schedule->trainer_id}} }, // serializes the form's elements.
+          success: function(data)
+          {
+             $('.bd-example-modal-lg5').modal('hide');
+              $('.bd-example-modal-lg6').modal();
+              $('#md').html(data.html);
+              $(".ld").hide();
+          }
+        }); 
+      },
+      events: dateData
     });
 
-          calendar.render();
-          calendar.setOption('locale', 'ja');
-
-$('.bd-example-modal-lg5').on('shown.bs.modal', function () {
 calendar.render();
 calendar.setOption('locale', 'ja');
+
+$('.bd-example-modal-lg5').on('shown.bs.modal', function () {
+  calendar.render();
 })
 
-  });
+// });
 
   function showExplanation(img,text,sub,way,motion){
         Swal.fire({
@@ -603,6 +699,38 @@ calendar.setOption('locale', 'ja');
                  +"' >",
            showConfirmButton:false
          })
+  }
+  function submitAjax(date,trainer_id,time,user_id){
+            $(".ld").show();
+
+    $('.disalbed_container').addClass('disabledDiv');
+      $.ajax({
+          type: "POST",
+          url: '{{ route('jitsiUserSubmitTime') }}',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: {'date':date, 'user_id':user_id,'trainer_id':trainer_id,'time':time }, // serializes the form's elements.
+          success: function(data)
+          {
+            $(".response_").html(data.html);
+            $('.disalbed_container').removeClass('disabledDiv');
+            $(".ld").hide();
+
+            if(data.success){
+              $(this).addClass('disabledDiv');
+              calendar.addEvent(
+                  {
+                  
+                  'start': date,
+                  'display':'background',
+                  'color':'red'
+                }
+              );
+            }
+
+          }
+        }); 
   }
   </script>
 

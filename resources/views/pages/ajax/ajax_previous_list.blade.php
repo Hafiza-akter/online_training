@@ -1,5 +1,5 @@
 <div class="table-responsive">
-  <table class="table table-striped">
+  <table class="table table-striped f13">
     <tbody>
 @if(isset($data) && count($data) >0)
     @foreach($data as $key=>$val)

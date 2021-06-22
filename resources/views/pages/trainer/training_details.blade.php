@@ -26,6 +26,9 @@
 .table td{
   border:none;
 }
+.f13{
+  font-size: 13px;
+}
 .static{
   background: green !important;
 }
@@ -64,38 +67,93 @@
   margin: 0 !important;
   padding: 0 !important;
 }
+  .tblue{
+    background: blue !important;
+    color:white !important;
+  }
+  .tred{
+    background: red !important;
+    color:white !important;
+  }
 
 </style>
 <section class="review_part gray_bg section_padding pb-0" style="overflow: hidden;">
 
 
 <div class="row  px-0 mx-0">
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4 px-0 mx-0" style="height:62vh;">
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4 px-0 mx-0" style="height: calc(100vh - 82px)">
         <div id="meet" style="height:50vh;width: 100%;"></div>
         <div id="clock"></div>
-           <ul class="list-group list-group-horizontal mx-auto jitsi_trainer_item">
-            <li  class="list-group-item pointer user" >
+           <ul class="list-group list-group-horizontal mx-auto jitsi_trainer_item mb-2">
+            <li  class="list-group-item pointer col user" >
 
               <span><img src="{{ asset('images/user_camera.png')}}"></span>
 
             </li>
-            <li class="list-group-item pointer trainer">
+            <li class="list-group-item pointer col trainer">
               <span><img src="{{ asset('images/camera.png')}}"></span>
 
 
             </li>
-            <li class="list-group-item pointer screenshare" >
+            <li class="list-group-item pointer col screenshare" >
               <span><img src="{{ asset('images/share.png')}}"></span>
 
             </li>
-            <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg4').modal()">
+            <li class="list-group-item pointer col" onclick="$('.bd-example-modal-lg4').modal()">
                     <span><img src="{{ asset('images/gif.png')}}"></span>
 
             </li>
-            <li class="list-group-item pointer" onclick="show_calendar()">
+            <li class="list-group-item pointer col" onclick="show_calendar()">
                     <span><img src="{{ asset('images/cl.png')}}"></span>
             </li>
           </ul>
+
+      <div class="col-sm-12 col-md-12  col-lg-12 col-xl-12 mx-0 px-0  border border-primary">
+        <div class="card p-2">
+          
+        <div class="row ml-2 mb-1 f13" id="exercise_form_2">
+        </div>
+          <div class="row ml-2 mb-1 " id="exercise_form">
+
+            <div class="col " data-course_id="">
+                <label class="col-form-label">コース</label>
+                <p id="_label_course" class="f13"></p>
+            </div>
+            {{--  <div class="col-sm-4 ">
+                <label class="col-form-label">メイン</label>
+                <p id="_label_body_part"></p>
+            </div> --}}
+             <div class="col ">
+                <label class="col-form-label">備品</label>
+                <p id="_label_equipment" class="f13"></p>
+            </div>
+
+          </div>
+
+          <div class="row ml-2 mb-1">
+            <div class="col">
+                <label class="col-form-label">コメント</label><br>
+                <textarea class="form-control f13" id="exercise_comment" style="height:35px"></textarea>
+            </div>
+
+            <div class="col pr-0">
+                <label class="col-form-label">Set</label><br>
+              <input  style="width:30px" id="set1_kg" class="set1_kg kg p-0 m-0 f13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+              <input  style="width:30px" id="set1_times" class="set1_times times f13 kg p-0 m-0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+              <input  style="width:30px" id="efficiency" class="set1_efficiency f13 times kg p-0 m-0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
+            </div>
+          </div>
+
+          <div class="row ml-2 mb-1">
+            <div class="col p-2">
+              <button class="float-right btn btn-primary ml-2 fetchExerciseData f13"  > スタート</button>
+              <button class="float-right btn btn-danger save_start f13" disabled="disabled"  > 記録して次へ</button>
+            </div>
+           
+          </div>
+
+        </div>
+      </div>
           {{-- <div class="row justify-content-center card"> --}}
           
             {{--<div class="col text-center">
@@ -132,17 +190,19 @@
 
         {{-- </div> --}}
       </div>
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  card mx-0 px-0 text-center" style="height:62vh;overflow: auto;">
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  card mx-0 px-0 text-center" style="height: calc(100vh - 82px);overflow: auto;">
         <div class="p-3">
-          <button class="btn btn-md btn-primary btn-outline btn-block copy_list">前回のリストをコピー</button>
-          <button class="btn btn-md btn-secondary btn-outline btn-block">セットメニューからコピー</button>
+          <button class="btn btn-md btn-primary btn-outline btn-block copy_list mt-3 ">前回のリストをコピー</button>
+          <button class="btn btn-md btn-secondary btn-outline btn-block mt-3">セットメニューからコピー</button>
+          <div class="mb-4 mt-3">
+            <div class="row p-2 mx-auto" style="display:inline-block;text-align:center;">
 
-          <div class="row p-2 mx-auto" style="display:inline-block;text-align:center;">
+            <span class="prev"><i class="fas fa-chevron-circle-left fa-2x"></i></span>
+              <input type="text" id="list_date" data-format="YYYY-MM-DD" data-template="YYYY MMM D" name="list_date" >
+            <span class="next"><i class="fas fa-chevron-circle-right fa-2x"></i></span>
 
-          <span class="prev"><i class="fas fa-chevron-circle-left fa-2x"></i></span>
-            <input type="text" id="list_date" data-format="YYYY-MM-DD" data-template="YYYY MMM D" name="list_date" >
-          <span class="next"><i class="fas fa-chevron-circle-right fa-2x"></i></span>
-
+            
+            </div>
           </div>
 
 
@@ -151,12 +211,14 @@
           </div>
        </div>
       </div>
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  performance mx-0 px-0" id="performance" style="height:62vh;overflow: auto;" >
-        <div class="card p-3">
+      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  performance mx-0 px-0 card" id="performance" style="height: calc(100vh - 82px);overflow: auto;" >
+        <div class=" p-3">
           <div class="row">
-              <div class="col-sm-6 ">
-                  <label class="col-form-label">メイン</label>
-                  <select class="form-control main" style="width: 100%;" name="main[]" >
+              <div class="col-sm-6 px-1">
+                  {{-- <label class="col-form-label">メイン</label> --}}
+                  <label class="">メイン</label>
+                  {{-- <select class="form-control main" style="width: 100%;" name="main[]" > --}}
+                  <select class=" main" style="width: 100%;" name="main[]" >
                       <option value="">--select-- </option>
                       @if($body_part)
                         @foreach($body_part as $val)
@@ -165,46 +227,46 @@
                       @endif
                   </select>
               </div>
-              <div class="col-sm-6 ">
-                  <label class="col-form-label">コース</label>
-                  <select class="form-control course" style="width: 100%;" name="course[]" required="required">
+              <div class="col-sm-6 px-1">
+                  <label class="">コース</label>
+                  <select class=" course" style="width: 100%;" name="course[]" required="required">
                       <option value="">--select--</option>
                   </select>
               </div>
           </div>
-
-          <div class="row ">
-            <div class="col-sm-6">
-                <label class="col-form-label">備品</label>
-                    <select class="form-control equipment" style="width: 100%;" name="equipment[]" >
+          <br>
+          <div class="row">
+            <div class="col-sm-6 px-1">
+                <label class="">備品</label>
+                    <select class="equipment" style="width: 100%;" name="equipment[]" >
                         <option value="">--select--</option>
                     </select>
             </div>
-            <div class="col-sm-6">
-                <label class="col-form-label">Set</label><br>
-              <input  style="width:30px" name="set1_kg[]" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-              <input  style="width:30px" name="set1_times[]" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+            <div class="col-sm-6 px-1">
+                <label class="">Set</label><br>
+              <input  style="width:30px;height:22px" name="set1_kg[]" class="set1_kg kg p-0 m-0 f13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+              <input  style="width:30px;height:22px" name="set1_times[]" class="set1_times times kg p-0 m-0 f13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
               {{-- <input  style="width:30px" name="efficiency[]" class="set1_efficiency times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span> --}}
             </div>
           </div>
 
-          <div class="row mb-1">
+          <div class="row ">
             <div class="col-sm-12">
-              <button class="float-right btn btn-primary add_button" disabled="disabled" > メニューに追加</button>
+              <button class="float-right btn btn-primary add_button f13 mt-1" disabled="disabled" > メニューに追加</button>
             </div>
           </div>
 
           <div class="row mb-1 mt-3" id="dashboard">
-            <div class="col-sm-12">
+            <div class="col-sm-12 px-0">
 
               <div class="table-responsive">
                 <table class="table table-striped">
-                  <tbody id="menue_finished">
+                  <tbody id="menue_finished" class="f13">
                   </tbody>
                 </table>
 
                 <table class="table table-striped">
-                  <tbody id="menue_add">
+                  <tbody id="menue_add" class="f13">
                   </tbody>
                 </table>
               </div>
@@ -213,56 +275,7 @@
           
         </div>
       </div>
-      <div class="col-sm-12 col-md-8  col-lg-8 col-xl-8 mx-0 px-0  border border-primary">
-        <div class="card p-2">
-          
-        <div class="row ml-2 mb-1 " id="exercise_form_2">
-        </div>
-          <div class="row ml-2 mb-1 " id="exercise_form">
 
-            <div class="col-sm-4 " data-course_id="{{$val->id}}">
-                <label class="col-form-label">コース</label>
-                <p id="_label_course"></p>
-            </div>
-            {{--  <div class="col-sm-4 ">
-                <label class="col-form-label">メイン</label>
-                <p id="_label_body_part"></p>
-            </div> --}}
-             <div class="col-sm-4 ">
-                <label class="col-form-label">備品</label>
-                <p id="_label_equipment"></p>
-            </div>
-
-          </div>
-
-          <div class="row ml-2 mb-1">
-            <div class="col-md-8">
-                <label class="col-form-label">コメント</label><br>
-                <textarea class="form-control" id="exercise_comment"></textarea>
-            </div>
-
-            <div class="col-sm-4">
-                <label class="col-form-label">Set</label><br>
-              <input  style="width:30px" id="set1_kg" class="set1_kg kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-              <input  style="width:30px" id="set1_times" class="set1_times times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
-              <input  style="width:30px" id="efficiency" class="set1_efficiency times kg p-1 m-1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
-            </div>
-          </div>
-
-          <div class="row ml-2 mb-1">
-             
-           
-          </div>
-          <div class="row ml-2 mb-1">
-            <div class="col">
-              <button class="float-right btn btn-primary ml-2 fetchExerciseData"  > スタート</button>
-              <button class="float-right btn btn-danger save_start" disabled="disabled"  > 記録して次へ</button>
-            </div>
-           
-          </div>
-
-        </div>
-      </div>
 </div>
 
 </section>
@@ -324,9 +337,9 @@
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content"> --}}
 
-            <div class="modal fade left bd-example-modal-lg5"  >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="width:500px">
+    <div class="modal fade left bd-example-modal-lg5" >
+    <div class="modal-dialog modal-lg" style="width: 85vw;" >
+      <div class="modal-content" >
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -335,7 +348,7 @@
           </div>
           <div class="modal-body">
               <div id='calendar'></div>
-
+              <input type="hidden" id="schedule" value="{{ $_schedulelist_}}">
           </div>
         </div>
       </div>
@@ -792,9 +805,8 @@ function check_disable_add_menu_button(){
       // let set1_efficiency = $('.set1_efficiency').val();
       // <span class='fa-box"+id+"'></span>
       let html="<tr id='menue_"+id+"' data-course_id='"+id+"'>"+
-        "<td> <span class='course_name'>" + course +" </span> <br> "+
-        " 備品: <span class='equp'>" +equipment +
-        "</span> <td> <span class='kg'>"+set1_kg+"</span> KG <span class='times'>"+set1_times+"</span> 回 " + "<span aria-hidden='true' class='remove float-right fa-2x text-danger' style='cursor:pointer'>×</span> </td>  "
+        "<td> <span class='course_name'>" + course +" </span> <td>" +
+        " 備品: <span class='equp'>" +equipment + "<span class='kg'>"+set1_kg+"</span> KG <span class='times'>"+set1_times+"</span> 回 " + "<span aria-hidden='true' class='remove float-right fa-2x text-danger' style='cursor:pointer'>×</span> </td>  "
         "</tr>";
 
       // let id = 'performance'+ cloneCount++;
@@ -1177,6 +1189,7 @@ if(!$(".fetchExerciseData").is(":disabled")){
 
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    var dateData = JSON.parse($(schedule).val());
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       selectable: true,
@@ -1200,9 +1213,11 @@ if(!$(".fetchExerciseData").is(":disabled")){
         right: ''
       },
       dateClick: function(info) {
-                     // window.location.href ='{{ route('traininginfo')}}';
+      // calendar.changeView('timeGridDay', moment(info.dateStr).format("YYYY-MM-DD"));
 
-      }
+      },
+            events: dateData
+
     });
 
     calendar.render();
@@ -1214,6 +1229,8 @@ if(!$(".fetchExerciseData").is(":disabled")){
     })
 
   });
+
+
   function showExerciseDashboard(content){
       
       let contents=$("#dashboard").html();
