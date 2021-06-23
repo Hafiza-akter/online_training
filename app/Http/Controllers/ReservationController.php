@@ -250,6 +250,11 @@ class ReservationController extends Controller
         $tinfo = Trainer::find($request->trainer_id);
         $userInfo = Trainee::find($request->user_id);
         // dd($tinfo);
+        if(checkMultipleScheduleSamedate($request->date,$request->user_id)){
+             $returnHTML='<p  class="alert alert-danger">この日にすでに設定されているスケジュール</p>';
+
+            return response()->json(array('success' => false, 'html'=>$returnHTML));
+        }
         $rval = $this->checkReservation($request->date,$request->user_id);
         // dd($rval);
         if($rval == 'count_exceed'){
