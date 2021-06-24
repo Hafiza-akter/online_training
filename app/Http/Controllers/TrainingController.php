@@ -98,13 +98,7 @@ class TrainingController extends Controller
             ->get()->toArray();
            
         // dd('dd');
-            if($request->_schedulelist_){
-                $schedulelist=$request->_schedulelist_;
-            }else{
-                $schedulelist=null;
-            }
     	return view($view)
-        ->with('_schedulelist_',$schedulelist)
         ->with('display_name',$display_name)
     	->with('course',$course)
     	->with('body_part',$body_part)

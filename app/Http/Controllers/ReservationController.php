@@ -319,8 +319,8 @@ class ReservationController extends Controller
         $details['trainer_name'] = Trainer::find($request->trainer_id)->first_name;
         $details['user_name'] = $userInfo->name;;
 
-        \Mail::to($userInfo->email)->send(new \App\Mail\Reservation($details));
-        \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
+        // \Mail::to($userInfo->email)->send(new \App\Mail\Reservation($details));
+        // \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
 
           $returnHTML='<p  class="alert alert-success"> 
             レッスンの予約が完了しました。</p>';

@@ -67,14 +67,30 @@
   margin: 0 !important;
   padding: 0 !important;
 }
-  .tblue{
-    background: blue !important;
-    color:white !important;
-  }
-  .tred{
-    background: red !important;
-    color:white !important;
-  }
+.ld{
+  position: absolute;
+  top:50%;
+  left:50%;
+  display:none;
+}
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+.tblue{
+  background: blue !important;
+  opacity: 1 !important;
+  color:white !important;
+  border: 1px solid #ddd;
+}
+.tred{
+  background: red !important;
+  color:white !important;
+
+}
+.fc .fc-bg-event{
+opacity: .8 !important;
+}
 
 </style>
 <section class="review_part gray_bg section_padding pb-0" style="overflow: hidden;">
@@ -195,7 +211,7 @@
           <button class="btn btn-md btn-primary btn-outline btn-block copy_list mt-3 ">前回のリストをコピー</button>
           <button class="btn btn-md btn-secondary btn-outline btn-block mt-3">セットメニューからコピー</button>
           <div class="mb-4 mt-3">
-            <div class="row p-2 mx-auto" style="display:inline-block;text-align:center;">
+            <div class="row p-2 mx-auto" style="">
 
             <span class="prev"><i class="fas fa-chevron-circle-left fa-2x"></i></span>
               <input type="text" id="list_date" data-format="YYYY-MM-DD" data-template="YYYY MMM D" name="list_date" >
@@ -337,22 +353,43 @@
       <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content"> --}}
 
-    <div class="modal fade left bd-example-modal-lg5" >
-    <div class="modal-dialog modal-lg" style="width: 85vw;" >
-      <div class="modal-content" >
+   <div class="modal fade left bd-example-modal-lg5"  >
+      <div class="modal-dialog modal-lg cals" style="width:90vw;">
+        <div class="modal-content" >
 
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <div id='calendar'></div>
-              <input type="hidden" id="schedule" value="{{ $_schedulelist_}}">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                  <div class="spinner-border text-primary ld">
+                  <span class="sr-only">Loading...</span>
+                  </div>
+                <div id='calendar'></div>
+                <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id,$schedule->user_id))}}">
+
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div class="modal fade left bd-example-modal-lg6"  >
+      <div class="modal-dialog modal-lg cals" style="width:90vw;">
+        <div class="modal-content" >
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="md">
+
+            </div>
+          </div>
+        </div>
+      </div>
+                <input type="hidden" id="occupiedList" value="{{ json_encode(getOccupiedList($schedule->user_id))}}">
+
 <!-- ///////////////-->
 
     @php
@@ -1187,48 +1224,94 @@ if(!$(".fetchExerciseData").is(":disabled")){
          })
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var dateData = JSON.parse($(schedule).val());
+  var dateData = JSON.parse($(schedule).val());
+  var occupiedList = JSON.parse($("#occupiedList").val());
+  // document.addEventListener('DOMContentLoaded', function() {
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      selectable: true,
-       views: {
-        timeGridWeek: { // name of view
-          dayHeaderFormat:{ weekday:'short', month: 'short', day: '2-digit' }
-        }
-      },
+  var calendarEl = document.getElementById('calendar');
+  // var dateData = JSON.parse($(schedule).val());
 
-          customButtons: {
-        myCustomButton: {
-          text: 'トレーナー一覧',
-          click: function() {
-             window.location.href ='{{ route('trainerlist') }}';
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        showNonCurrentDates: false,
+        fixedWeekCount:false,            
+        // validRange: {
+        //   start: '2021-06-22'
+        // },
+        firstDay: 0,
+        selectable: true,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: ''
+        },
+         views: {
+          timeGridWeek: { // name of view
+            dayHeaderFormat:{ weekday:'short', month: 'short', day: '2-digit' }
           }
-        }
-      },
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      dateClick: function(info) {
-      // calendar.changeView('timeGridDay', moment(info.dateStr).format("YYYY-MM-DD"));
+        },
 
-      },
-            events: dateData
+        customButtons: {
+          myCustomButton: {
+            text: 'トレーナー一覧',
+            click: function() {
+               window.location.href ='{{ route('trainerlist') }}';
+            }
+          }
+        },
+        eventDidMount: function(info) {
 
-    });
+          console.log(info.event.start);
 
+          if(occupiedList.indexOf(moment(info.event.start).format("YYYY-MM-DD")) !== -1){
+              info.el.disabled = "true";
+             // info.el.css('background-color', 'green');
+             info.event.setProp('classNames', 'tred');
+          } 
+     
+        },
+        dateClick: function(info,date) {
+
+          // calendar.changeView('timeGridDay', moment(info.startStr, "YYYY-MM-DD"));
+          let da=moment(info.dateStr).format("YYYY-MM-DD");
+          $(".ld").show();
+          var url = '{{ route('getTime')}}';
+
+          $.ajax({
+            type: "POST",
+            url: url,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {'date':da, 'user_id':{{$schedule->user_id}},'trainer_id':{{$schedule->trainer_id}} }, // serializes the form's elements.
+            success: function(data)
+            {
+                $('.bd-example-modal-lg5').modal('hide');
+                $('.bd-example-modal-lg6').modal();
+
+              
+                $('#md').html(data.html);
+                $(".ld").hide();
+
+
+                let action={
+                'type':'show_time_list',
+                'id':$("#remote_user").val(),
+                'content':data.html
+                };
+                api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+
+            }
+          }); 
+        },
+        events: dateData
+      });
+
+  calendar.render();
+  calendar.setOption('locale', 'ja');
+
+  $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
     calendar.render();
-    calendar.setOption('locale', 'ja');
-
-    $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
-      calendar.render();
-      calendar.setOption('locale', 'ja');
-    })
-
-  });
+  })
 
 
   function showExerciseDashboard(content){
@@ -1245,9 +1328,160 @@ if(!$(".fetchExerciseData").is(":disabled")){
 
 
   }
+  function submitAjax(date,trainer_id,time,user_id,obj){
+            $(".ld").show();
+
+    $('.disalbed_container').addClass('disabledDiv');
+
+    
+    // when time button  clicked
+        let action={
+          'type':'time_button_clicked',
+          'id':$("#remote_user").val(),
+          'content':'disabledDiv'
+          };
+        api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+        // when time button is clicked
+
+      $.ajax({
+          type: "POST",
+          url: '{{ route('jitsiUserSubmitTime') }}',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: {'date':date, 'user_id':user_id,'trainer_id':trainer_id,'time':time }, // serializes the form's elements.
+          success: function(data)
+          {
+            $(".response_").html(data.html);
+            $('.disalbed_container').removeClass('disabledDiv');
+            $(".ld").hide();
+
+            // when time button  response
+            let action={
+              'type':'time_button_response',
+              'id':$("#remote_user").val(),
+              'content':data.html
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+            // when time button get response
+
+            if(data.success){
+              $("#"+obj.id).removeClass('tblue');
+              $("#"+obj.id).addClass('tred');
+              $("#"+obj.id).addClass('disabledDiv');
+              calendar.addEvent(
+                  {
+                  
+                  'start': date,
+                  'display':'background',
+                  'color':'red'
+                }
+              );
+              //->when response is successful
+            let action={
+              'type':'time_successfull',
+              'id':$("#remote_user").val(),
+              'obj':obj.id,
+              'content':{
+                       
+                  'start': date,
+                  'display':'background',
+                  'color':'red'
+                }
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+            //<- when time button is clicked and get response
 
 
+            }
 
+        
+
+          }
+        }); 
+  }
+  function show_calendar_jitsi(){
+    $('.bd-example-modal-lg5').modal();
+    $('.bd-example-modal-lg6').modal('hide');
+
+      //->when back button is clicked
+            let action={
+              'type':'show_calendar_jitsi',
+              'id':$("#remote_user").val(),
+              'content':$('#initial_date').val()
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+         calendar.gotoDate($('#initial_date').val());
+
+
+  }
+  api.addEventListener('endpointTextMessageReceived' , function(abcd){
+          // var x=api.getParticipantsInfo();
+          let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
+          console.log(received_data);
+          console.log(received_data.type);
+          $(".loads").show();
+          // alert(received_data.type);
+          if(received_data.type == 'set_large_vedio_open'){
+            api.setLargeVideoParticipant(received_data.id);
+          }
+
+           if(received_data.type == 'show_gif'){
+            showGif(received_data.img);
+          }
+          if(received_data.type == 'show_calendar'){
+            $('.bd-example-modal-lg5').modal();
+          }
+          if(received_data.type == 'show_dashboard'){
+            $("div#_ct_").html(received_data.content);
+            $('#dashboard').modal();
+            $('#dashboard').find(".remove").remove();
+            $('#dashboard').find(".comment_name").remove();
+            $('#dashboard').find(".comment_name_").remove();
+
+            // $('#menue_finished tr').css("border", "#e3e3e3 solid 1px"); 
+            
+          }
+          if(received_data.type == 'show_time_list'){
+              $('.bd-example-modal-lg5').modal('hide');
+              $('.bd-example-modal-lg6').modal();
+
+              $('#md').html(received_data.content);
+          }
+
+          if(received_data.type == 'time_button_clicked'){
+            $(".ld").show();
+            $('.disalbed_container').addClass('disabledDiv');
+      
+          }
+
+          if(received_data.type == 'time_button_response'){
+            $(".ld").hide();
+            $('.disalbed_container').removeClass('disabledDiv');
+            $(".response_").html(received_data.content);
+          }
+          if(received_data.type == 'time_successfull'){
+              calendar.addEvent(received_data.content);
+               $("#"+received_data.obj).removeClass('tblue');
+              $("#"+received_data.obj).addClass('tred');
+              $("#"+received_data.obj).addClass('disabledDiv');
+        
+          }
+          if(received_data.type == 'show_calendar_jitsi'){
+              $('.bd-example-modal-lg5').modal();
+              calendar.gotoDate(received_data.content);
+
+              $('.bd-example-modal-lg6').modal('hide');
+          }
+          
+      
+          
+          
+          
+           $(".loads").hide();
+          
+        });
 
   </script>
 

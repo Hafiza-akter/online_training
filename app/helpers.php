@@ -581,11 +581,17 @@ function dateIsnotPast($date){
 	return true;
 }
 
-function getTrainerList($trainer_id=null){
+function getTrainerList($trainer_id=null,$user_id=null){
 	
+	if($user_id ){
+		$user_id =$user_id;
 
+	}else{
 
-	$purchasePlan = activePurchasePlan(Session::get('user.id'));
+		$user_id = Session::get('user.id');
+	}	
+
+	$purchasePlan = activePurchasePlan($user_id);
 	$count = 0;
 	$periodArray=array();
 
@@ -1335,23 +1341,30 @@ function getTime($trainer_id,$date){
 
         if(isset($recurring)){
         	foreach($recurring as $key=>$vals){
+        		if (array_search($vals->time, array_column($periodArray, 'time')) !== FALSE){
+        			continue;
+        		}
+        		
+    			$periodArray[$count] = array(
+                'is_occupied'=>0,
+				'time'=> $vals->time,
+				'trainer_id' =>  $vals->trainer_id,
+				'id' =>  $vals->id,
+				'date' =>  $vals->date,
+				'type' => 'recurring'
 
-        		$periodArray[$count] = array(
-                    'is_occupied'=>0,
-					'time'=> $vals->time,
-					'trainer_id' =>  $vals->trainer_id,
-					'id' =>  $vals->id,
-					'date' =>  $vals->date,
-					'type' => 'recurring'
- 
         		);
 				$count++;
+        		
+				
+
+        		
         	}
 
 		}
 // !! -- recurring event !!--//		
 // !! -- recurring event !!--//		
-	
+		// dd($periodArray);
 	
 		// return $periodArray;
 		$data = null;

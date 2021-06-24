@@ -124,7 +124,7 @@ opacity: .8 !important;
               <span> 説明 </span>
 
             </li>
-            <li class="list-group-item pointer" onclick="$('.bd-example-modal-lg5').modal()">
+            <li class="list-group-item pointer" onclick="show_calendar()">
                <img src="{{ asset('images/calendar.png')}}" >
               <span> 予約 </span>
             </li>
@@ -292,7 +292,8 @@ opacity: .8 !important;
       }
     @endphp
     <input type="hidden" id="clock_value" value='{{ $date." ".$hour }}'>
-
+    <input type="hidden" id="local_user" >
+    <input type="hidden" id="remote_user" >
 
 
     <div class="modal fade left bd-example-modal-lg5"  >
@@ -309,7 +310,7 @@ opacity: .8 !important;
                   <span class="sr-only">Loading...</span>
                   </div>
                 <div id='calendar'></div>
-                <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id))}}">
+                <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id,$schedule->user_id))}}">
 
             </div>
           </div>
@@ -492,11 +493,18 @@ console.log('The exact time: '+exactTime);
        // jitsi end
        // jitsi end
 
-      // for upazila
-  
+        api.addEventListener('videoConferenceJoined' , function(abcd){
+          $("#local_user").val(abcd.id );
+          console.log("pparticipants: " +JSON.stringify(abcd));
+        });
+        api.addEventListener('participantJoined' , function(abcd){
+          // var x=api.getParticipantsInfo();
+          $("#remote_user").val(abcd.id );
+        });
+
     api.addEventListener('incomingMessage' , function(abcd){
           // var x=api.getParticipantsInfo();
-          alert();
+          // alert();
         });
      api.addEventListener('endpointTextMessageReceived' , function(abcd){
           // var x=api.getParticipantsInfo();
@@ -525,8 +533,41 @@ console.log('The exact time: '+exactTime);
             // $('#menue_finished tr').css("border", "#e3e3e3 solid 1px"); 
             
           }
-          
+          if(received_data.type == 'show_time_list'){
+              $('.bd-example-modal-lg5').modal('hide');
+              $('.bd-example-modal-lg6').modal();
 
+              $('#md').html(received_data.content);
+          }
+
+          if(received_data.type == 'time_button_clicked'){
+            $(".ld").show();
+            $('.disalbed_container').addClass('disabledDiv');
+      
+          }
+
+          if(received_data.type == 'time_button_response'){
+            $(".ld").hide();
+            $('.disalbed_container').removeClass('disabledDiv');
+            $(".response_").html(received_data.content);
+          }
+          if(received_data.type == 'time_successfull'){
+              calendar.addEvent(received_data.content);
+               $("#"+received_data.obj).removeClass('tblue');
+              $("#"+received_data.obj).addClass('tred');
+              $("#"+received_data.obj).addClass('disabledDiv');
+        
+          }
+          if(received_data.type == 'show_calendar_jitsi'){
+              $('.bd-example-modal-lg5').modal();
+              calendar.gotoDate( received_data.content);
+
+              $('.bd-example-modal-lg6').modal('hide');
+          }
+          
+      
+          
+          
           
            $(".loads").hide();
           
@@ -661,10 +702,18 @@ console.log(dateData);
           data: {'date':da, 'user_id':{{$schedule->user_id}},'trainer_id':{{$schedule->trainer_id}} }, // serializes the form's elements.
           success: function(data)
           {
-             $('.bd-example-modal-lg5').modal('hide');
+              $('.bd-example-modal-lg5').modal('hide');
               $('.bd-example-modal-lg6').modal();
               $('#md').html(data.html);
               $(".ld").hide();
+
+              let action={
+                'type':'show_time_list',
+                'id':$("#remote_user").val(),
+                'content':data.html
+                };
+                api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+
           }
         }); 
       },
@@ -700,10 +749,19 @@ $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
            showConfirmButton:false
          })
   }
-  function submitAjax(date,trainer_id,time,user_id){
+  function submitAjax(date,trainer_id,time,user_id,obj){
             $(".ld").show();
 
     $('.disalbed_container').addClass('disabledDiv');
+
+    // when time button  clicked
+        let action={
+          'type':'time_button_clicked',
+          'id':$("#remote_user").val(),
+          'content':'disabledDiv'
+          };
+        api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+        // when time button is clicked
       $.ajax({
           type: "POST",
           url: '{{ route('jitsiUserSubmitTime') }}',
@@ -717,20 +775,74 @@ $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
             $('.disalbed_container').removeClass('disabledDiv');
             $(".ld").hide();
 
+            // when time button  response
+            let action={
+              'type':'time_button_response',
+              'id':$("#remote_user").val(),
+              'content':data.html
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+            // when time button get response
+
             if(data.success){
-              $(this).addClass('disabledDiv');
-              calendar.addEvent(
-                  {
-                  
-                  'start': date,
-                  'display':'background',
-                  'color':'red'
-                }
-              );
+              $("#"+obj.id).removeClass('tblue');
+              $("#"+obj.id).addClass('tred');
+              $("#"+obj.id).addClass('disabledDiv');
+                calendar.addEvent(
+                    {
+                    
+                    'start': date,
+                    'display':'background',
+                    'color':'red'
+                  }
+                );
+
+                //->when response is successful
+              let action={
+                'type':'time_successfull',
+                'id':$("#remote_user").val(),
+                'obj':obj.id,
+                'content':{
+                         
+                    'start': date,
+                    'display':'background',
+                    'color':'red'
+                  }
+                };
+              api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+              //<- when time button is clicked and get response
             }
+
+
 
           }
         }); 
+  }
+ function show_calendar_jitsi(){
+    $('.bd-example-modal-lg5').modal();
+    $('.bd-example-modal-lg6').modal('hide');
+    calendar.gotoDate($('#initial_date').val());
+
+      //->when back button is clicked
+            let action={
+              'type':'show_calendar_jitsi',
+              'id':$("#remote_user").val(),
+              'content':$('#initial_date').val()
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+
+  }
+    function show_calendar(){
+
+      let action={
+            'type':'show_calendar',
+            'id':$("#remote_user").val()
+          };
+          api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+
+
+    $('.bd-example-modal-lg5').modal();
   }
   </script>
 
