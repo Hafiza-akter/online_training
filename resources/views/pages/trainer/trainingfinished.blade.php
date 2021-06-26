@@ -29,11 +29,13 @@
     <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"  data-backdrop="static" data-keyboard="false" >
       <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header" style="background: #a331a3;">
+          <div class="modal-header gradient" >
             <h3 class="" id="exampleModalLabel" style="text-align: center;color: white;">
             トレーニングデータ
             </h3>
-            
+             <a href="{{ route('traineeCalendar.view') }}" aria-label="Close" style="color: white;font-size: 23px;">
+              <span aria-hidden="true">×</span>
+            </a>
           </div>
           <div class="modal-body">
             @if(!$exerciseData || count($exerciseData->getExerciseData) == 0)

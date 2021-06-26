@@ -564,6 +564,12 @@ console.log('The exact time: '+exactTime);
 
               $('.bd-example-modal-lg6').modal('hide');
           }
+          if(received_data.type == 'next_prev_today'){
+              calendar.gotoDate( received_data.content);
+          }
+          if(received_data.type == 'hide_modal'){
+               $('.'+received_data.content).modal('hide');
+          }
           
       
           

@@ -98,7 +98,7 @@ opacity: .8 !important;
 
 <div class="row  px-0 mx-0">
       <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4 px-0 mx-0" style="height: calc(100vh - 82px)">
-        <div id="meet" style="height:50vh;width: 100%;"></div>
+        <div id="meet" style="height:30vh;width: 100%;"></div>
         <div id="clock"></div>
            <ul class="list-group list-group-horizontal mx-auto jitsi_trainer_item mb-2">
             <li  class="list-group-item pointer col user" >
@@ -170,6 +170,32 @@ opacity: .8 !important;
 
         </div>
       </div>
+
+       <div class="col-sm-12 col-md-12  col-lg-12 col-xl-12 mx-0 px-0  border">
+        <div class="card p-2 mt-2" style="height:19vh;">
+
+          <div class="row ml-2 mb-1 ">
+
+            <div class="col " data-course_id="">
+              <span style="position: absolute;right: 0px;">
+                <input  style="width:30px"  class=" kg p-0 m-0 f13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>%</span>
+              </span>   
+
+              <span style="position: absolute;right: 0px;top:33px;">
+                  <button class="btn btn-secondary btn-sm btn-disabled">Explanation</button>
+              </span>              
+                <label class="col-form-label">センサー</label>
+                 <p class="text-left"> Graph </p>
+            </div>
+          
+
+          </div>
+
+
+
+
+        </div>
+      </div>
           {{-- <div class="row justify-content-center card"> --}}
           
             {{--<div class="col text-center">
@@ -206,26 +232,26 @@ opacity: .8 !important;
 
         {{-- </div> --}}
       </div>
-      <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  card mx-0 px-0 text-center" style="height: calc(100vh - 82px);overflow: auto;">
-        <div class="p-3">
+      <div class="col px-0 mx-0 mx-0 px-0 text-center" style="height: calc(100vh - 82px);overflow: auto;">
+        <div class="col-sm-12  mx-0 text-center p-3 card" >
           <button class="btn btn-md btn-primary btn-outline btn-block copy_list mt-3 ">前回のリストをコピー</button>
           <button class="btn btn-md btn-secondary btn-outline btn-block mt-3">セットメニューからコピー</button>
-          <div class="mb-4 mt-3">
-            <div class="row p-2 mx-auto" style="">
+          <div class="mb-4 mt-4">
+            <div class="row p-2 mx-auto" style="display:inline-block;" >
 
-            <span class="prev"><i class="fas fa-chevron-circle-left fa-2x"></i></span>
+            <span class="prev"><i class="fas fa-chevron-circle-left" style="font-size:22px"></i></span>
               <input type="text" id="list_date" data-format="YYYY-MM-DD" data-template="YYYY MMM D" name="list_date" >
-            <span class="next"><i class="fas fa-chevron-circle-right fa-2x"></i></span>
+            <span class="next"><i class="fas fa-chevron-circle-right " style="font-size:22px"></i></span>
 
             
             </div>
           </div>
-
-
+        </div>
+        <div class="col-sm-12  mx-0 text-center p-3" >
           <div id="previous_data">
            
           </div>
-       </div>
+        </div>
       </div>
       <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4  performance mx-0 px-0 card" id="performance" style="height: calc(100vh - 82px);overflow: auto;" >
         <div class=" p-3">
@@ -277,12 +303,12 @@ opacity: .8 !important;
 
               <div class="table-responsive">
                 <table class="table table-striped">
-                  <tbody id="menue_finished" class="f13">
+                  <tbody id="menue_finished" class="f13 saved">
                   </tbody>
                 </table>
 
                 <table class="table table-striped">
-                  <tbody id="menue_add" class="f13">
+                  <tbody id="menue_add" class="f13 running">
                   </tbody>
                 </table>
               </div>
@@ -860,6 +886,10 @@ function check_disable_add_menu_button(){
       removeBorder();
       menueUpdate();
 
+      // save to cookies//
+
+
+
    }); 
 
    $(".copy_list").click(function(){
@@ -875,6 +905,16 @@ function check_disable_add_menu_button(){
       // alert($(this).find('td').eq(0).text() + " " + $(this).find('td').eq(1).text() );
     });
     menueUpdate();
+
+    // let saved_value=JSON.stringify($('.saved').html());
+    // let current_value=JSON.stringify($('.running').html());
+    // // console.log(current_value);
+    // setCookie("session_"+'{{ $schedule->id}}'+"_saved",saved_value);
+    // setCookie("session_"+'{{ $schedule->id}}'+"_current",current_value);
+
+    // checkCookie("session_"+'{{ $schedule->id}}'+"_saved");
+    // checkCookie("session_"+'{{ $schedule->id}}'+"_current");
+
  });
    
  
@@ -1416,73 +1456,166 @@ if(!$(".fetchExerciseData").is(":disabled")){
 
 
   }
-  api.addEventListener('endpointTextMessageReceived' , function(abcd){
-          // var x=api.getParticipantsInfo();
-          let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
-          console.log(received_data);
-          console.log(received_data.type);
-          $(".loads").show();
-          // alert(received_data.type);
-          if(received_data.type == 'set_large_vedio_open'){
-            api.setLargeVideoParticipant(received_data.id);
-          }
+  // api.addEventListener('endpointTextMessageReceived' , function(abcd){
+  //         let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
+  //         console.log(received_data);
+  //         console.log(received_data.type);
+  //         $(".loads").show();
+  //         if(received_data.type == 'set_large_vedio_open'){
+  //           api.setLargeVideoParticipant(received_data.id);
+  //         }
 
-           if(received_data.type == 'show_gif'){
-            showGif(received_data.img);
-          }
-          if(received_data.type == 'show_calendar'){
-            $('.bd-example-modal-lg5').modal();
-          }
-          if(received_data.type == 'show_dashboard'){
-            $("div#_ct_").html(received_data.content);
-            $('#dashboard').modal();
-            $('#dashboard').find(".remove").remove();
-            $('#dashboard').find(".comment_name").remove();
-            $('#dashboard').find(".comment_name_").remove();
+  //          if(received_data.type == 'show_gif'){
+  //           showGif(received_data.img);
+  //         }
+  //         if(received_data.type == 'show_calendar'){
+  //           $('.bd-example-modal-lg5').modal();
+  //         }
+  //         if(received_data.type == 'show_dashboard'){
+  //           $("div#_ct_").html(received_data.content);
+  //           $('#dashboard').modal();
+  //           $('#dashboard').find(".remove").remove();
+  //           $('#dashboard').find(".comment_name").remove();
+  //           $('#dashboard').find(".comment_name_").remove();
 
-            // $('#menue_finished tr').css("border", "#e3e3e3 solid 1px"); 
             
-          }
-          if(received_data.type == 'show_time_list'){
-              $('.bd-example-modal-lg5').modal('hide');
-              $('.bd-example-modal-lg6').modal();
+  //         }
+  //         if(received_data.type == 'show_time_list'){
+  //             $('.bd-example-modal-lg5').modal('hide');
+  //             $('.bd-example-modal-lg6').modal();
 
-              $('#md').html(received_data.content);
-          }
+  //             $('#md').html(received_data.content);
+  //         }
 
-          if(received_data.type == 'time_button_clicked'){
-            $(".ld").show();
-            $('.disalbed_container').addClass('disabledDiv');
+  //         if(received_data.type == 'time_button_clicked'){
+  //           $(".ld").show();
+  //           $('.disalbed_container').addClass('disabledDiv');
       
-          }
+  //         }
 
-          if(received_data.type == 'time_button_response'){
-            $(".ld").hide();
-            $('.disalbed_container').removeClass('disabledDiv');
-            $(".response_").html(received_data.content);
-          }
-          if(received_data.type == 'time_successfull'){
-              calendar.addEvent(received_data.content);
-               $("#"+received_data.obj).removeClass('tblue');
-              $("#"+received_data.obj).addClass('tred');
-              $("#"+received_data.obj).addClass('disabledDiv');
+  //         if(received_data.type == 'time_button_response'){
+  //           $(".ld").hide();
+  //           $('.disalbed_container').removeClass('disabledDiv');
+  //           $(".response_").html(received_data.content);
+  //         }
+  //         if(received_data.type == 'time_successfull'){
+  //             calendar.addEvent(received_data.content);
+  //              $("#"+received_data.obj).removeClass('tblue');
+  //             $("#"+received_data.obj).addClass('tred');
+  //             $("#"+received_data.obj).addClass('disabledDiv');
         
-          }
-          if(received_data.type == 'show_calendar_jitsi'){
-              $('.bd-example-modal-lg5').modal();
-              calendar.gotoDate(received_data.content);
+  //         }
+  //         if(received_data.type == 'show_calendar_jitsi'){
+  //             $('.bd-example-modal-lg5').modal();
+  //             calendar.gotoDate(received_data.content);
 
-              $('.bd-example-modal-lg6').modal('hide');
-          }
+  //             $('.bd-example-modal-lg6').modal('hide');
+  //         }
           
       
           
           
           
-           $(".loads").hide();
+  //          $(".loads").hide();
           
-        });
+  //   });
 
+$('.fc-prev-button').click(function(){
+   let date = calendar.getDate();
+  // alert("The current date of the calendar is " + date.toISOString());
+  
+   //->when back button is clicked
+            let action={
+              'type':'next_prev_today',
+              'id':$("#remote_user").val(),
+              'content':moment(date.toISOString()).format("YYYY-MM-DD")
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+         calendar.gotoDate(moment(date.toISOString()).format("YYYY-MM-DD"));
+});
+
+$('.fc-next-button').click(function(){
+  let date = calendar.getDate();
+  // alert("The current date of the calendar is " + date.toISOString());
+  
+   //->when back button is clicked
+            let action={
+              'type':'next_prev_today',
+              'id':$("#remote_user").val(),
+              'content':moment(date.toISOString()).format("YYYY-MM-DD")
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+         calendar.gotoDate(moment(date.toISOString()).format("YYYY-MM-DD"));
+});
+$('.fc-today-button').click(function(){
+  let date = calendar.getDate();
+  // alert("The current date of the calendar is " + date.toISOString());
+  
+   //->when back button is clicked
+            let action={
+              'type':'next_prev_today',
+              'id':$("#remote_user").val(),
+              'content':moment(date.toISOString()).format("YYYY-MM-DD")
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+         calendar.gotoDate(moment(date.toISOString()).format("YYYY-MM-DD"));
+});
+
+$('.bd-example-modal-lg5').on('hidden.bs.modal', function () {
+     //->when back button is clicked
+            let action={
+              'type':'hide_modal',
+              'id':$("#remote_user").val(),
+              'content':'bd-example-modal-lg5'
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+});
+function setCookie(cname,cvalue) {
+
+    console.log(cvalue);
+    var now = new Date();
+    var time = now.getTime();
+    time += 3600 * 1000;
+    now.setTime(time);
+    document.cookie = cname + 
+    '=' + cvalue + 
+    '; expires=' + now.toUTCString() + 
+    '; path=/';
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie(name) {
+  console.log(name);
+  let user = getCookie(name);
+  console.log(user);
+  // if (user != "") {
+  //   console.log("Welcome again " + user);
+  // } else {
+  //    user = prompt("Please enter your name:","");
+  //    if (user != "" && user != null) {
+  //      setCookie("username", user, 30);
+  //    }
+  // }
+}
   </script>
 
 @endsection 
