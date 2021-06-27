@@ -89,9 +89,11 @@
 
 }
 .fc .fc-bg-event{
-opacity: .8 !important;
+opacity: 1 !important;
 }
-
+.fc-event-time{
+  display:none;
+}
 </style>
 <section class="review_part gray_bg section_padding pb-0" style="overflow: hidden;">
 
@@ -393,7 +395,7 @@ opacity: .8 !important;
                   <span class="sr-only">Loading...</span>
                   </div>
                 <div id='calendar'></div>
-                <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id,$schedule->user_id))}}">
+                <input type="hidden" id="schedule" value="{{ json_encode(jitsi_trainer_calendar($schedule->trainer_id))}}">
 
             </div>
           </div>
@@ -1140,7 +1142,8 @@ function check_disable_add_menu_button(){
 
         
       });
-        
+      showExerciseDashboard();
+
    }
   function initialCall(){
               menueArray = $('#menue_add').sortable("toArray");
@@ -1305,7 +1308,7 @@ if(!$(".fetchExerciseData").is(":disabled")){
           if(occupiedList.indexOf(moment(info.event.start).format("YYYY-MM-DD")) !== -1){
               info.el.disabled = "true";
              // info.el.css('background-color', 'green');
-             info.event.setProp('classNames', 'tred');
+             // info.event.setProp('classNames', 'tred');
           } 
      
         },
@@ -1410,24 +1413,14 @@ if(!$(".fetchExerciseData").is(":disabled")){
               $("#"+obj.id).addClass('tred');
               $("#"+obj.id).addClass('disabledDiv');
               calendar.addEvent(
-                  {
-                  
-                  'start': date,
-                  'display':'background',
-                  'color':'red'
-                }
+                  data.event
               );
               //->when response is successful
             let action={
               'type':'time_successfull',
               'id':$("#remote_user").val(),
               'obj':obj.id,
-              'content':{
-                       
-                  'start': date,
-                  'display':'background',
-                  'color':'red'
-                }
+              'content':data.event
               };
             api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
             //<- when time button is clicked and get response
@@ -1456,69 +1449,72 @@ if(!$(".fetchExerciseData").is(":disabled")){
 
 
   }
-  // api.addEventListener('endpointTextMessageReceived' , function(abcd){
-  //         let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
-  //         console.log(received_data);
-  //         console.log(received_data.type);
-  //         $(".loads").show();
-  //         if(received_data.type == 'set_large_vedio_open'){
-  //           api.setLargeVideoParticipant(received_data.id);
-  //         }
+  api.addEventListener('endpointTextMessageReceived' , function(abcd){
+          let received_data=JSON.parse(JSON.stringify(abcd.data.eventData.text));
+          console.log(received_data);
+          console.log(received_data.type);
+          $(".loads").show();
+          if(received_data.type == 'set_large_vedio_open'){
+            api.setLargeVideoParticipant(received_data.id);
+          }
 
-  //          if(received_data.type == 'show_gif'){
-  //           showGif(received_data.img);
-  //         }
-  //         if(received_data.type == 'show_calendar'){
-  //           $('.bd-example-modal-lg5').modal();
-  //         }
-  //         if(received_data.type == 'show_dashboard'){
-  //           $("div#_ct_").html(received_data.content);
-  //           $('#dashboard').modal();
-  //           $('#dashboard').find(".remove").remove();
-  //           $('#dashboard').find(".comment_name").remove();
-  //           $('#dashboard').find(".comment_name_").remove();
+           if(received_data.type == 'show_gif'){
+            showGif(received_data.img);
+          }
+          if(received_data.type == 'show_calendar'){
+            $('.bd-example-modal-lg5').modal();
+          }
+          if(received_data.type == 'show_dashboard'){
+            $("div#_ct_").html(received_data.content);
+            $('#dashboard').modal();
+            $('#dashboard').find(".remove").remove();
+            $('#dashboard').find(".comment_name").remove();
+            $('#dashboard').find(".comment_name_").remove();
 
             
-  //         }
-  //         if(received_data.type == 'show_time_list'){
-  //             $('.bd-example-modal-lg5').modal('hide');
-  //             $('.bd-example-modal-lg6').modal();
+          }
+          if(received_data.type == 'show_time_list'){
+              $('.bd-example-modal-lg5').modal('hide');
+              $('.bd-example-modal-lg6').modal();
 
-  //             $('#md').html(received_data.content);
-  //         }
+              $('#md').html(received_data.content);
+          }
 
-  //         if(received_data.type == 'time_button_clicked'){
-  //           $(".ld").show();
-  //           $('.disalbed_container').addClass('disabledDiv');
+          if(received_data.type == 'time_button_clicked'){
+            $(".ld").show();
+            $('.disalbed_container').addClass('disabledDiv');
       
-  //         }
+          }
 
-  //         if(received_data.type == 'time_button_response'){
-  //           $(".ld").hide();
-  //           $('.disalbed_container').removeClass('disabledDiv');
-  //           $(".response_").html(received_data.content);
-  //         }
-  //         if(received_data.type == 'time_successfull'){
-  //             calendar.addEvent(received_data.content);
-  //              $("#"+received_data.obj).removeClass('tblue');
-  //             $("#"+received_data.obj).addClass('tred');
-  //             $("#"+received_data.obj).addClass('disabledDiv');
+          if(received_data.type == 'time_button_response'){
+            $(".ld").hide();
+            $('.disalbed_container').removeClass('disabledDiv');
+            $(".response_").html(received_data.content);
+          }
+          if(received_data.type == 'time_successfull'){
+              calendar.addEvent(received_data.content);
+               $("#"+received_data.obj).removeClass('tblue');
+              $("#"+received_data.obj).addClass('tred');
+              $("#"+received_data.obj).addClass('disabledDiv');
         
-  //         }
-  //         if(received_data.type == 'show_calendar_jitsi'){
-  //             $('.bd-example-modal-lg5').modal();
-  //             calendar.gotoDate(received_data.content);
+          }
+          if(received_data.type == 'show_calendar_jitsi'){
+              $('.bd-example-modal-lg5').modal();
+              calendar.gotoDate(received_data.content);
 
-  //             $('.bd-example-modal-lg6').modal('hide');
-  //         }
+              $('.bd-example-modal-lg6').modal('hide');
+          }
           
-      
+          if(received_data.type == 'next_prev_today'){
+              calendar.gotoDate( received_data.content);
+          }
+          if(received_data.type == 'hide_modal'){
+               $('.'+received_data.content).modal('hide');
+          }
           
+           $(".loads").hide();
           
-          
-  //          $(".loads").hide();
-          
-  //   });
+    });
 
 $('.fc-prev-button').click(function(){
    let date = calendar.getDate();

@@ -79,7 +79,10 @@
 
 }
 .fc .fc-bg-event{
-opacity: .8 !important;
+opacity: 1 !important;
+}
+.fc-event-time{
+  display:none;
 }
 </style>
 <script src="{{ asset('asset_v2/js/sweetalert.min.js')}}"></script>
@@ -310,8 +313,8 @@ opacity: .8 !important;
                   <span class="sr-only">Loading...</span>
                   </div>
                 <div id='calendar'></div>
-                <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id,$schedule->user_id))}}">
-
+               {{--  <input type="hidden" id="schedule" value="{{ json_encode(getTrainerList($schedule->trainer_id,$schedule->user_id))}}"> --}}
+                <input type="hidden" id="schedule" value="{{ json_encode(jitsi_trainer_calendar($schedule->trainer_id))}}">
             </div>
           </div>
         </div>
@@ -674,9 +677,9 @@ console.log(dateData);
         console.log(info.event.start);
 
         if(occupiedList.indexOf(moment(info.event.start).format("YYYY-MM-DD")) !== -1){
-            info.el.disabled = "true";
+            // info.el.disabled = "true";
            // info.el.css('background-color', 'green');
-           info.event.setProp('classNames', 'tred');
+           // info.event.setProp('classNames', 'tred');
         } 
 
         // if( moment(info.event.start).format("YYYY-MM-DD") === '2021-06-29'){
@@ -795,12 +798,7 @@ $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
               $("#"+obj.id).addClass('tred');
               $("#"+obj.id).addClass('disabledDiv');
                 calendar.addEvent(
-                    {
-                    
-                    'start': date,
-                    'display':'background',
-                    'color':'red'
-                  }
+                    data.event
                 );
 
                 //->when response is successful
@@ -808,12 +806,7 @@ $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
                 'type':'time_successfull',
                 'id':$("#remote_user").val(),
                 'obj':obj.id,
-                'content':{
-                         
-                    'start': date,
-                    'display':'background',
-                    'color':'red'
-                  }
+                'content':data.event
                 };
               api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
               //<- when time button is clicked and get response
@@ -850,6 +843,45 @@ $('.bd-example-modal-lg5').on('shown.bs.modal', function () {
 
     $('.bd-example-modal-lg5').modal();
   }
+  $('.fc-next-button').click(function(){
+  let date = calendar.getDate();
+  // alert("The current date of the calendar is " + date.toISOString());
+  
+   //->when back button is clicked
+            let action={
+              'type':'next_prev_today',
+              'id':$("#remote_user").val(),
+              'content':moment(date.toISOString()).format("YYYY-MM-DD")
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+         calendar.gotoDate(moment(date.toISOString()).format("YYYY-MM-DD"));
+});
+$('.fc-today-button').click(function(){
+  let date = calendar.getDate();
+  // alert("The current date of the calendar is " + date.toISOString());
+  
+   //->when back button is clicked
+            let action={
+              'type':'next_prev_today',
+              'id':$("#remote_user").val(),
+              'content':moment(date.toISOString()).format("YYYY-MM-DD")
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+         calendar.gotoDate(moment(date.toISOString()).format("YYYY-MM-DD"));
+});
+
+$('.bd-example-modal-lg5').on('hidden.bs.modal', function () {
+     //->when back button is clicked
+            let action={
+              'type':'hide_modal',
+              'id':$("#remote_user").val(),
+              'content':'bd-example-modal-lg5'
+              };
+            api.executeCommand('sendEndpointTextMessage', $("#remote_user").val(), action);
+      //<-when back button is clicked
+});
   </script>
 
 @endsection

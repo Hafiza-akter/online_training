@@ -174,7 +174,7 @@ z-index: 1;inset: 21px -2% -65px !important;
           
 
                  <form action="{{ route('training',$parameter)}}" method="post" >
-                        <input type="hidden" name="_schedulelist_" value="{{ $schedule}}">
+                        
 
                    {{ csrf_field() }}
                   <button type="submit"  class="btn btn-success" {{ $val->is_occupied ? '' : 'disabled="disabled"'}} > トレーニング開始 </button>

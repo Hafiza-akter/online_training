@@ -1518,4 +1518,90 @@ function getOccupiedList($user_id){
 
    return $periodArray;
 }
+function jitsi_trainer_calendar($trainer_id){
+	$parsedArray = array();
+    $count=0;
+	$schedule = \App\Model\TrainerSchedule::where('trainer_id',$trainer_id)
+                ->where('status',NULL)
+                ->get();
+
+    $recurring =\App\Model\TrainerRecurringSchedule::where('trainer_id',$trainer_id)
+                ->where('status',NULL)
+                ->get();
+
+    if($recurring){
+
+        foreach($recurring as $key=>$value){
+            
+            $start_time = Carbon\Carbon::parse($value->time)->format('H:i:s');
+            $endTime = Carbon\Carbon::parse($value->time)->addMinutes(60)->format('H:i:s');
+            if($start_time == "23:00:00"){
+                $endTime ="24:00:00";
+
+            }
+            $parsedArray[$count]['title']=Carbon\Carbon::parse($value->time)->format('H:i')." - ".Carbon\Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+            $parsedArray[$count]['id']=$value->id;
+            $parsedArray[$count]['daysOfWeek']=array($value->dow);
+            $parsedArray[$count]['startTime']=$start_time;
+            $parsedArray[$count]['endTime']=$endTime;
+            $parsedArray[$count]['exclude']=$value->exclude;
+            $parsedArray[$count]['start_date']=$value->start_date;
+            $parsedArray[$count]['extendedProps']=array(
+                'type' => 'recurring',
+                'startTime' => Carbon\Carbon::parse($value->time)->format('H:i:s'),
+                'exdate' => $value->exclude,
+                'dow' => $value->dow
+
+            );
+                        
+            $parsedArray[$count]['className'] = 'tblue';
+            $parsedArray[$count]['type'] = 'recurring';
+            $parsedArray[$count]['time'] = Carbon\Carbon::parse($value->time)->format('H:i:s');
+
+        $count++;
+
+            
+        }
+     }
+       
+
+	if($schedule){
+		foreach ($schedule as $key => $value) {
+
+            $y=Carbon\Carbon::parse($value->date)->format('Y-m-d');
+            $t=Carbon\Carbon::parse($value->time)->format('H:i:s');
+            $tt = Carbon\Carbon::parse($value->time)->addMinutes(60)->format('g:i A');
+
+            $title=Carbon\Carbon::parse($value->time)->format('H:i')." - ".Carbon\Carbon::parse($value->time)->addMinutes(60)->format('H:i');
+            $parsedArray[$count]['title'] = $title;
+            $parsedArray[$count]['id'] = $value->id;
+            $parsedArray[$count]['is_occupied'] = $value->is_occupied;
+            $parsedArray[$count]['date_data'] = Carbon\Carbon::parse($value->date)->format('Y-m-d');
+
+            $parsedArray[$count]['time'] = $t;
+            $parsedArray[$count]['start'] = Carbon\Carbon::parse($value->date)->format('Y-m-d')."T".$t;
+            $parsedArray[$count]['end'] = Carbon\Carbon::parse($value->date)->format('Y-m-d')."T".$tt;
+    		$parsedArray[$count]['extendedProps']=array(
+                'type' => 'normal',
+                'startTime' =>  $t,
+                'date' =>  Carbon\Carbon::parse($value->date)->format('Y-m-d')
+            );
+            $parsedArray[$count]['type'] = 'normal';
+
+            if($value->is_occupied === 1){
+                 $parsedArray[$count]['className'] = 'tred';
+
+    		}else{
+    			 $parsedArray[$count]['className'] = 'tblue';
+
+    		}
+
+            $parsedArray[$count]['textColor'] = '#ffffff';
+
+            $count++;
+		}
+	}
+
+	return $parsedArray;
+}
 ?>

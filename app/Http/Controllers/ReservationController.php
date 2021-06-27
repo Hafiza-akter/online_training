@@ -319,13 +319,35 @@ class ReservationController extends Controller
         $details['trainer_name'] = Trainer::find($request->trainer_id)->first_name;
         $details['user_name'] = $userInfo->name;;
 
-        // \Mail::to($userInfo->email)->send(new \App\Mail\Reservation($details));
-        // \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
+        \Mail::to($userInfo->email)->send(new \App\Mail\Reservation($details));
+        \Mail::to($tinfo->email)->send(new \App\Mail\Reservation($details));
 
           $returnHTML='<p  class="alert alert-success"> 
             レッスンの予約が完了しました。</p>';
 
-        return response()->json(array('success' => true, 'html'=>$returnHTML));
+        $y=Carbon::parse($request->date)->format('Y-m-d');
+        $t=Carbon::parse($request->time)->format('H:i:s');
+        $tt = Carbon::parse($request->time)->addMinutes(60)->format('g:i A');
+
+        $title=Carbon::parse($request->time)->format('H:i')." - ".Carbon::parse($request->time)->addMinutes(60)->format('H:i');
+        $event['title'] = $title;
+        $event['is_occupied'] = 1;
+        $event['date_data'] = Carbon::parse($request->date)->format('Y-m-d');
+
+        $event['time'] = $t;
+        $event['start'] = Carbon::parse($request->date)->format('Y-m-d')."T".$t;
+        $event['end'] = Carbon::parse($request->date)->format('Y-m-d')."T".$tt;
+        $event['extendedProps']=array(
+            'type' => 'normal',
+            'startTime' =>  $t,
+            'date' =>  Carbon::parse($request->date)->format('Y-m-d')
+        );
+        $event['type'] = 'normal';
+        $event['textColor'] = '#ffffff';
+        $event['className'] = 'tred';
+
+
+        return response()->json(array('success' => true, 'event'=>$event,'html'=>$returnHTML));
 
     }
     
