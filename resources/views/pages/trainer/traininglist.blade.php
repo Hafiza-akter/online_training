@@ -112,11 +112,7 @@
                         $set1= $value->set_1;
                         $sd1=explode("_",$set1);
 
-                        $set2= $value->set_2;
-                        $sd2=explode("_",$set2);
-
-                        $set3= $value->set_3;
-                        $sd3=explode("_",$set3);
+                       
 
                         // dd($sd1[1]);
 
@@ -159,16 +155,7 @@
                             <input name="set1_times[]" class="set1_times times kg p-1 m-1" value="{{ $sd1[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly /><span>回</span>
 
                           </div>
-                          <div class="col-sm-8 m-1">
-                           <label class=" col-form-label">Set 2</label>
-                            <input name="set2_kg[]" class="set2_kg set1  kg p-1 m-1" value="{{ $sd2[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly/><span>KG</span>
-                            <input name="set2_times[]" class="set2_times times kg p-1 m-1" value="{{ $sd2[1]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required="required" disabled="disabled" readonly /><span>回</span>
-                          </div>
-                          <div class="col-sm-8 m-1">
-                           <label class=" col-form-label">Set 3</label>
-                            <input name="set3_kg[]" class="set3_kg kg p-1 m-1"  value="{{ $sd3[0]}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly/><span>KG</span>
-                            <input name="set3_times[]" class="set3_times times kg p-1 m-1"  value="{{ $sd3[1]}}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" disabled="disabled" readonly/><span>回</span>
-                          </div>
+                        
                           <div class="col-sm-8 m-1">
                               <button type="button" class="btn btn-secondary float-right m-2 add_button" onclick="showExplanation(`{{ $coursesData->summary}}`,`{{ $coursesData->sub}}`,`{{ $coursesData->way}}`,`{{ $coursesData->motion}}`)" > 説明 </button>
                            </div>
