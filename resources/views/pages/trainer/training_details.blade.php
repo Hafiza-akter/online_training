@@ -29,6 +29,9 @@
 .f13{
   font-size: 13px;
 }
+.f11{
+  font-size: 11px;
+}
 .static{
   background: green !important;
 }
@@ -100,7 +103,7 @@ opacity: 1 !important;
 
 <div class="row  px-0 mx-0">
       <div class="col-sm-12 col-md-4  col-lg-4 col-xl-4 px-0 mx-0" style="height: calc(100vh - 82px)">
-        <div id="meet" style="height:30vh;width: 100%;"></div>
+        <div id="meet" style="height:28vh;width: 100%;"></div>
         <div id="clock"></div>
            <ul class="list-group list-group-horizontal mx-auto jitsi_trainer_item mb-2">
             <li  class="list-group-item pointer col user" >
@@ -128,22 +131,24 @@ opacity: 1 !important;
 
       <div class="col-sm-12 col-md-12  col-lg-12 col-xl-12 mx-0 px-0  border border-primary">
         <div class="card p-2">
-          
-        <div class="row ml-2 mb-1 f13" id="exercise_form_2">
+           <button class="float-right btn btn-sm btn-primary ml-2 fetchExerciseData f11"  style="position: absolute;right: 0px;z-index: 1;"> スタート</button>
+          <button class="float-right btn btn-sm btn-danger save_start f11" disabled="disabled"  style="position: absolute;right: 0px;top:37px;z-index: 1;"> 記録して次へ</button>
+
+        <div class="row ml-2 mb-1 f11" id="exercise_form_2">
         </div>
           <div class="row ml-2 mb-1 " id="exercise_form">
 
             <div class="col " data-course_id="">
-                <label class="col-form-label">コース</label>
-                <p id="_label_course" class="f13"></p>
+                <label class="f11">コース</label>
+                <p id="_label_course" class="f11"></p>
             </div>
             {{--  <div class="col-sm-4 ">
                 <label class="col-form-label">メイン</label>
                 <p id="_label_body_part"></p>
             </div> --}}
              <div class="col ">
-                <label class="col-form-label">備品</label>
-                <p id="_label_equipment" class="f13"></p>
+                <label class="f11">備品</label>
+                <p id="_label_equipment" class="f11"></p>
             </div>
 
           </div>
@@ -151,30 +156,23 @@ opacity: 1 !important;
           <div class="row ml-2 mb-1">
             <div class="col">
                 <label class="col-form-label">コメント</label><br>
-                <textarea class="form-control f13" id="exercise_comment" style="height:35px"></textarea>
+                <textarea class="form-control f11" id="exercise_comment" style="height:35px"></textarea>
             </div>
 
             <div class="col pr-0">
                 <label class="col-form-label">Set</label><br>
-              <input  style="width:30px" id="set1_kg" class="set1_kg kg p-0 m-0 f13" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
-              <input  style="width:30px" id="set1_times" class="set1_times times f13 kg p-0 m-0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
-              <input  style="width:30px" id="efficiency" class="set1_efficiency f13 times kg p-0 m-0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
+              <input  style="width:30px" id="set1_kg" class="set1_kg kg p-0 m-0 f11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required"/><span>KG</span>
+              <input  style="width:30px" id="set1_times" class="set1_times times f11 kg p-0 m-0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>回</span>
+              <input  style="width:30px" id="efficiency" class="set1_efficiency f11 times kg p-0 m-0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" /><span>%</span>
             </div>
           </div>
 
-          <div class="row ml-2 mb-1">
-            <div class="col p-2">
-              <button class="float-right btn btn-primary ml-2 fetchExerciseData f13"  > スタート</button>
-              <button class="float-right btn btn-danger save_start f13" disabled="disabled"  > 記録して次へ</button>
-            </div>
-           
-          </div>
 
         </div>
       </div>
 
-       <div class="col-sm-12 col-md-12  col-lg-12 col-xl-12 mx-0 px-0  border">
-        <div class="card p-2 mt-2" style="height:19vh;">
+       <div class="col-sm-12 col-md-12  col-lg-12 col-xl-12 mx-0 px-0  border" style="">
+        <div class="card p-2 mt-2" style="height:30vh;">
 
           <div class="row ml-2 mb-1 ">
 
@@ -567,6 +565,8 @@ console.log('The exact time: '+exactTime);
 <script>
 // showing previous exercise data//
 $(function(){
+
+
   var allExercise = JSON.parse($('#exerciseDateList').val());
   var totalCount = allExercise.length;
   var counterD = totalCount;
@@ -908,14 +908,6 @@ function check_disable_add_menu_button(){
     });
     menueUpdate();
 
-    // let saved_value=JSON.stringify($('.saved').html());
-    // let current_value=JSON.stringify($('.running').html());
-    // // console.log(current_value);
-    // setCookie("session_"+'{{ $schedule->id}}'+"_saved",saved_value);
-    // setCookie("session_"+'{{ $schedule->id}}'+"_current",current_value);
-
-    // checkCookie("session_"+'{{ $schedule->id}}'+"_saved");
-    // checkCookie("session_"+'{{ $schedule->id}}'+"_current");
 
  });
    
@@ -1107,7 +1099,6 @@ function check_disable_add_menu_button(){
 
   });
 
-  
 
   function menueUpdate(){
         initialCall();
@@ -1144,6 +1135,45 @@ function check_disable_add_menu_button(){
       });
       showExerciseDashboard();
 
+
+      //-> cookies
+      let tMenu = [];
+      let tFinished = [];
+      let exerciseId = [];
+
+      $('#menue_add tr').each(function() {
+          let c=0;
+          if($("#menue_add").data('exercise_id')) {
+
+            if(exerciseId.indexOf($(this).data('exercise_id')) === -1) {
+              exerciseId.push($(this).data('exercise_id'));
+            }
+          }else{
+
+          }
+
+          if(tMenu.indexOf($(this).data('course_id')) === -1) {
+              tMenu.push($(this).data('course_id'));
+          }
+
+      });
+
+      $('#menue_finished tr').each(function() {
+          if(tFinished.indexOf($(this).data('course_id')) === -1) {
+              tFinished.push($(this).data('course_id'));
+          }
+      });
+
+      let current_value=JSON.stringify(tMenu);
+      let saved_value=JSON.stringify(tFinished);
+
+      if(tMenu.length > 0){
+        setCookie("session_"+'{{ $schedule->id}}'+"_current",current_value);
+      }
+      if(tFinished.length > 0){
+        setCookie("session_"+'{{ $schedule->id}}'+"_save",saved_value);
+      }
+      //<- cookies
    }
   function initialCall(){
               menueArray = $('#menue_add').sortable("toArray");
@@ -1600,18 +1630,30 @@ function getCookie(cname) {
 }
 
 function checkCookie(name) {
-  console.log(name);
-  let user = getCookie(name);
-  console.log(user);
-  // if (user != "") {
-  //   console.log("Welcome again " + user);
-  // } else {
-  //    user = prompt("Please enter your name:","");
-  //    if (user != "" && user != null) {
-  //      setCookie("username", user, 30);
-  //    }
-  // }
+  return getCookie(name);
+ 
 }
+
+
+
+function calling_ajax_course_list(){
+
+let savedValue=checkCookie("session_"+'{{ $schedule->id}}'+"_saved");
+let currentValue=checkCookie("session_"+'{{ $schedule->id}}'+"_current");
+
+  var action="{{ route('previousMenuList')}}";
+  var method="POST";
+  var data={
+      'user_id' : {{ $schedule->user_id }},
+      'trainer_id' : {{ $schedule->trainer_id }},
+      'saved_value' : savedValue,
+      'current_value' : currentValue,
+      'date':date
+  };
+  var div="previous_data";
+  ajax_request(action,method,data,div);
+}
+
   </script>
 
 @endsection 

@@ -104,7 +104,16 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
     font-size:13px;
 
 }
-
+.ld{
+  position: fixed;
+  top:50%;
+  left:50%;
+  display:none;
+}
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.8;
+}
 .blue{
   background: #318cff;
   color:#fff;
@@ -217,7 +226,9 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
 
         <div class="row justify-content-center">
           <div class="container">
-
+             <div class="spinner-border text-primary ld">
+              <span class="sr-only">Loading...</span>
+              </div>
 
             <div class="parent">
 
@@ -253,8 +264,27 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
  
             </div>
 
-
-            @for($i=0;$i<24;$i++)
+            @php
+              $start =0;
+              $end = 23; 
+              if(!empty($sorting2) &&  $sorting2 == '00:00:00-06:00:00'){
+                $start = 0;
+                $end = 6;
+              }
+               if(!empty($sorting2) &&  $sorting2 == '06:00:00-12:00:00'){
+                $start = 6;
+                $end = 12;
+              }
+               if(!empty($sorting2) &&  $sorting2 == '12:00:00-18:00:00'){
+                $start = 12;
+                $end = 18;
+              }
+               if(!empty($sorting2) &&  $sorting2 == '18:00:00-24:00:00'){
+                $start = 18;
+                $end = 24;
+              }
+            @endphp
+            @for($i=$start;$i<=$end;$i++)
             <div class="parent">
                 <div class="div1 timeboxd "> 
                   <span class="badge"> {{ $i}} </span>
@@ -408,11 +438,15 @@ box-shadow: 2px 21px 21px 10px rgba(0,0,0,0.08);
     calendar.render();
   });
 $(".blue").click(function(){
+
+  $(".ld").show();
+  $('.container').addClass('disabledDiv');
   let trainer_id = $(this).attr("data-trainer"); 
   let time = $(this).attr("data-time");
   $("#trainer_id").val(trainer_id);
   $("#time").val(time);
   $("#timesbmit").submit();
+
 
 });
   $(".hour-list").click(function() {

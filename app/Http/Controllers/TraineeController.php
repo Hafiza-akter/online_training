@@ -173,16 +173,20 @@ class TraineeController extends Controller
         // dd($tinfo);
         $rval = $this->checkReservation($request->date,Session::get('user.id'));
         // dd($rval);
+        if(checkMultipleScheduleSamedate($request->date,Session::get('user.id'))){
+            return redirect()->back()
+            ->with('errors_m','この日にすでに設定されているスケジュール');
+        }
         if($rval == 'count_exceed'){
-            return redirect()->route('traineeCalendar.view')
+            return redirect()->back()
             ->with('errors_m','プラン制限を超えました');
         }
         if($rval == 'past_future'){
-                return redirect()->route('traineeCalendar.view')
+                return redirect()->back()
                     ->with('errors_m','選択した日付がプランの開始日と終了日の間にありません');
         } 
         if(checkPastTIme($request->time,$request->date)){
-                return redirect()->route('traineeCalendar.view')
+                return redirect()->back()
                  ->with('errors_m','スケジュール時間が過ぎました');
         }
        

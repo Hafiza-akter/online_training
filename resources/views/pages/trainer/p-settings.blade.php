@@ -92,21 +92,6 @@
                         <input type="text" name="first_name" class="form-control" value="{{ $user->first_name }}" required="required">
                       </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-4">
-                          <label class="col-form-label sex">性別 <span style="color:red">*</span></label>
-                        </div>
-                         <div class="col-8">
-                            <select class="form-control" name="sex" required="required">
-                                {{-- 1 male, 0 女性  --}}
-                                <option value=""> 性別をお選びください</option> 
-                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
-                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
-
-
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="row mb-3">
                       <div class="col-4">
@@ -125,7 +110,6 @@
                         <input type="text" name="family_name" class="form-control" value="{{ $user->family_name }}">
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <div class="col-4">
                         <label class="col-form-label _family_phonetic_">フリガナ(名前)</label>
@@ -135,13 +119,55 @@
                       </div>
                     </div>
 
-                     <div class="row mb-3">
+                    <div class="row mb-3">
                         <div class="col-4">
                           <label class="col-form-label _email_address_">メールアドレス</label>
                         </div>
                         <div class="col-8">
                             <input type="email" name="email1" class="form-control" disabled="disabled" value="{{ $user->email}}">
                         </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-4">
+                          <label class="col-form-label sex">性別 <span style="color:red">*</span></label>
+                        </div>
+                         <div class="col-8">
+                            <select class="form-control" name="sex" required="required">
+                                {{-- 1 male, 0 女性  --}}
+                                <option value=""> 性別をお選びください</option> 
+                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
+                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label class="col-form-label _phone_">電話</label>
+                      </div>
+                      <div class="col-8">
+                        <input type="text" name="phone" class="form-control" value="{{ $user->phone}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" >
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label class="col-form-label _zip_code_ ">郵便番号</label>
+                      </div>
+                      <div class="col-8">
+                        <input type="text" name="zip_code" class="form-control" value="{{ $user->zip_code}}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label class="col-form-label">都道府県</label>
+                      </div>
+                      <div class="col-8">
+                        <input type="text" name="prefecture" class="form-control" value="{{ $user->prefecture}}" >
+                      </div>
                     </div>
 
 
@@ -164,24 +190,7 @@
                       </div>
                     </div>
 
-                    <div class="row mb-3">
-                      <div class="col-4">
-                        <label class="col-form-label _zip_code_ ">郵便番号</label>
-                      </div>
-                      <div class="col-8">
-                        <input type="text" name="zip_code" class="form-control" value="{{ $user->zip_code}}">
-                      </div>
-                    </div>
-
-
-                    <div class="row mb-3">
-                      <div class="col-4">
-                        <label class="col-form-label _phone_">電話</label>
-                      </div>
-                      <div class="col-8">
-                        <input type="text" name="phone" class="form-control" value="{{ $user->phone}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" >
-                      </div>
-                    </div>
+                    
 
                     <div class="row mb-3">
                       <div class="col-4">
@@ -247,12 +256,7 @@
 
                     
 
-                      <div class="row pt-3 pb-3">
-                        <h2 class="mx-auto _prefecture_">都道府県</h2>
-                      </div>
-                      <div class="row pt-3 pb-3">
-                        <textarea name="prefecture" class="form-control"  rows="3">{{ $user->prefecture}}</textarea>
-                      </div>
+                      
 
 
                       

@@ -31,3 +31,5 @@ Route::post('api/previoustraininglist/', 'TrainingController@previoustraininglis
 Route::post('api/trainerreservation/', 'TrainingController@trainerreservation')->name('trainerreservation');
 Route::post('api/getTime/', 'ReservationController@getTime')->name('getTime');
 Route::post('api/jitsiUserSubmitTime/', 'ReservationController@jitsiUserSubmitTime')->name('jitsiUserSubmitTime');
+Route::post('api/previousMenuList/', 'TrainingController@previousMenuList')->name('previousMenuList');
+
