@@ -365,10 +365,12 @@ class TraineeController extends Controller
               ->get();
                 if($schedule){
                     foreach ($schedule as $key => $value) {
+                    $dats = Carbon::parse($value->date)->format('Y-m-d');
+
                     $parsedArray[$count]['start'] = $value->date;
                     $parsedArray[$count]['allDay'] = true;
                     $parsedArray[$count]['display'] = 'background';
-                    $parsedArray[$count]['color'] = 'red';
+                    $parsedArray[$count]['color'] = checkPastTIme($value->time,$dats) ? 'gray' : 'red';
                     $parsedArray[$count]['extendedProps']=array(
                             'type' => 'occupied',
                             'trainer_id' =>   $value->trainer_id,
