@@ -96,7 +96,7 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">ステータス</th>
+              <{{-- th scope="col">ステータス</th> --}}
               <th scope="col">日時</th>
               <th scope="col">予約時間</th>
               <th scope="col">トレーナー</th>
@@ -116,7 +116,7 @@
           @if(!checkPastTIme1(\Carbon\Carbon::parse($val->time)->format('H:i'),\Carbon\Carbon::parse($val->date)->format('Y-m-d')))
         <tr>
           <td scope="row">{{ ++$key}}</td>
-          <td>
+         {{--  <td>
 
             @if($val->is_occupied == 1)
             @if($val->status === 'rescheduled')
@@ -133,7 +133,7 @@
              <span class="btn-red p-1"> {{ 'cancelled' }}</span>
             @endif
             @endif 
-         </td>
+         </td> --}}
           <td>{{ \Carbon\Carbon::parse($val->date)->format('Y-m-d')}}</td>
           <td>{{ \Carbon\Carbon::parse($val->time)->format('H:i')}}</td>
           <td>
