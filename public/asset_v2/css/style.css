@@ -4853,7 +4853,7 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-@media only screen and (max-width: 568px) {
+@media  screen and (max-width: 568px) {
  
     .rounded-circle{
         height: 16px;
@@ -4861,7 +4861,7 @@ h1, h2, h3, h4, h5, h6 {
     }
   
 }
-@media only screen and (min-width:320px)  and (max-width: 480px) {
+@media  screen and (min-width:320px)  and (max-width: 480px) {
  
     .rounded-circle{
         height: 16px;
@@ -4869,7 +4869,7 @@ h1, h2, h3, h4, h5, h6 {
     }
   
 }
-@media only screen and (max-width: 1024px) {
+@media  screen and (max-width: 1024px) {
    
     .main_menu .main-menu-item ul li a{
         font-size: 15px;
