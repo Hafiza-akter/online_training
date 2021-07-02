@@ -98,7 +98,7 @@
                         <label class="col-form-label _first_phonetic_">フリガナ（名字）</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="first_phonetic" class="form-control" value="{{ $user->first_phonetic }}">
+                        <input type="text" name="first_phonetic" class="form-control" value="{{ $user->first_phonetic }}" id="address2_kana">
                       </div>
                     </div>
 
@@ -157,7 +157,16 @@
                         <label class="col-form-label _zip_code_ ">郵便番号</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="zip_code" class="form-control" value="{{ $user->zip_code}}">
+                        @php 
+                         
+                          $postCode=explode("_",$user->zip_code);
+                          $p1 = $postCode[0] ?? '';
+                          $p2 = $postCode[1] ?? '';
+                        @endphp
+                        <input id="postcode1" name="postcode1" maxlength="3" value="{{ $p1 ?? ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"> -
+                        <input id="postcode2" name="postcode2" maxlength="4" value="{{ $p2 ?? ''}}"" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+
+                        {{-- <input type="text" name="zip_code" class="form-control" value="{{ $user->zip_code}}"> --}}
                       </div>
                     </div>
 
@@ -166,7 +175,7 @@
                         <label class="col-form-label">都道府県</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="prefecture" class="form-control" value="{{ $user->prefecture}}" >
+                        <input type="text" name="prefecture" class="form-control" value="{{ $user->prefecture}}" id="address1">
                       </div>
                     </div>
 
@@ -177,7 +186,7 @@
                         <label class="col-form-label _city_">市</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="city" class="form-control" value="{{ $user->city}}">
+                        <input type="text" name="city" class="form-control" value="{{ $user->city}}" id="address2">
                       </div>
                     </div>
 
@@ -186,7 +195,7 @@
                         <label class="col-form-label _address_">住所</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="address" class="form-control" value="{{ $user->address_line}}">
+                        <input type="text" name="address" class="form-control" value="{{ $user->address_line}}" id="address3">
                       </div>
                     </div>
 
@@ -197,7 +206,7 @@
                         <label class="col-form-label _unit_price">希望単価</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="unit_price" class="form-control">
+                        <input type="text" name="unit_price" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                       </div>
                     </div>
 
@@ -454,7 +463,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
 <script src="{{asset('asset_v2/js/croppie.min.js')}}"></script>
-
+<script src="{{asset('asset_v2/js/jquery.jpostal.js')}}"></script>
 <link rel="stylesheet" href="{{asset('asset_v2/css/croppie.css')}}">
 
 <script>
@@ -546,8 +555,37 @@
             $(".alert-success").slideUp(500);
         });
 
-        $('.datepicker').datepicker();
+      $('.datepicker').datepicker();
+			$('#postcode1').jpostal({
+				postcode : [
+					'#postcode1',
+					'#postcode2'
+				],
+				address : {
+            '#address1'  : '%3',
+            '#address2'  : '%4',
+            '#address3'  : '%5',
+            '#address1_kana'  : '%8',
+            '#address2_kana'  : '%9',
+            '#address3_kana'  : '%10'
+				},
+				trigger : {
+					'#address2'  : true,
+				},
+				url : {
+					'http'  : '{{asset("asset_v2/js/json")}}/',
+					'https' : '{{asset("asset_v2/js/json")}}/'
+				},
+				strict7Match: false,
+			});
 
+			$("#address2").on("change", function() {
+				var val = $("#address2").val();
+				var len = $("#postcode1").val().length + $("#postcode2").val().length;
+				if (val === "" && len === 7) {
+          alert('存在しない郵便番号です');
+				}
+			});
     });
     $(function () {
     $('#photo_path').change(function () {

@@ -263,7 +263,7 @@ class SignupController extends Controller
 
         $trainer->password = Hash::make($request->input('password'));
         $trainer->address_line = $request->input('address');
-        $trainer->zip_code = $request->input('zip_code');
+        $trainer->zip_code = $request->input('postcode1')."_".$request->input('postcode2');
         $trainer->city = $request->input('city');
         $trainer->phone = $request->input('phone');
         $trainer->intro = $request->input('intro');

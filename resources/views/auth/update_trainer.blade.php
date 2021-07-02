@@ -61,31 +61,16 @@
                         <input type="text" name="first_name" class="form-control" value="{{ old('first_name')}}" required="required">
                       </div>
                     </div>
-
-                    <div class="row mb-3">
-                        <div class="col-4">
-                          <label class="col-form-label sex">性別 <span style="color:red">*</span> </label>
-                        </div>
-                         <div class="col-8">
-                            <select class="form-control" name="sex" required="required">
-                                {{-- 1 male, 0 女性  --}}
-                                <option value="" > 性別をお選びください  </option> 
-                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
-                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
-
-
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="row mb-3">
                       <div class="col-4">
                         <label class="col-form-label _first_phonetic_">フリガナ(名字)</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="first_phonetic" class="form-control" value="{{ old('first_phonetic') }}">
+                        <input type="text" name="first_phonetic" class="form-control" value="{{ old('first_phonetic') }}" id="address2_kana">
                       </div>
                     </div>
+
+                    
 
                     <div class="row mb-3">
                       <div class="col-4">
@@ -133,11 +118,53 @@
                     </div>
 
                     <div class="row mb-3">
+                        <div class="col-4">
+                          <label class="col-form-label sex">性別 <span style="color:red">*</span> </label>
+                        </div>
+                         <div class="col-8">
+                            <select class="form-control" name="sex" required="required">
+                                {{-- 1 male, 0 女性  --}}
+                                <option value="" > 性別をお選びください  </option> 
+                                <option value="male" {{ $user->sex == 'male' ? 'selected' : ''}} > 男性</option> 
+                                <option value="female" {{ $user->sex == 'female' ? 'selected' : ''}}> 女性</option>
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                       <div class="col-4">
-                        <label class="col-form-label _city_">市</label>
+                        <label class="col-form-label _phone_">電話</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="city" class="form-control" value="{{ old('city')}}">
+                        <input type="text" name="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  class="form-control" value="{{ old('phone')}}">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label class="col-form-label _zip_code_ ">郵便番号</label>
+                      </div>
+                      <div class="col-8">
+                        <input id="postcode1" name="postcode1" maxlength="3" value="{{ old('postcode1')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"> -
+                        <input id="postcode2" name="postcode2" maxlength="4" value="{{ old('postcode2')}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+
+                        {{-- <input type="text" name="zip_code" class="form-control" value="{{ old('zip_code')}}"> --}}
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label class="col-form-label">都道府県</label>
+                      </div>
+                      <div class="col-8">
+                        <input type="text" name="prefecture" id="address1" class="form-control" value="{{ old('prefecture')}}" >
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-4">
+                        <label class="col-form-label _city_" >市</label>
+                      </div>
+                      <div class="col-8">
+                        <input type="text" name="city" class="form-control" value="{{ old('city')}}" id="address2">
                       </div>
                     </div>
 
@@ -146,25 +173,7 @@
                         <label class="col-form-label _address_">住所</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="address" class="form-control" value="{{ old('address')}}">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <div class="col-4">
-                        <label class="col-form-label _zip_code_ ">郵便番号</label>
-                      </div>
-                      <div class="col-8">
-                        <input type="text" name="zip_code" class="form-control" value="{{ old('zip_code')}}">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <div class="col-4">
-                        <label class="col-form-label _phone_">電話</label>
-                      </div>
-                      <div class="col-8">
-                        <input type="text" name="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  class="form-control" value="{{ old('phone')}}">
+                        <input type="text" name="address" class="form-control" value="{{ old('address')}}" id="address3">
                       </div>
                     </div>
 
@@ -190,13 +199,6 @@
                             </select>
                         </div>
                     </div>
-
-                      <div class="row pt-3 pb-3">
-                        <h2 class="mx-auto _prefecture_">都道府県</h2>
-                      </div>
-                      <div class="row pt-3 pb-3">
-                        <textarea name="prefecture" class="form-control"  rows="3">{{ old('prefecture')}}</textarea>
-                      </div>
 
                       <div class="row pt-3 pb-3">
                         <h4 class="mx-auto _introduction_">自己紹介</h4>
@@ -416,12 +418,10 @@
 @endsection
 @section('footer_css_js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
 <script src="{{asset('asset_v2/js/croppie.min.js')}}"></script>
-
 <link rel="stylesheet" href="{{asset('asset_v2/css/croppie.css')}}">
 <script src="{{asset('asset_v2/js/range_slider.js')}}"></script>
-
+<script src="{{asset('asset_v2/js/jquery.jpostal.js')}}"></script>
 
 <script>
  
@@ -567,6 +567,37 @@
 
         }
     });
+$(window).ready( function() {
+			$('#postcode1').jpostal({
+				postcode : [
+					'#postcode1',
+					'#postcode2'
+				],
+				address : {
+            '#address1'  : '%3',
+            '#address2'  : '%4',
+            '#address3'  : '%5',
+            '#address1_kana'  : '%8',
+            '#address2_kana'  : '%9',
+            '#address3_kana'  : '%10'
+				},
+				trigger : {
+					'#address2'  : true,
+				},
+				url : {
+					'http'  : '{{asset("asset_v2/js/json")}}/',
+					'https' : '{{asset("asset_v2/js/json")}}/'
+				},
+				strict7Match: false,
+			});
 
+			$("#address2").on("change", function() {
+				var val = $("#address2").val();
+				var len = $("#postcode1").val().length + $("#postcode2").val().length;
+				if (val === "" && len === 7) {
+          alert('存在しない郵便番号です');
+				}
+			});
+		});
 </script>
 @endsection 

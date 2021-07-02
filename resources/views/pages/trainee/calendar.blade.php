@@ -96,7 +96,7 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <{{-- th scope="col">ステータス</th> --}}
+              {{-- <th scope="col">ステータス</th> --}}
               <th scope="col">日時</th>
               <th scope="col">予約時間</th>
               <th scope="col">トレーナー</th>

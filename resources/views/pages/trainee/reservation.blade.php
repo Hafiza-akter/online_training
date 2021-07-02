@@ -61,6 +61,13 @@
 .radios input[type=radio]:checked + .radio {
     background-color: #241009;
 }
+.fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start{
+  margin:0px;
+  
+}
+.fc-direction-ltr .fc-daygrid-event.fc-event-start, .fc-direction-rtl .fc-daygrid-event.fc-event-end{
+  margin:0px;
+}
 </style>
 {{-- @include('pages.trainee.dashboard') --}}
 <section class="review_part gray_bg section_padding">
@@ -196,7 +203,7 @@
       eventContent: function(arg) {
         // console.log(arg.event.extendedProps);
         return {
-          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.name+" ("+arg.event.extendedProps.trainer_id+')" src="'+arg.event.extendedProps.imageurl+'" height="50" width="50" style="border:1px solid #007bff;" /></span>   '
+          html: ' <span> <img class="rounded-circle" title="'+arg.event.extendedProps.name+" ("+arg.event.extendedProps.trainer_id+')" src="'+arg.event.extendedProps.imageurl+'" height="45" width="45" style="border:1px solid #007bff;" /></span>   '
         }
       },
       eventClick:function(info){

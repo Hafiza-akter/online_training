@@ -4819,7 +4819,7 @@ h1, h2, h3, h4, h5, h6 {
         height: 120px !important;
     }
     .sorting-button{
-        font-size:12px;
+        font-size:11px;
     }
     .rounded-circle{
         height: 29px;
@@ -4838,8 +4838,8 @@ h1, h2, h3, h4, h5, h6 {
    padding:4px !important;
   }
     .rounded-circle{
-        height: 17px;
-        width: 17px;
+        height: 16px;
+        width: 16px;
     }
     .user_jitsi_menue li>img{
         height: 35px;
@@ -4851,6 +4851,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 9px;   
     }
 
+}
+@media only screen and (max-width: 568px) {
+ 
+    .rounded-circle{
+        height: 16px;
+        width: 13px;
+    }
+  
 }
 @media only screen and (max-width: 1024px) {
    

@@ -434,7 +434,7 @@ class TrainerController extends Controller
             $trainer->prefecture = $request->input('prefecture');
             $trainer->sex = $request->input('sex');
             $trainer->address_line = $request->input('address');
-            $trainer->zip_code = $request->input('zip_code');
+            $trainer->zip_code = $request->input('postcode1')."_".$request->input('postcode2');
             $trainer->city = $request->input('city');
             $trainer->phone = $request->input('phone');
             $trainer->intro = $request->input('intro');
