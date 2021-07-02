@@ -177,6 +177,7 @@
       fixedWeekCount:false,            
       dayMaxEvents:4,
       firstDay: 0,
+        height: 650,
 
        customButtons: {
         myCustomButton: {
