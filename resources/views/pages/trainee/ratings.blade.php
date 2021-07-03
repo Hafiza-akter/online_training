@@ -85,7 +85,7 @@
         @endif
 
           @if(getTrainerName($schedule->id)->icon_image != NULL)
-          <img class="rounded-circle" src="{{ url('storage/icons/'.getTrainerName($schedule->id)->icon_image)}}" style="display: block"/>
+          <img class="" src="{{ url('storage/icons/'.getTrainerName($schedule->id)->icon_image)}}" style="display: block"/>
           @else 
           <img src="{{asset('images/default.png')}}"  width="200" width="200" style="display: block">
           @endif 

@@ -313,7 +313,7 @@
                         <div class="col-md-8">
                            <div id="uploaded_image">
                                 @if($user->icon_image != NULL)
-                                    <img class="rounded-circle" src="{{ url('storage/icons/'.$user->icon_image)}}" />
+                                    <img class="" src="{{ url('storage/icons/'.$user->icon_image)}}" />
                                 @else 
                                 <img src="{{asset('images/default.png')}}"  width="200" width="200">
                                 @endif 
