@@ -98,7 +98,7 @@
                         <label class="col-form-label _first_phonetic_">フリガナ（名字）</label>
                       </div>
                       <div class="col-8">
-                        <input type="text" name="first_phonetic" class="form-control" value="{{ $user->first_phonetic }}" id="address2_kana">
+                        <input type="text" name="first_phonetic" class="form-control" value="{{ $user->first_phonetic }}" id="">
                       </div>
                     </div>
 
