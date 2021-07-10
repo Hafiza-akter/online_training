@@ -16,7 +16,9 @@
     top: 2px;
     cursor: pointer;
 }
-
+  .fc-event-title{
+    display: contents;
+  }
   .table td,
   .table th {
     border: none !important;

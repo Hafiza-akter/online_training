@@ -24,14 +24,14 @@
                 <div class="col-md-12 col-xl-12">
                     <div class="section_tittle">
                         {{-- Training start immediately --}}
-                       <a href="{{ route('physicaldata')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">すぐにトレーニングを開始する</a>
+                       <a href="{{ route('physicaldata')}}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;color:black">すぐにトレーニングを開始する</a>
                     </div>
                 </div>
 
                 <div class="col-md-12 col-xl-12">
                     <div class="section_tittle">
                         {{-- Take a peek at what it looks like --}}
-                       <a href="{{ route('quickview') }}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;">トレーニング予約システムを体験する</a>
+                       <a href="{{ route('quickview') }}" class="btn_2" style="border-radius: 1px !important;border: 2px solid #c604c6;font-size: 18px;color:black">トレーニング予約システムを体験する</a>
                     </div>
                 </div>
 
