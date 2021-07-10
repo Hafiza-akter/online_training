@@ -18,7 +18,6 @@ class BasicAuth
         $AUTH_USER = 'olft';
         $AUTH_PASS = 'olft';
 
-        header('Cache-Control: no-cache, must-revalidate, max-age=0');
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_PW']));
         $is_not_authenticated = (
             !$has_supplied_credentials  ||
@@ -31,7 +30,7 @@ class BasicAuth
             exit;
         }
         $response = $next($request);
-        $response->header('Cache-Control', 'no-cache, must-revalidate');
+        $response->header('Cache-Control', 'no-cache, must-revalidate, max-age=0');
 
         return $response;
     }

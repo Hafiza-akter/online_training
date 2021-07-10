@@ -191,6 +191,8 @@ a:focus, .button:focus, button:focus, .btn:focus {
 }@media only screen and (min-width:768px) and (max-width:991px) {
     .section_tittle {
     margin-bottom: 30px;
+    margin-top: 30px;
+
 }
 }@media only screen and (min-width:992px) and (max-width:1200px) {
     .section_tittle {

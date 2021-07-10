@@ -82,9 +82,9 @@ class ReservationController extends Controller
 
        
         $isActive = "schedule";
-        dd(Session::get('user.id'));
+        // dd(Session::get('user.id'));
         $data = getTrainerListByDate($request->selected_date,$request);
-        dd($data);
+        // dd($data);
         $date=$request->selected_date;
         
         // dd($data);
