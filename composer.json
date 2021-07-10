@@ -17,6 +17,7 @@
         "laravel/helpers": "^1.4",
         "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.4",
         "paypal/rest-api-sdk-php": "*",
         "srmklive/paypal": "^3.0"
     },

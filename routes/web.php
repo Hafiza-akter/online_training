@@ -288,3 +288,7 @@ Route::group(['middleware' => 'checkLogout'], function () {
 
 
 	});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
