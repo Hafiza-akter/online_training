@@ -1,0 +1,28 @@
+
+GET http://localhost/api_project/public/api/bbs HTTP/1.1
+###
+
+POST http://localhost/api_project/public/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "mail": "fukuda-tomoharu@rzero.jp"
+}
+
+###
+
+GET http://localhost/api_project/public/api/user HTTP/1.1
+Authorization: Bearer xZvTYiwnFMbTnKnOnLoqm0XDwHMLsUuMMu7lXSqSE3ircxTdgPGL5kZFw04N
+
+###
+POST http://localhost/api_project/public/api/bbs HTTP/1.1
+Authorization: Bearer xZvTYiwnFMbTnKnOnLoqm0XDwHMLsUuMMu7lXSqSE3ircxTdgPGL5kZFw04N
+Content-Type: application/json
+
+{
+    "date": "2021-05-29 11:10:00",
+    "count": "10",
+    "time": "1.5"
+}
+
+###
