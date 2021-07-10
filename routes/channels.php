@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+// merge code from api-project
+Broadcast::channel('private-bbs-entries-channel.{id}', function ($user,$id) {
+    // ログインしているユーザIDとチャネル名の宛先となっているユーザIDが一致していたらTRUE
+    return (int) $user->id === (int) $id;
+});

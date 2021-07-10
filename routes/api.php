@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
 Route::get('/trainer/calender', 'ScheduleController@calenderView')->name('trainerCalender');
 Route::post('create-paypal-transaction', 'PaymentController@createPayment')->name('cp');
 Route::post('confirm-paypal-transaction', 'PaymentController@confirmPayment')->name('conp');
@@ -33,3 +35,18 @@ Route::post('api/getTime/', 'ReservationController@getTime')->name('getTime');
 Route::post('api/jitsiUserSubmitTime/', 'ReservationController@jitsiUserSubmitTime')->name('jitsiUserSubmitTime');
 Route::post('api/previousMenuList/', 'TrainingController@previousMenuList')->name('previousMenuList');
 
+// merge code from api project
+// merge code from api project
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::group(['middleware' => 'auth:api'], function() {
+    // トークン認証が必要なルーティングを記述
+    Route::get('bbs','BbsEntryApiController@startOfSet');
+    Route::post('bbs','BbsEntryApiController@store');
+});
+
+Route::post('login','LoginApiController@login');
+//<---->
+//<---->

@@ -25,6 +25,17 @@ Route::group(['middleware' => 'checkLogout'], function () {
 	// Route::get('/','TopPageController@index')->name('toppage'); 
 });
 
+// merge code from api project
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', "HomeController@index");
+
+Route::group(['middleware' => 'auth'], function() {
+    // ここにログイン後のみのルーティングを記述
+    Route::get('/bbs', "BbsEntryController@index")->name('bbs');
+    Route::post('/bbs', "BbsEntryController@post")->name('bbs');
+});
+// <------>
 
 
 Route::get('/', 'TopPageController@index')->name('toppage');
