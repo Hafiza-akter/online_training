@@ -237,6 +237,9 @@
     $(function() {
   $('input[name="birthday"]').daterangepicker({
     singleDatePicker: true,
+    locale: {
+      format: 'YYYY-MM-DD'
+    },
     showDropdowns: true,
     minYear: 1940,
     maxYear: 2010

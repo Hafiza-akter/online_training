@@ -16,6 +16,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Reservation;
 
 
 class ReservationTest extends TestCase
@@ -96,7 +98,7 @@ class ReservationTest extends TestCase
     //  *
     //  * @return void
     //  */
-    public function test_user_reservation_avaialable_time()
+    public function test_user_reservation_avaialable_time_list()
     {
         $user = factory(User::class)->create();
         $plan = factory(UserPlanPurchase::class)->create([
@@ -127,13 +129,15 @@ class ReservationTest extends TestCase
     //  */
     public function test_user_reservation_avaialable_time_submit()
     {
+        $this->withoutExceptionHandling();
+        Mail::fake();
         $user = factory(User::class)->create();
         $plan = factory(UserPlanPurchase::class)->create([
             'user_id' =>$user->id,
             'purchase_plan_id'=>1
         ]);
         // dd( \Carbon\Carbon::now()->addDays(rand(1, 30)));
-        $schedule = factory(TrainerSchedule::class,1)->create([
+        $schedule = factory(TrainerSchedule::class)->create([
             'user_id' =>  $user->id,
             'date'=>$this->faker->unique()->dateTimeBetween( 'now','+1 days')->format('Y-m-d')
         ]);
@@ -143,10 +147,18 @@ class ReservationTest extends TestCase
                          ->withSession(['user' => $user,'user_type'=>'trainee']);
 
         $fakeDate = $this->faker->unique()->dateTimeBetween( 'now','+1 days')->format('Y-m-d');
+        $response = $this->post(route('trainerSubmitBytime',[
+            'date' =>  $schedule->date, 
+            'time' => $schedule->time, 
+            'trainer_id' =>$schedule->trainer_id 
+        ]));
 
-        $response = $this->get(route('datereservation',$fakeDate));
-                 
-        $response->assertStatus(200);
+        
+        // Mail::assertSent(Reservation::class, function ($mail) use ($user) {
+        //     return $mail->hasTo($user->email);
+        // });
+        // $response->assertRedirect(route('traineeCalendar.view'));
+        $response->assertStatus(302);
 
     }
     

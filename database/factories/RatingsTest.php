@@ -1,9 +1,10 @@
 <?php
-use App\Model\TrainerSchedule;
+use App\Model\Trainer;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 use App\Model\User; 
-use App\Model\Trainer;
+use App\Model\Ratings; 
+use App\Model\RatingsSetup; 
 
 /*
 |--------------------------------------------------------------------------
@@ -16,15 +17,14 @@ use App\Model\Trainer;
 |
 */
 
-$factory->define(TrainerSchedule::class, function (Faker $faker) {
+$factory->define(Ratings::class, function (Faker $faker) {
     return [
     	
         'trainer_id' =>  Trainer::all()->random()->id,
         'user_id' =>  User::all()->random()->id,
-        'date'=>\Carbon\Carbon::now()->addDays(rand(1, 5))->format('Y-m-d'),
-        'time'=> date('H:i:s', rand(1,54000)),
-        'is_occupied'=>0
-        
+        'schedule_id'=>1,
+        'training_id' =>1,
+        'star_ratings'=>0   
         
     ];
 });
