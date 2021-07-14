@@ -13,6 +13,7 @@ $factory->define(Trainer::class, function (Faker $faker) {
         'is_verified' => 1,
         'is_google' => 1,
         'sex' => 'male',
+        'unit_price' => 20,
         'phone' => '01773374864',
         'address_line' => 'japa',
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'

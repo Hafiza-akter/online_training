@@ -11,7 +11,8 @@
         border: 2px solid #bb07bb;
         }
 .gradient{
-    background-image:linear-gradient(to left, purple 0%, #c300c3 50%, #7e007e 100%);color: #fff !important;
+    background-image: linear-gradient(to left, #057bfe 0%, #1076fb 50%, #0f78fb 100%);
+    color: #fff !important;
 }
 </style>
 
@@ -206,7 +207,7 @@
         </div>
         <div class="card-footer">
             <div class="row pt-3 pb-3">
-                <button type="submit" class="mx-auto btn btn-secondary text-white btn-lg gradient ">送信</button>
+                <button type="submit" class="mx-auto btn btn-secondary text-white btn-primary btn-lg  ">送信</button>
             </div>
         </div>
       

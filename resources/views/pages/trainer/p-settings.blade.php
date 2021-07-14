@@ -363,7 +363,7 @@
               </div>
               <div class="card-footer">
                       <div class="row pt-3 pb-3">
-                            <button type="submit" class="mx-auto btn  text-white btn-lg gradient">次へ</button>
+                            <button type="submit" class="mx-auto btn  text-white btn-primary btn-lg ">次へ</button>
                       </div>
               </div>
       

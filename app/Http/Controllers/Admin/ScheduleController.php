@@ -69,7 +69,7 @@ class ScheduleController extends Controller
         $schedule->trainer_id = $request->input('trainer');
         $schedule->save();
 
-        $courses = $request->input('course');
+        
             $trainingData = Training::Where('trainer_schedule_id', $id)->first();
             if($trainingData){
                 $trainingId = $trainingData->id;
@@ -82,16 +82,21 @@ class ScheduleController extends Controller
                 // dd($newTainingId);
             }
             Exercise::where('training_id',$trainingId)->delete();
-            foreach($courses as $course){
-            $exercise = new Exercise();
-            $exercise->training_id = $trainingId;
-            $exercise->course_id = $course;
-            $courseData = Course::Where('id', $course)->first();
-            $exercise->set_1 = $courseData->set_1;
-            $exercise->set_2 = $courseData->set_2;
-            $exercise->set_3 = $courseData->set_3;
-            $exercise->save();
+
+            $courses = $request->input('course');
+            if(isset($courses)){
+                foreach($courses as $course){
+                    $exercise = new Exercise();
+                    $exercise->training_id = $trainingId;
+                    $exercise->course_id = $course;
+                    $courseData = Course::Where('id', $course)->first();
+                    $exercise->set_1 = $courseData->set_1;
+                    $exercise->set_2 = $courseData->set_2;
+                    $exercise->set_3 = $courseData->set_3;
+                    $exercise->save();
+                }
             }
+            
         return redirect()->route('admin.schedule.management.view')->with('message', 'Edited successfully!');
     }
 
